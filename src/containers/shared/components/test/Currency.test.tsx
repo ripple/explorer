@@ -1,9 +1,22 @@
 import { BrowserRouter } from 'react-router-dom'
 import { cleanup, render, screen } from '@testing-library/react'
 import Currency from '../Currency'
+import { useMPTIssuance } from '../../hooks/useMPTIssuance'
+
+jest.mock('../../hooks/useMPTIssuance', () => ({
+  ...jest.requireActual('../../hooks/useMPTIssuance'),
+  useMPTIssuance: jest.fn(),
+}))
+
+const mockedUseMPTIssuance = useMPTIssuance as jest.Mock
 
 describe('Currency', () => {
   afterEach(cleanup)
+
+  beforeEach(() => {
+    mockedUseMPTIssuance.mockReturnValue({ data: undefined })
+  })
+
   it('handles currency codes that are 3 characters ', () => {
     render(<Currency currency="BTC" />)
     const element = screen.getByTestId('currency')
@@ -98,5 +111,60 @@ describe('Currency', () => {
       'href',
       '/mpt/00000BDE5B4F868ECE457207E2C1750065987730B8839E0D',
     )
+  })
+})
+
+describe('Currency with MPT ticker', () => {
+  afterEach(cleanup)
+
+  beforeEach(() => {
+    mockedUseMPTIssuance.mockReturnValue({
+      data: {
+        issuer: 'r9Kokzc4FC1BW81pDarodghf3n8w2vufhW',
+        sequence: 3038,
+        assetScale: 2,
+        parsedMPTMetadata: { ticker: 'MPT01' },
+        isMPTMetadataCompliant: true,
+      },
+    })
+  })
+
+  it('displays ticker symbol instead of MPT ID when metadata has ticker', () => {
+    render(
+      <BrowserRouter>
+        <Currency
+          currency="00000BDE5B4F868ECE457207E2C1750065987730B8839E0D"
+          isMPT
+        />
+      </BrowserRouter>,
+    )
+    const mpt = screen.getByTestId('currency')
+
+    expect(mpt).toHaveTextContent('MPT01')
+    expect(mpt).toHaveAttribute(
+      'href',
+      '/mpt/00000BDE5B4F868ECE457207E2C1750065987730B8839E0D',
+    )
+  })
+
+  it('displays ticker symbol when link is disabled', () => {
+    render(
+      <Currency
+        currency="00000BDE5B4F868ECE457207E2C1750065987730B8839E0D"
+        isMPT
+        link={false}
+      />,
+    )
+    const mpt = screen.getByTestId('currency')
+
+    expect(mpt).toHaveTextContent('MPT01')
+    expect(mpt.tagName).toBe('SPAN')
+  })
+
+  it('does not affect non-MPT currencies when MPT data is available', () => {
+    render(<Currency currency="USD" />)
+    const element = screen.getByTestId('currency')
+
+    expect(element).toHaveTextContent('USD')
   })
 })

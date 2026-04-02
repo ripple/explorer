@@ -10,8 +10,28 @@ import { Account } from '../../../shared/components/Account'
 import Currency from '../../../shared/components/Currency'
 import type { MetaRenderFunctionWithTx, MetaNode } from './types'
 
-const normalize = (value: number | string, currency: string): string =>
-  currency === 'XRP' ? (Number(value) / XRP_BASE).toString() : String(value)
+const getCurrency = (takerAmount: any): string => {
+  if (takerAmount?.mpt_issuance_id) return takerAmount.mpt_issuance_id
+  return takerAmount?.currency || 'XRP'
+}
+
+const getIsMPT = (takerAmount: any): boolean => !!takerAmount?.mpt_issuance_id
+
+const getIssuer = (takerAmount: any): string | undefined => {
+  if (takerAmount?.mpt_issuance_id) return undefined
+  return takerAmount?.issuer
+}
+
+const normalize = (
+  value: number | string,
+  currency: string,
+  isMPT: boolean = false,
+): string => {
+  if (isMPT) return String(value)
+  return currency === 'XRP'
+    ? (Number(value) / XRP_BASE).toString()
+    : String(value)
+}
 
 const renderChanges = (
   _t: any,
@@ -22,14 +42,16 @@ const renderChanges = (
   const meta: JSX.Element[] = []
   const final = node.FinalFields
   const prev = node?.PreviousFields
-  const paysCurrency = final.TakerPays.currency || 'XRP'
-  const getsCurrency = final.TakerGets.currency || 'XRP'
+  const paysCurrency = getCurrency(final.TakerPays)
+  const getsCurrency = getCurrency(final.TakerGets)
+  const paysIsMPT = getIsMPT(final.TakerPays)
+  const getsIsMPT = getIsMPT(final.TakerGets)
   const finalPays = final.TakerPays.value || final.TakerPays
   const finalGets = final.TakerGets.value || final.TakerGets
   const prevPays = prev?.TakerPays?.value || prev?.TakerPays
   const prevGets = prev?.TakerGets?.value || prev?.TakerGets
-  const changePays = normalize(prevPays - finalPays, paysCurrency)
-  const changeGets = normalize(prevGets - finalGets, getsCurrency)
+  const changePays = normalize(prevPays - finalPays, paysCurrency, paysIsMPT)
+  const changeGets = normalize(prevGets - finalGets, getsCurrency, getsIsMPT)
 
   if (prevPays && finalPays) {
     const options = { ...CURRENCY_OPTIONS, currency: paysCurrency }
@@ -39,7 +61,8 @@ const renderChanges = (
         <b>
           <Currency
             currency={paysCurrency}
-            issuer={final.TakerPays.issuer}
+            issuer={getIssuer(final.TakerPays)}
+            isMPT={paysIsMPT}
             displaySymbol={false}
           />
         </b>{' '}
@@ -50,7 +73,7 @@ const renderChanges = (
           <b>
             {{
               previous: localizeNumber(
-                normalize(prevPays, paysCurrency),
+                normalize(prevPays, paysCurrency, paysIsMPT),
                 language,
                 options,
               ),
@@ -60,7 +83,7 @@ const renderChanges = (
           <b>
             {{
               final: localizeNumber(
-                normalize(finalPays, paysCurrency),
+                normalize(finalPays, paysCurrency, paysIsMPT),
                 language,
                 options,
               ),
@@ -78,7 +101,8 @@ const renderChanges = (
         <b>
           <Currency
             currency={getsCurrency}
-            issuer={final.TakerGets.issuer}
+            issuer={getIssuer(final.TakerGets)}
+            isMPT={getsIsMPT}
             displaySymbol={false}
           />
         </b>{' '}
@@ -89,7 +113,7 @@ const renderChanges = (
           <b>
             {{
               previous: localizeNumber(
-                normalize(prevGets, getsCurrency),
+                normalize(prevGets, getsCurrency, getsIsMPT),
                 language,
                 options,
               ),
@@ -99,7 +123,7 @@ const renderChanges = (
           <b>
             {{
               final: localizeNumber(
-                normalize(finalGets, getsCurrency),
+                normalize(finalGets, getsCurrency, getsIsMPT),
                 language,
                 options,
               ),
@@ -123,11 +147,14 @@ const render: MetaRenderFunctionWithTx = (
 ) => {
   const lines: JSX.Element[] = []
   const fields = node.FinalFields || node.NewFields
-  const paysCurrency = fields.TakerPays.currency || 'XRP'
-  const getsCurrency = fields.TakerGets.currency || 'XRP'
+  const paysCurrency = getCurrency(fields.TakerPays)
+  const getsCurrency = getCurrency(fields.TakerGets)
+  const paysIsMPT = getIsMPT(fields.TakerPays)
+  const getsIsMPT = getIsMPT(fields.TakerGets)
   const takerPaysValue = normalize(
     fields.TakerPays.value || fields.TakerPays,
     paysCurrency,
+    paysIsMPT,
   )
   const invert =
     CURRENCY_ORDER.indexOf(getsCurrency) > CURRENCY_ORDER.indexOf(paysCurrency)
@@ -194,16 +221,22 @@ const render: MetaRenderFunctionWithTx = (
         components={{
           Currency: (
             <Currency
-              currency={(invert ? getsCurrency : paysCurrency) || 'XRP'}
-              issuer={invert ? tx.TakerGets?.issuer : tx.TakerPays?.issuer}
+              currency={invert ? getsCurrency : paysCurrency}
+              issuer={
+                invert ? getIssuer(tx.TakerGets) : getIssuer(tx.TakerPays)
+              }
+              isMPT={invert ? getsIsMPT : paysIsMPT}
               displaySymbol={false}
               shortenIssuer
             />
           ),
           Currency2: (
             <Currency
-              currency={(invert ? paysCurrency : getsCurrency) || 'XRP'}
-              issuer={invert ? tx.TakerPays?.issuer : tx.TakerGets?.issuer}
+              currency={invert ? paysCurrency : getsCurrency}
+              issuer={
+                invert ? getIssuer(tx.TakerPays) : getIssuer(tx.TakerGets)
+              }
+              isMPT={invert ? paysIsMPT : getsIsMPT}
               displaySymbol={false}
               shortenIssuer
             />

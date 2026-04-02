@@ -421,13 +421,19 @@ export const formatDurationDetailed = (totalSeconds, maxUnits = 4) => {
 export const removeRoutes = (routes, ...routesToRemove) =>
   routes.filter((route) => !routesToRemove.includes(route.title))
 
-export const formatAsset = (asset) =>
-  typeof asset === 'string'
-    ? { currency: 'XRP' }
-    : {
-        currency: asset.currency,
-        issuer: asset.issuer,
-      }
+export const formatAsset = (asset) => {
+  if (typeof asset === 'string') return { currency: 'XRP' }
+  if (asset.mpt_issuance_id) {
+    return {
+      currency: asset.mpt_issuance_id,
+      isMPT: true,
+    }
+  }
+  return {
+    currency: asset.currency,
+    issuer: asset.issuer,
+  }
+}
 
 export const formatTradingFee = (tradingFee) =>
   tradingFee !== undefined

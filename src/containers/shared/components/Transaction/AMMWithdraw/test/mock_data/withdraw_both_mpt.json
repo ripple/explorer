@@ -1,0 +1,93 @@
+{
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "LedgerEntryType": "MPToken",
+          "LedgerIndex": "AABB00112233445566778899AABBCCDDEEFF00112233445566778899AABBCCDD",
+          "FinalFields": {
+            "Account": "rUwaiErsYE5kibUUtaPczXZVVd73VNy4R9",
+            "MPTokenIssuanceID": "000003C31D321B7DDA58324DC38CDF18934FAFFFCDF69D5F",
+            "MPTAmount": "503000"
+          },
+          "PreviousFields": {
+            "MPTAmount": "500000"
+          },
+          "PreviousTxnID": "98D314D1EC81BE9342EDA1C04BCEFA8F327B0EFE12839F1EAB52065492B20E82",
+          "PreviousTxnLgrSeq": 114138
+        }
+      },
+      {
+        "ModifiedNode": {
+          "LedgerEntryType": "MPToken",
+          "LedgerIndex": "CCDD00112233445566778899AABBCCDDEEFF00112233445566778899AABBCCDD",
+          "FinalFields": {
+            "Account": "rUwaiErsYE5kibUUtaPczXZVVd73VNy4R9",
+            "MPTokenIssuanceID": "00000ABC2E631B9DFA58324DC38CDF18934FAFFFCDF69D5F",
+            "MPTAmount": "251500"
+          },
+          "PreviousFields": {
+            "MPTAmount": "250000"
+          },
+          "PreviousTxnID": "88D314D1EC81BE9342EDA1C04BCEFA8F327B0EFE12839F1EAB52065492B20E82",
+          "PreviousTxnLgrSeq": 114139
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rMEdVzU8mtEArzjrN9avm3kA675GX7ez8W",
+            "Asset": {
+              "mpt_issuance_id": "000003C31D321B7DDA58324DC38CDF18934FAFFFCDF69D5F"
+            },
+            "Asset2": {
+              "mpt_issuance_id": "00000ABC2E631B9DFA58324DC38CDF18934FAFFFCDF69D5F"
+            },
+            "Flags": 0,
+            "LPTokenBalance": {
+              "currency": "03930D02208264E2E40EC1B0C09E4DB96EE197B1",
+              "issuer": "rMEdVzU8mtEArzjrN9avm3kA675GX7ez8W",
+              "value": "9515288.25827238"
+            },
+            "TradingFee": 0
+          },
+          "LedgerEntryType": "AMM",
+          "LedgerIndex": "C7FD06649235AF4CABD8FA6D8BB0CAF6C6EA5038A74D0DDD5025290683636D02",
+          "PreviousFields": {
+            "LPTokenBalance": {
+              "currency": "03930D02208264E2E40EC1B0C09E4DB96EE197B1",
+              "issuer": "rMEdVzU8mtEArzjrN9avm3kA675GX7ez8W",
+              "value": "10027169"
+            }
+          }
+        }
+      }
+    ],
+    "TransactionIndex": 0,
+    "TransactionResult": "tesSUCCESS"
+  },
+  "tx": {
+    "Account": "rUwaiErsYE5kibUUtaPczXZVVd73VNy4R9",
+    "Amount": {
+      "mpt_issuance_id": "000003C31D321B7DDA58324DC38CDF18934FAFFFCDF69D5F",
+      "value": "3000"
+    },
+    "Amount2": {
+      "mpt_issuance_id": "00000ABC2E631B9DFA58324DC38CDF18934FAFFFCDF69D5F",
+      "value": "1500"
+    },
+    "Asset": {
+      "mpt_issuance_id": "000003C31D321B7DDA58324DC38CDF18934FAFFFCDF69D5F"
+    },
+    "Asset2": {
+      "mpt_issuance_id": "00000ABC2E631B9DFA58324DC38CDF18934FAFFFCDF69D5F"
+    },
+    "Fee": "10",
+    "Flags": 1048576,
+    "Sequence": 7,
+    "SigningPubKey": "023CFED4018084296285DD8A321C099134B9CF6DCD8D91DC067BABCFF0E3F2BE1A",
+    "TransactionType": "AMMWithdraw",
+    "TxnSignature": "3045022100D1363F0A6D7252690820657B6ACCB35245E65D8DCDB48199578C213ED9D3E24B0220697D4DC057ECCD942BC59B0242411839C125696CD9DE9A3EFE45367EE0D1D29D",
+    "date": "2022-11-26T00:55:02Z"
+  }
+}

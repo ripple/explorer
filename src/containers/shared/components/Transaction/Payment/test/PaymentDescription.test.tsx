@@ -8,11 +8,22 @@ import mockPaymentPartial from './mock_data/PaymentWithPartial.json'
 import mockPaymentSendMax from './mock_data/PaymentWithSendMax.json'
 import mockPaymentSourceTag from './mock_data/PaymentWithSourceTag.json'
 import mockPermDomainID from './mock_data/PaymentWithPermDomainID.json'
+import mockPaymentMPT from './mock_data/PaymentMPT.json'
 import { createDescriptionRenderFactory } from '../../test'
+import { useMPTIssuance } from '../../../../hooks/useMPTIssuance'
+
+jest.mock('../../../../hooks/useMPTIssuance', () => ({
+  ...jest.requireActual('../../../../hooks/useMPTIssuance'),
+  useMPTIssuance: jest.fn(),
+}))
 
 const renderComponent = createDescriptionRenderFactory(Description, i18n)
 
 describe('Payment: Description', () => {
+  beforeEach(() => {
+    ;(useMPTIssuance as jest.Mock).mockReturnValue({ data: undefined })
+  })
+
   it('renders', () => {
     const { container, unmount } = renderComponent(mockPayment)
 
@@ -163,5 +174,31 @@ describe('Payment: Description', () => {
     ).toHaveTextContent(
       `Domain ID: D3261DF48CDA3B860ED3FA99F02138856393CD44556E028D5CB66192A18A8D02`,
     )
+  })
+
+  it('renders direct MPT payment (no ticker - displays mpt_issuance_id)', () => {
+    ;(useMPTIssuance as jest.Mock).mockReturnValue({
+      data: { assetScale: 3 },
+    })
+    const { container, unmount } = renderComponent(mockPaymentMPT)
+
+    expect(
+      container.querySelector('[data-testid="amount-line"]'),
+    ).toHaveTextContent(
+      'It was instructed to deliver 0.1 000003C31D321B7DDA58324DC38CDF18934FAFFFCDF69D5F',
+    )
+    unmount()
+  })
+
+  it('renders direct MPT payment (with ticker - displays ticker symbol)', () => {
+    ;(useMPTIssuance as jest.Mock).mockReturnValue({
+      data: { assetScale: 3, parsedMPTMetadata: { ticker: 'XMPT' } },
+    })
+    const { container, unmount } = renderComponent(mockPaymentMPT)
+
+    expect(
+      container.querySelector('[data-testid="amount-line"]'),
+    ).toHaveTextContent('It was instructed to deliver 0.1 XMPT')
+    unmount()
   })
 })

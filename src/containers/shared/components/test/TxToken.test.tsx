@@ -10,6 +10,11 @@ import paymentMock from '../Transaction/Payment/test/mock_data/Payment.json'
 
 import summarizeTransaction from '../../../../rippled/lib/txSummary'
 
+jest.mock('../../hooks/useMPTIssuance', () => ({
+  ...jest.requireActual('../../hooks/useMPTIssuance'),
+  useMPTIssuance: () => ({ data: undefined }),
+}))
+
 describe('TxToken', () => {
   const renderTxToken = (transaction: any) =>
     render(
