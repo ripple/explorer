@@ -1,7 +1,7 @@
-import { getLiquidatedAMMData } from '../utils'
-import mockLiquidatedTx from './mockLiquidatedAMMTransaction.json'
+import { getDeletedAMMData } from '../utils'
+import mockDeletedTx from './mockDeletedAMMTransaction.json'
 
-describe('getLiquidatedAMMData', () => {
+describe('getDeletedAMMData', () => {
   const mockSocket = {
     send: jest.fn(),
   } as any
@@ -10,10 +10,10 @@ describe('getLiquidatedAMMData', () => {
     jest.clearAllMocks()
   })
 
-  it('returns liquidated AMM data when last tx has DeletedNode with LedgerEntryType AMM', async () => {
-    mockSocket.send.mockResolvedValue(mockLiquidatedTx)
+  it('returns deleted AMM data when last tx has DeletedNode with LedgerEntryType AMM', async () => {
+    mockSocket.send.mockResolvedValue(mockDeletedTx)
 
-    const result = await getLiquidatedAMMData(
+    const result = await getDeletedAMMData(
       mockSocket,
       'rQhuJV3eVEm6D6YreeisJkvfyBBA3qAXrL',
     )
@@ -30,13 +30,13 @@ describe('getLiquidatedAMMData', () => {
       issuer: 'rQhuJV3eVEm6D6YreeisJkvfyBBA3qAXrL',
       value: '2764439179.245265',
     })
-    expect(result!.liquidationDate).toBe(827617760)
+    expect(result!.deletionDate).toBe(827617760)
   })
 
   it('calls account_tx with limit=1', async () => {
-    mockSocket.send.mockResolvedValue(mockLiquidatedTx)
+    mockSocket.send.mockResolvedValue(mockDeletedTx)
 
-    await getLiquidatedAMMData(mockSocket, 'rQhuJV3eVEm6D6YreeisJkvfyBBA3qAXrL')
+    await getDeletedAMMData(mockSocket, 'rQhuJV3eVEm6D6YreeisJkvfyBBA3qAXrL')
 
     expect(mockSocket.send).toHaveBeenCalledWith({
       command: 'account_tx',
@@ -65,21 +65,21 @@ describe('getLiquidatedAMMData', () => {
       ],
     })
 
-    const result = await getLiquidatedAMMData(mockSocket, 'rSomeAccount')
+    const result = await getDeletedAMMData(mockSocket, 'rSomeAccount')
     expect(result).toBeNull()
   })
 
   it('returns null when account_tx returns no transactions', async () => {
     mockSocket.send.mockResolvedValue({ transactions: [] })
 
-    const result = await getLiquidatedAMMData(mockSocket, 'rSomeAccount')
+    const result = await getDeletedAMMData(mockSocket, 'rSomeAccount')
     expect(result).toBeNull()
   })
 
   it('returns null when account_tx returns undefined', async () => {
     mockSocket.send.mockResolvedValue(undefined)
 
-    const result = await getLiquidatedAMMData(mockSocket, 'rSomeAccount')
+    const result = await getDeletedAMMData(mockSocket, 'rSomeAccount')
     expect(result).toBeNull()
   })
 
@@ -94,11 +94,11 @@ describe('getLiquidatedAMMData', () => {
       ],
     })
 
-    const result = await getLiquidatedAMMData(mockSocket, 'rSomeAccount')
+    const result = await getDeletedAMMData(mockSocket, 'rSomeAccount')
     expect(result).toBeNull()
   })
 
-  it('returns null when AccountDelete (not AMM liquidation)', async () => {
+  it('returns null when AccountDelete (not AMM deletion)', async () => {
     mockSocket.send.mockResolvedValue({
       transactions: [
         {
@@ -118,7 +118,7 @@ describe('getLiquidatedAMMData', () => {
       ],
     })
 
-    const result = await getLiquidatedAMMData(mockSocket, 'rDeletedAccount')
+    const result = await getDeletedAMMData(mockSocket, 'rDeletedAccount')
     expect(result).toBeNull()
   })
 })
