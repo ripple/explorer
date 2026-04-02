@@ -1,0 +1,234 @@
+@use '../../css/variables' as *;
+
+$tvl-color: #32e685;
+$volume-color: #7919ff;
+
+.tvl-volume-section {
+  margin-bottom: 50px;
+
+  .chart-section-title {
+    padding-bottom: 0;
+    border-bottom: none;
+    margin: 0 0 16px;
+    color: $white;
+    font-size: 16px;
+    @include bold;
+
+    @include for-size(tablet-portrait-up) {
+      margin: 0 0 20px;
+      font-size: 18px;
+    }
+
+    @include for-size(desktop-up) {
+      font-size: 20px;
+    }
+  }
+
+  // ── Controls row: toggle + checkboxes ──
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 12px;
+    gap: 16px;
+
+    @include for-size(tablet-portrait-up) {
+      margin-bottom: 16px;
+      gap: 24px;
+    }
+
+    @include for-size(desktop-up) {
+      gap: 42px;
+    }
+  }
+
+  .filter-checkbox {
+    display: flex;
+    align-items: center;
+    color: $white;
+    cursor: pointer;
+    font-size: 14px;
+    gap: 8px;
+    @include medium;
+
+    @include for-size(tablet-portrait-up) {
+      font-size: 16px;
+      gap: 12px;
+    }
+
+    input[type='checkbox'] {
+      display: none;
+    }
+
+    .checkbox-custom {
+      position: relative;
+      display: flex;
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid $green-60;
+      border-radius: 4px;
+      background-color: transparent;
+      transition: all 0.2s;
+
+      @include for-size(desktop-up) {
+        width: 24px;
+        height: 24px;
+      }
+
+      &::after {
+        position: absolute;
+        display: none;
+        width: 5px;
+        height: 10px;
+        border: solid $black-100;
+        border-width: 0 2px 2px 0;
+        margin-top: -2px;
+        content: '';
+        transform: rotate(45deg);
+      }
+    }
+
+    &:hover .checkbox-custom {
+      border-color: $green;
+    }
+
+    input[type='checkbox']:checked + .checkbox-custom {
+      border-color: $blue;
+      background-color: $blue;
+
+      &::after {
+        display: block;
+      }
+    }
+  }
+}
+
+.tvl-volume-chart-container {
+  padding: 16px 12px;
+  border: 1px solid $black-60;
+  border-radius: $border-radius;
+  background-color: $black-80;
+
+  @include for-size(desktop-up) {
+    padding: 32px;
+  }
+
+  .chart-header {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 16px;
+
+    @include for-size(desktop-up) {
+      margin-bottom: 24px;
+    }
+  }
+
+  .time-filters {
+    display: flex;
+    gap: 8px;
+
+    @include for-size(tablet-portrait-up) {
+      gap: 12px;
+    }
+
+    @include for-size(desktop-up) {
+      gap: 16px;
+    }
+
+    .time-filter {
+      display: flex;
+      width: 40px;
+      align-items: center;
+      justify-content: center;
+      padding: 6px;
+      border: 1px solid $black-50;
+      border-radius: $border-radius;
+      background-color: $black;
+      color: $white;
+      cursor: pointer;
+      font-size: 12px;
+      transition: all 0.15s;
+      @include regular;
+
+      @include for-size(tablet-portrait-up) {
+        width: 50px;
+        padding: 8px;
+        font-size: 14px;
+      }
+
+      &:hover {
+        border-color: $black-40;
+        background-color: $black-80;
+      }
+
+      &.active {
+        border-color: $blue;
+        background-color: $blue;
+        color: $white;
+        @include bold;
+      }
+    }
+  }
+
+  .chart-tooltip {
+    padding: 10px 14px;
+    border: 1px solid $black-60;
+    border-radius: $border-radius;
+    background: $black-80;
+
+    .tooltip-label {
+      margin: 0 0 6px;
+      color: $black-40;
+      font-size: 12px;
+    }
+
+    .tooltip-value {
+      margin: 2px 0;
+      font-size: 13px;
+      @include semibold;
+    }
+  }
+
+  .chart-legend {
+    display: flex;
+    justify-content: center;
+    margin-top: 12px;
+    gap: 24px;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    color: $white;
+    font-size: 11px;
+    gap: 6px;
+
+    @include for-size(tablet-portrait-up) {
+      font-size: 13px;
+      gap: 8px;
+    }
+  }
+
+  .legend-color {
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
+    border-radius: 3px;
+
+    @include for-size(tablet-portrait-up) {
+      width: 14px;
+      height: 14px;
+    }
+
+    &.tvl-color {
+      background: $tvl-color;
+    }
+
+    &.volume-color {
+      background: $volume-color;
+    }
+  }
+}

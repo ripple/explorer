@@ -45,6 +45,7 @@ interface DexTradeTableProps {
   sortOrder?: 'asc' | 'desc'
   setSortOrder?: (order: 'asc' | 'desc') => void
   onRefresh?: () => void
+  hideType?: boolean
 }
 
 export const DexTradeTable = ({
@@ -61,6 +62,7 @@ export const DexTradeTable = ({
   sortOrder,
   setSortOrder,
   onRefresh,
+  hideType = false,
 }: DexTradeTableProps) => {
   const { t } = useTranslation()
   const language = useLanguage()
@@ -136,7 +138,7 @@ export const DexTradeTable = ({
       <td className="tx-timestamp">
         <ResponsiveTimestamp timestamp={tx.timestamp} lang={language} />
       </td>
-      <td className="tx-type">{formatDexType(tx.type)}</td>
+      {!hideType && <td className="tx-type">{formatDexType(tx.type)}</td>}
       <td className="tx-from">
         <span className="text-truncate">
           <Account displayText={shortenAccount(tx.from)} account={tx.from} />
@@ -149,26 +151,18 @@ export const DexTradeTable = ({
       </td>
       <td className="tx-amount-in">
         <Amount
-          value={{
-            currency: tx.amount_in.currency,
-            issuer: tx.amount_in.issuer,
-            amount: parseAmount(tx.amount_in.amount),
-          }}
+          value={tx.amount_in}
           displayIssuer
           shortenIssuer
-          displayCurrency={String(tx.amount_in.currency) !== 'XRP'}
+          useParseAmount
         />
       </td>
       <td className="tx-amount-out">
         <Amount
-          value={{
-            currency: tx.amount_out.currency,
-            issuer: tx.amount_out.issuer,
-            amount: parseAmount(tx.amount_out.amount),
-          }}
+          value={tx.amount_out}
           displayIssuer
           shortenIssuer
-          displayCurrency={String(tx.amount_out.currency) !== 'XRP'}
+          useParseAmount
         />
       </td>
 
@@ -231,7 +225,9 @@ export const DexTradeTable = ({
                       )}
                     </span>
                   </th>
-                  <th className="tx-type">{t('token_page.dex_type')}</th>
+                  {!hideType && (
+                    <th className="tx-type">{t('token_page.dex_type')}</th>
+                  )}
                   <th className="tx-from">{t('from')}</th>
                   <th className="tx-to">{t('to')}</th>
                   <th className="tx-amount-in">
