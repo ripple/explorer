@@ -16,8 +16,12 @@ import { BasicInfoCard } from './InfoCards/BasicInfoCard'
 import { MarketDataCard } from './InfoCards/MarketDataCard'
 import { AuctionCard } from './InfoCards/AuctionCard'
 import { AMMPoolTablePicker } from './TablePicker'
-import { TVLVolumeChart } from './TVLVolumeChart'
-import { fetchAMMPoolData, fetchAMMCreatedTimestamp } from './api'
+import { TVLVolumeChart } from '../shared/components/TVLVolumeChart'
+import {
+  fetchAMMPoolData,
+  fetchAMMCreatedTimestamp,
+  fetchAMMHistoricalTrends,
+} from './api'
 import { getLiquidatedAMMData, LiquidatedAMMData } from './utils'
 import { FormattedBalance } from './types'
 import InfoIcon from '../shared/images/info-duotone.svg'
@@ -155,6 +159,14 @@ export const AMMPool = () => {
     { enabled: !!ammAccountId },
   )
 
+  // Fetch data per time range from the API (each range may include different latest data)
+  const [chartTimeRange, setChartTimeRange] = useState('6M')
+  const { data: trendsData, isLoading: trendsLoading } = useQuery(
+    ['ammHistoricalTrends', ammAccountId, chartTimeRange],
+    () => fetchAMMHistoricalTrends(ammAccountId, chartTimeRange),
+    { enabled: !!ammAccountId, staleTime: 5 * 60 * 1000 },
+  )
+
   useEffect(() => {
     trackScreenLoaded({ account_id: ammAccountId })
     return () => {
@@ -246,9 +258,18 @@ export const AMMPool = () => {
 
           {isMainnet && (
             <TVLVolumeChart
-              ammAccountId={ammAccountId}
+              data={(trendsData?.data_points || []).map((point: any) => ({
+                date: point.date,
+                tvl: displayCurrency === 'usd' ? point.tvl_usd : point.tvl_xrp,
+                volume:
+                  displayCurrency === 'usd'
+                    ? point.trading_volume_usd
+                    : point.trading_volume_xrp,
+              }))}
+              isLoading={trendsLoading}
               displayCurrency={displayCurrency}
               setDisplayCurrency={setDisplayCurrency}
+              onTimeRangeChange={setChartTimeRange}
             />
           )}
 
