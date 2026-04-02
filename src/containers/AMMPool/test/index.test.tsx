@@ -18,7 +18,7 @@ jest.mock('../api', () => ({
 }))
 
 // TVLVolumeChart must be mocked — it uses useQuery() + recharts (won't render in jsdom)
-jest.mock('../TVLVolumeChart', () => ({
+jest.mock('../../shared/components/TVLVolumeChart', () => ({
   TVLVolumeChart: () => <div data-testid="tvl-volume-chart">Chart</div>,
 }))
 

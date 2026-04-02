@@ -1,23 +1,26 @@
 import { FC, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useQuery } from 'react-query'
 import { useWindowSize } from 'usehooks-ts'
 import { TooltipProps } from 'recharts'
-import {
-  DualAxisAreaChart,
-  AxisConfig,
-} from '../../shared/components/DualAxisAreaChart'
-import { Loader } from '../../shared/components/Loader'
-import { useTooltip } from '../../shared/components/Tooltip'
-import { parseAmount } from '../../shared/NumberFormattingUtils'
-import { CurrencySwitch } from '../../shared/components/CurrencySwitch'
-import { fetchAMMHistoricalTrends } from '../api'
+import { DualAxisAreaChart, AxisConfig } from '../DualAxisAreaChart'
+import { Loader } from '../Loader'
+import { useTooltip } from '../Tooltip'
+import { parseAmount } from '../../NumberFormattingUtils'
+import { CurrencySwitch } from '../CurrencySwitch'
 import './styles.scss'
 
-interface TVLVolumeChartProps {
-  ammAccountId: string
+export interface TVLVolumeDataPoint {
+  date: string
+  tvl: number
+  volume: number
+}
+
+export interface TVLVolumeChartProps {
+  data: TVLVolumeDataPoint[]
+  isLoading: boolean
   displayCurrency: 'usd' | 'xrp'
   setDisplayCurrency: (currency: 'usd' | 'xrp') => void
+  onTimeRangeChange: (range: string) => void
 }
 
 const TIME_RANGES = ['1W', '1M', '6M', '1Y', '5Y'] as const
@@ -64,9 +67,11 @@ const formatCurrencyTick = (
 }
 
 export const TVLVolumeChart: FC<TVLVolumeChartProps> = ({
-  ammAccountId,
+  data,
+  isLoading,
   displayCurrency,
   setDisplayCurrency,
+  onTimeRangeChange,
 }) => {
   const { t } = useTranslation()
   const { showTooltip, hideTooltip } = useTooltip()
@@ -74,6 +79,11 @@ export const TVLVolumeChart: FC<TVLVolumeChartProps> = ({
   const [timeRange, setTimeRange] = useState<string>('6M')
   const [showTVL, setShowTVL] = useState(true)
   const [showVolume, setShowVolume] = useState(true)
+
+  const handleTimeRangeChange = (range: string) => {
+    setTimeRange(range)
+    onTimeRangeChange(range)
+  }
 
   const isSmallScreen = windowWidth < 600
   const chartMargin = isSmallScreen
@@ -118,21 +128,7 @@ export const TVLVolumeChart: FC<TVLVolumeChartProps> = ({
     return null
   }
 
-  // Fetch data per time range from the API (each range may include different latest data)
-  const { data: trendsData, isLoading } = useQuery(
-    ['ammHistoricalTrends', ammAccountId, timeRange],
-    () => fetchAMMHistoricalTrends(ammAccountId, timeRange),
-    { enabled: !!ammAccountId, staleTime: 5 * 60 * 1000 },
-  )
-
-  const chartData = (trendsData?.data_points || []).map((point: any) => ({
-    date: point.date,
-    tvl: displayCurrency === 'usd' ? point.tvl_usd : point.tvl_xrp,
-    volume:
-      displayCurrency === 'usd'
-        ? point.trading_volume_usd
-        : point.trading_volume_xrp,
-  }))
+  const chartData = data
 
   const leftAxis: AxisConfig = {
     dataKey: 'tvl',
@@ -194,7 +190,7 @@ export const TVLVolumeChart: FC<TVLVolumeChartProps> = ({
               <button
                 key={range}
                 className={`time-filter ${timeRange === range ? 'active' : ''}`}
-                onClick={() => setTimeRange(range)}
+                onClick={() => handleTimeRangeChange(range)}
                 type="button"
               >
                 {range}
