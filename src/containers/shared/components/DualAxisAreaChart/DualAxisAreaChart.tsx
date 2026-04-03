@@ -96,6 +96,7 @@ export const DualAxisAreaChart: FC<DualAxisAreaChartProps> = ({
             strokeDasharray="0"
             stroke={gridStroke}
             vertical={false}
+            horizontal
           />
         )}
 

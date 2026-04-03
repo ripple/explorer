@@ -78,7 +78,6 @@ export const MPT_ROUTE: RouteDefinition<{
 }> = {
   path: '/mpt/:id',
 }
-
 export const VAULT_ROUTE: RouteDefinition<{
   id: string
 }> = {
@@ -94,4 +93,9 @@ export const AMM_POOL_ROUTE: RouteDefinition<{
   tab?: 'transactions' | 'dex-trades' | 'deposits' | 'withdrawals' | 'holders'
 }> = {
   path: '/amm/:id/:tab?',
+}
+
+export const AMM_RANKINGS_ROUTE: RouteDefinition = {
+  path: '/amms',
+}
 }
