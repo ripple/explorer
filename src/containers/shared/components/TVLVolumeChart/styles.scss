@@ -74,8 +74,8 @@ $volume-color: #7919ff;
       transition: all 0.2s;
 
       @include for-size(desktop-up) {
-        width: 24px;
-        height: 24px;
+        width: 22px;
+        height: 22px;
       }
 
       &::after {
