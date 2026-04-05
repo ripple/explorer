@@ -238,7 +238,7 @@ export const AMMPool = () => {
               createdTimestamp={createdTimestamp}
               lpTokenCurrency={lpToken?.currency}
             />
-            {!isDeleted && isMainnet && losData && (
+            {!isDeleted && (
               <MarketDataCard
                 losData={losData}
                 balance1={balance1}
