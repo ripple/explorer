@@ -1,5 +1,5 @@
 import { FC, PropsWithChildren, useContext, useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams } from 'react-router'
 import { Helmet } from 'react-helmet-async'
 import { useQuery } from 'react-query'
 import { useTranslation } from 'react-i18next'

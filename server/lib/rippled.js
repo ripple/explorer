@@ -169,16 +169,3 @@ module.exports.getLedger = (parameters) => {
     return resp.ledger
   })
 }
-
-// get AMM info by AMM account ID
-module.exports.getAMMInfo = (ammAccountId) =>
-  query({
-    command: 'amm_info',
-    amm_account: ammAccountId,
-    ledger_index: 'validated',
-  }).then((resp) => {
-    if (resp.error_message) {
-      throw new utils.Error(resp.error_message, 500)
-    }
-    return resp
-  })

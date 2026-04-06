@@ -1,4 +1,5 @@
-import { Route, useLocation, Routes, Navigate } from 'react-router-dom'
+import { Route, useLocation, Routes } from 'react-router'
+import { Navigate } from 'react-router-dom'
 import { Helmet, HelmetProvider } from 'react-helmet-async'
 import { QueryClientProvider } from 'react-query'
 import { useTranslation } from 'react-i18next'
@@ -30,7 +31,6 @@ import {
   TOKENS_ROUTE,
   VAULTS_ROUTE,
   AMM_POOL_ROUTE,
-  AMM_RANKINGS_ROUTE,
 } from './routes'
 import { LedgersPage as Ledgers } from '../Ledgers'
 import { Ledger } from '../Ledger'
@@ -53,7 +53,6 @@ import { Vault } from '../Vault'
 import { Vaults } from '../Vaults'
 import { AMMPool } from '../AMMPool'
 import { FEATURE_VAULTS_PAGE } from './featureFlags'
-import { AMMRankings } from '../AMMRankings'
 
 export const AppWrapper = () => {
   const mode = process.env.VITE_ENVIRONMENT
@@ -88,7 +87,6 @@ export const AppWrapper = () => {
       [VALIDATOR_ROUTE, Validator],
       [TOKEN_ROUTE, mode === 'mainnet' ? IOU : TokenNonMain],
       [TOKENS_ROUTE, Tokens],
-      [AMM_RANKINGS_ROUTE, AMMRankings],
       [NFT_ROUTE, NFT],
       [AMENDMENT_ROUTE, Amendment],
       [MPT_ROUTE, MPT],

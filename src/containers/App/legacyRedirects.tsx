@@ -1,9 +1,9 @@
-interface Location {
-  hash: string
-  pathname: string
-}
+import { useLocation } from 'react-router'
 
-export const legacyRedirect = (basename, location: Location): string | null => {
+export const legacyRedirect = (
+  basename,
+  location: ReturnType<typeof useLocation>,
+): string | null => {
   if (location.hash && location.pathname === `${basename}/`) {
     if (location.hash.indexOf('#/transactions/') === 0) {
       const identifier = location.hash.split('#/transactions/')[1]

@@ -2,7 +2,6 @@ import { buildPath } from '../shared/routing'
 import { NavigationMenuAnyRoute } from '../Header/NavigationMenu'
 import {
   AMENDMENTS_ROUTE,
-  AMM_RANKINGS_ROUTE,
   LEDGERS_ROUTE,
   NODES_ROUTE,
   TOKENS_ROUTE,
@@ -21,8 +20,8 @@ const isNetwork = (path) =>
 const isLedgers = (path: string) => path === '/'
 
 const isTokens = (path) => path.indexOf(buildPath(TOKENS_ROUTE, {})) === 0
+
 const isVaults = (path) => path.indexOf(buildPath(VAULTS_ROUTE, {})) === 0
-const isAMMs = (path) => path.indexOf(buildPath(AMM_RANKINGS_ROUTE, {})) === 0
 
 // NOTE: for submenus, remove `path` field and add `children` array of objects
 export const navigationConfig: NavigationMenuAnyRoute[] = [
@@ -42,11 +41,6 @@ export const navigationConfig: NavigationMenuAnyRoute[] = [
       title: 'vaults',
       current: (path: string) => isVaults(path),
     },
-  process.env.VITE_ENVIRONMENT === 'mainnet' && {
-    route: AMM_RANKINGS_ROUTE,
-    title: 'amms',
-    current: (path: string) => isAMMs(path),
-  },
   {
     title: 'network',
     current: (path: string) => isNetwork(path),
