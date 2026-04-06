@@ -67,20 +67,15 @@ export const fetchAMMRankings = async (
   sortField: string = 'tvl_usd',
   sortOrder: 'asc' | 'desc' = 'desc',
 ): Promise<AMMRankingsResponse> => {
-  try {
-    const response = await axios.get('/api/v1/amms', {
-      params: {
-        size: 1000,
-        sort_field: sortField,
-        sort_order: sortOrder,
-      },
-    })
+  const response = await axios.get('/api/v1/amms', {
+    params: {
+      size: 1000,
+      sort_field: sortField,
+      sort_order: sortOrder,
+    },
+  })
 
-    return response.data
-  } catch (error) {
-    console.error('Failed to fetch AMM rankings:', error)
-    throw error
-  }
+  return response.data
 }
 
 /**

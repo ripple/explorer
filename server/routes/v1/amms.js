@@ -236,7 +236,10 @@ async function cacheAMMs() {
     // Fetch token data in the background — updates the cache when ready
     fetchTokenData(losAMMs.results)
       .then((tokenDataMap) => {
-        cachedAMMsList.results = enrichAMMs(cachedAMMsList.results, tokenDataMap)
+        cachedAMMsList.results = enrichAMMs(
+          cachedAMMsList.results,
+          tokenDataMap,
+        )
         log.info(
           `Updated cache with token data for ${Object.keys(tokenDataMap).length} tokens`,
         )
@@ -329,12 +332,12 @@ const getAMMs = async (req, res) => {
   try {
     const {
       size = 1000,
-      sort_field = 'tvl_usd',
-      sort_order = 'desc',
+      sort_field: sortField = 'tvl_usd',
+      sort_order: sortOrder = 'desc',
     } = req.query
 
     log.info(
-      `Fetching AMMs from cache: size=${size}, sort_field=${sort_field}, sort_order=${sort_order}`,
+      `Fetching AMMs from cache: size=${size}, sort_field=${sortField}, sort_order=${sortOrder}`,
     )
 
     // Wait for cache to be populated (with timeout)
@@ -346,7 +349,7 @@ const getAMMs = async (req, res) => {
     }
 
     // Sort and limit results
-    let results = sortAMMs(cachedAMMsList.results, sort_field, sort_order)
+    let results = sortAMMs(cachedAMMsList.results, sortField, sortOrder)
     results = results.slice(0, Number(size))
 
     log.info(`Returning ${results.length} AMMs from cache`)
@@ -471,13 +474,16 @@ async function cacheTrends(ammAccountId, timeRange) {
 
 const getHistoricalTrends = async (req, res) => {
   try {
-    const { amm_account_id = 'aggregated', time_range = '6M' } = req.query
+    const {
+      amm_account_id: ammAccountId = 'aggregated',
+      time_range: timeRange = '6M',
+    } = req.query
 
     log.info(
-      `Fetching historical trends from cache: amm_account_id=${amm_account_id}, time_range=${time_range}`,
+      `Fetching historical trends from cache: amm_account_id=${ammAccountId}, time_range=${timeRange}`,
     )
 
-    const cached = getCachedTrends(amm_account_id, time_range)
+    const cached = getCachedTrends(ammAccountId, timeRange)
 
     // If cached and fresh (within REFETCH_INTERVAL), return it
     if (cached && Date.now() - cached.last_updated < REFETCH_INTERVAL) {
@@ -489,9 +495,9 @@ const getHistoricalTrends = async (req, res) => {
     }
 
     // Cache miss or stale — fetch fresh data
-    await cacheTrends(amm_account_id, time_range)
+    await cacheTrends(ammAccountId, timeRange)
 
-    const updated = getCachedTrends(amm_account_id, time_range)
+    const updated = getCachedTrends(ammAccountId, timeRange)
 
     return res.status(200).json({
       ...updated?.data,
