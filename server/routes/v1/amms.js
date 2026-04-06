@@ -1,7 +1,11 @@
 const axios = require('axios')
 const log = require('../../lib/logger')({ name: 'amms' })
+const rippled = require('../../lib/rippled')
 
 const REFETCH_INTERVAL = 10 * 60 * 1000 // 10 minutes
+const LOS_TOKEN_API_BATCH_SIZE = 100
+const AMM_INFO_CONCURRENCY = 2 // Max concurrent amm_info RPC calls
+const AMM_INFO_DELAY_MS = 200 // Delay between each amm_info RPC call per worker
 const cachedAMMsList = { results: [], last_updated: null }
 const cachedAggregatedStats = { data: null, last_updated: null }
 const cachedHistoricalTrends = new Map() // key: `${amm_account_id}:${time_range}` -> { data, last_updated }
@@ -48,6 +52,114 @@ async function fetchAMMs() {
     })
 }
 
+/**
+ * Fetch token data (icon, asset_class, asset_subclass) from LOS /tokens/batch-get
+ * for all unique non-XRP tokens across the AMM pools.
+ * Returns a map of "CURRENCY.ISSUER" -> { icon, asset_class, asset_subclass }
+ */
+async function fetchTokenData(amms) {
+  const tokenIds = new Set()
+  amms.forEach((amm) => {
+    if (amm.currency_1 && amm.issuer_1 && amm.currency_1 !== 'XRP') {
+      tokenIds.add(`${amm.currency_1}.${amm.issuer_1}`)
+    }
+    if (amm.currency_2 && amm.issuer_2 && amm.currency_2 !== 'XRP') {
+      tokenIds.add(`${amm.currency_2}.${amm.issuer_2}`)
+    }
+  })
+
+  const uniqueTokenIds = Array.from(tokenIds)
+  if (uniqueTokenIds.length === 0) return {}
+
+  log.info(
+    `Fetching token data for ${uniqueTokenIds.length} unique tokens from LOS`,
+  )
+
+  const tokenDataMap = {}
+  const url = `${process.env.VITE_LOS_URL}/tokens/batch-get`
+
+  // Batch in groups of LOS_TOKEN_API_BATCH_SIZE (DynamoDB BatchGetItem limit is 100)
+  for (let i = 0; i < uniqueTokenIds.length; i += LOS_TOKEN_API_BATCH_SIZE) {
+    const batch = uniqueTokenIds.slice(i, i + LOS_TOKEN_API_BATCH_SIZE)
+    try {
+      // eslint-disable-next-line no-await-in-loop
+      const resp = await axios.post(
+        url,
+        { tokenIds: batch },
+        { timeout: 30000 },
+      )
+      const tokens = resp.data?.tokens || []
+      tokens.forEach((token) => {
+        if (token.currency && token.issuer_account) {
+          const key = `${token.currency}.${token.issuer_account}`
+          tokenDataMap[key] = {
+            icon: token.icon || undefined,
+            asset_class: token.asset_class || undefined,
+            asset_subclass: token.asset_subclass || undefined,
+          }
+        }
+      })
+    } catch (e) {
+      log.error(`Failed to batch-get tokens from LOS: ${e.message}`)
+    }
+  }
+
+  log.info(`Fetched token data for ${Object.keys(tokenDataMap).length} tokens`)
+  return tokenDataMap
+}
+
+/**
+ * Fetch trading fees for AMM pools via amm_info RPC, called concurrently
+ * with controlled concurrency to avoid overwhelming the rippled node.
+ * Returns a map of amm_account_id -> trading_fee (raw value, 0-1000)
+ */
+async function fetchTradingFees(amms) {
+  log.info(`Fetching trading fees for ${amms.length} AMMs via amm_info RPC`)
+
+  const tradingFeeMap = {}
+  const queue = [...amms]
+  let completed = 0
+
+  const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
+
+  // Process AMMs with controlled concurrency and delays
+  async function processNext() {
+    while (queue.length > 0) {
+      const amm = queue.shift()
+      try {
+        // eslint-disable-next-line no-await-in-loop
+        const resp = await rippled.getAMMInfo(amm.amm_account_id)
+        if (resp?.amm?.trading_fee !== undefined) {
+          tradingFeeMap[amm.amm_account_id] = resp.amm.trading_fee
+        }
+      } catch (e) {
+        // Silently skip — trading fee is non-critical
+        log.warn(
+          `Failed to fetch amm_info for ${amm.amm_account_id}: ${e.message}`,
+        )
+      }
+      completed += 1
+      if (completed % 100 === 0) {
+        log.info(`Trading fee progress: ${completed}/${amms.length}`)
+      }
+      // eslint-disable-next-line no-await-in-loop
+      await delay(AMM_INFO_DELAY_MS)
+    }
+  }
+
+  // Launch AMM_INFO_CONCURRENCY workers
+  const workers = []
+  for (let i = 0; i < Math.min(AMM_INFO_CONCURRENCY, amms.length); i += 1) {
+    workers.push(processNext())
+  }
+  await Promise.all(workers)
+
+  log.info(
+    `Fetched trading fees for ${Object.keys(tradingFeeMap).length}/${amms.length} AMMs`,
+  )
+  return tradingFeeMap
+}
+
 async function fetchAggregatedStats() {
   const url = `${process.env.VITE_LOS_URL}/amms/aggregated`
   log.info(`Fetching aggregated stats from: ${url}`)
@@ -83,14 +195,73 @@ async function fetchAggregatedStats() {
     })
 }
 
+function enrichAMMs(amms, tokenDataMap) {
+  return amms.map((amm) => {
+    const token1Key =
+      amm.currency_1 && amm.issuer_1
+        ? `${amm.currency_1}.${amm.issuer_1}`
+        : null
+    const token2Key =
+      amm.currency_2 && amm.issuer_2
+        ? `${amm.currency_2}.${amm.issuer_2}`
+        : null
+    const token1Data = token1Key ? tokenDataMap[token1Key] : undefined
+    const token2Data = token2Key ? tokenDataMap[token2Key] : undefined
+
+    return {
+      ...amm,
+      icon_1: token1Data?.icon,
+      icon_2: token2Data?.icon,
+      asset_class_1: token1Data?.asset_class || amm.asset_class_1,
+      asset_class_2: token2Data?.asset_class || amm.asset_class_2,
+      asset_subclass_1: token1Data?.asset_subclass,
+      asset_subclass_2: token2Data?.asset_subclass,
+    }
+  })
+}
+
 async function cacheAMMs() {
   const losAMMs = await fetchAMMs()
 
   if (losAMMs.results && losAMMs.results.length > 0) {
     log.info(`Fetched ${losAMMs.results.length} AMMs from LOS...`)
+
+    // Cache raw AMMs immediately so the page is usable right away
     cachedAMMsList.results = losAMMs.results
     cachedAMMsList.last_updated = Date.now()
-    log.info(`Cached ${cachedAMMsList.results.length} AMMs`)
+    log.info(
+      `Cached ${cachedAMMsList.results.length} AMMs (enriching with token data and trading fees in background)`,
+    )
+
+    // Fetch token data in the background — updates the cache when ready
+    fetchTokenData(losAMMs.results)
+      .then((tokenDataMap) => {
+        cachedAMMsList.results = enrichAMMs(cachedAMMsList.results, tokenDataMap)
+        log.info(
+          `Updated cache with token data for ${Object.keys(tokenDataMap).length} tokens`,
+        )
+      })
+      .catch((e) => {
+        log.error(`Failed to fetch token data: ${e.message}`)
+      })
+
+    // Fetch trading fees in the background — updates the cache when ready
+    fetchTradingFees(losAMMs.results)
+      .then((tradingFeeMap) => {
+        cachedAMMsList.results = cachedAMMsList.results.map((amm) => ({
+          ...amm,
+          trading_fee:
+            tradingFeeMap[amm.amm_account_id] !== undefined
+              ? tradingFeeMap[amm.amm_account_id]
+              : amm.trading_fee,
+        }))
+        log.info(
+          `Updated cache with trading fees for ${Object.keys(tradingFeeMap).length} AMMs`,
+        )
+      })
+      .catch((e) => {
+        log.error(`Failed to fetch trading fees: ${e.message}`)
+      })
   } else if (cachedAMMsList.results.length > 0) {
     log.warn(
       `Failed to fetch AMMs from LOS, using stale cached data ` +

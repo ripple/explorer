@@ -1,7 +1,10 @@
 import { FC } from 'react'
 import { useTranslation } from 'react-i18next'
 import { AggregatedStats } from './api'
-import { parseCurrencyAmount } from '../shared/NumberFormattingUtils'
+import {
+  parseAmount,
+  parseCurrencyAmount,
+} from '../shared/NumberFormattingUtils'
 import InfoIcon from '../shared/images/general-info-icon.svg'
 import HoverIcon from '../shared/images/hover.svg'
 import { useTooltip } from '../shared/components/Tooltip'
@@ -28,39 +31,11 @@ export const GeneralInfoCard: FC<GeneralInfoCardProps> = ({
   const volume24h =
     currencyMode === 'usd' ? stats.trading_volume_usd : stats.trading_volume_xrp
 
-  // Format currency amounts with $ prefix for USD or XRP suffix for XRP
-  // Uses K/M/B abbreviations for values >= 1000
   const formatCurrencyAmount = (value: number): string => {
-    const suffix = currencyMode === 'xrp' ? ' XRP' : ''
-
-    if (value >= 1000000000) {
-      const formatted =
-        currencyMode === 'usd'
-          ? `$${(value / 1000000000).toFixed(2)}B`
-          : `${(value / 1000000000).toFixed(2)}B${suffix}`
-      return formatted
-    }
-    if (value >= 1000000) {
-      const formatted =
-        currencyMode === 'usd'
-          ? `$${(value / 1000000).toFixed(2)}M`
-          : `${(value / 1000000).toFixed(2)}M${suffix}`
-      return formatted
-    }
-    if (value >= 1000) {
-      const formatted =
-        currencyMode === 'usd'
-          ? `$${(value / 1000).toFixed(2)}K`
-          : `${(value / 1000).toFixed(2)}K${suffix}`
-      return formatted
-    }
-
-    // For values < 1000, use standard formatting
-    const formatted = parseCurrencyAmount(value.toString())
     if (currencyMode === 'xrp') {
-      return `${formatted.replace('$', '')} XRP`
+      return `${parseAmount(value)} XRP`
     }
-    return formatted
+    return parseCurrencyAmount(value)
   }
 
   const renderTooltip = (key: string) => (

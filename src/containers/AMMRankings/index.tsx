@@ -2,6 +2,7 @@ import { FC, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 import { Loader } from '../shared/components/Loader'
+import { CurrencySwitch } from '../shared/components/CurrencySwitch'
 import { Tooltip, useTooltip } from '../shared/components/Tooltip'
 import { useAnalytics } from '../shared/analytics'
 import Log from '../shared/log'
@@ -27,8 +28,8 @@ export const AMMRankings: FC = () => {
   const [showTVL, setShowTVL] = useState(true)
   const [showVolume, setShowVolume] = useState(true)
   const [timeRange, setTimeRange] = useState<TimeRange>('6M')
-  const [sortField, setSortField] = useState('tvl_usd')
-  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc')
+  const [sortField] = useState('tvl_usd')
+  const [sortOrder] = useState<'asc' | 'desc'>('desc')
 
   useEffect(() => {
     trackScreenLoaded()
@@ -85,38 +86,12 @@ export const AMMRankings: FC = () => {
       </div>
 
       <div className="controls">
-        <div className="currency-toggle-wrapper">
-          <span
-            className={
-              currencyMode === 'usd'
-                ? 'currency-label active'
-                : 'currency-label'
-            }
-          >
-            USD
-          </span>
-          <label className="toggle-switch" htmlFor="currency-toggle">
-            <input
-              id="currency-toggle"
-              type="checkbox"
-              checked={currencyMode === 'xrp'}
-              onChange={() =>
-                setCurrencyMode(currencyMode === 'usd' ? 'xrp' : 'usd')
-              }
-              aria-label="Currency mode toggle"
-            />
-            <span className="toggle-slider" />
-          </label>
-          <span
-            className={
-              currencyMode === 'xrp'
-                ? 'currency-label active'
-                : 'currency-label'
-            }
-          >
-            XRP
-          </span>
-        </div>
+        <CurrencySwitch
+          leftLabel="USD"
+          rightLabel="XRP"
+          selected={currencyMode === 'usd' ? 'USD' : 'XRP'}
+          onChange={(value) => setCurrencyMode(value === 'USD' ? 'usd' : 'xrp')}
+        />
 
         <label className="filter-checkbox" htmlFor="toggle-tvl">
           <input
@@ -162,10 +137,6 @@ export const AMMRankings: FC = () => {
 
           <AMMRankingsTable
             amms={ammRankingsData?.results || []}
-            sortField={sortField}
-            setSortField={setSortField}
-            sortOrder={sortOrder}
-            setSortOrder={setSortOrder}
             currencyMode={currencyMode}
           />
         </>

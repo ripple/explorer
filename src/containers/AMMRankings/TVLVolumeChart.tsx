@@ -2,7 +2,10 @@ import { FC } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TooltipProps } from 'recharts'
 import { HistoricalDataPoint } from './api'
-import { parseCurrencyAmount } from '../shared/NumberFormattingUtils'
+import {
+  parseAmount,
+  parseCurrencyAmount,
+} from '../shared/NumberFormattingUtils'
 import {
   DualAxisAreaChart,
   AxisConfig,
@@ -37,25 +40,14 @@ const formatDateTick = (value: string, timeRange: string): string => {
   return date.toLocaleDateString('en-US', { month: 'short', year: '2-digit' })
 }
 
-const formatTVLTick = (value: number, currencyMode: 'usd' | 'xrp'): string => {
-  const prefix = currencyMode === 'usd' ? '$' : ''
-
-  if (value === 0) return `${prefix}0`
-  if (value >= 1000000) return `${prefix}${(value / 1000000).toFixed(1)}M`
-  if (value >= 1000) return `${prefix}${(value / 1000).toFixed(0)}K`
-  return `${prefix}${value.toFixed(0)}`
-}
-
-const formatVolumeTick = (
+const formatCurrencyTick = (
   value: number,
   currencyMode: 'usd' | 'xrp',
 ): string => {
-  const prefix = currencyMode === 'usd' ? '$' : ''
-
-  if (value === 0) return `${prefix}0`
-  if (value >= 1000000) return `${prefix}${(value / 1000000).toFixed(1)}M`
-  if (value >= 1000) return `${prefix}${(value / 1000).toFixed(0)}K`
-  return `${prefix}${value.toFixed(0)}`
+  if (currencyMode === 'xrp') {
+    return parseAmount(value)
+  }
+  return parseCurrencyAmount(value)
 }
 
 const CustomTooltip = ({
@@ -111,7 +103,7 @@ export const TVLVolumeChart: FC<TVLVolumeChartProps> = ({
     dataKey: 'tvl',
     label: 'TVL',
     color: TVL_COLOR,
-    formatter: (value: number) => formatTVLTick(value, currencyMode),
+    formatter: (value: number) => formatCurrencyTick(value, currencyMode),
     show: showTVL,
   }
 
@@ -119,7 +111,7 @@ export const TVLVolumeChart: FC<TVLVolumeChartProps> = ({
     dataKey: 'volume',
     label: 'Volume',
     color: VOLUME_COLOR,
-    formatter: (value: number) => formatVolumeTick(value, currencyMode),
+    formatter: (value: number) => formatCurrencyTick(value, currencyMode),
     show: showVolume,
   }
 

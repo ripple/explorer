@@ -98,4 +98,3 @@ export const AMM_POOL_ROUTE: RouteDefinition<{
 export const AMM_RANKINGS_ROUTE: RouteDefinition = {
   path: '/amms',
 }
-}

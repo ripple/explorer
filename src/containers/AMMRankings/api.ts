@@ -15,11 +15,15 @@ export interface AMMPool {
   annual_percentage_return: number
   liquidity_provider_count: number
   amm_created_timestamp: string
-  asset_class_1?: string
-  asset_class_2?: string
-  // Token icons (fetched separately from LOS)
+  // Trading fee from amm_info RPC (0-1000, where 1000 = 1%)
+  trading_fee?: number
+  // Token data from LOS /tokens/batch-get (server-cached)
   icon_1?: string
   icon_2?: string
+  asset_class_1?: string
+  asset_class_2?: string
+  asset_subclass_1?: string
+  asset_subclass_2?: string
 }
 
 export interface AMMRankingsResponse {
@@ -56,69 +60,8 @@ export interface HistoricalTrendsResponse {
 }
 
 /**
- * Fetch token icon from LOS for a single token directly (client-side)
- */
-const fetchTokenIcon = async (
-  currency: string,
-  issuer: string,
-): Promise<string | undefined> => {
-  try {
-    const response = await axios.get(
-      `${process.env.VITE_LOS_URL}/tokens/${currency}.${issuer}`,
-    )
-    return response.data?.icon
-  } catch (error) {
-    // Silently fail - icon is optional
-    return undefined
-  }
-}
-
-/**
- * Helper function to delay execution
- */
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
-
-/**
- * Fetch token icons for AMM pools
- * Fetches icons individually from LOS API with chunking and delays to avoid rate limits
- */
-const fetchTokenIcons = async (
-  tokenIds: string[],
-): Promise<Record<string, string>> => {
-  if (tokenIds.length === 0) {
-    return {}
-  }
-
-  const iconMap: Record<string, string> = {}
-  const CHUNK_SIZE = 5 // Process 5 tokens at a time to avoid rate limits
-  const DELAY_BETWEEN_CHUNKS = 200 // 200ms delay between chunks
-
-  // Process tokens in chunks to avoid overwhelming the API
-  for (let i = 0; i < tokenIds.length; i += CHUNK_SIZE) {
-    const chunk = tokenIds.slice(i, i + CHUNK_SIZE)
-    const promises = chunk.map(async (tokenId) => {
-      const [currency, issuer] = tokenId.split('.')
-      if (currency && issuer) {
-        const icon = await fetchTokenIcon(currency, issuer)
-        if (icon) {
-          iconMap[tokenId] = icon
-        }
-      }
-    })
-    await Promise.all(promises)
-
-    // Add delay between chunks to avoid rate limiting (except for the last chunk)
-    if (i + CHUNK_SIZE < tokenIds.length) {
-      await delay(DELAY_BETWEEN_CHUNKS)
-    }
-  }
-
-  return iconMap
-}
-
-/**
  * Fetch AMM rankings (top 1000 AMMs)
- * Icons are NOT fetched here - they are fetched separately per page
+ * Icons, asset_class/asset_subclass, and trading_fee are included from server cache
  */
 export const fetchAMMRankings = async (
   sortField: string = 'tvl_usd',
@@ -138,31 +81,6 @@ export const fetchAMMRankings = async (
     console.error('Failed to fetch AMM rankings:', error)
     throw error
   }
-}
-
-/**
- * Fetch token icons for a specific set of AMMs (e.g., one page)
- * This allows lazy loading of icons only when needed
- */
-export const fetchIconsForAMMs = async (
-  amms: AMMPool[],
-): Promise<Record<string, string>> => {
-  // Collect unique currency-issuer pairs from the provided AMMs
-  // Key insight: currency_1 pairs with issuer_1, currency_2 pairs with issuer_2
-  const tokenPairs = new Set<string>()
-
-  amms.forEach((amm: AMMPool) => {
-    // For currency_1, use issuer_1 (not issuer_2)
-    if (amm.currency_1 && amm.issuer_1 && amm.currency_1 !== 'XRP') {
-      tokenPairs.add(`${amm.currency_1}.${amm.issuer_1}`)
-    }
-    // For currency_2, use issuer_2 (not issuer_1)
-    if (amm.currency_2 && amm.issuer_2 && amm.currency_2 !== 'XRP') {
-      tokenPairs.add(`${amm.currency_2}.${amm.issuer_2}`)
-    }
-  })
-
-  return fetchTokenIcons(Array.from(tokenPairs))
 }
 
 /**
