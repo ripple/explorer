@@ -104,7 +104,7 @@ export const MarketDataCard: FC<MarketDataCardProps> = ({
             {renderTooltipIcon(t('apr_24h_tooltip'))}
           </span>
           <span className="info-card-value">
-            {parsePercent(losData.annual_percentage_return * 100, 3, 0.001)}
+            {parsePercent(losData.annual_percentage_return, 3, 0.001)}
           </span>
         </div>
         {balance1 && (

@@ -241,7 +241,7 @@ export const AMMRankingsTable: FC<AMMRankingsTableProps> = ({
       </td>
       <td className="apr">
         {amm.annual_percentage_return != null
-          ? parsePercent(amm.annual_percentage_return * 100, 3)
+          ? parsePercent(amm.annual_percentage_return, 3)
           : DEFAULT_EMPTY_VALUE}
       </td>
     </tr>
