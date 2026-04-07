@@ -170,7 +170,6 @@ module.exports.getLedger = (parameters) => {
   })
 }
 
-
 // get AMM info by AMM account ID
 module.exports.getAMMInfo = (ammAccountId) =>
   query({
