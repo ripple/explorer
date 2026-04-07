@@ -1,7 +1,7 @@
 import { FC, useState, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { AMMPool } from './api'
-import Currency from '../shared/components/Currency'
+import Currency, { hexToString } from '../shared/components/Currency'
 import { Account } from '../shared/components/Account'
 import { CurrencySwitch } from '../shared/components/CurrencySwitch'
 import {
@@ -140,19 +140,31 @@ export const AMMRankingsTable: FC<AMMRankingsTableProps> = ({
       result = result.filter(
         (amm) =>
           amm.asset_class_1 === filterField ||
-          amm.asset_class_2 === filterField,
+          amm.asset_class_2 === filterField ||
+          amm.asset_subclass_1 === filterField ||
+          amm.asset_subclass_2 === filterField,
       )
     }
 
     if (searchQuery.trim()) {
       const q = searchQuery.trim().toLowerCase()
+      const decodeCurrency = (code: string): string => {
+        if (code.length === 40 && !code.startsWith('03')) {
+          return hexToString(code)
+        }
+        return code
+      }
       result = result.filter((amm) => {
         const currency1 = (amm.currency_1 || '').toLowerCase()
         const currency2 = (amm.currency_2 || '').toLowerCase()
+        const decoded1 = decodeCurrency(amm.currency_1 || '').toLowerCase()
+        const decoded2 = decodeCurrency(amm.currency_2 || '').toLowerCase()
         const accountId = (amm.amm_account_id || '').toLowerCase()
         return (
           currency1.includes(q) ||
           currency2.includes(q) ||
+          decoded1.includes(q) ||
+          decoded2.includes(q) ||
           accountId.includes(q)
         )
       })
@@ -229,7 +241,7 @@ export const AMMRankingsTable: FC<AMMRankingsTableProps> = ({
       </td>
       <td className="apr">
         {amm.annual_percentage_return != null
-          ? parsePercent(amm.annual_percentage_return)
+          ? parsePercent(amm.annual_percentage_return * 100, 3)
           : DEFAULT_EMPTY_VALUE}
       </td>
     </tr>
