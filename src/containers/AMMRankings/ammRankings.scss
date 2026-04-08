@@ -371,7 +371,7 @@
           color: $white;
           font-size: 14px;
           white-space: nowrap;
-          @include semibold;
+          @include regular;
 
           .currency {
             font: inherit;
