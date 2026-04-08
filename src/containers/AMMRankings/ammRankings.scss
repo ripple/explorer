@@ -243,7 +243,6 @@
     }
   }
 
-
   // ─── Table Wrapper ────────────────────────────────────────────
   .table-wrap {
     -webkit-overflow-scrolling: touch;
@@ -407,8 +406,8 @@
     .tvl-volume-section,
     .general-info-card {
       width: 100%;
-      max-width: none;
       min-width: 0;
+      max-width: none;
     }
   }
 

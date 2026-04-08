@@ -115,13 +115,10 @@ export const AMMRankingsTable: FC<AMMRankingsTableProps> = ({
   const tableRef = useRef<HTMLDivElement>(null)
   const pageSize = 15
 
-  const handlePageChange = useCallback(
-    (page: number) => {
-      setCurrentPage(page)
-      tableRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    },
-    [],
-  )
+  const handlePageChange = useCallback((page: number) => {
+    setCurrentPage(page)
+    tableRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }, [])
 
   const renderTooltip = (key: string, yOffset = 60) => (
     <HoverIcon
