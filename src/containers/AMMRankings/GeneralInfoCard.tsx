@@ -5,7 +5,7 @@ import {
   parseAmount,
   parseCurrencyAmount,
 } from '../shared/NumberFormattingUtils'
-import InfoIcon from '../shared/images/general-info-icon.svg'
+import InfoIcon from '../shared/images/info_book_icon.svg'
 import HoverIcon from '../shared/images/hover.svg'
 import { useTooltip } from '../shared/components/Tooltip'
 

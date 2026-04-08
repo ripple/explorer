@@ -2,13 +2,12 @@ import { FC, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 import { Loader } from '../shared/components/Loader'
-import { CurrencySwitch } from '../shared/components/CurrencySwitch'
 import { Tooltip, useTooltip } from '../shared/components/Tooltip'
+import { TVLVolumeChart } from '../shared/components/TVLVolumeChart'
 import { useAnalytics } from '../shared/analytics'
 import Log from '../shared/log'
 import { AMMRankingsTable } from './AMMRankingsTable'
 import { GeneralInfoCard } from './GeneralInfoCard'
-import { TVLVolumeChart } from './TVLVolumeChart'
 import {
   fetchAMMRankings,
   fetchAggregatedStats,
@@ -19,14 +18,14 @@ import './ammRankings.scss'
 type CurrencyMode = 'usd' | 'xrp'
 type TimeRange = '1W' | '1M' | '6M' | '1Y' | '5Y'
 
+const REFETCH_INTERVAL = 60 * 1000 // 1 minute
+
 export const AMMRankings: FC = () => {
   const { t } = useTranslation()
   const { trackScreenLoaded, trackException } = useAnalytics()
   const { tooltip } = useTooltip()
 
   const [currencyMode, setCurrencyMode] = useState<CurrencyMode>('usd')
-  const [showTVL, setShowTVL] = useState(true)
-  const [showVolume, setShowVolume] = useState(true)
   const [timeRange, setTimeRange] = useState<TimeRange>('6M')
   const [sortField] = useState('tvl_usd')
   const [sortOrder] = useState<'asc' | 'desc'>('desc')
@@ -39,7 +38,7 @@ export const AMMRankings: FC = () => {
     ['ammRankings', sortField, sortOrder],
     () => fetchAMMRankings(sortField, sortOrder),
     {
-      refetchInterval: 60 * 1000,
+      refetchInterval: REFETCH_INTERVAL,
       onError: (error) => {
         Log.error(error)
         trackException(`AMM rankings fetch --- ${JSON.stringify(error)}`)
@@ -51,7 +50,7 @@ export const AMMRankings: FC = () => {
     ['ammAggregatedStats'],
     () => fetchAggregatedStats(),
     {
-      refetchInterval: 60 * 1000,
+      refetchInterval: REFETCH_INTERVAL,
       onError: (error) => {
         Log.error(error)
         trackException(
@@ -65,7 +64,7 @@ export const AMMRankings: FC = () => {
     ['ammHistoricalTrends', timeRange],
     () => fetchHistoricalTrends(timeRange),
     {
-      refetchInterval: 60 * 1000,
+      refetchInterval: REFETCH_INTERVAL,
       onError: (error) => {
         Log.error(error)
         trackException(
@@ -85,48 +84,27 @@ export const AMMRankings: FC = () => {
         <h1 className="page-title">{t('amms')}</h1>
       </div>
 
-      <div className="controls">
-        <CurrencySwitch
-          leftLabel="USD"
-          rightLabel="XRP"
-          selected={currencyMode === 'usd' ? 'USD' : 'XRP'}
-          onChange={(value) => setCurrencyMode(value === 'USD' ? 'usd' : 'xrp')}
-        />
-
-        <label className="filter-checkbox" htmlFor="toggle-tvl">
-          <input
-            id="toggle-tvl"
-            type="checkbox"
-            checked={showTVL}
-            onChange={(e) => setShowTVL(e.target.checked)}
-          />
-          <span className="checkbox-custom" />
-          <span>{t('tvl')}</span>
-        </label>
-        <label className="filter-checkbox" htmlFor="toggle-volume">
-          <input
-            id="toggle-volume"
-            type="checkbox"
-            checked={showVolume}
-            onChange={(e) => setShowVolume(e.target.checked)}
-          />
-          <span className="checkbox-custom" />
-          <span>{t('volume')}</span>
-        </label>
-      </div>
-
       {isLoading ? (
         <Loader />
       ) : (
         <>
           <div className="chart-and-info-container">
             <TVLVolumeChart
-              data={historicalData?.data_points || []}
-              timeRange={timeRange}
-              setTimeRange={(range: string) => setTimeRange(range as TimeRange)}
-              showTVL={showTVL}
-              showVolume={showVolume}
-              currencyMode={currencyMode}
+              data={(historicalData?.data_points || []).map((point) => ({
+                date: point.date,
+                tvl:
+                  currencyMode === 'usd' ? point.tvl_usd : point.tvl_xrp,
+                volume:
+                  currencyMode === 'usd'
+                    ? point.trading_volume_usd
+                    : point.trading_volume_xrp,
+              }))}
+              isLoading={isLoadingHistory}
+              displayCurrency={currencyMode}
+              setDisplayCurrency={setCurrencyMode}
+              onTimeRangeChange={(range) =>
+                setTimeRange(range as TimeRange)
+              }
             />
 
             <GeneralInfoCard
