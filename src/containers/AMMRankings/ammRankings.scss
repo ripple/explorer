@@ -25,12 +25,14 @@
   // ─── Chart + General Info side-by-side ────────────────────────
   .chart-and-info-container {
     display: flex;
-    align-items: flex-start;
+    flex-direction: column-reverse;
+    align-items: stretch;
     margin-bottom: 40px;
     gap: 16px;
 
-    @include for-size(phone-only) {
-      flex-direction: column-reverse;
+    @include for-size(tablet-landscape-up) {
+      flex-direction: row;
+      align-items: flex-start;
     }
   }
 
@@ -38,7 +40,10 @@
   // which is the direct flex child of .chart-and-info-container.
   .tvl-volume-section {
     min-width: 0;
-    flex: 3;
+
+    @include for-size(tablet-landscape-up) {
+      flex: 3;
+    }
   }
 
   // ─── TVL/Volume Chart (overrides for shared styles) ──────────
@@ -48,9 +53,12 @@
 
   // ─── General Info Card ────────────────────────────────────────
   .general-info-card {
-    min-width: 200px;
-    max-width: 320px;
-    flex: 1;
+    @include for-size(tablet-landscape-up) {
+      min-width: 200px;
+      max-width: 320px;
+      flex: 1;
+    }
+
     padding: 20px 24px;
     border: 1px solid $black-70;
     border-radius: $border-radius;
@@ -397,17 +405,6 @@
     .page-header {
       flex-direction: column;
       align-items: flex-start;
-    }
-
-    .chart-and-info-container {
-      flex-direction: column-reverse;
-    }
-
-    .tvl-volume-section,
-    .general-info-card {
-      width: 100%;
-      min-width: 0;
-      max-width: none;
     }
   }
 
