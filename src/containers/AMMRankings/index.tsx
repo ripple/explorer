@@ -92,8 +92,7 @@ export const AMMRankings: FC = () => {
             <TVLVolumeChart
               data={(historicalData?.data_points || []).map((point) => ({
                 date: point.date,
-                tvl:
-                  currencyMode === 'usd' ? point.tvl_usd : point.tvl_xrp,
+                tvl: currencyMode === 'usd' ? point.tvl_usd : point.tvl_xrp,
                 volume:
                   currencyMode === 'usd'
                     ? point.trading_volume_usd
@@ -102,9 +101,7 @@ export const AMMRankings: FC = () => {
               isLoading={isLoadingHistory}
               displayCurrency={currencyMode}
               setDisplayCurrency={setCurrencyMode}
-              onTimeRangeChange={(range) =>
-                setTimeRange(range as TimeRange)
-              }
+              onTimeRangeChange={(range) => setTimeRange(range as TimeRange)}
             />
 
             <GeneralInfoCard
