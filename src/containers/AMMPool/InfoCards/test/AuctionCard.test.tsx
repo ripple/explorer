@@ -47,7 +47,7 @@ describe('AuctionCard', () => {
     expiration: '2026-03-28T14:30:00+0000',
     discounted_fee: 86,
     price: {
-      value: '100.5',
+      value: '50000',
       currency: '03930D02208264E2E40EC1B0C09E4DB96EE197B1',
       issuer: 'rJbt6ryq1TzikBuvVQDaxVLqL77eJeibsj',
     },
@@ -102,7 +102,7 @@ describe('AuctionCard', () => {
 
   it('renders Price Paid with LP token amount', () => {
     renderComponent(fullProps)
-    expect(screen.getByText(/100.5/)).toBeInTheDocument()
+    expect(screen.getByText(/50\.0K/)).toBeInTheDocument()
   })
 
   describe('Replacement Cost calculation', () => {
@@ -126,16 +126,15 @@ describe('AuctionCard', () => {
 
     it('uses first interval formula (time_interval=0)', () => {
       renderComponent(withTimeInterval(0))
-      // P = B * 1.05 + M = 100.5 * 1.05 + 1000 = 1105.525
-      expect(screen.getByText(/1,105/)).toBeInTheDocument()
+      // P = B * 1.05 + M = 50000 * 1.05 + 1000 = 53500 → "53.5K"
+      expect(screen.getByText(/53\.5K/)).toBeInTheDocument()
     })
 
     it('uses decay formula for middle intervals', () => {
-      renderComponent(withTimeInterval(10))
-      // t = 10/20 = 0.5, t^60 ≈ 0 (very small)
-      // P = B * 1.05 * (1 - 0.5^60) + M ≈ 100.5 * 1.05 + 1000 ≈ 1105.525
-      // (0.5^60 is essentially 0)
-      expect(screen.getByText(/1,105/)).toBeInTheDocument()
+      renderComponent(withTimeInterval(18))
+      // t = 18/20 = 0.9, t^60 ≈ 0.0018
+      // P = 50000 * 1.05 * (1 - 0.0018) + 1000 ≈ 53405.66 → "53.4K"
+      expect(screen.getByText(/53\.4K/)).toBeInTheDocument()
     })
   })
 })

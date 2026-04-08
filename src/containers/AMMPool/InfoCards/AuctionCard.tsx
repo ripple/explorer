@@ -54,8 +54,9 @@ const calcReplacementCost = (
     return null
   }
 
-  const fee = tradingFee / 100000
-  const M = (Number(lpTokenBalance) * fee) / 25
+  // XRPL stores trading fees as integers in units of 1/100,000 (e.g. 1000 = 1%)
+  const tradingFeeAsDecimal = tradingFee / 100000
+  const M = (Number(lpTokenBalance) * tradingFeeAsDecimal) / 25
 
   const hasHolder = !!auctionSlot?.account
   // time_interval: 0-19 = active intervals, 20 = expired
