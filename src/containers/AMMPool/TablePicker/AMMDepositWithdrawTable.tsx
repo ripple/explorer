@@ -105,7 +105,7 @@ export const AMMDepositWithdrawTable: FC<AMMDepositWithdrawTableProps> = ({
       {!isLoading && transactions.length > 0 && (
         <>
           <div className="notice-with-controls">
-            <div className="data-notice">{t('token_page.dex_data_notice')}</div>
+            <div className="data-notice">{t('data_available_from_notice')}</div>
           </div>
           <div className="table-wrap">
             <table className="basic" ref={tableRef}>
