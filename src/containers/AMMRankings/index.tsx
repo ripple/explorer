@@ -65,6 +65,7 @@ export const AMMRankings: FC = () => {
     () => fetchHistoricalTrends(timeRange),
     {
       refetchInterval: REFETCH_INTERVAL,
+      keepPreviousData: true,
       onError: (error) => {
         Log.error(error)
         trackException(
@@ -74,7 +75,13 @@ export const AMMRankings: FC = () => {
     },
   )
 
-  const isLoading = isLoadingRankings || isLoadingStats || isLoadingHistory
+  // Only show full-page loader on initial load.
+  // Subsequent refetches (e.g. time range changes) should not unmount the chart,
+  // otherwise its internal state (selected time range) resets.
+  const isInitialLoading =
+    (isLoadingRankings && !ammRankingsData) ||
+    (isLoadingStats && !aggregatedStats) ||
+    (isLoadingHistory && !historicalData)
 
   return (
     <div className="amm-rankings-page">
@@ -84,7 +91,7 @@ export const AMMRankings: FC = () => {
         <h1 className="page-title">{t('amms')}</h1>
       </div>
 
-      {isLoading ? (
+      {isInitialLoading ? (
         <Loader />
       ) : (
         <>

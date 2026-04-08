@@ -432,6 +432,7 @@
   "obligations_message": "Obligations are the total amounts of each token issued to addresses",
   "issuer": "Issuer",
   "pair": "Pair",
+  "asset_pair": "Asset Pair",
   "offer_range": "Offer Range",
   "custom_network": "Custom Network",
   "custom_network_input_help": "Enter custom network URL to access network's data.",

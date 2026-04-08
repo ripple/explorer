@@ -1,4 +1,4 @@
-import { FC, useState, useMemo } from 'react'
+import { FC, useState, useMemo, useRef, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { AMMPool } from './api'
 import Currency, { hexToString } from '../shared/components/Currency'
@@ -10,7 +10,7 @@ import {
   parsePercent,
   parseIntegerAmount,
 } from '../shared/NumberFormattingUtils'
-import { shortenAccount } from '../shared/utils'
+import { shortenAccount, formatTradingFee } from '../shared/utils'
 import { useTooltip } from '../shared/components/Tooltip'
 import HoverIcon from '../shared/images/hover.svg'
 import xrpIconSvg from '../shared/images/xrp_icon.svg?url'
@@ -112,7 +112,16 @@ export const AMMRankingsTable: FC<AMMRankingsTableProps> = ({
     currencyMode,
   )
   const [currentPage, setCurrentPage] = useState(1)
-  const pageSize = 10
+  const tableRef = useRef<HTMLDivElement>(null)
+  const pageSize = 15
+
+  const handlePageChange = useCallback(
+    (page: number) => {
+      setCurrentPage(page)
+      tableRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    },
+    [],
+  )
 
   const renderTooltip = (key: string, yOffset = 60) => (
     <HoverIcon
@@ -239,16 +248,21 @@ export const AMMRankingsTable: FC<AMMRankingsTableProps> = ({
           ? formatCurrencyAmount(getFees24h(amm))
           : DEFAULT_EMPTY_VALUE}
       </td>
+      <td className="trading-fee">
+        {amm.trading_fee != null
+          ? formatTradingFee(amm.trading_fee)
+          : DEFAULT_EMPTY_VALUE}
+      </td>
       <td className="apr">
         {amm.annual_percentage_return != null
-          ? parsePercent(amm.annual_percentage_return, 3)
+          ? parsePercent(amm.annual_percentage_return, 3, 0.001)
           : DEFAULT_EMPTY_VALUE}
       </td>
     </tr>
   )
 
   return (
-    <div className="amm-rankings-table-container">
+    <div className="amm-rankings-table-container" ref={tableRef}>
       <h2 className="table-title">{t('top_1000_amms')}</h2>
 
       <div className="table-controls">
@@ -294,7 +308,7 @@ export const AMMRankingsTable: FC<AMMRankingsTableProps> = ({
           <thead>
             <tr>
               <th className="rank">#</th>
-              <th className="pool">{t('pair')}</th>
+              <th className="pool">{t('asset_pair')}</th>
               <th className="amm-account-id">{t('amm_account_id')}</th>
               <th className="tvl">{t('tvl')}</th>
               <th className="lp-count"># OF LPS</th>
@@ -310,6 +324,7 @@ export const AMMRankingsTable: FC<AMMRankingsTableProps> = ({
                   {renderTooltip('fees_24h')}
                 </span>
               </th>
+              <th className="trading-fee">{t('trading_fee')}</th>
               <th className="apr has-tooltip">
                 <span className="sort-header">
                   APR (24H)
@@ -330,10 +345,10 @@ export const AMMRankingsTable: FC<AMMRankingsTableProps> = ({
       <Pagination
         totalItems={filteredAmms.length}
         currentPage={currentPage}
-        onPageChange={setCurrentPage}
+        onPageChange={handlePageChange}
         pageSize={pageSize}
-        scrollToTop={0}
-        showLastPage={false}
+        scrollToTop={null}
+        showLastPage
       />
     </div>
   )
