@@ -796,7 +796,7 @@
   "token_type.mpt": "MPT",
   "iou_page.trustlines": "# of Trustlines",
   "mpt_page.metadata_warning": "This MPT does not have metadata, or its metadata does not follow the <a>recommended metadata standards</a>. As a result, general overview and market data will be limited.",
-  "data_available_from_notice": "Data displayed is from 3/22/2024, 20:11:41 AM UTC onwards",
+  "data_available_from_notice": "Data displayed is from 3/22/2024, 08:11:41 PM UTC onwards",
   "copied": "Copied",
   "click_to_copy": "Click to copy",
   "withdraw": "withdraw",
