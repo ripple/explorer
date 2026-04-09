@@ -17,7 +17,7 @@
     .page-title {
       margin: 0;
       color: $white;
-      font-size: 32px;
+      font-size: 36px;
       @include bold;
     }
   }
@@ -27,10 +27,10 @@
     display: flex;
     flex-direction: column-reverse;
     align-items: stretch;
-    margin-bottom: 40px;
+    margin-bottom: 64px;
     gap: 16px;
 
-    @include for-size(tablet-landscape-up) {
+    @include for-size(desktop-up) {
       flex-direction: row;
       align-items: flex-start;
     }
@@ -40,23 +40,23 @@
   // which is the direct flex child of .chart-and-info-container.
   .tvl-volume-section {
     min-width: 0;
+    margin-bottom: 0; // Override shared component's 50px margin
 
-    @include for-size(tablet-landscape-up) {
+    @include for-size(desktop-up) {
       flex: 3;
     }
   }
 
-  // ─── TVL/Volume Chart (overrides for shared styles) ──────────
-  .tvl-volume-chart-container {
-    border-color: $black-70;
-  }
-
   // ─── General Info Card ────────────────────────────────────────
+  // Align the top of the card with the top of the chart container,
+  // accounting for the section title + controls above the chart.
   .general-info-card {
-    @include for-size(tablet-landscape-up) {
+    @include for-size(desktop-up) {
       min-width: 200px;
       max-width: 320px;
       flex: 1;
+      // Offset = chart-section-title height + margin + controls height + margin
+      margin-top: 84px;
     }
 
     padding: 20px 24px;
@@ -121,9 +121,11 @@
   // ─── Table section ────────────────────────────────────────────
   .amm-rankings-table-container {
     .table-title {
-      margin: 0 0 20px;
+      padding-bottom: 0;
+      border-bottom: none;
+      margin: 0 0 40px;
       color: $white;
-      font-size: 24px;
+      font-size: 20px;
       @include bold;
     }
   }
@@ -161,7 +163,7 @@
       background-color: $black;
       color: $white;
       cursor: pointer;
-      font-size: 13px;
+      font-size: 14px;
       gap: 6px;
       transition: background-color 0.15s;
       @include medium;
@@ -298,7 +300,7 @@
         .token-pair {
           position: relative;
           display: flex;
-          width: 44px; // Fixed width: 28px (first icon) + 16px (second icon visible after -12px overlap)
+          width: 48px; // Fixed width: 28px (first icon) + 20px (second icon visible after -8px overlap)
           flex-shrink: 0;
           align-items: center;
 
@@ -310,7 +312,7 @@
 
             &:nth-child(2) {
               z-index: 1;
-              margin-left: -12px; // Overlap the second icon over the first
+              margin-left: -8px; // Overlap per Figma: 24px icon offset at 16px → 8px overlap
             }
 
             &:first-child {
@@ -414,7 +416,7 @@
 
     .page-header {
       .page-title {
-        font-size: 42px;
+        font-size: 36px;
       }
     }
 

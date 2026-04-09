@@ -235,6 +235,11 @@ export const AMMRankingsTable: FC<AMMRankingsTableProps> = ({
           ? parseIntegerAmount(amm.liquidity_provider_count.toString())
           : DEFAULT_EMPTY_VALUE}
       </td>
+      <td className="trading-fee">
+        {amm.trading_fee != null
+          ? `${formatTradingFee(amm.trading_fee)}%`
+          : DEFAULT_EMPTY_VALUE}
+      </td>
       <td className="volume">
         {getVolume(amm) != null
           ? formatCurrencyAmount(getVolume(amm))
@@ -243,11 +248,6 @@ export const AMMRankingsTable: FC<AMMRankingsTableProps> = ({
       <td className="fees-24h">
         {getFees24h(amm) != null
           ? formatCurrencyAmount(getFees24h(amm))
-          : DEFAULT_EMPTY_VALUE}
-      </td>
-      <td className="trading-fee">
-        {amm.trading_fee != null
-          ? formatTradingFee(amm.trading_fee)
           : DEFAULT_EMPTY_VALUE}
       </td>
       <td className="apr">
@@ -280,7 +280,7 @@ export const AMMRankingsTable: FC<AMMRankingsTableProps> = ({
             <input
               type="text"
               className="amm-search"
-              placeholder="Search AMMs"
+              placeholder={t('search_amms')}
               value={searchQuery}
               onChange={(e) => {
                 setSearchQuery(e.target.value)
@@ -308,7 +308,8 @@ export const AMMRankingsTable: FC<AMMRankingsTableProps> = ({
               <th className="pool">{t('asset_pair')}</th>
               <th className="amm-account-id">{t('amm_account_id')}</th>
               <th className="tvl">{t('tvl')}</th>
-              <th className="lp-count"># OF LPS</th>
+              <th className="lp-count">{t('number_of_lps')}</th>
+              <th className="trading-fee">{t('trading_fee')}</th>
               <th className="volume has-tooltip">
                 <span className="sort-header">
                   {t('volume_24h')}
@@ -317,14 +318,13 @@ export const AMMRankingsTable: FC<AMMRankingsTableProps> = ({
               </th>
               <th className="fees-24h has-tooltip">
                 <span className="sort-header">
-                  FEES (24H)
+                  {t('fees_24h')}
                   {renderTooltip('fees_24h')}
                 </span>
               </th>
-              <th className="trading-fee">{t('trading_fee')}</th>
               <th className="apr has-tooltip">
                 <span className="sort-header">
-                  APR (24H)
+                  {t('apr_24h')}
                   {renderTooltip('apr_24h')}
                 </span>
               </th>

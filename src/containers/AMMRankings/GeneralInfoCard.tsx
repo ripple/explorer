@@ -61,7 +61,10 @@ export const GeneralInfoCard: FC<GeneralInfoCardProps> = ({
 
       <div className="stats-container">
         <div className="stat-row">
-          <div className="stat-label">{t('tvl')}</div>
+          <div className="stat-label">
+            {t('tvl')}
+            {renderTooltip('tvl')}
+          </div>
           <div className="stat-value">
             {tvl ? formatCurrencyAmount(tvl) : DEFAULT_EMPTY_VALUE}
           </div>
@@ -92,7 +95,10 @@ export const GeneralInfoCard: FC<GeneralInfoCardProps> = ({
         </div>
 
         <div className="stat-row">
-          <div className="stat-label">{t('volume_24h' as any)}</div>
+          <div className="stat-label">
+            {t('volume_24h' as any)}
+            {renderTooltip('volume_24h_all')}
+          </div>
           <div className="stat-value">
             {volume24h ? formatCurrencyAmount(volume24h) : DEFAULT_EMPTY_VALUE}
           </div>

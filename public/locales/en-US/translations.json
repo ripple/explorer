@@ -917,5 +917,8 @@
   "number_of_amms": "# of AMMs",
   "number_of_lps": "# of LPs",
   "number_of_amms_tooltip": "Number of active AMM pools with deposit/withdrawal activity",
-  "number_of_lps_tooltip": "Number of unique liquidity providers across all AMM pools"
+  "number_of_lps_tooltip": "Number of unique liquidity providers across all AMM pools",
+  "search_amms": "Search AMMs",
+  "tvl_tooltip": "Total value locked across all active AMM pools",
+  "volume_24h_all_tooltip": "Total DEX trading volume across all active AMM pools from 00:00–23:59 UTC of the previous day"
 }

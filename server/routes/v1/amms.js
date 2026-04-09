@@ -226,8 +226,36 @@ async function cacheAMMs() {
   if (losAMMs.results && losAMMs.results.length > 0) {
     log.info(`Fetched ${losAMMs.results.length} AMMs from LOS...`)
 
-    // Cache raw AMMs immediately so the page is usable right away
-    cachedAMMsList.results = losAMMs.results
+    // Build a map of previously cached trading fees + token data so they
+    // survive across cache refreshes while fetchTradingFees re-fetches (~100s).
+    // Only carry over fields that have defined values to avoid overwriting
+    // fresh LOS data with undefined.
+    const previousDataMap = {}
+    cachedAMMsList.results.forEach((amm) => {
+      if (amm.amm_account_id) {
+        const prev = {}
+        if (amm.trading_fee !== undefined) prev.trading_fee = amm.trading_fee
+        if (amm.icon_1 !== undefined) prev.icon_1 = amm.icon_1
+        if (amm.icon_2 !== undefined) prev.icon_2 = amm.icon_2
+        if (amm.asset_class_1 !== undefined)
+          prev.asset_class_1 = amm.asset_class_1
+        if (amm.asset_class_2 !== undefined)
+          prev.asset_class_2 = amm.asset_class_2
+        if (amm.asset_subclass_1 !== undefined)
+          prev.asset_subclass_1 = amm.asset_subclass_1
+        if (amm.asset_subclass_2 !== undefined)
+          prev.asset_subclass_2 = amm.asset_subclass_2
+        if (Object.keys(prev).length > 0) {
+          previousDataMap[amm.amm_account_id] = prev
+        }
+      }
+    })
+
+    // Cache AMMs immediately, carrying over previously enriched data
+    cachedAMMsList.results = losAMMs.results.map((amm) => ({
+      ...amm,
+      ...(previousDataMap[amm.amm_account_id] || {}),
+    }))
     cachedAMMsList.last_updated = Date.now()
     log.info(
       `Cached ${cachedAMMsList.results.length} AMMs (enriching with token data and trading fees in background)`,

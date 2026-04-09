@@ -917,5 +917,8 @@
   "number_of_amms": null,
   "number_of_lps": null,
   "number_of_amms_tooltip": null,
-  "number_of_lps_tooltip": null
+  "number_of_lps_tooltip": null,
+  "search_amms": null,
+  "tvl_tooltip": null,
+  "volume_24h_all_tooltip": null
 }
