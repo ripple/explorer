@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { Account } from '../Account'
 import { Loader } from '../Loader'
 import { EmptyStateMessage } from '../EmptyStateMessage'
-import { useTooltip, Tooltip } from '../Tooltip'
+import { useTooltip } from '../Tooltip'
 import HoverIcon from '../../images/hover.svg'
 import ArrowIcon from '../../images/down_arrow.svg'
 import './styles.scss'
@@ -66,7 +66,7 @@ export const DexTradeTable = ({
 }: DexTradeTableProps) => {
   const { t } = useTranslation()
   const language = useLanguage()
-  const { tooltip, showTooltip, hideTooltip } = useTooltip()
+  const { showTooltip, hideTooltip } = useTooltip()
   const tableRef = useRef<HTMLTableElement>(null)
 
   // Scroll to top of table when page changes
@@ -185,7 +185,6 @@ export const DexTradeTable = ({
 
   return (
     <div className="tokens-table">
-      <Tooltip tooltip={tooltip} />
       {isLoading && <Loader />}
 
       {!isLoading && transactions && transactions.length > 0 && (

@@ -13,6 +13,7 @@ import { ErrorMessages } from '../../shared/Interfaces'
 import { TOKEN_ROUTE } from '../../App/routes'
 import { useRouteParams } from '../../shared/routing'
 import { Loader } from '../../shared/components/Loader'
+import { Tooltip, useTooltip } from '../../shared/components/Tooltip'
 import SocketContext from '../../shared/SocketContext'
 import { getAMMInfoByAssets } from '../../../rippled/lib/rippled'
 import getTokenHolders from './api/holders'
@@ -53,6 +54,7 @@ const Page: FC<PropsWithChildren<{ accountId: string }>> = ({
 
 export const IOU = () => {
   const { trackScreenLoaded, trackException } = useAnalytics()
+  const { tooltip } = useTooltip()
   const { token = '' } = useRouteParams(TOKEN_ROUTE)
   const [currency, accountId] = token.split('.')
 
@@ -228,6 +230,7 @@ export const IOU = () => {
           />
         </div>
       )}
+      <Tooltip tooltip={tooltip} />
     </Page>
   )
 }

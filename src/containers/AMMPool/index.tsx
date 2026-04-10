@@ -11,6 +11,7 @@ import { getAMMInfoByAMMAccount } from '../../rippled/lib/rippled'
 import { NOT_FOUND, BAD_REQUEST } from '../shared/utils'
 import { ErrorMessage } from '../shared/Interfaces'
 import { formatAmount } from '../../rippled/lib/txSummary/formatAmount'
+import { Tooltip, useTooltip } from '../shared/components/Tooltip'
 import { AMMPoolHeader } from './AMMPoolHeader'
 import { BasicInfoCard } from './InfoCards/BasicInfoCard'
 import { MarketDataCard } from './InfoCards/MarketDataCard'
@@ -97,6 +98,7 @@ export const AMMPool = () => {
   const [displayCurrency, setDisplayCurrency] = useState<'usd' | 'xrp'>('usd')
   const rippledSocket = useContext(SocketContext)
   const isMainnet = process.env.VITE_ENVIRONMENT === 'mainnet'
+  const { tooltip } = useTooltip()
 
   // Fetch on-ledger AMM data from Clio (balances, auction slot, trading fee)
   const { data: ammInfo, isFetching: ammInfoLoading } = useQuery(
@@ -285,6 +287,7 @@ export const AMMPool = () => {
           />
         </>
       )}
+      <Tooltip tooltip={tooltip} />
     </Page>
   )
 }

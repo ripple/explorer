@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Tooltip, useTooltip } from '../../shared/components/Tooltip'
+import { useTooltip } from '../../shared/components/Tooltip'
 import HoverIcon from '../../shared/images/hover.svg'
 import MarketDataIcon from '../../shared/images/market_data_icon.svg'
 import {
@@ -51,7 +51,7 @@ export const MarketDataCard: FC<MarketDataCardProps> = ({
   lpTokenBalance,
 }) => {
   const { t } = useTranslation()
-  const { tooltip, showTooltip, hideTooltip } = useTooltip()
+  const { showTooltip, hideTooltip } = useTooltip()
 
   const renderTooltipIcon = (text: string) => (
     <HoverIcon
@@ -69,7 +69,6 @@ export const MarketDataCard: FC<MarketDataCardProps> = ({
 
   return (
     <div className="amm-pool-info-card">
-      <Tooltip tooltip={tooltip} />
       <h3 className="info-card-title">
         <MarketDataIcon className="info-card-icon" />
         {t('market_data')}

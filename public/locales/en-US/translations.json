@@ -787,7 +787,7 @@
   "token_page.circulating_supply": "Circ Supply",
   "token_page.dex_type": "Type",
   "token_page.dex_amount_in_tooltip": "The amount of tokens sent by the \"FROM\" account in the trade",
-  "token_page.dex_amount_out_tooltip": "The amount of tokens sent out by the \"To\" account in the trade",
+  "token_page.dex_amount_out_tooltip": "The amount of tokens sent out by the \"TO\" account in the trade",
   "token_page.dex_rate_tooltip": "Amount Out / Amount In",
   "token_page.dex_no_trades": "No dex trades found",
   "token_page.token_label": "Token",
