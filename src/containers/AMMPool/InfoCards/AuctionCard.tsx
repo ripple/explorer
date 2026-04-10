@@ -6,6 +6,7 @@ import {
   formatTradingFee,
   localizeDate,
   DATE_OPTIONS_NUMERIC,
+  TRADING_FEE_BASE,
 } from '../../shared/utils'
 import {
   parseAmount,
@@ -55,7 +56,7 @@ const calcReplacementCost = (
   }
 
   // XRPL stores trading fees as integers in units of 1/100,000 (e.g. 1000 = 1%)
-  const tradingFeeAsDecimal = tradingFee / 100000
+  const tradingFeeAsDecimal = tradingFee / TRADING_FEE_BASE
   const M = (Number(lpTokenBalance) * tradingFeeAsDecimal) / 25
 
   const hasHolder = !!auctionSlot?.account
