@@ -276,18 +276,19 @@ export const AMMRankingsTable: FC<AMMRankingsTableProps> = ({
               <span>{CATEGORY_LABELS[cat]}</span>
             </button>
           ))}
-          <div className="search-wrapper">
-            <input
-              type="text"
-              className="amm-search"
-              placeholder={t('search_amms')}
-              value={searchQuery}
-              onChange={(e) => {
-                setSearchQuery(e.target.value)
-                setCurrentPage(1) // Reset to first page when search changes
-              }}
-            />
-          </div>
+        </div>
+
+        <div className="search-wrapper">
+          <input
+            type="text"
+            className="amm-search"
+            placeholder={t('search_amms')}
+            value={searchQuery}
+            onChange={(e) => {
+              setSearchQuery(e.target.value)
+              setCurrentPage(1) // Reset to first page when search changes
+            }}
+          />
         </div>
 
         <CurrencySwitch
