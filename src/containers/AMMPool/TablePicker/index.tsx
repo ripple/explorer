@@ -21,6 +21,7 @@ import { AMMDepositWithdrawTable } from './AMMDepositWithdrawTable'
 import { AMMDepositWithdrawTx, FormattedBalance } from '../types'
 import getTokenHolders from '../../Token/IOU/api/holders'
 
+const BATCH_SIZE = 200
 const PAGE_SIZE = 10
 
 // Format DEX trade from LOS /dex-trades response
@@ -97,7 +98,7 @@ const dexTradesPagination = new CursorPaginationService<LOSDEXTransaction>({
   fetchFn: (id, size, cursor, direction, sortField, sortOrder) =>
     fetchAMMDexTrades(id, size, cursor, direction, sortField, sortOrder),
   formatFn: formatDexTrade,
-  batchSize: 200,
+  batchSize: BATCH_SIZE,
   pageSize: PAGE_SIZE,
 })
 
@@ -135,7 +136,7 @@ export const AMMPoolTablePicker: FC<AMMPoolTablePickerProps> = ({
         fetchFn: (id, size, cursor, direction) =>
           fetchAMMTransactions(id, 'AMMDeposit', size, cursor, direction),
         formatFn: buildFormatDepositWithdraw(asset1, asset2),
-        batchSize: 200,
+        batchSize: BATCH_SIZE,
         pageSize: PAGE_SIZE,
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -148,7 +149,7 @@ export const AMMPoolTablePicker: FC<AMMPoolTablePickerProps> = ({
         fetchFn: (id, size, cursor, direction) =>
           fetchAMMTransactions(id, 'AMMWithdraw', size, cursor, direction),
         formatFn: buildFormatDepositWithdraw(asset1, asset2),
-        batchSize: 200,
+        batchSize: BATCH_SIZE,
         pageSize: PAGE_SIZE,
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
