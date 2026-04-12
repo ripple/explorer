@@ -84,7 +84,9 @@ export const MarketDataCard: FC<MarketDataCardProps> = ({
           <>
             <div className="info-card-row">
               <span className="info-card-label">{t('tvl')}</span>
-              <span className="info-card-value">{parseCurrencyAmount(tvl)}</span>
+              <span className="info-card-value">
+                {parseCurrencyAmount(tvl)}
+              </span>
             </div>
             <div className="info-card-row">
               <span className="info-card-label">
