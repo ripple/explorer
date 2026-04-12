@@ -4,7 +4,10 @@ import { TooltipProps } from 'recharts'
 import { HistoricalDataPoint } from './api'
 import { parseCurrencyAmount } from '../shared/NumberFormattingUtils'
 import { useTooltip } from '../shared/components/Tooltip'
-import { DualAxisAreaChart, AxisConfig } from '../shared/components/DualAxisAreaChart'
+import {
+  DualAxisAreaChart,
+  AxisConfig,
+} from '../shared/components/DualAxisAreaChart'
 
 interface TVLVolumeChartProps {
   data: HistoricalDataPoint[]
@@ -41,7 +44,10 @@ const formatTVLTick = (value: number, currencyMode: 'usd' | 'xrp'): string => {
   return `${prefix}${value.toFixed(0)}`
 }
 
-const formatVolumeTick = (value: number, currencyMode: 'usd' | 'xrp'): string => {
+const formatVolumeTick = (
+  value: number,
+  currencyMode: 'usd' | 'xrp',
+): string => {
   const prefix = currencyMode === 'usd' ? '$' : ''
 
   if (value === 0) return `${prefix}0`
@@ -65,8 +71,12 @@ const CustomTooltip = ({
     return (
       <div className="chart-tooltip">
         <p className="tooltip-label">{formattedDate}</p>
-        {payload.map((entry, index) => (
-          <p key={index} className="tooltip-value" style={{ color: entry.color }}>
+        {payload.map((entry) => (
+          <p
+            key={entry.name}
+            className="tooltip-value"
+            style={{ color: entry.color }}
+          >
             {entry.name}: {parseCurrencyAmount(String(entry.value ?? 0))}
           </p>
         ))}
@@ -91,7 +101,9 @@ export const TVLVolumeChart: FC<TVLVolumeChartProps> = ({
     date: point.date,
     tvl: currencyMode === 'usd' ? point.tvl_usd : point.tvl_xrp,
     volume:
-      currencyMode === 'usd' ? point.trading_volume_usd : point.trading_volume_xrp,
+      currencyMode === 'usd'
+        ? point.trading_volume_usd
+        : point.trading_volume_xrp,
   }))
 
   const leftAxis: AxisConfig = {
@@ -141,6 +153,13 @@ export const TVLVolumeChart: FC<TVLVolumeChartProps> = ({
         <div
           className="legend-item"
           onMouseOver={(e) => {
+            const rect = e.currentTarget.getBoundingClientRect()
+            showTooltip('text', e, t('tvl_tooltip'), {
+              x: rect.left + rect.width / 2,
+              y: rect.top - 60,
+            })
+          }}
+          onFocus={(e) => {
             const rect = e.currentTarget.getBoundingClientRect()
             showTooltip('text', e, t('tvl_tooltip'), {
               x: rect.left + rect.width / 2,
