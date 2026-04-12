@@ -54,9 +54,9 @@ export const MarketDataCard: FC<MarketDataCardProps> = ({
   const { tooltip, showTooltip, hideTooltip } = useTooltip()
 
   // Market Data Card always shows USD values (toggle doesn't affect it)
-  const tvl = losData?.tvl_usd
-  const volume = losData?.trading_volume_usd
-  const fees = losData?.fees_collected_usd
+  const tvl = losData?.tvl_usd ?? 0
+  const volume = losData?.trading_volume_usd ?? 0
+  const fees = losData?.fees_collected_usd ?? 0
 
   const renderTooltipIcon = (text: string) => (
     <HoverIcon
