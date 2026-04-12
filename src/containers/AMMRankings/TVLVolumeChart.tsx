@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import React, { FC } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TooltipProps } from 'recharts'
 import { HistoricalDataPoint } from './api'
@@ -161,10 +161,15 @@ export const TVLVolumeChart: FC<TVLVolumeChartProps> = ({
           }}
           onFocus={(e) => {
             const rect = e.currentTarget.getBoundingClientRect()
-            showTooltip('text', e, t('tvl_tooltip'), {
-              x: rect.left + rect.width / 2,
-              y: rect.top - 60,
-            })
+            showTooltip(
+              'text',
+              e as unknown as React.MouseEvent<HTMLElement>,
+              t('tvl_tooltip'),
+              {
+                x: rect.left + rect.width / 2,
+                y: rect.top - 60,
+              },
+            )
           }}
           onMouseLeave={() => hideTooltip()}
         >
