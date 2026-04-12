@@ -494,6 +494,8 @@
   "effective_price": "Preu real",
   "amm_account_id": "ID de Comtpe AMM",
   "lp_tokens": "Tokens LP",
+  "lp_token_balance": "Saldo de tokens LP",
+  "token_balance": "Saldo de tokens",
   "min_slot_price": "Preu mínim de l'obertura",
   "max_slot_price": " Preu màxim de l'obertura",
   "auth_accounts": "Comtpes autoritzats",

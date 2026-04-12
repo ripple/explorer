@@ -495,6 +495,8 @@
   "effective_price": "Precio Efectivo",
   "amm_account_id": "ID de Cuenta AMM",
   "lp_tokens": "Tokens LP",
+  "lp_token_balance": "Saldo de tokens LP",
+  "token_balance": "Saldo de tokens",
   "min_slot_price": "Precio Mínimo de Puja",
   "max_slot_price": " Precio Máximo de Puja",
   "auth_accounts": "Cuentas Autorizadas",
