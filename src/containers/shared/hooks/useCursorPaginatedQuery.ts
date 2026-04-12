@@ -55,11 +55,14 @@ export function useCursorPaginatedQuery<T>({
     initialSortOrder,
   )
   const [refreshCount, setRefreshCount] = useState(0)
+  const [data, setData] = useState<PaginationResult<T> | undefined>(undefined)
+  const [isLoading, setIsLoading] = useState(true)
 
   const setSortField = useCallback(
     (field: string) => {
       setSortFieldState(field)
       setPage(1)
+      setIsLoading(true)
       service.clearCache()
     },
     [service],
@@ -69,6 +72,7 @@ export function useCursorPaginatedQuery<T>({
     (order: 'asc' | 'desc') => {
       setSortOrderState(order)
       setPage(1)
+      setIsLoading(true)
       service.clearCache()
     },
     [service],
@@ -77,11 +81,9 @@ export function useCursorPaginatedQuery<T>({
   const refresh = useCallback(() => {
     service.clearCache()
     setPage(1)
+    setIsLoading(true)
     setRefreshCount((c) => c + 1)
   }, [service])
-
-  const [data, setData] = useState<PaginationResult<T> | undefined>(undefined)
-  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     if (!enabled) {

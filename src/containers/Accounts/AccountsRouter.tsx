@@ -17,7 +17,7 @@ import { Error } from '../../rippled/lib/utils'
 import { BAD_REQUEST } from '../shared/utils'
 import { buildPath } from '../shared/routing'
 import { AMM_POOL_ROUTE } from '../App/routes'
-import { getLiquidatedAMMData } from '../AMMPool/utils'
+import { detectLiquidatedAMM } from '../AMMPool/utils'
 
 const getErrorMessage = (error: any) =>
   ERROR_MESSAGES[error] || ERROR_MESSAGES.default
@@ -63,7 +63,7 @@ export const AccountsRouter = () => {
         .catch(async (responseError: Error) => {
           if (responseError?.code === 404) {
             // Check if this is a liquidated AMM pool
-            const liquidatedAmm = await getLiquidatedAMMData(
+            const liquidatedAmm = await detectLiquidatedAMM(
               rippledSocket,
               classicAddress,
             )

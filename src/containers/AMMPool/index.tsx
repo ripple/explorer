@@ -18,7 +18,7 @@ import { AuctionCard } from './InfoCards/AuctionCard'
 import { AMMPoolTablePicker } from './TablePicker'
 import { TVLVolumeChart } from './TVLVolumeChart'
 import { fetchAMMPoolData, fetchAMMCreatedTimestamp } from './api'
-import { getLiquidatedAMMData, LiquidatedAMMData } from './utils'
+import { detectLiquidatedAMM, LiquidatedAMMData } from './utils'
 import { FormattedBalance } from './types'
 import './styles.scss'
 
@@ -113,7 +113,7 @@ export const AMMPool = () => {
   const ammInfoFailed = !ammInfoLoading && !ammInfo && !!ammAccountId
   const { data: liquidatedData, isFetching: liquidatedLoading } = useQuery(
     ['ammLiquidated', ammAccountId],
-    () => getLiquidatedAMMData(rippledSocket, ammAccountId),
+    () => detectLiquidatedAMM(rippledSocket, ammAccountId),
     {
       enabled: ammInfoFailed,
       onError: () => {
@@ -253,7 +253,7 @@ export const AMMPool = () => {
             asset1={asset1}
             asset2={asset2}
             tvlUsd={losData?.tvl_usd}
-            isLiquidated={isLiquidated}
+            isDeleted={isLiquidated}
           />
         </>
       )}

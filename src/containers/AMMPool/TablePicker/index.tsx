@@ -114,7 +114,7 @@ interface AMMPoolTablePickerProps {
   asset1: FormattedBalance | null
   asset2: FormattedBalance | null
   tvlUsd?: number
-  isLiquidated?: boolean
+  isDeleted?: boolean
 }
 
 export const AMMPoolTablePicker: FC<AMMPoolTablePickerProps> = ({
@@ -125,7 +125,7 @@ export const AMMPoolTablePicker: FC<AMMPoolTablePickerProps> = ({
   asset1,
   asset2,
   tvlUsd,
-  isLiquidated = false,
+  isDeleted = false,
 }) => {
   const { t } = useTranslation()
   const { trackException } = useAnalytics()
@@ -261,7 +261,7 @@ export const AMMPoolTablePicker: FC<AMMPoolTablePickerProps> = ({
           { id: 'dex-trades', labelKey: 'dex_trades' },
           { id: 'deposits', labelKey: 'deposits' },
           { id: 'withdrawals', labelKey: 'withdrawals' },
-          ...(!isLiquidated ? [{ id: 'holders', labelKey: 'holders' }] : []),
+          ...(!isDeleted ? [{ id: 'holders', labelKey: 'holders' }] : []),
         ]
       : []),
   ]

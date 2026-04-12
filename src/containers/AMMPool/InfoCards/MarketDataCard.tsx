@@ -38,7 +38,7 @@ const BalanceLabel = ({
 }
 
 interface MarketDataCardProps {
-  losData: AMMPoolLOSData
+  losData?: AMMPoolLOSData
   balance1: FormattedBalance | null
   balance2: FormattedBalance | null
   lpTokenBalance: string | undefined
@@ -54,9 +54,9 @@ export const MarketDataCard: FC<MarketDataCardProps> = ({
   const { tooltip, showTooltip, hideTooltip } = useTooltip()
 
   // Market Data Card always shows USD values (toggle doesn't affect it)
-  const tvl = losData.tvl_usd
-  const volume = losData.trading_volume_usd
-  const fees = losData.fees_collected_usd
+  const tvl = losData?.tvl_usd
+  const volume = losData?.trading_volume_usd
+  const fees = losData?.fees_collected_usd
 
   const renderTooltipIcon = (text: string) => (
     <HoverIcon
@@ -80,33 +80,41 @@ export const MarketDataCard: FC<MarketDataCardProps> = ({
         {t('market_data')}
       </h3>
       <div className="info-card-rows">
-        <div className="info-card-row">
-          <span className="info-card-label">{t('tvl')}</span>
-          <span className="info-card-value">{parseCurrencyAmount(tvl)}</span>
-        </div>
-        <div className="info-card-row">
-          <span className="info-card-label">
-            {t('volume_24h')}
-            {renderTooltipIcon(t('volume_24h_tooltip'))}
-          </span>
-          <span className="info-card-value">{parseCurrencyAmount(volume)}</span>
-        </div>
-        <div className="info-card-row">
-          <span className="info-card-label">
-            {t('fees_24h')}
-            {renderTooltipIcon(t('fees_24h_tooltip'))}
-          </span>
-          <span className="info-card-value">{parseCurrencyAmount(fees)}</span>
-        </div>
-        <div className="info-card-row">
-          <span className="info-card-label">
-            {t('apr_24h')}
-            {renderTooltipIcon(t('apr_24h_tooltip'))}
-          </span>
-          <span className="info-card-value">
-            {parsePercent(losData.annual_percentage_return, 3, 0.001)}
-          </span>
-        </div>
+        {losData && (
+          <>
+            <div className="info-card-row">
+              <span className="info-card-label">{t('tvl')}</span>
+              <span className="info-card-value">{parseCurrencyAmount(tvl)}</span>
+            </div>
+            <div className="info-card-row">
+              <span className="info-card-label">
+                {t('volume_24h')}
+                {renderTooltipIcon(t('volume_24h_tooltip'))}
+              </span>
+              <span className="info-card-value">
+                {parseCurrencyAmount(volume)}
+              </span>
+            </div>
+            <div className="info-card-row">
+              <span className="info-card-label">
+                {t('fees_24h')}
+                {renderTooltipIcon(t('fees_24h_tooltip'))}
+              </span>
+              <span className="info-card-value">
+                {parseCurrencyAmount(fees)}
+              </span>
+            </div>
+            <div className="info-card-row">
+              <span className="info-card-label">
+                {t('apr_24h')}
+                {renderTooltipIcon(t('apr_24h_tooltip'))}
+              </span>
+              <span className="info-card-value">
+                {parsePercent(losData.annual_percentage_return, 3, 0.001)}
+              </span>
+            </div>
+          </>
+        )}
         {balance1 && (
           <div className="info-card-row">
             <BalanceLabel
@@ -134,10 +142,12 @@ export const MarketDataCard: FC<MarketDataCardProps> = ({
             <span className="info-card-label">{t('lp_tokens')}</span>
             <span className="info-card-value">
               <div>{parseAmount(lpTokenBalance)}</div>
-              <div className="info-card-subtitle">
-                {parseIntegerAmount(losData.liquidity_provider_count)}{' '}
-                {t('liquidity_providers')}
-              </div>
+              {losData && (
+                <div className="info-card-subtitle">
+                  {parseIntegerAmount(losData.liquidity_provider_count)}{' '}
+                  {t('liquidity_providers')}
+                </div>
+              )}
             </span>
           </div>
         )}

@@ -39,7 +39,7 @@ const findDeletedAMMNode = (meta: any): any | null => {
  *
  * Returns the extracted AMM data if it's a liquidated pool, or null otherwise.
  */
-export const getLiquidatedAMMData = async (
+export const detectLiquidatedAMM = async (
   rippledSocket: ExplorerXrplClient,
   accountId: string,
 ): Promise<LiquidatedAMMData | null> => {
@@ -47,6 +47,8 @@ export const getLiquidatedAMMData = async (
     command: 'account_tx',
     account: accountId,
     limit: 1,
+    ledger_index_min: -1,
+    ledger_index_max: -1,
   })
 
   const lastTx = resp?.transactions?.[0]
