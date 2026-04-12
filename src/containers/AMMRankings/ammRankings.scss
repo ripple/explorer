@@ -145,8 +145,8 @@
 
   .search-wrapper {
     position: relative;
-    flex: 1;
     max-width: 400px;
+    flex: 1;
 
     &::before {
       position: absolute;
@@ -251,7 +251,6 @@
         }
       }
     }
-
   }
 
   // ─── Table Wrapper ────────────────────────────────────────────
