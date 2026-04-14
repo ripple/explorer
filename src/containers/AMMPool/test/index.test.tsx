@@ -37,7 +37,7 @@ jest.mock('../InfoCards/AuctionCard', () => ({
   AuctionCard: () => <div data-testid="auction-card">Auction</div>,
 }))
 
-jest.mock('../TVLVolumeChart', () => ({
+jest.mock('../../shared/components/TVLVolumeChart', () => ({
   TVLVolumeChart: () => <div data-testid="tvl-volume-chart">Chart</div>,
 }))
 

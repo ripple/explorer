@@ -24,7 +24,6 @@ import {
 } from './api'
 import { detectLiquidatedAMM, LiquidatedAMMData } from './utils'
 import { AuctionSlot, FormattedBalance, HistoricalDataPoint } from './types'
-import InfoIcon from '../shared/images/info-duotone.svg'
 import './styles.scss'
 
 const ERROR_MESSAGES: { [code: number]: ErrorMessage } = {
