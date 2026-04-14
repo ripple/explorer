@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import {
   CursorPaginationService,
   PaginationResult,
@@ -11,7 +11,7 @@ interface UseCursorPaginatedQueryOptions<T> {
   id: string
   /** Items per page */
   pageSize: number
-  /** Whether the query is enabled */
+  /** Whether fetching is enabled */
   enabled?: boolean
   /** Initial sort field */
   initialSortField?: string
@@ -55,7 +55,7 @@ export function useCursorPaginatedQuery<T>({
     initialSortOrder,
   )
   const [refreshCount, setRefreshCount] = useState(0)
-  const [data, setData] = useState<PaginationResult<T> | undefined>(undefined)
+  const [data, setData] = useState<PaginationResult<T>>()
   const [isLoading, setIsLoading] = useState(true)
 
   const setSortField = useCallback(

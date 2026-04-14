@@ -3,15 +3,15 @@ import { getAccountTransactions } from '../../rippled/lib/rippled'
 import { AMMDepositWithdrawFormatted, LOSAMMDepositWithdrawRaw } from './types'
 
 /**
- * Data extracted from a liquidated AMM pool's last transaction metadata.
+ * Data extracted from a deleted AMM pool's last transaction metadata.
  * The DeletedNode with LedgerEntryType "AMM" contains the pool's final state.
  */
-export interface LiquidatedAMMData {
+export interface DeletedAMMData {
   account: string
   asset: { currency: string; issuer?: string }
   asset2: { currency: string; issuer?: string }
   lpToken: { currency: string; issuer: string; value: string }
-  liquidationDate: number // ripple epoch timestamp
+  deletionDate: number // ripple epoch timestamp
 }
 
 /**
@@ -39,12 +39,12 @@ const findDeletedAMMNode = (meta: any): any | null => {
  * that removed a DeletedNode with LedgerEntryType "AMM", return the pool's
  * final state.
  *
- * Returns the extracted AMM data if it's a liquidated pool, or null otherwise.
+ * Returns the extracted AMM data if it's a deleted pool, or null otherwise.
  */
-export const detectLiquidatedAMM = async (
+export const getDeletedAMMData = async (
   rippledSocket: ExplorerXrplClient,
   accountId: string,
-): Promise<LiquidatedAMMData | null> => {
+): Promise<DeletedAMMData | null> => {
   const resp = await getAccountTransactions(rippledSocket, accountId, 1, '')
 
   const lastTx = resp?.transactions?.[0]
@@ -70,7 +70,7 @@ export const detectLiquidatedAMM = async (
       issuer: accountId,
       value: '0',
     },
-    liquidationDate: lastTx.date ?? lastTx.tx?.date,
+    deletionDate: lastTx.date ?? lastTx.tx?.date,
   }
 }
 

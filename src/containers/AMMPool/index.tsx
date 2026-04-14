@@ -11,6 +11,7 @@ import { getAMMInfoByAMMAccount } from '../../rippled/lib/rippled'
 import { NOT_FOUND, BAD_REQUEST } from '../shared/utils'
 import { ErrorMessage } from '../shared/Interfaces'
 import { formatAmount } from '../../rippled/lib/txSummary/formatAmount'
+import { Tooltip, useTooltip } from '../shared/components/Tooltip'
 import { AMMPoolHeader } from './AMMPoolHeader'
 import { BasicInfoCard } from './InfoCards/BasicInfoCard'
 import { MarketDataCard } from './InfoCards/MarketDataCard'
@@ -22,8 +23,9 @@ import {
   fetchAMMCreatedTimestamp,
   fetchAMMHistoricalTrends,
 } from './api'
-import { detectLiquidatedAMM, LiquidatedAMMData } from './utils'
+import { getDeletedAMMData, DeletedAMMData } from './utils'
 import { AuctionSlot, FormattedBalance, HistoricalDataPoint } from './types'
+import InfoIcon from '../shared/images/info-duotone.svg'
 import './styles.scss'
 
 const ERROR_MESSAGES: { [code: number]: ErrorMessage } = {
@@ -67,11 +69,11 @@ const orderAssets = (
 }
 
 /**
- * Build FormattedBalance objects from liquidated AMM data.
+ * Build FormattedBalance objects from deleted AMM data.
  * Liquidated pools have no live balances, so amount is 0.
  */
-const buildLiquidatedBalances = (
-  data: LiquidatedAMMData,
+const buildDeletedBalances = (
+  data: DeletedAMMData,
 ): [FormattedBalance, FormattedBalance] => [
   {
     currency: data.asset.currency,
@@ -96,6 +98,7 @@ export const AMMPool = () => {
   const [displayCurrency, setDisplayCurrency] = useState<'usd' | 'xrp'>('usd')
   const rippledSocket = useContext(SocketContext)
   const isMainnet = process.env.VITE_ENVIRONMENT === 'mainnet'
+  const { tooltip } = useTooltip()
 
   // Fetch on-ledger AMM data from Clio (balances, auction slot, trading fee)
   const { data: ammInfo, isFetching: ammInfoLoading } = useQuery(
@@ -108,34 +111,34 @@ export const AMMPool = () => {
         trackException(
           `Error fetching AMM info for ${ammAccountId} --- ${JSON.stringify(e)}`,
         )
-        // Don't set error yet — we'll try liquidated detection
+        // Don't set error yet — we'll try deleted detection
       },
     },
   )
 
-  // If amm_info failed, try to detect a liquidated AMM pool
+  // If amm_info failed, try to detect a deleted AMM pool
   const ammInfoFailed = !ammInfoLoading && !ammInfo && !!ammAccountId
-  const { data: liquidatedData, isFetching: liquidatedLoading } = useQuery(
-    ['ammLiquidated', ammAccountId],
-    () => detectLiquidatedAMM(rippledSocket, ammAccountId),
+  const { data: deletedData, isFetching: deletedLoading } = useQuery(
+    ['ammDeleted', ammAccountId],
+    () => getDeletedAMMData(rippledSocket, ammAccountId),
     {
       enabled: ammInfoFailed,
       onError: () => {
-        // Both amm_info and liquidation detection failed
+        // Both amm_info and deletion detection failed
         setError(NOT_FOUND)
       },
     },
   )
 
-  // If amm_info failed, liquidation check finished, and it's not a liquidated pool → show error
+  // If amm_info failed, deletion check finished, and it's not a deleted pool → show error
   useEffect(() => {
-    if (ammInfoFailed && !liquidatedLoading && !liquidatedData) {
+    if (ammInfoFailed && !deletedLoading && !deletedData) {
       setError(NOT_FOUND)
     }
-  }, [ammInfoFailed, liquidatedLoading, liquidatedData])
+  }, [ammInfoFailed, deletedLoading, deletedData])
 
-  const isLiquidated = !!liquidatedData
-  const isLoading = ammInfoLoading || (ammInfoFailed && liquidatedLoading)
+  const isDeleted = !!deletedData
+  const isLoading = ammInfoLoading || (ammInfoFailed && deletedLoading)
 
   // Fetch LOS market data (mainnet only)
   const { data: losData } = useQuery(
@@ -190,7 +193,7 @@ export const AMMPool = () => {
     )
   }
 
-  // Build unified data from either live amm_info or liquidated metadata
+  // Build unified data from either live amm_info or deleted metadata
   const ammData = ammInfo?.amm
   let balance1: FormattedBalance | null = null
   let balance2: FormattedBalance | null = null
@@ -204,20 +207,20 @@ export const AMMPool = () => {
     tradingFee = ammData.trading_fee
     lpToken = ammData.lp_token
     auctionSlot = ammData.auction_slot
-  } else if (liquidatedData) {
-    const [lb1, lb2] = buildLiquidatedBalances(liquidatedData)
+  } else if (deletedData) {
+    const [lb1, lb2] = buildDeletedBalances(deletedData)
     balance1 = lb1
     balance2 = lb2
     tradingFee = 0 // Not available in deleted AMM node
     lpToken = {
-      currency: liquidatedData.lpToken.currency,
-      issuer: liquidatedData.lpToken.issuer,
-      value: liquidatedData.lpToken.value,
+      currency: deletedData.lpToken.currency,
+      issuer: deletedData.lpToken.issuer,
+      value: deletedData.lpToken.value,
     }
   }
 
   const [asset1, asset2] = orderAssets(balance1, balance2)
-  const hasData = !!ammData || !!liquidatedData
+  const hasData = !!ammData || !!deletedData
 
   return (
     <Page ammAccountId={ammAccountId}>
@@ -226,9 +229,15 @@ export const AMMPool = () => {
         <>
           <AMMPoolHeader asset1={asset1} asset2={asset2} />
 
-          {isLiquidated && (
-            <div className="amm-liquidated-banner">
-              {t('amm_pool_liquidated')}
+          {isDeleted && (
+            <div className="amm-deleted-banner">
+              <div className="deleted-label">
+                <InfoIcon className="deleted-info-icon" aria-hidden="true" />
+                {t('amm_pool_deleted_label')}
+              </div>
+              <div className="deleted-message">
+                {t('amm_pool_deleted_text')}
+              </div>
             </div>
           )}
 
@@ -239,7 +248,7 @@ export const AMMPool = () => {
               createdTimestamp={createdTimestamp}
               lpTokenCurrency={lpToken?.currency}
             />
-            {!isLiquidated && isMainnet && losData && (
+            {!isDeleted && isMainnet && losData && (
               <MarketDataCard
                 losData={losData}
                 balance1={balance1}
@@ -247,7 +256,7 @@ export const AMMPool = () => {
                 lpTokenBalance={lpToken?.value}
               />
             )}
-            {!isLiquidated && (
+            {!isDeleted && (
               <AuctionCard
                 auctionSlot={auctionSlot}
                 tvlUsd={losData?.tvl_usd}
@@ -283,10 +292,11 @@ export const AMMPool = () => {
             isMainnet={isMainnet}
             lpToken={lpToken}
             tvlUsd={losData?.tvl_usd}
-            isDeleted={isLiquidated}
+            isDeleted={isDeleted}
           />
         </>
       )}
+      <Tooltip tooltip={tooltip} />
     </Page>
   )
 }

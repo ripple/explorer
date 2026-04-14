@@ -17,7 +17,7 @@ jest.mock('../index', () => ({
 }))
 
 const mockGetAccountInfo = rippled.getAccountInfo as jest.Mock
-const mockDetectLiquidatedAMM = ammUtils.detectLiquidatedAMM as jest.Mock
+const mockDetectLiquidatedAMM = ammUtils.getDeletedAMMData as jest.Mock
 
 describe('AccountsRouter', () => {
   const ACTIVE_AMM_ACCOUNT = 'rLjUKpwUVmz3vCTmFkXungxwzdoyrWRsFG'
@@ -90,7 +90,7 @@ describe('AccountsRouter', () => {
         issuer: LIQUIDATED_AMM_ACCOUNT,
         value: '2764439179.245265',
       },
-      liquidationDate: 827617760,
+      deletionDate: 827617760,
     })
 
     renderRouter(LIQUIDATED_AMM_ACCOUNT)
@@ -102,7 +102,7 @@ describe('AccountsRouter', () => {
     })
   })
 
-  it('calls detectLiquidatedAMM only when account_info returns 404', async () => {
+  it('calls getDeletedAMMData only when account_info returns 404', async () => {
     mockGetAccountInfo.mockResolvedValue({
       Account: REGULAR_ACCOUNT,
       Balance: '1000000000',
