@@ -7,11 +7,11 @@ import { useAccountTransactions } from '../../shared/hooks/useAccountTransaction
 import {
   DexTradeTable,
   LOSDEXTransaction,
-} from '../components/DexTradeTable/DexTradeTable'
+} from '../../../shared/components/DexTradeTable/DexTradeTable'
 import {
   HoldersTable,
   XRPLHolder,
-} from '../../shared/components/HoldersTable/HoldersTable'
+} from '../../../shared/components/HoldersTable/HoldersTable'
 import {
   LOSTransfer,
   TransfersTable,

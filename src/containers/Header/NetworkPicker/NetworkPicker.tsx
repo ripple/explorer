@@ -40,7 +40,7 @@ export const NetworkPicker = () => {
   const inNetwork = !(isCustom && rippledUrl === undefined)
 
   const getNetworkName = (network: string) =>
-    t(`network_name`, { context: network })
+    t(`network_name`, { context: network, defaultValue: network })
 
   const getCustomNetworkName = (url) =>
     `${getNetworkName('custom')}: ${url

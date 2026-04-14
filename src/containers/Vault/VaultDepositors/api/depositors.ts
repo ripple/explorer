@@ -1,5 +1,5 @@
 import { getMPTHolders } from '../../../../rippled/lib/rippled'
-import { XRPLHolder } from '../../../Token/shared/components/HoldersTable/HoldersTable'
+import { XRPLHolder } from '../../../shared/components/HoldersTable/HoldersTable'
 
 interface VaultHolderFromClio {
   account: string

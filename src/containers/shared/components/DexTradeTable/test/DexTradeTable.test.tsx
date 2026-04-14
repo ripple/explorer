@@ -2,27 +2,24 @@ import { render, screen, fireEvent } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter as Router } from 'react-router-dom'
 import i18n from '../../../../../i18n/testConfigEnglish'
-import {
-  DexTradeTable,
-  LOSDEXTransaction,
-} from '../../components/DexTradeTable/DexTradeTable'
+import { DexTradeTable, LOSDEXTransaction } from '../DexTradeTable'
 
-jest.mock('../../../../shared/components/Account', () => ({
+jest.mock('../../Account', () => ({
   Account: ({ displayText }: { displayText: string }) => (
     <span data-testid="account">{displayText}</span>
   ),
 }))
 
-jest.mock('../../../../shared/components/Amount', () => ({
+jest.mock('../../Amount', () => ({
   Amount: ({ value }: any) => <div>{value.amount}</div>,
 }))
 
-jest.mock('../../../../shared/components/Currency', () => ({
+jest.mock('../../Currency', () => ({
   __esModule: true,
   default: ({ currency }: { currency: string }) => <div>{currency}</div>,
 }))
 
-jest.mock('../../../../shared/components/Tooltip', () => ({
+jest.mock('../../Tooltip', () => ({
   useTooltip: () => ({
     tooltip: null,
     showTooltip: jest.fn(),
@@ -31,7 +28,7 @@ jest.mock('../../../../shared/components/Tooltip', () => ({
   Tooltip: () => null,
 }))
 
-jest.mock('../../../../shared/utils', () => ({
+jest.mock('../../../utils', () => ({
   shortenAccount: (account: string) =>
     account.length > 12
       ? `${account.slice(0, 7)}...${account.slice(-5)}`
@@ -40,17 +37,17 @@ jest.mock('../../../../shared/utils', () => ({
     hash.length > 12 ? `${hash.slice(0, 6)}...${hash.slice(-6)}` : hash,
 }))
 
-jest.mock('../../../../shared/hooks', () => ({
+jest.mock('../../../hooks', () => ({
   useLanguage: () => 'en',
 }))
 
-jest.mock('../../../shared/components/ResponsiveTimestamp', () => ({
+jest.mock('../../ResponsiveTimestamp', () => ({
   ResponsiveTimestamp: ({ timestamp }: { timestamp: number }) => (
     <div>{new Date(timestamp * 1000).toISOString()}</div>
   ),
 }))
 
-jest.mock('../../../../shared/components/Pagination', () => ({
+jest.mock('../../Pagination', () => ({
   Pagination: ({
     onPageChange,
     totalItems,
@@ -72,11 +69,11 @@ jest.mock('../../../../shared/components/Pagination', () => ({
   },
 }))
 
-jest.mock('../../../../shared/components/Loader', () => ({
+jest.mock('../../Loader', () => ({
   Loader: () => <div>Loading...</div>,
 }))
 
-jest.mock('../../../../shared/NumberFormattingUtils', () => ({
+jest.mock('../../../NumberFormattingUtils', () => ({
   parseAmount: (amount: any) => String(amount),
 }))
 

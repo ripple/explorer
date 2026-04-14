@@ -1,17 +1,17 @@
 import { useTranslation } from 'react-i18next'
 import { useEffect, useRef } from 'react'
-import { Loader } from '../../../../shared/components/Loader'
-import { Pagination } from '../../../../shared/components/Pagination'
-import { EmptyStateMessage } from '../../../../shared/components/EmptyStateMessage'
+import { Loader } from '../Loader'
+import { Pagination } from '../Pagination'
+import { EmptyStateMessage } from '../EmptyStateMessage'
 import './styles.scss'
-import '../tables-mobile.scss'
+import '../../css/data-tables-mobile.scss'
 import {
   parseAmount,
   parseCurrencyAmount,
   parsePercent,
-} from '../../../../shared/NumberFormattingUtils'
-import { shortenAccount } from '../../../../shared/utils'
-import { Account } from '../../../../shared/components/Account'
+} from '../../NumberFormattingUtils'
+import { shortenAccount } from '../../utils'
+import { Account } from '../Account'
 
 export interface XRPLHolder {
   rank: number

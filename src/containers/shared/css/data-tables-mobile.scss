@@ -1,6 +1,6 @@
-@use '../../../shared/css/variables' as *;
+@use 'variables' as *;
 
-// Mobile-responsive table styles for Token tables
+// Mobile-responsive styles for data tables (DexTradeTable, HoldersTable, TransfersTable)
 
 // Base table styles
 table.basic {

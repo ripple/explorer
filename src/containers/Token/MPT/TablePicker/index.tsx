@@ -7,7 +7,7 @@ import { useAccountTransactions } from '../../shared/hooks/useAccountTransaction
 import {
   HoldersTable,
   XRPLHolder,
-} from '../../shared/components/HoldersTable/HoldersTable'
+} from '../../../shared/components/HoldersTable/HoldersTable'
 import {
   TransfersTable,
   LOSTransfer,
