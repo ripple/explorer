@@ -1,5 +1,7 @@
 import { findAssetAmount, findNodes, LedgerEntryTypes } from '../metaParser'
 
+const TEST_MPT_ID = '000003C31D321B7DDA58324DC38CDF18934FAFFFCDF69D5F'
+
 describe('findAssetAmount', () => {
   const baseTx = { Account: 'rTestAccount', Fee: '12' } as any
 
@@ -73,7 +75,7 @@ describe('findAssetAmount', () => {
             FinalFields: {
               Account: 'rTestAccount',
               MPTokenIssuanceID:
-                '000003C31D321B7DDA58324DC38CDF18934FAFFFCDF69D5F',
+                TEST_MPT_ID,
               MPTAmount: '990000',
             },
             PreviousFields: {
@@ -86,13 +88,13 @@ describe('findAssetAmount', () => {
     const result = findAssetAmount(
       meta,
       {
-        mpt_issuance_id: '000003C31D321B7DDA58324DC38CDF18934FAFFFCDF69D5F',
+        mpt_issuance_id: TEST_MPT_ID,
       },
       baseTx,
     )
     expect(result).toBeDefined()
     expect(result!.currency).toBe(
-      '000003C31D321B7DDA58324DC38CDF18934FAFFFCDF69D5F',
+      TEST_MPT_ID,
     )
     expect(result!.amount).toBe(10000)
     expect(result!.isMPT).toBe(true)
@@ -117,7 +119,7 @@ describe('findAssetAmount', () => {
     const result = findAssetAmount(
       meta,
       {
-        mpt_issuance_id: '000003C31D321B7DDA58324DC38CDF18934FAFFFCDF69D5F',
+        mpt_issuance_id: TEST_MPT_ID,
       },
       baseTx,
     )
@@ -134,7 +136,7 @@ describe('findAssetAmount', () => {
             NewFields: {
               Account: 'rTestAccount',
               MPTokenIssuanceID:
-                '000003C31D321B7DDA58324DC38CDF18934FAFFFCDF69D5F',
+                TEST_MPT_ID,
               MPTAmount: '5000',
             },
           },
@@ -144,7 +146,7 @@ describe('findAssetAmount', () => {
     const result = findAssetAmount(
       meta,
       {
-        mpt_issuance_id: '000003C31D321B7DDA58324DC38CDF18934FAFFFCDF69D5F',
+        mpt_issuance_id: TEST_MPT_ID,
       },
       baseTx,
     )

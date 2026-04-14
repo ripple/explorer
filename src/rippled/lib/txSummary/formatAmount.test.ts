@@ -5,6 +5,8 @@ import {
   formatAmountWithAsset,
 } from './formatAmount'
 
+const TEST_MPT_ID = '000003C31D321B7DDA58324DC38CDF18934FAFFFCDF69D5F'
+
 describe('formatAmount', () => {
   it('formats XRP string amount', () => {
     const result = formatAmount('24755081083')
@@ -26,11 +28,11 @@ describe('formatAmount', () => {
 
   it('formats MPTAmount', () => {
     const result = formatAmount({
-      mpt_issuance_id: '000003C31D321B7DDA58324DC38CDF18934FAFFFCDF69D5F',
+      mpt_issuance_id: TEST_MPT_ID,
       value: '1000',
     })
     expect(result).toEqual({
-      currency: '000003C31D321B7DDA58324DC38CDF18934FAFFFCDF69D5F',
+      currency: TEST_MPT_ID,
       amount: '1000',
       isMPT: true,
     })
@@ -46,7 +48,7 @@ describe('isMPTAmount', () => {
   it('returns true for MPTAmount', () => {
     expect(
       isMPTAmount({
-        mpt_issuance_id: '000003C31D321B7DDA58324DC38CDF18934FAFFFCDF69D5F',
+        mpt_issuance_id: TEST_MPT_ID,
         value: '100',
       }),
     ).toBe(true)
@@ -69,7 +71,7 @@ describe('isMPTAmount', () => {
   it('returns false for MPT asset without value', () => {
     expect(
       isMPTAmount({
-        mpt_issuance_id: '000003C31D321B7DDA58324DC38CDF18934FAFFFCDF69D5F',
+        mpt_issuance_id: TEST_MPT_ID,
       } as any),
     ).toBe(false)
   })
@@ -89,11 +91,11 @@ describe('formatAsset', () => {
 
   it('formats MPT asset', () => {
     const result = formatAsset({
-      mpt_issuance_id: '000003C31D321B7DDA58324DC38CDF18934FAFFFCDF69D5F',
+      mpt_issuance_id: TEST_MPT_ID,
     })
     expect(result).toEqual({
-      currency: '000003C31D321B7DDA58324DC38CDF18934FAFFFCDF69D5F',
-      mpt_issuance_id: '000003C31D321B7DDA58324DC38CDF18934FAFFFCDF69D5F',
+      currency: TEST_MPT_ID,
+      mpt_issuance_id: TEST_MPT_ID,
       isMPT: true,
     })
   })
@@ -109,11 +111,11 @@ describe('formatAmountWithAsset', () => {
 
   it('formats MPT amount with asset', () => {
     const result = formatAmountWithAsset('500', {
-      currency: '000003C31D321B7DDA58324DC38CDF18934FAFFFCDF69D5F',
+      currency: TEST_MPT_ID,
       isMPT: true,
     })
     expect(result).toEqual({
-      currency: '000003C31D321B7DDA58324DC38CDF18934FAFFFCDF69D5F',
+      currency: TEST_MPT_ID,
       amount: 500,
       isMPT: true,
     })

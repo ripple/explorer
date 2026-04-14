@@ -27,6 +27,11 @@ const DEFAULT_TX_ELEMENTS = [
   'warnings',
 ]
 
+// Currency objects have at most 2 keys: `currency` and optionally `issuer`
+const MAX_CURRENCY_OBJECT_KEYS = 2
+// Amount objects have exactly 3 keys: `currency`, `issuer`, and `value`
+const AMOUNT_OBJECT_KEY_COUNT = 3
+
 const displayKey = (key: string) => key.replace(/([a-z])([A-Z])/g, '$1 $2')
 
 const isMPTAsset = (value: any) =>
@@ -42,7 +47,7 @@ const isMPTAmount = (value: any) =>
 const isCurrency = (value: any) =>
   isMPTAsset(value) ||
   (typeof value === 'object' &&
-    Object.keys(value).length <= 2 &&
+    Object.keys(value).length <= MAX_CURRENCY_OBJECT_KEYS &&
     (value.issuer == null || typeof value.issuer === 'string') &&
     typeof value.currency === 'string')
 
@@ -50,7 +55,7 @@ const isAmount = (amount: any, key: any = null) =>
   key === 'Amount' ||
   isMPTAmount(amount) ||
   (typeof amount === 'object' &&
-    Object.keys(amount).length === 3 &&
+    Object.keys(amount).length === AMOUNT_OBJECT_KEY_COUNT &&
     typeof amount.issuer === 'string' &&
     typeof amount.currency === 'string' &&
     typeof amount.value === 'string')
