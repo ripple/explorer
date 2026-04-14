@@ -6,7 +6,7 @@ import { Tabs } from '../../../shared/components/Tabs'
 import { useAccountTransactions } from '../../shared/hooks/useAccountTransactions'
 import {
   DexTradeTable,
-  LOSDEXTransaction,
+  DexTradeFormatted,
 } from '../../../shared/components/DexTradeTable/DexTradeTable'
 import {
   HoldersTable,
@@ -44,7 +44,7 @@ export interface TablePickerProps {
   holdersLoading: boolean
 
   // Dex trades table state
-  dexTradesData?: LOSDEXTransaction[]
+  dexTradesData?: DexTradeFormatted[]
   dexTradesPagination: TablePaginationState
   dexTradesSorting: TableSortingState
   dexTradesLoading: boolean
@@ -120,7 +120,7 @@ export const TablePicker = ({
   const transfersFormatted: LOSTransfer[] = transfersData || []
 
   // dexTrades is already formatted array from pagination service
-  const dexTradesFormatted: LOSDEXTransaction[] = dexTradesData || []
+  const dexTradesFormatted: DexTradeFormatted[] = dexTradesData || []
 
   // Helper to reset pagination to page 1
   const resetTablePagination = (setCurrentPage: (page: number) => void) => {

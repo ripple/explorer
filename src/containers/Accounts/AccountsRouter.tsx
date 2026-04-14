@@ -35,20 +35,39 @@ export const AccountsRouter = () => {
   const { id: accountId = '' } = useParams<{ id: string }>()
   const rippledSocket = useContext(SocketContext)
 
-  const { data: comp, error } = useQuery([accountId], () => {
+  const { data: comp, error } = useQuery([accountId], async () => {
     let classicAddress = accountId
     if (isValidXAddress(accountId)) {
       classicAddress = xAddressToClassicAddress(accountId).classicAddress
     }
 
     if (!isValidClassicAddress(classicAddress)) {
-      return Promise.reject(new Error('account malformed', BAD_REQUEST))
+      throw new Error('account malformed', BAD_REQUEST)
     }
 
-    return (
-      getAccountInfo(rippledSocket, classicAddress)
-        .then((data: any) => {
-          if (data.AMMID) {
+    try {
+      const data = await getAccountInfo(rippledSocket, classicAddress)
+
+      if (data.AMMID) {
+        return (
+          <Navigate
+            to={buildPath(AMM_POOL_ROUTE, { id: classicAddress })}
+            replace
+          />
+        )
+      }
+
+      return <Accounts />
+    } catch (responseError: any) {
+      // Even if account info fails it might be a deleted account or deleted AMM
+      if (responseError?.code === 404) {
+        try {
+          const deletedAmm = await getDeletedAMMData(
+            rippledSocket,
+            classicAddress,
+          )
+
+          if (deletedAmm) {
             return (
               <Navigate
                 to={buildPath(AMM_POOL_ROUTE, { id: classicAddress })}
@@ -56,33 +75,16 @@ export const AccountsRouter = () => {
               />
             )
           }
+        } catch (e) {
+          // eslint-disable-next-line no-console
+          console.error('Failed to check for deleted AMM pool:', e)
+        }
 
-          return <Accounts />
-        })
-        // Even if account info fails it might be a deleted account or deleted AMM
-        .catch(async (responseError: Error) => {
-          if (responseError?.code === 404) {
-            // Check if this is a deleted AMM pool
-            const deletedAmm = await getDeletedAMMData(
-              rippledSocket,
-              classicAddress,
-            )
+        return <Accounts />
+      }
 
-            if (deletedAmm) {
-              return (
-                <Navigate
-                  to={buildPath(AMM_POOL_ROUTE, { id: classicAddress })}
-                  replace
-                />
-              )
-            }
-
-            return <Accounts />
-          }
-
-          return Promise.reject(responseError)
-        })
-    )
+      throw responseError
+    }
   })
 
   if (!accountId) {

@@ -18,7 +18,7 @@ import { shortenAccount, shortenTxHash } from '../../utils'
 import { parseAmount } from '../../NumberFormattingUtils'
 import { useLanguage } from '../../hooks'
 
-export interface LOSDEXTransaction {
+export interface DexTradeFormatted {
   hash: string
   ledger: number
   timestamp: number
@@ -32,7 +32,7 @@ export interface LOSDEXTransaction {
 }
 
 interface DexTradeTableProps {
-  transactions: LOSDEXTransaction[]
+  transactions: DexTradeFormatted[]
   isLoading?: boolean
   totalTrades: number
   currentPage: number
@@ -126,7 +126,7 @@ export const DexTradeTable = ({
     }
   }
 
-  const renderTransaction = (tx: LOSDEXTransaction, idx: number) => (
+  const renderTransaction = (tx: DexTradeFormatted, idx: number) => (
     <tr key={`${tx.hash}-${tx.ledger}-${idx}`}>
       <td className="tx-hash">
         <Link to={`/transactions/${tx.hash}`}>{shortenTxHash(tx.hash)}</Link>

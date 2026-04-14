@@ -13,14 +13,7 @@ import {
   parseCurrencyAmount,
 } from '../../shared/NumberFormattingUtils'
 import AuctionIcon from '../../shared/images/auction_icon.svg'
-
-interface AuctionSlot {
-  account?: string
-  expiration?: string | number
-  discounted_fee?: number
-  price?: { value: string; currency: string; issuer?: string }
-  time_interval?: number
-}
+import { AuctionSlot } from '../types'
 
 interface AuctionCardProps {
   auctionSlot?: AuctionSlot

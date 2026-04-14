@@ -1,13 +1,20 @@
 import axios from 'axios'
 import type { ExplorerXrplClient } from '../shared/SocketContext'
-import { AMMPoolLOSData } from './types'
+import {
+  LOSAMMPoolData,
+  HistoricalTrendsResponse,
+  LOSAMMDepositWithdrawRaw,
+  LOSCursor,
+  LOSCursorResponse,
+} from './types'
+import { LOSDexTradeRaw } from '../shared/components/DexTradeTable/formatDexTrade'
 
 const LOS_URL = process.env.VITE_LOS_URL
 
 /** Fetch AMM pool market data from LOS (mainnet only) */
 export const fetchAMMPoolData = async (
   ammAccountId: string,
-): Promise<AMMPoolLOSData> => {
+): Promise<LOSAMMPoolData> => {
   const response = await axios.get(`${LOS_URL}/amms/${ammAccountId}`)
   return response.data
 }
@@ -16,7 +23,7 @@ export const fetchAMMPoolData = async (
 export const fetchAMMHistoricalTrends = async (
   ammAccountId: string,
   timeRange: string = '6M',
-): Promise<any> => {
+): Promise<HistoricalTrendsResponse> => {
   const response = await axios.get(`${LOS_URL}/amms/historical-trends`, {
     params: {
       amm_account_id: ammAccountId,
@@ -30,11 +37,11 @@ export const fetchAMMHistoricalTrends = async (
 export const fetchAMMDexTrades = async (
   ammAccountId: string,
   size?: number,
-  searchAfter?: any,
+  searchAfter?: LOSCursor,
   direction?: string,
   sortField?: string,
   sortOrder?: string,
-): Promise<any> => {
+): Promise<LOSCursorResponse<LOSDexTradeRaw>> => {
   const params = new URLSearchParams({
     account: ammAccountId,
     size: (size ?? 100).toString(),
@@ -62,9 +69,9 @@ export const fetchAMMTransactions = async (
   ammAccountId: string,
   type: 'AMMDeposit' | 'AMMWithdraw',
   size?: number,
-  searchAfter?: any,
+  searchAfter?: LOSCursor,
   direction?: string,
-): Promise<any> => {
+): Promise<LOSCursorResponse<LOSAMMDepositWithdrawRaw>> => {
   const params = new URLSearchParams({
     account: ammAccountId,
     type,

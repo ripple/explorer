@@ -10,7 +10,7 @@ import {
   parseIntegerAmount,
 } from '../../shared/NumberFormattingUtils'
 import Currency from '../../shared/components/Currency'
-import { AMMPoolLOSData, FormattedBalance } from '../types'
+import { LOSAMMPoolData, FormattedBalance } from '../types'
 
 /** Renders "BALANCE (XRP)" or "BALANCE (CRYPTO)" with no extra whitespace */
 const BalanceLabel = ({
@@ -38,7 +38,7 @@ const BalanceLabel = ({
 }
 
 interface MarketDataCardProps {
-  losData?: AMMPoolLOSData
+  losData?: LOSAMMPoolData
   balance1: FormattedBalance | null
   balance2: FormattedBalance | null
   lpTokenBalance: string | undefined
