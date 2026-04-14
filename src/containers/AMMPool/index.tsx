@@ -161,20 +161,12 @@ export const AMMPool = () => {
     { enabled: !!ammAccountId },
   )
 
-  const [timeRange, setTimeRange] = useState<string>('6M')
-
-  // Fetch historical trends (mainnet only)
-  const { data: trendsData, isFetching: trendsLoading } = useQuery(
-    ['ammTrends', ammAccountId, timeRange],
-    () => fetchAMMHistoricalTrends(ammAccountId, timeRange),
-    {
-      enabled: !!ammAccountId && isMainnet,
-      onError: (e: any) => {
-        trackException(
-          `Error fetching AMM trends for ${ammAccountId} --- ${JSON.stringify(e)}`,
-        )
-      },
-    },
+  // Fetch data per time range from the API (each range may include different latest data)
+  const [chartTimeRange, setChartTimeRange] = useState('6M')
+  const { data: trendsData, isLoading: trendsLoading } = useQuery(
+    ['ammHistoricalTrends', ammAccountId, chartTimeRange],
+    () => fetchAMMHistoricalTrends(ammAccountId, chartTimeRange),
+    { enabled: !!ammAccountId, staleTime: 5 * 60 * 1000 },
   )
 
   useEffect(() => {
@@ -193,7 +185,7 @@ export const AMMPool = () => {
     )
   }
 
-  // Build unified data from either live amm_info or deleted metadata
+  // Build unified data from either live amm_info or deleted pool metadata
   const ammData = ammInfo?.amm
   let balance1: FormattedBalance | null = null
   let balance2: FormattedBalance | null = null
@@ -248,7 +240,7 @@ export const AMMPool = () => {
               createdTimestamp={createdTimestamp}
               lpTokenCurrency={lpToken?.currency}
             />
-            {!isDeleted && isMainnet && losData && (
+            {!isDeleted && (
               <MarketDataCard
                 losData={losData}
                 balance1={balance1}
@@ -282,7 +274,7 @@ export const AMMPool = () => {
               isLoading={trendsLoading}
               displayCurrency={displayCurrency}
               setDisplayCurrency={setDisplayCurrency}
-              onTimeRangeChange={setTimeRange}
+              onTimeRangeChange={setChartTimeRange}
             />
           )}
 
