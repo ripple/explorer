@@ -23,15 +23,15 @@ import { AMMDepositWithdrawFormatted } from '../types'
 import { formatDepositWithdraw } from '../utils'
 import getTokenHolders from '../../Token/IOU/api/holders'
 
+const BATCH_SIZE = 200
 const PAGE_SIZE = 10
-const BATCH_SIZE = 100
 
 // DEX trades pagination — format function doesn't depend on pool assets
 const dexTradesPagination = new CursorPaginationService<DexTradeFormatted>({
   fetchFn: (id, size, cursor, direction, sortField, sortOrder) =>
     fetchAMMDexTrades(id, size, cursor, direction, sortField, sortOrder),
   formatFn: formatDexTrade,
-  batchSize: 100,
+  batchSize: BATCH_SIZE,
   pageSize: PAGE_SIZE,
 })
 
