@@ -6,6 +6,7 @@ import {
   formatTradingFee,
   localizeDate,
   DATE_OPTIONS_NUMERIC,
+  TRADING_FEE_BASE,
 } from '../../shared/utils'
 import {
   parseAmount,
@@ -47,8 +48,9 @@ const calcReplacementCost = (
     return null
   }
 
-  const fee = tradingFee / 100000
-  const M = (Number(lpTokenBalance) * fee) / 25
+  // XRPL stores trading fees as integers in units of 1/100,000 (e.g. 1000 = 1%)
+  const tradingFeeAsDecimal = tradingFee / TRADING_FEE_BASE
+  const M = (Number(lpTokenBalance) * tradingFeeAsDecimal) / 25
 
   const hasHolder = !!auctionSlot?.account
   // time_interval: 0-19 = active intervals, 20 = expired
@@ -140,6 +142,7 @@ export const AuctionCard: FC<AuctionCardProps> = ({
             )}
           </span>
         </div>
+        <div className="info-card-separator" />
         <div className="info-card-row">
           <span className="info-card-label">{t('expiration')}</span>
           <span className="info-card-value">
@@ -152,12 +155,14 @@ export const AuctionCard: FC<AuctionCardProps> = ({
               : '--'}
           </span>
         </div>
+        <div className="info-card-separator" />
         <div className="info-card-row">
           <span className="info-card-label">{t('discounted_fee')}</span>
           <span className="info-card-value info-card-value-orange">
             {discountedFee}
           </span>
         </div>
+        <div className="info-card-separator" />
         <div className="info-card-row">
           <span className="info-card-label">{t('price_paid')}</span>
           <span className="info-card-value">
@@ -177,6 +182,7 @@ export const AuctionCard: FC<AuctionCardProps> = ({
             )}
           </span>
         </div>
+        <div className="info-card-separator" />
         <div className="info-card-row">
           <span className="info-card-label">{t('replacement_cost')}</span>
           <span className="info-card-value">

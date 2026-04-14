@@ -22,6 +22,7 @@ export const AMMPoolHeader: FC<AMMPoolHeaderProps> = ({ asset1, asset2 }) => {
               issuer={asset1.issuer}
               link
               shortenIssuer
+              displaySymbol={false}
             />
             <span className="badge-separator">/</span>
             <Currency
@@ -29,6 +30,7 @@ export const AMMPoolHeader: FC<AMMPoolHeaderProps> = ({ asset1, asset2 }) => {
               issuer={asset2.issuer}
               link={asset2.currency !== 'XRP'}
               shortenIssuer
+              displaySymbol={false}
             />
           </span>
         )}
