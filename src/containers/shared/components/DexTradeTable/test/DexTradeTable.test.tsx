@@ -2,7 +2,7 @@ import { render, screen, fireEvent } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter as Router } from 'react-router-dom'
 import i18n from '../../../../../i18n/testConfigEnglish'
-import { DexTradeTable, LOSDEXTransaction } from '../DexTradeTable'
+import { DexTradeTable, DexTradeFormatted } from '../DexTradeTable'
 
 // Amount must be mocked — it uses useQuery(), SocketContext, and useAnalytics()
 jest.mock('../../Amount', () => ({
@@ -15,7 +15,7 @@ const TestWrapper = ({ children }: { children: React.ReactNode }) => (
   </I18nextProvider>
 )
 
-const mockDexTrades: LOSDEXTransaction[] = [
+const mockDexTrades: DexTradeFormatted[] = [
   {
     hash: 'E3FE6EA3D48F0C2B639448020EA4F03D4F4F8FFDB243A852A0F59177921B4879',
     ledger: 12345,
@@ -230,7 +230,7 @@ describe('DexTradeTable Component', () => {
   })
 
   it('handles transactions with null rate', () => {
-    const tradesWithNullRate: LOSDEXTransaction[] = [
+    const tradesWithNullRate: DexTradeFormatted[] = [
       {
         ...mockDexTrades[0],
         rate: null,
@@ -252,7 +252,7 @@ describe('DexTradeTable Component', () => {
   })
 
   it('handles transactions without type', () => {
-    const tradesWithoutType: LOSDEXTransaction[] = [
+    const tradesWithoutType: DexTradeFormatted[] = [
       {
         ...mockDexTrades[0],
         type: undefined,
@@ -345,7 +345,7 @@ describe('DexTradeTable Component', () => {
   })
 
   it('handles single transaction', () => {
-    const singleTrade: LOSDEXTransaction[] = [mockDexTrades[0]]
+    const singleTrade: DexTradeFormatted[] = [mockDexTrades[0]]
     render(
       <TestWrapper>
         <DexTradeTable

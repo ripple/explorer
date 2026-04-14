@@ -1,4 +1,6 @@
 import type { ExplorerXrplClient } from '../shared/SocketContext'
+import { getAccountTransactions } from '../../rippled/lib/rippled'
+import { AMMDepositWithdrawFormatted, LOSAMMDepositWithdrawRaw } from './types'
 
 /**
  * Data extracted from a liquidated AMM pool's last transaction metadata.
@@ -43,13 +45,7 @@ export const detectLiquidatedAMM = async (
   rippledSocket: ExplorerXrplClient,
   accountId: string,
 ): Promise<LiquidatedAMMData | null> => {
-  const resp = await rippledSocket.send({
-    command: 'account_tx',
-    account: accountId,
-    limit: 1,
-    ledger_index_min: -1,
-    ledger_index_max: -1,
-  })
+  const resp = await getAccountTransactions(rippledSocket, accountId, 1, '')
 
   const lastTx = resp?.transactions?.[0]
   if (!lastTx) {
@@ -75,5 +71,39 @@ export const detectLiquidatedAMM = async (
       value: '0',
     },
     liquidationDate: lastTx.date ?? lastTx.tx?.date,
+  }
+}
+
+/**
+ * Format AMMDeposit/AMMWithdraw from LOS /v2/transactions response.
+ * Preserves the asset order from the transaction data.
+ */
+export const formatDepositWithdraw = (
+  tx: LOSAMMDepositWithdrawRaw,
+): AMMDepositWithdrawFormatted => {
+  const formatAsset = (
+    raw:
+      | { currency: string; issuer?: string | null; value: string }
+      | undefined,
+  ) => {
+    if (!raw || Number(raw.value) === 0) {
+      return null
+    }
+    return {
+      currency: raw.currency,
+      issuer: raw.issuer ?? undefined,
+      amount: Number(raw.value),
+    }
+  }
+
+  return {
+    hash: tx.hash,
+    ledger: tx.ledger_index,
+    timestamp: tx.timestamp,
+    account: tx.account,
+    asset: formatAsset(tx.amm?.asset1),
+    asset2: formatAsset(tx.amm?.asset2),
+    lpTokens: tx.amm?.lp_tokens_received ?? tx.amm?.lp_tokens_redeemed ?? null,
+    valueUsd: tx.amm?.value_usd ?? null,
   }
 }

@@ -13,10 +13,10 @@ import {
 } from '../../shared/NumberFormattingUtils'
 import { shortenAccount, shortenTxHash } from '../../shared/utils'
 import { useLanguage } from '../../shared/hooks'
-import { AMMDepositWithdrawTx } from '../types'
+import { AMMDepositWithdrawFormatted } from '../types'
 
 interface AMMDepositWithdrawTableProps {
-  transactions: AMMDepositWithdrawTx[]
+  transactions: AMMDepositWithdrawFormatted[]
   isLoading: boolean
   totalItems: number
   currentPage: number
@@ -60,23 +60,15 @@ export const AMMDepositWithdrawTable: FC<AMMDepositWithdrawTableProps> = ({
   const lpTokenLabel =
     type === 'deposit' ? t('lp_tokens_received') : t('lp_tokens_redeemed')
 
-  const renderAssetAmount = (asset: AMMDepositWithdrawTx['asset']) => {
-    if (!asset) return '--'
-    return (
-      <Amount
-        value={{
-          currency: asset.currency,
-          issuer: asset.issuer,
-          amount: parseAmount(asset.amount),
-        }}
-        displayIssuer
-        shortenIssuer
-        displayCurrency={String(asset.currency) !== 'XRP'}
-      />
-    )
+  const renderAssetAmount = (asset: AMMDepositWithdrawFormatted['asset']) => {
+    if (!asset || Number(asset.amount) === 0) {
+      return '--'
+    }
+
+    return <Amount value={asset} displayIssuer shortenIssuer useParseAmount />
   }
 
-  const renderTransaction = (tx: AMMDepositWithdrawTx) => (
+  const renderTransaction = (tx: AMMDepositWithdrawFormatted) => (
     <tr key={`${tx.hash}-${tx.ledger}`}>
       <td className="tx-hash">
         <Link to={`/transactions/${tx.hash}`}>{shortenTxHash(tx.hash)}</Link>

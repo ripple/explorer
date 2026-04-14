@@ -4,14 +4,14 @@ import { I18nextProvider } from 'react-i18next'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import i18n from '../../../../i18n/testConfig'
 import { AMMDepositWithdrawTable } from '../AMMDepositWithdrawTable'
-import { AMMDepositWithdrawTx } from '../../types'
+import { AMMDepositWithdrawFormatted } from '../../types'
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { retry: false } },
 })
 
 interface RenderProps {
-  transactions?: AMMDepositWithdrawTx[]
+  transactions?: AMMDepositWithdrawFormatted[]
   isLoading?: boolean
   totalItems?: number
   currentPage?: number
@@ -51,7 +51,7 @@ const renderComponent = ({
   )
 
 describe('AMMDepositWithdrawTable', () => {
-  const mockTransactions: AMMDepositWithdrawTx[] = [
+  const mockTransactions: AMMDepositWithdrawFormatted[] = [
     {
       hash: 'ABC123DEF456ABC123DEF456ABC123DEF456ABC123DEF456ABC123DEF456ABCD',
       ledger: 100141108,

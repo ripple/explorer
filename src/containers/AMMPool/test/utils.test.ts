@@ -1,17 +1,23 @@
-import { detectLiquidatedAMM } from '../utils'
-import mockLiquidatedTx from './mockDeletedAMMTransaction.json'
+import { detectLiquidatedAMM, formatDepositWithdraw } from '../utils'
+import { LOSAMMDepositWithdrawRaw } from '../types'
+import mockDeletedTx from './mockDeletedAMMTransaction.json'
+
+jest.mock('../../../rippled/lib/rippled', () => ({
+  getAccountTransactions: jest.fn(),
+}))
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { getAccountTransactions } = require('../../../rippled/lib/rippled')
 
 describe('detectLiquidatedAMM', () => {
-  const mockSocket = {
-    send: jest.fn(),
-  } as any
+  const mockSocket = {} as any
 
   beforeEach(() => {
     jest.clearAllMocks()
   })
 
-  it('returns liquidated AMM data when last tx has DeletedNode with LedgerEntryType AMM', async () => {
-    mockSocket.send.mockResolvedValue(mockLiquidatedTx)
+  it('returns deleted AMM data when last tx has DeletedNode with LedgerEntryType AMM', async () => {
+    getAccountTransactions.mockResolvedValue(mockDeletedTx)
 
     const result = await detectLiquidatedAMM(
       mockSocket,
@@ -33,22 +39,21 @@ describe('detectLiquidatedAMM', () => {
     expect(result!.liquidationDate).toBe(827617760)
   })
 
-  it('calls account_tx with limit=1 and full ledger range', async () => {
-    mockSocket.send.mockResolvedValue(mockLiquidatedTx)
+  it('calls getAccountTransactions with limit=1', async () => {
+    getAccountTransactions.mockResolvedValue(mockDeletedTx)
 
     await detectLiquidatedAMM(mockSocket, 'rQhuJV3eVEm6D6YreeisJkvfyBBA3qAXrL')
 
-    expect(mockSocket.send).toHaveBeenCalledWith({
-      command: 'account_tx',
-      account: 'rQhuJV3eVEm6D6YreeisJkvfyBBA3qAXrL',
-      limit: 1,
-      ledger_index_min: -1,
-      ledger_index_max: -1,
-    })
+    expect(getAccountTransactions).toHaveBeenCalledWith(
+      mockSocket,
+      'rQhuJV3eVEm6D6YreeisJkvfyBBA3qAXrL',
+      1,
+      '',
+    )
   })
 
   it('returns null when last tx has no DeletedNode with AMM type', async () => {
-    mockSocket.send.mockResolvedValue({
+    getAccountTransactions.mockResolvedValue({
       transactions: [
         {
           tx: { TransactionType: 'Payment' },
@@ -72,21 +77,21 @@ describe('detectLiquidatedAMM', () => {
   })
 
   it('returns null when account_tx returns no transactions', async () => {
-    mockSocket.send.mockResolvedValue({ transactions: [] })
+    getAccountTransactions.mockResolvedValue({ transactions: [] })
 
     const result = await detectLiquidatedAMM(mockSocket, 'rSomeAccount')
     expect(result).toBeNull()
   })
 
   it('returns null when account_tx returns undefined', async () => {
-    mockSocket.send.mockResolvedValue(undefined)
+    getAccountTransactions.mockResolvedValue(undefined)
 
     const result = await detectLiquidatedAMM(mockSocket, 'rSomeAccount')
     expect(result).toBeNull()
   })
 
   it('returns null when meta has no AffectedNodes', async () => {
-    mockSocket.send.mockResolvedValue({
+    getAccountTransactions.mockResolvedValue({
       transactions: [
         {
           tx: { TransactionType: 'AMMWithdraw' },
@@ -100,8 +105,8 @@ describe('detectLiquidatedAMM', () => {
     expect(result).toBeNull()
   })
 
-  it('returns null when DeletedNode is not AMM type', async () => {
-    mockSocket.send.mockResolvedValue({
+  it('returns null when AccountDelete (not AMM deletion)', async () => {
+    getAccountTransactions.mockResolvedValue({
       transactions: [
         {
           tx: { TransactionType: 'AccountDelete' },
@@ -122,5 +127,104 @@ describe('detectLiquidatedAMM', () => {
 
     const result = await detectLiquidatedAMM(mockSocket, 'rDeletedAccount')
     expect(result).toBeNull()
+  })
+})
+
+describe('formatDepositWithdraw', () => {
+  const baseTx: LOSAMMDepositWithdrawRaw = {
+    hash: 'ABC123',
+    ledger_index: 100,
+    timestamp: 1000000,
+    account: 'rAccount1',
+    amm: {
+      asset1: { currency: 'USD', issuer: 'rIssuer1', value: '500' },
+      asset2: { currency: 'XRP', issuer: null, value: '250' },
+      lp_tokens_received: '1000',
+      value_usd: 750,
+    },
+  }
+
+  it('formats both assets preserving response order', () => {
+    const result = formatDepositWithdraw(baseTx)
+
+    expect(result.hash).toBe('ABC123')
+    expect(result.ledger).toBe(100)
+    expect(result.timestamp).toBe(1000000)
+    expect(result.account).toBe('rAccount1')
+    expect(result.asset).toEqual({
+      currency: 'USD',
+      issuer: 'rIssuer1',
+      amount: 500,
+    })
+    expect(result.asset2).toEqual({
+      currency: 'XRP',
+      issuer: undefined,
+      amount: 250,
+    })
+    expect(result.lpTokens).toBe('1000')
+    expect(result.valueUsd).toBe(750)
+  })
+
+  it('returns null for missing asset2 (single-asset deposit)', () => {
+    const singleAssetTx: LOSAMMDepositWithdrawRaw = {
+      ...baseTx,
+      amm: {
+        asset1: { currency: 'USD', issuer: 'rIssuer1', value: '500' },
+        lp_tokens_received: '1000',
+      },
+    }
+    const result = formatDepositWithdraw(singleAssetTx)
+
+    expect(result.asset).toEqual({
+      currency: 'USD',
+      issuer: 'rIssuer1',
+      amount: 500,
+    })
+    expect(result.asset2).toBeNull()
+  })
+
+  it('returns null for asset with zero value', () => {
+    const zeroAssetTx: LOSAMMDepositWithdrawRaw = {
+      ...baseTx,
+      amm: {
+        asset1: { currency: 'USD', issuer: 'rIssuer1', value: '500' },
+        asset2: { currency: 'XRP', issuer: null, value: '0' },
+        lp_tokens_received: '1000',
+      },
+    }
+    const result = formatDepositWithdraw(zeroAssetTx)
+
+    expect(result.asset).toEqual({
+      currency: 'USD',
+      issuer: 'rIssuer1',
+      amount: 500,
+    })
+    expect(result.asset2).toBeNull()
+  })
+
+  it('uses lp_tokens_redeemed for withdrawals', () => {
+    const withdrawTx: LOSAMMDepositWithdrawRaw = {
+      ...baseTx,
+      amm: {
+        asset1: { currency: 'USD', issuer: 'rIssuer1', value: '500' },
+        lp_tokens_redeemed: '800',
+      },
+    }
+    const result = formatDepositWithdraw(withdrawTx)
+
+    expect(result.lpTokens).toBe('800')
+  })
+
+  it('returns null for lpTokens and valueUsd when amm data is missing', () => {
+    const noAmmTx: LOSAMMDepositWithdrawRaw = {
+      ...baseTx,
+      amm: undefined,
+    }
+    const result = formatDepositWithdraw(noAmmTx)
+
+    expect(result.asset).toBeNull()
+    expect(result.asset2).toBeNull()
+    expect(result.lpTokens).toBeNull()
+    expect(result.valueUsd).toBeNull()
   })
 })

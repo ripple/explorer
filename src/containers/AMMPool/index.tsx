@@ -16,10 +16,15 @@ import { BasicInfoCard } from './InfoCards/BasicInfoCard'
 import { MarketDataCard } from './InfoCards/MarketDataCard'
 import { AuctionCard } from './InfoCards/AuctionCard'
 import { AMMPoolTablePicker } from './TablePicker'
-import { TVLVolumeChart } from './TVLVolumeChart'
-import { fetchAMMPoolData, fetchAMMCreatedTimestamp } from './api'
+import { TVLVolumeChart } from '../shared/components/TVLVolumeChart'
+import {
+  fetchAMMPoolData,
+  fetchAMMCreatedTimestamp,
+  fetchAMMHistoricalTrends,
+} from './api'
 import { detectLiquidatedAMM, LiquidatedAMMData } from './utils'
-import { FormattedBalance } from './types'
+import { AuctionSlot, FormattedBalance, HistoricalDataPoint } from './types'
+import InfoIcon from '../shared/images/info-duotone.svg'
 import './styles.scss'
 
 const ERROR_MESSAGES: { [code: number]: ErrorMessage } = {
@@ -154,6 +159,22 @@ export const AMMPool = () => {
     { enabled: !!ammAccountId },
   )
 
+  const [timeRange, setTimeRange] = useState<string>('6M')
+
+  // Fetch historical trends (mainnet only)
+  const { data: trendsData, isFetching: trendsLoading } = useQuery(
+    ['ammTrends', ammAccountId, timeRange],
+    () => fetchAMMHistoricalTrends(ammAccountId, timeRange),
+    {
+      enabled: !!ammAccountId && isMainnet,
+      onError: (e: any) => {
+        trackException(
+          `Error fetching AMM trends for ${ammAccountId} --- ${JSON.stringify(e)}`,
+        )
+      },
+    },
+  )
+
   useEffect(() => {
     trackScreenLoaded({ account_id: ammAccountId })
     return () => {
@@ -176,7 +197,7 @@ export const AMMPool = () => {
   let balance2: FormattedBalance | null = null
   let tradingFee = 0
   let lpToken: { currency: string; issuer: string; value: string } | undefined
-  let auctionSlot: any
+  let auctionSlot: AuctionSlot | undefined
 
   if (ammData) {
     balance1 = formatAmount(ammData.amount)
@@ -239,9 +260,21 @@ export const AMMPool = () => {
 
           {isMainnet && (
             <TVLVolumeChart
-              ammAccountId={ammAccountId}
+              data={(trendsData?.data_points || []).map(
+                (point: HistoricalDataPoint) => ({
+                  date: point.date,
+                  tvl:
+                    displayCurrency === 'usd' ? point.tvl_usd : point.tvl_xrp,
+                  volume:
+                    displayCurrency === 'usd'
+                      ? point.trading_volume_usd
+                      : point.trading_volume_xrp,
+                }),
+              )}
+              isLoading={trendsLoading}
               displayCurrency={displayCurrency}
               setDisplayCurrency={setDisplayCurrency}
+              onTimeRangeChange={setTimeRange}
             />
           )}
 
@@ -250,8 +283,6 @@ export const AMMPool = () => {
             tab={tab}
             isMainnet={isMainnet}
             lpToken={lpToken}
-            asset1={asset1}
-            asset2={asset2}
             tvlUsd={losData?.tvl_usd}
             isDeleted={isLiquidated}
           />
