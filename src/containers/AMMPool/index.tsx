@@ -70,7 +70,7 @@ const orderAssets = (
 
 /**
  * Build FormattedBalance objects from deleted AMM data.
- * Liquidated pools have no live balances, so amount is 0.
+ * Deleted pools have no live balances, so amount is 0.
  */
 const buildDeletedBalances = (
   data: DeletedAMMData,
