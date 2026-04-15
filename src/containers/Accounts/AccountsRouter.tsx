@@ -6,7 +6,6 @@ import {
   isValidXAddress,
   xAddressToClassicAddress,
 } from 'ripple-address-codec'
-import { AMMAccounts } from './AMM/AMMAccounts'
 import SocketContext from '../shared/SocketContext'
 import { getAccountInfo } from '../../rippled/lib/rippled'
 import NoMatch from '../NoMatch'
@@ -44,12 +43,7 @@ export const AccountsRouter = () => {
 
     return (
       getAccountInfo(rippledSocket, classicAddress)
-        .then((data: any) => {
-          if (data.AMMID) {
-            return <AMMAccounts />
-          }
-          return <Accounts />
-        })
+        .then(() => <Accounts />)
         // Even if account info fails it might be a deleted account
         .catch((responseError: Error) => {
           if (responseError?.code === 404) {
