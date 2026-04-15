@@ -4,7 +4,7 @@ import { Link } from 'react-router'
 import { Account } from '../Account'
 import { Loader } from '../Loader'
 import { EmptyStateMessage } from '../EmptyStateMessage'
-import { useTooltip, Tooltip } from '../Tooltip'
+import { useTooltip } from '../Tooltip'
 import HoverIcon from '../../images/hover.svg'
 import ArrowIcon from '../../images/down_arrow.svg'
 import './styles.scss'
@@ -45,6 +45,7 @@ interface DexTradeTableProps {
   sortOrder?: 'asc' | 'desc'
   setSortOrder?: (order: 'asc' | 'desc') => void
   onRefresh?: () => void
+  hideType?: boolean
 }
 
 export const DexTradeTable = ({
@@ -61,10 +62,11 @@ export const DexTradeTable = ({
   sortOrder,
   setSortOrder,
   onRefresh,
+  hideType = false,
 }: DexTradeTableProps) => {
   const { t } = useTranslation()
   const language = useLanguage()
-  const { tooltip, showTooltip, hideTooltip } = useTooltip()
+  const { showTooltip, hideTooltip } = useTooltip()
   const tableRef = useRef<HTMLTableElement>(null)
 
   // Scroll to top of table when page changes
@@ -136,7 +138,7 @@ export const DexTradeTable = ({
       <td className="tx-timestamp">
         <ResponsiveTimestamp timestamp={tx.timestamp} lang={language} />
       </td>
-      <td className="tx-type">{formatDexType(tx.type)}</td>
+      {!hideType && <td className="tx-type">{formatDexType(tx.type)}</td>}
       <td className="tx-from">
         <span className="text-truncate">
           <Account displayText={shortenAccount(tx.from)} account={tx.from} />
@@ -149,26 +151,18 @@ export const DexTradeTable = ({
       </td>
       <td className="tx-amount-in">
         <Amount
-          value={{
-            currency: tx.amount_in.currency,
-            issuer: tx.amount_in.issuer,
-            amount: parseAmount(tx.amount_in.amount),
-          }}
+          value={tx.amount_in}
           displayIssuer
           shortenIssuer
-          displayCurrency={String(tx.amount_in.currency) !== 'XRP'}
+          useParseAmount
         />
       </td>
       <td className="tx-amount-out">
         <Amount
-          value={{
-            currency: tx.amount_out.currency,
-            issuer: tx.amount_out.issuer,
-            amount: parseAmount(tx.amount_out.amount),
-          }}
+          value={tx.amount_out}
           displayIssuer
           shortenIssuer
-          displayCurrency={String(tx.amount_out.currency) !== 'XRP'}
+          useParseAmount
         />
       </td>
 
@@ -191,13 +185,12 @@ export const DexTradeTable = ({
 
   return (
     <div className="tokens-table">
-      <Tooltip tooltip={tooltip} />
       {isLoading && <Loader />}
 
       {!isLoading && transactions && transactions.length > 0 && (
         <>
           <div className="notice-with-controls">
-            <div className="data-notice">{t('token_page.dex_data_notice')}</div>
+            <div className="data-notice">{t('data_available_from_notice')}</div>
             <button
               type="button"
               className="refresh-button"
@@ -231,7 +224,9 @@ export const DexTradeTable = ({
                       )}
                     </span>
                   </th>
-                  <th className="tx-type">{t('token_page.dex_type')}</th>
+                  {!hideType && (
+                    <th className="tx-type">{t('token_page.dex_type')}</th>
+                  )}
                   <th className="tx-from">{t('from')}</th>
                   <th className="tx-to">{t('to')}</th>
                   <th className="tx-amount-in">

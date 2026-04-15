@@ -151,9 +151,7 @@ export const TransfersTable = ({
       {!isTransfersLoading && transactions && transactions.length > 0 && (
         <>
           <div className="notice-with-controls">
-            <div className="data-notice">
-              {t('token_page.transfers_data_notice')}
-            </div>
+            <div className="data-notice">{t('data_available_from_notice')}</div>
             <button
               type="button"
               className="refresh-button"

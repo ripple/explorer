@@ -1,12 +1,12 @@
 import { useContext } from 'react'
 import { useParams } from 'react-router'
+import { Navigate } from 'react-router-dom'
 import { useQuery } from 'react-query'
 import {
   isValidClassicAddress,
   isValidXAddress,
   xAddressToClassicAddress,
 } from 'ripple-address-codec'
-import { AMMAccounts } from './AMM/AMMAccounts'
 import SocketContext from '../shared/SocketContext'
 import { getAccountInfo } from '../../rippled/lib/rippled'
 import NoMatch from '../NoMatch'
@@ -15,6 +15,9 @@ import { ERROR_MESSAGES } from './Errors'
 import { Loader } from '../shared/components/Loader'
 import { Error } from '../../rippled/lib/utils'
 import { BAD_REQUEST } from '../shared/utils'
+import { buildPath } from '../shared/routing'
+import { AMM_POOL_ROUTE } from '../App/routes'
+import { getDeletedAMMData } from '../AMMPool/utils'
 
 const getErrorMessage = (error: any) =>
   ERROR_MESSAGES[error] || ERROR_MESSAGES.default
@@ -46,13 +49,34 @@ export const AccountsRouter = () => {
       getAccountInfo(rippledSocket, classicAddress)
         .then((data: any) => {
           if (data.AMMID) {
-            return <AMMAccounts />
+            return (
+              <Navigate
+                to={buildPath(AMM_POOL_ROUTE, { id: classicAddress })}
+                replace
+              />
+            )
           }
+
           return <Accounts />
         })
-        // Even if account info fails it might be a deleted account
-        .catch((responseError: Error) => {
+        // Even if account info fails it might be a deleted account or deleted AMM
+        .catch(async (responseError: Error) => {
           if (responseError?.code === 404) {
+            // Check if this is a deleted AMM pool
+            const deletedAmm = await getDeletedAMMData(
+              rippledSocket,
+              classicAddress,
+            )
+
+            if (deletedAmm) {
+              return (
+                <Navigate
+                  to={buildPath(AMM_POOL_ROUTE, { id: classicAddress })}
+                  replace
+                />
+              )
+            }
+
             return <Accounts />
           }
 

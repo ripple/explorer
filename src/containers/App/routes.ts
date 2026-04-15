@@ -88,3 +88,10 @@ export const VAULT_ROUTE: RouteDefinition<{
 export const VAULTS_ROUTE: RouteDefinition = {
   path: '/vaults',
 }
+
+export const AMM_POOL_ROUTE: RouteDefinition<{
+  id: string
+  tab?: 'transactions' | 'dex-trades' | 'deposits' | 'withdrawals' | 'holders'
+}> = {
+  path: '/amm/:id/:tab?',
+}
