@@ -1,0 +1,438 @@
+@use '../shared/css/variables' as *;
+@use '../shared/css/table';
+
+.amm-rankings-page {
+  overflow: visible;
+  width: 100%;
+  max-width: 1500px;
+  min-height: 150px;
+  padding: 0 24px;
+  margin: 40px auto 0;
+  color: $white;
+
+  // ─── Page header ───────────────────────────────────────────────
+  .page-header {
+    margin-bottom: 16px;
+
+    .page-title {
+      margin: 0;
+      color: $white;
+      font-size: 36px;
+      @include bold;
+    }
+  }
+
+  // ─── Chart + General Info side-by-side ────────────────────────
+  .chart-and-info-container {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: stretch;
+    margin-bottom: 64px;
+    gap: 16px;
+
+    @include for-size(desktop-up) {
+      flex-direction: row;
+      align-items: flex-start;
+    }
+  }
+
+  // The shared TVLVolumeChart wraps everything in .tvl-volume-section,
+  // which is the direct flex child of .chart-and-info-container.
+  .tvl-volume-section {
+    min-width: 0;
+    margin-bottom: 0; // Override shared component's 50px margin
+
+    @include for-size(desktop-up) {
+      flex: 3;
+    }
+  }
+
+  // ─── General Info Card ────────────────────────────────────────
+  // Align the top of the card with the top of the chart container,
+  // accounting for the section title + controls above the chart.
+  .general-info-card {
+    @include for-size(desktop-up) {
+      min-width: 200px;
+      max-width: 320px;
+      flex: 1;
+      // Offset = chart-section-title height + margin + controls height + margin
+      margin-top: 84px;
+    }
+
+    padding: 20px 24px;
+    border: 1px solid $black-70;
+    border-radius: $border-radius;
+    background-color: $black-80;
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 16px;
+      gap: 8px;
+
+      .info-icon {
+        width: 20px;
+        height: 20px;
+        color: $white;
+      }
+
+      .card-title {
+        color: $white;
+        font-size: 16px;
+        @include semibold;
+      }
+    }
+
+    .stats-container {
+      display: flex;
+      flex-direction: column;
+
+      .stat-row {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        padding: 12px 0;
+        border-bottom: 1px solid $black-70;
+
+        &:first-child {
+          padding-top: 0;
+        }
+
+        .stat-label {
+          display: inline-flex;
+          align-items: center;
+          color: $black-40;
+          font-size: 14px;
+          gap: 6px;
+          letter-spacing: 0.5px;
+          text-transform: uppercase;
+          @include bold;
+        }
+
+        .stat-value {
+          color: $white;
+          font-size: 14px;
+          font-weight: normal;
+        }
+      }
+    }
+  }
+
+  // ─── Table section ────────────────────────────────────────────
+  .amm-rankings-table-container {
+    .table-title {
+      padding-bottom: 0;
+      border-bottom: none;
+      margin: 0 0 40px;
+      color: $white;
+      font-size: 20px;
+      @include bold;
+    }
+  }
+
+  .table-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 16px;
+    gap: 12px;
+
+    .currency-switch {
+      margin-left: auto;
+    }
+  }
+
+  .search-wrapper {
+    position: relative;
+    max-width: 400px;
+    flex: 1;
+
+    &::before {
+      position: absolute;
+      top: 50%;
+      left: 12px;
+      width: 16px;
+      height: 16px;
+      background-image: url('../shared/images/search.svg');
+      background-repeat: no-repeat;
+      background-size: contain;
+      content: '';
+      pointer-events: none;
+      transform: translateY(-50%);
+    }
+
+    .amm-search {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 7px 12px 7px 36px;
+      border: 1px solid $black-50;
+      border-radius: $border-radius;
+      background-color: $black;
+      color: $white;
+      font-size: 13px;
+      outline: none;
+      transition: border-color 0.15s;
+
+      &::placeholder {
+        color: $black-50;
+      }
+
+      &:focus {
+        border-color: $blue-50;
+      }
+    }
+  }
+
+  .table-filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+
+    .filter-icon-btn {
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
+      background-image: url('../shared/images/group.svg');
+      background-repeat: no-repeat;
+      background-size: contain;
+    }
+
+    .category-filter {
+      display: flex;
+      align-items: center;
+      padding: 6px 12px;
+      border: 1px solid $black-50;
+      border-radius: $border-radius;
+      background-color: $black;
+      color: $white;
+      cursor: pointer;
+      font-size: 14px;
+      gap: 6px;
+      transition: background-color 0.15s;
+      @include medium;
+
+      &:hover {
+        background-color: $black-70;
+      }
+
+      &.selected {
+        background-color: $white;
+        color: $black;
+
+        .item-icon {
+          filter: invert(1);
+        }
+      }
+
+      /* stylelint-disable-next-line no-descending-specificity */
+      .item-icon {
+        width: 18px;
+        height: 18px;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+
+        &.icon-rwa {
+          background-image: url('../shared/images/rwa.svg');
+        }
+
+        &.icon-stablecoin {
+          background-image: url('../shared/images/stablecoin.svg');
+        }
+
+        &.icon-memes {
+          background-image: url('../shared/images/memes.svg');
+        }
+
+        &.icon-defi {
+          background-image: url('../shared/images/decentralized.svg');
+        }
+      }
+    }
+  }
+
+  // ─── Table Wrapper ────────────────────────────────────────────
+  .table-wrap {
+    -webkit-overflow-scrolling: touch;
+    overflow-x: auto;
+  }
+
+  // ─── AMM Rankings Table ───────────────────────────────────────
+  .amm-rankings-table {
+    width: 100%;
+    min-width: 1000px; // Ensure horizontal scroll on smaller viewports
+
+    // Table headers - match explorer standard
+    th {
+      padding: 12px 8px;
+      color: $black-40; // Match standard explorer table headers
+      font-size: 12px;
+      font-weight: 600; // Figma: Semi Bold
+      line-height: 1.5em; // Figma: 18px (1.5 * 12px)
+      text-align: left;
+      text-transform: uppercase;
+    }
+
+    td {
+      padding: 12px 8px; // Reduced horizontal padding for tighter columns
+    }
+
+    th.rank,
+    td.rank {
+      width: 50px;
+      padding-right: 4px;
+      padding-left: 12px;
+    }
+
+    // Rank column text color
+    td.rank {
+      color: $white; // Figma: XRPL/Primary/White
+    }
+
+    td.pool {
+      .pool-display {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        .token-pair {
+          position: relative;
+          display: flex;
+          width: 48px; // Fixed width: 28px (first icon) + 20px (second icon visible after -8px overlap)
+          flex-shrink: 0;
+          align-items: center;
+
+          // Apply overlap only to the wrapper/link level, not the icon itself
+          .token-icon-link,
+          .token-icon-wrapper {
+            position: relative;
+            display: inline-block;
+
+            &:nth-child(2) {
+              z-index: 1;
+              margin-left: -8px; // Overlap per Figma: 24px icon offset at 16px → 8px overlap
+            }
+
+            &:first-child {
+              z-index: 2; // Keep first icon on top
+            }
+          }
+
+          /* stylelint-disable-next-line no-descending-specificity */
+          .token-icon-link {
+            text-decoration: none;
+            transition: transform 0.2s ease;
+
+            &:hover {
+              z-index: 10;
+              transform: scale(1.1);
+            }
+          }
+
+          /* stylelint-disable-next-line no-descending-specificity */
+          .token-icon-wrapper {
+            &.fallback-mode {
+              .token-icon:not(.fallback) {
+                display: none;
+              }
+
+              .token-icon.fallback {
+                display: flex !important;
+              }
+            }
+          }
+
+          /* stylelint-disable-next-line no-descending-specificity */
+          .token-icon {
+            display: flex;
+            width: 28px;
+            height: 28px;
+            flex-shrink: 0;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid $black-90;
+            border-radius: 50%;
+            background-color: $black-90; // Ensure solid background
+            color: $white;
+            font-size: 9px;
+            object-fit: cover;
+            @include bold;
+
+            /* stylelint-disable-next-line no-descending-specificity */
+            &.fallback {
+              background: linear-gradient(135deg, $blue-50, $blue-purple-50);
+            }
+          }
+        }
+
+        .pool-name {
+          min-width: 0; // Allow text to shrink if needed
+          flex: 1;
+          color: $white;
+          font-size: 14px;
+          white-space: nowrap;
+          @include regular;
+
+          .currency {
+            font: inherit;
+          }
+        }
+      }
+    }
+
+    td.amm-account-id {
+      font-size: 13px;
+
+      .account {
+        color: $green-30;
+
+        &:hover {
+          color: $green-50;
+        }
+      }
+    }
+
+    td.apr {
+      color: $white;
+    }
+  }
+
+  // ─── Responsive ───────────────────────────────────────────────
+  @include for-size(phone-only) {
+    padding: 0 12px;
+
+    .page-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  @include for-size(desktop-up) {
+    padding: 0 80px;
+    margin-top: 60px;
+
+    .page-header {
+      .page-title {
+        font-size: 36px;
+      }
+    }
+
+    // On larger viewports, reduce spacing to fit all columns without scrolling
+    .amm-rankings-table {
+      min-width: auto; // Remove min-width constraint
+
+      th,
+      td {
+        padding: 12px 6px; // Further reduced horizontal padding
+      }
+
+      th.rank,
+      td.rank {
+        padding-right: 4px;
+        padding-left: 12px;
+      }
+    }
+  }
+}

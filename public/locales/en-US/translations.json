@@ -432,6 +432,7 @@
   "obligations_message": "Obligations are the total amounts of each token issued to addresses",
   "issuer": "Issuer",
   "pair": "Pair",
+  "asset_pair": "Asset Pair",
   "offer_range": "Offer Range",
   "custom_network": "Custom Network",
   "custom_network_input_help": "Enter custom network URL to access network's data.",
@@ -908,5 +909,15 @@
   "asset_2": "Asset 2",
   "usd_value": "USD Value",
   "amm_pool_deleted_label": "AMM Pool Deleted",
-  "amm_pool_deleted_text": "This AMM pool has been deleted. All assets have been withdrawn and the pool is no longer active. Historical data is still available below."
+  "amm_pool_deleted_text": "This AMM pool has been deleted. All assets have been withdrawn and the pool is no longer active. Historical data is still available below.",
+  "amms": "AMMs",
+  "top_1000_amms": "Top 1,000 AMMs",
+  "general_info": "General Info",
+  "number_of_amms": "# of AMMs",
+  "number_of_lps": "# of LPs",
+  "number_of_amms_tooltip": "Number of active AMM pools with deposit/withdrawal activity",
+  "number_of_lps_tooltip": "Number of unique liquidity providers across all AMM pools",
+  "search_amms": "Search AMMs",
+  "tvl_tooltip": "Total value locked across all active AMM pools",
+  "volume_24h_all_tooltip": "Total DEX trading volume across all active AMM pools from 00:00–23:59 UTC of the previous day"
 }

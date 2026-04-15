@@ -30,6 +30,7 @@ import {
   UPGRADE_STATUS_ROUTE,
   TOKENS_ROUTE,
   VAULTS_ROUTE,
+  AMM_RANKINGS_ROUTE,
   AMM_POOL_ROUTE,
 } from './routes'
 import { LedgersPage as Ledgers } from '../Ledgers'
@@ -52,6 +53,7 @@ import { TokenNonMain } from '../TokenNonMain'
 import { Vault } from '../Vault'
 import { Vaults } from '../Vaults'
 import { AMMPool } from '../AMMPool'
+import { AMMRankings } from '../AMMRankings'
 import { FEATURE_VAULTS_PAGE } from './featureFlags'
 
 export const AppWrapper = () => {
@@ -92,6 +94,7 @@ export const AppWrapper = () => {
       [MPT_ROUTE, MPT],
       [VAULT_ROUTE, Vault],
       [AMM_POOL_ROUTE, AMMPool],
+      mode === 'mainnet' && [AMM_RANKINGS_ROUTE, AMMRankings],
       FEATURE_VAULTS_PAGE && [VAULTS_ROUTE, Vaults],
     ] as (false | [RouteDefinition<any>, any])[]
   ).filter(Boolean) as [RouteDefinition<any>, any][]

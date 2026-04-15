@@ -15,6 +15,7 @@ module.exports = {
   },
   transformIgnorePatterns: ['node_modules/(?!arc)/(?!d3)'],
   moduleNameMapper: {
+    '\\.svg\\?url$': '<rootDir>/testUtils/svgUrlTransform.js',
     'd3-hexbin': '<rootDir>/node_modules/d3-hexbin/build/d3-hexbin.min.js',
     d3: '<rootDir>/node_modules/d3/dist/d3.min.js',
   },
