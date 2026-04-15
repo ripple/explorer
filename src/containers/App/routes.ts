@@ -88,3 +88,9 @@ export const VAULT_ROUTE: RouteDefinition<{
 export const VAULTS_ROUTE: RouteDefinition = {
   path: '/vaults',
 }
+
+export const SEARCH_RESULT_ROUTE: RouteDefinition<{
+  id: string
+}> = {
+  path: '/search/:id',
+}
