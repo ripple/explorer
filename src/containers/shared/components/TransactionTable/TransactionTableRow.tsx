@@ -1,24 +1,12 @@
 import { TxLabel } from '../TxLabel'
 import { TxStatus } from '../TxStatus'
 import { TxDetails } from '../TxDetails'
-import { localizeDate, shortenTxHash } from '../../utils'
+import { localizeDate, shortenTxHash, DATE_OPTIONS_NUMERIC } from '../../utils'
 import './styles.scss'
 import { useLanguage } from '../../hooks'
 import TxToken from '../TxToken'
 import { RouteLink } from '../../routing'
 import { TRANSACTION_ROUTE } from '../../../App/routes'
-
-const TIME_ZONE = 'UTC'
-const DATE_OPTIONS = {
-  hour: 'numeric',
-  minute: 'numeric',
-  second: 'numeric',
-  year: 'numeric',
-  month: 'numeric',
-  day: 'numeric',
-  hour12: true,
-  timeZone: TIME_ZONE,
-}
 
 export interface Props {
   tx: any
@@ -33,7 +21,7 @@ export const TransactionTableRow = ({
 }: Props) => {
   const language = useLanguage()
   const success = tx.result === 'tesSUCCESS'
-  const date = localizeDate(new Date(tx.date), language, DATE_OPTIONS)
+  const date = localizeDate(new Date(tx.date), language, DATE_OPTIONS_NUMERIC)
 
   return (
     <li

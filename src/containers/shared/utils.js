@@ -4,7 +4,11 @@ const BILLION = MILLION * THOUSAND
 const TRILLION = BILLION * THOUSAND
 const QUADRILLION = TRILLION * THOUSAND
 
-const TRADING_FEE_TOTAL = 1000
+// Divisor to convert AMM trading fee integer to a percentage (e.g. 1000 → 1%)
+const TRADING_FEE_TO_PERCENT = 1000
+
+// Divisor to convert AMM trading fee integer to a decimal (e.g. 1000 → 0.01)
+export const TRADING_FEE_BASE = TRADING_FEE_TO_PERCENT * 100
 
 export const EXOTIC_SYMBOLS = {
   BTC: '\u20BF',
@@ -212,6 +216,17 @@ export const localizeDate = (date, lang = 'en-US', options = {}) => {
     return null
   }
   return new Intl.DateTimeFormat(lang, options).format(date)
+}
+
+export const DATE_OPTIONS_NUMERIC = {
+  hour: 'numeric',
+  minute: 'numeric',
+  second: 'numeric',
+  year: 'numeric',
+  month: 'numeric',
+  day: 'numeric',
+  hour12: true,
+  timeZone: 'UTC',
 }
 
 export const getLocalizedCurrencySymbol = (
@@ -435,9 +450,10 @@ export const formatAsset = (asset) => {
   }
 }
 
+// For AMM, the trading fee is in units of 1/100,000; a value of 1 is equivalent to a 0.001% fee.
 export const formatTradingFee = (tradingFee) =>
   tradingFee !== undefined
-    ? localizeNumber(tradingFee / TRADING_FEE_TOTAL, 'en-US', {
+    ? localizeNumber(tradingFee / TRADING_FEE_TO_PERCENT, 'en-US', {
         minimumFractionDigits: 0,
         maximumFractionDigits: 3,
       })
@@ -614,3 +630,6 @@ export const convertToHttpURL = (url) => {
  */
 export const shortenVaultID = (vaultID) =>
   `${vaultID.substring(0, 8)}...${vaultID.substring(vaultID.length - 6)}`
+
+export const shortenLPToken = (lpToken) =>
+  `${lpToken.substring(0, 10)}...${lpToken.substring(lpToken.length - 7)}`
