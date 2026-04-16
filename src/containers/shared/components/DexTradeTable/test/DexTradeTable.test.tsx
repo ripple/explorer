@@ -2,79 +2,11 @@ import { render, screen, fireEvent } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter as Router } from 'react-router-dom'
 import i18n from '../../../../../i18n/testConfigEnglish'
-import { DexTradeTable, LOSDEXTransaction } from '../DexTradeTable'
+import { DexTradeTable, DexTradeFormatted } from '../DexTradeTable'
 
-jest.mock('../../Account', () => ({
-  Account: ({ displayText }: { displayText: string }) => (
-    <span data-testid="account">{displayText}</span>
-  ),
-}))
-
+// Amount must be mocked — it uses useQuery(), SocketContext, and useAnalytics()
 jest.mock('../../Amount', () => ({
   Amount: ({ value }: any) => <div>{value.amount}</div>,
-}))
-
-jest.mock('../../Currency', () => ({
-  __esModule: true,
-  default: ({ currency }: { currency: string }) => <div>{currency}</div>,
-}))
-
-jest.mock('../../Tooltip', () => ({
-  useTooltip: () => ({
-    tooltip: null,
-    showTooltip: jest.fn(),
-    hideTooltip: jest.fn(),
-  }),
-  Tooltip: () => null,
-}))
-
-jest.mock('../../../utils', () => ({
-  shortenAccount: (account: string) =>
-    account.length > 12
-      ? `${account.slice(0, 7)}...${account.slice(-5)}`
-      : account,
-  shortenTxHash: (hash: string) =>
-    hash.length > 12 ? `${hash.slice(0, 6)}...${hash.slice(-6)}` : hash,
-}))
-
-jest.mock('../../../hooks', () => ({
-  useLanguage: () => 'en',
-}))
-
-jest.mock('../../ResponsiveTimestamp', () => ({
-  ResponsiveTimestamp: ({ timestamp }: { timestamp: number }) => (
-    <div>{new Date(timestamp * 1000).toISOString()}</div>
-  ),
-}))
-
-jest.mock('../../Pagination', () => ({
-  Pagination: ({
-    onPageChange,
-    totalItems,
-    pageSize = 15,
-  }: {
-    onPageChange: (page: number) => void
-    totalItems: number
-    pageSize?: number
-  }) => {
-    const totalPages = Math.max(1, Math.ceil(totalItems / pageSize))
-    if (totalPages <= 1) return null
-    return (
-      <div>
-        <button type="button" onClick={() => onPageChange(2)}>
-          Next Page
-        </button>
-      </div>
-    )
-  },
-}))
-
-jest.mock('../../Loader', () => ({
-  Loader: () => <div>Loading...</div>,
-}))
-
-jest.mock('../../../NumberFormattingUtils', () => ({
-  parseAmount: (amount: any) => String(amount),
 }))
 
 const TestWrapper = ({ children }: { children: React.ReactNode }) => (
@@ -83,7 +15,7 @@ const TestWrapper = ({ children }: { children: React.ReactNode }) => (
   </I18nextProvider>
 )
 
-const mockDexTrades: LOSDEXTransaction[] = [
+const mockDexTrades: DexTradeFormatted[] = [
   {
     hash: 'E3FE6EA3D48F0C2B639448020EA4F03D4F4F8FFDB243A852A0F59177921B4879',
     ledger: 12345,
@@ -178,7 +110,7 @@ describe('DexTradeTable Component', () => {
         />
       </TestWrapper>,
     )
-    expect(screen.getByText('Loading...')).toBeInTheDocument()
+    expect(screen.getByRole('img', { name: /loading/i })).toBeInTheDocument()
   })
 
   it('shows no trades message when empty and not loading', () => {
@@ -211,8 +143,8 @@ describe('DexTradeTable Component', () => {
         />
       </TestWrapper>,
     )
-    const nextButton = screen.getByText('Next Page')
-    fireEvent.click(nextButton)
+    const page2Button = screen.getByRole('button', { name: '2' })
+    fireEvent.click(page2Button)
     expect(mockOnPageChange).toHaveBeenCalledWith(2)
   })
 
@@ -298,7 +230,7 @@ describe('DexTradeTable Component', () => {
   })
 
   it('handles transactions with null rate', () => {
-    const tradesWithNullRate: LOSDEXTransaction[] = [
+    const tradesWithNullRate: DexTradeFormatted[] = [
       {
         ...mockDexTrades[0],
         rate: null,
@@ -320,7 +252,7 @@ describe('DexTradeTable Component', () => {
   })
 
   it('handles transactions without type', () => {
-    const tradesWithoutType: LOSDEXTransaction[] = [
+    const tradesWithoutType: DexTradeFormatted[] = [
       {
         ...mockDexTrades[0],
         type: undefined,
@@ -354,7 +286,9 @@ describe('DexTradeTable Component', () => {
         />
       </TestWrapper>,
     )
-    expect(screen.getByText('Next Page')).toBeInTheDocument()
+    expect(
+      screen.getByRole('navigation', { name: /pagination/i }),
+    ).toBeInTheDocument()
   })
 
   it('displays pagination when hasPrevPage is true', () => {
@@ -370,7 +304,9 @@ describe('DexTradeTable Component', () => {
         />
       </TestWrapper>,
     )
-    expect(screen.getByText('Next Page')).toBeInTheDocument()
+    expect(
+      screen.getByRole('navigation', { name: /pagination/i }),
+    ).toBeInTheDocument()
   })
 
   it('renders correct number of rows', () => {
@@ -389,8 +325,27 @@ describe('DexTradeTable Component', () => {
     expect(rows.length).toBe(mockDexTrades.length)
   })
 
+  it('hides type column when hideType is true', () => {
+    const { container } = render(
+      <TestWrapper>
+        <DexTradeTable
+          transactions={mockDexTrades}
+          totalTrades={2}
+          currentPage={1}
+          onPageChange={mockOnPageChange}
+          pageSize={10}
+          hideType
+        />
+      </TestWrapper>,
+    )
+    const headers = container.querySelectorAll('thead th')
+    expect(headers.length).toBe(8)
+    expect(screen.queryByText('Order Book')).not.toBeInTheDocument()
+    expect(screen.queryByText('AMM')).not.toBeInTheDocument()
+  })
+
   it('handles single transaction', () => {
-    const singleTrade: LOSDEXTransaction[] = [mockDexTrades[0]]
+    const singleTrade: DexTradeFormatted[] = [mockDexTrades[0]]
     render(
       <TestWrapper>
         <DexTradeTable
