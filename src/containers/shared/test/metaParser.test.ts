@@ -93,7 +93,7 @@ describe('findAssetAmount', () => {
     )
     expect(result).toBeDefined()
     expect(result!.currency).toBe(TEST_MPT_ID)
-    expect(result!.amount).toBe(10000)
+    expect(result!.amount).toBe('10000')
     expect(result!.isMPT).toBe(true)
   })
 
@@ -147,8 +147,191 @@ describe('findAssetAmount', () => {
       baseTx,
     )
     expect(result).toBeDefined()
-    expect(result!.amount).toBe(5000)
+    expect(result!.amount).toBe('5000')
     expect(result!.isMPT).toBe(true)
+  })
+
+  it('returns the absolute value when MPTAmount increased', () => {
+    const meta = {
+      AffectedNodes: [
+        {
+          ModifiedNode: {
+            LedgerEntryType: 'MPToken',
+            LedgerIndex: 'INC1',
+            FinalFields: {
+              Account: 'rTestAccount',
+              MPTokenIssuanceID: TEST_MPT_ID,
+              MPTAmount: '1500',
+            },
+            PreviousFields: {
+              MPTAmount: '1000',
+            },
+          },
+        },
+      ],
+    }
+    const result = findAssetAmount(
+      meta,
+      { mpt_issuance_id: TEST_MPT_ID },
+      baseTx,
+    )
+    expect(result).toBeDefined()
+    expect(result!.amount).toBe('500')
+    expect(result!.isMPT).toBe(true)
+  })
+
+  it('returns undefined when MPTAmount did not change (zero delta)', () => {
+    const meta = {
+      AffectedNodes: [
+        {
+          ModifiedNode: {
+            LedgerEntryType: 'MPToken',
+            LedgerIndex: 'ZERO1',
+            FinalFields: {
+              Account: 'rTestAccount',
+              MPTokenIssuanceID: TEST_MPT_ID,
+              MPTAmount: '1000',
+            },
+            PreviousFields: {
+              MPTAmount: '1000',
+            },
+          },
+        },
+      ],
+    }
+    const result = findAssetAmount(
+      meta,
+      { mpt_issuance_id: TEST_MPT_ID },
+      baseTx,
+    )
+    expect(result).toBeUndefined()
+  })
+
+  it('treats missing PreviousFields.MPTAmount as zero', () => {
+    const meta = {
+      AffectedNodes: [
+        {
+          ModifiedNode: {
+            LedgerEntryType: 'MPToken',
+            LedgerIndex: 'NOPREV1',
+            FinalFields: {
+              Account: 'rTestAccount',
+              MPTokenIssuanceID: TEST_MPT_ID,
+              MPTAmount: '250',
+            },
+            PreviousFields: {},
+          },
+        },
+      ],
+    }
+    const result = findAssetAmount(
+      meta,
+      { mpt_issuance_id: TEST_MPT_ID },
+      baseTx,
+    )
+    expect(result).toBeDefined()
+    expect(result!.amount).toBe('250')
+  })
+
+  it('picks only MPToken nodes matching the requested issuance id', () => {
+    const OTHER_MPT_ID = '000099999999999999999999999999999999999999999999'
+    const meta = {
+      AffectedNodes: [
+        {
+          ModifiedNode: {
+            LedgerEntryType: 'MPToken',
+            LedgerIndex: 'OTHER1',
+            FinalFields: {
+              Account: 'rTestAccount',
+              MPTokenIssuanceID: OTHER_MPT_ID,
+              MPTAmount: '777',
+            },
+            PreviousFields: {
+              MPTAmount: '0',
+            },
+          },
+        },
+        {
+          ModifiedNode: {
+            LedgerEntryType: 'MPToken',
+            LedgerIndex: 'TARGET1',
+            FinalFields: {
+              Account: 'rTestAccount',
+              MPTokenIssuanceID: TEST_MPT_ID,
+              MPTAmount: '300',
+            },
+            PreviousFields: {
+              MPTAmount: '100',
+            },
+          },
+        },
+      ],
+    }
+    const result = findAssetAmount(
+      meta,
+      { mpt_issuance_id: TEST_MPT_ID },
+      baseTx,
+    )
+    expect(result).toBeDefined()
+    expect(result!.currency).toBe(TEST_MPT_ID)
+    expect(result!.amount).toBe('200')
+  })
+
+  it('returns undefined for a newly created MPToken with no MPTAmount', () => {
+    const meta = {
+      AffectedNodes: [
+        {
+          CreatedNode: {
+            LedgerEntryType: 'MPToken',
+            LedgerIndex: 'NEW_NOAMT',
+            NewFields: {
+              Account: 'rTestAccount',
+              MPTokenIssuanceID: TEST_MPT_ID,
+            },
+          },
+        },
+      ],
+    }
+    const result = findAssetAmount(
+      meta,
+      { mpt_issuance_id: TEST_MPT_ID },
+      baseTx,
+    )
+    expect(result).toBeUndefined()
+  })
+
+  it('preserves precision for MPT amounts beyond Number.MAX_SAFE_INTEGER', () => {
+    // MPTAmount can be up to 2^63 - 1 = 9223372036854775807,
+    // which exceeds Number.MAX_SAFE_INTEGER (2^53 - 1 = 9007199254740991).
+    const finalAmount = '9223372036854775807' // 2^63 - 1
+    const previousAmount = '9223372036854775000'
+    const expectedDelta = '807'
+
+    const meta = {
+      AffectedNodes: [
+        {
+          ModifiedNode: {
+            LedgerEntryType: 'MPToken',
+            LedgerIndex: 'LARGE1',
+            FinalFields: {
+              Account: 'rTestAccount',
+              MPTokenIssuanceID: TEST_MPT_ID,
+              MPTAmount: finalAmount,
+            },
+            PreviousFields: {
+              MPTAmount: previousAmount,
+            },
+          },
+        },
+      ],
+    }
+    const result = findAssetAmount(
+      meta,
+      { mpt_issuance_id: TEST_MPT_ID },
+      baseTx,
+    )
+    expect(result).toBeDefined()
+    expect(result!.amount).toBe(expectedDelta)
   })
 })
 

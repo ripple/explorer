@@ -108,15 +108,18 @@ function findMPTAmount(
   if (mptNodes.length === 0) return undefined
 
   const node = mptNodes[0]
-  const amount =
+  // MPTAmount can be up to 2^63 - 1, beyond Number.MAX_SAFE_INTEGER,
+  // so parse and subtract with BigInt to preserve precision.
+  const delta =
     node.FinalFields?.MPTAmount != null
-      ? Math.abs(
-          Number(node.FinalFields.MPTAmount) -
-            Number(node.PreviousFields?.MPTAmount ?? 0),
-        )
-      : Number(node.NewFields?.MPTAmount ?? 0)
+      ? BigInt(node.FinalFields.MPTAmount) -
+        BigInt(node.PreviousFields?.MPTAmount ?? 0)
+      : BigInt(node.NewFields?.MPTAmount ?? 0)
+  const amount = (delta < 0n ? -delta : delta).toString()
 
-  return amount ? { currency: mptIssuanceId, amount, isMPT: true } : undefined
+  return amount !== '0'
+    ? { currency: mptIssuanceId, amount, isMPT: true }
+    : undefined
 }
 
 function findXRPAmount(
