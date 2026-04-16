@@ -1,14 +1,17 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { MemoryRouter } from 'react-router-dom'
+import { MemoryRouter } from 'react-router'
 import { I18nextProvider } from 'react-i18next'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import i18n from '../../../../i18n/testConfig'
 import { AMMPoolTablePicker } from '../index'
-import { FormattedBalance } from '../../types'
 
+const mockGetAccountTransactions = jest.fn().mockResolvedValue({
+  transactions: [],
+})
 jest.mock('../../../../rippled', () => ({
-  getAccountTransactions: jest.fn().mockResolvedValue({ transactions: [] }),
+  getAccountTransactions: (...args: any[]) =>
+    mockGetAccountTransactions(...args),
 }))
 
 jest.mock('../../api', () => ({
@@ -38,21 +41,11 @@ const queryClient = new QueryClient({
   defaultOptions: { queries: { retry: false } },
 })
 
-const defaultAsset1: FormattedBalance = {
-  currency: '524C555344000000000000000000000000000000',
-  issuer: 'rMxCKbEDwqr76QuheSUMdEGf4B9xJ8m5De',
-  amount: 100000,
-}
-
-const defaultAsset2: FormattedBalance = { currency: 'XRP', amount: 50000 }
-
 interface RenderProps {
   ammAccountId?: string
   tab?: string
   isMainnet?: boolean
   lpToken?: { currency: string; issuer: string; value: string }
-  asset1?: FormattedBalance | null
-  asset2?: FormattedBalance | null
   tvlUsd?: number
   isDeleted?: boolean
 }
@@ -66,8 +59,6 @@ const renderComponent = ({
     issuer: 'rJbt6ryq1TzikBuvVQDaxVLqL77eJeibsj',
     value: '5000000',
   },
-  asset1 = defaultAsset1,
-  asset2 = defaultAsset2,
   tvlUsd = 1000000,
   isDeleted = false,
 }: RenderProps = {}) =>
@@ -80,8 +71,6 @@ const renderComponent = ({
             tab={tab}
             isMainnet={isMainnet}
             lpToken={lpToken}
-            asset1={asset1}
-            asset2={asset2}
             tvlUsd={tvlUsd}
             isDeleted={isDeleted}
           />
@@ -138,5 +127,19 @@ describe('AMMPoolTablePicker', () => {
   it('uses provided tab as initial active tab', () => {
     renderComponent({ tab: 'dex-trades' })
     // The dex-trades tab should be active (component renders its content)
+  })
+
+  it('shows error message when account transactions fail', async () => {
+    mockGetAccountTransactions.mockRejectedValueOnce(
+      new Error('get_account_transactions_failed'),
+    )
+
+    renderComponent()
+
+    await waitFor(() => {
+      expect(
+        screen.getByText('get_account_transactions_failed'),
+      ).toBeInTheDocument()
+    })
   })
 })

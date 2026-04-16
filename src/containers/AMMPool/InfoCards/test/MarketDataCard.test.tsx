@@ -1,19 +1,19 @@
 import { render, screen } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
-import { MemoryRouter } from 'react-router-dom'
+import { MemoryRouter } from 'react-router'
 import i18n from '../../../../i18n/testConfig'
 import { MarketDataCard } from '../MarketDataCard'
 import { TooltipProvider } from '../../../shared/components/Tooltip'
-import { AMMPoolLOSData, FormattedBalance } from '../../types'
+import { LOSAMMPoolData, FormattedBalance } from '../../types'
 
 interface RenderProps {
-  losData?: AMMPoolLOSData
+  losData?: LOSAMMPoolData
   balance1?: FormattedBalance | null
   balance2?: FormattedBalance | null
   lpTokenBalance?: string
 }
 
-const defaultLosData: AMMPoolLOSData = {
+const defaultLosData: LOSAMMPoolData = {
   tvl_usd: 1234567.89,
   tvl_xrp: 5000000,
   trading_volume_usd: 50000,

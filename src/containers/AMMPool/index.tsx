@@ -24,7 +24,7 @@ import {
   fetchAMMHistoricalTrends,
 } from './api'
 import { getDeletedAMMData, DeletedAMMData } from './utils'
-import { FormattedBalance } from './types'
+import { AuctionSlot, FormattedBalance, HistoricalDataPoint } from './types'
 import InfoIcon from '../shared/images/info-duotone.svg'
 import './styles.scss'
 
@@ -191,7 +191,7 @@ export const AMMPool = () => {
   let balance2: FormattedBalance | null = null
   let tradingFee = 0
   let lpToken: { currency: string; issuer: string; value: string } | undefined
-  let auctionSlot: any
+  let auctionSlot: AuctionSlot | undefined
 
   if (ammData) {
     balance1 = formatAmount(ammData.amount)
@@ -260,14 +260,17 @@ export const AMMPool = () => {
 
           {isMainnet && (
             <TVLVolumeChart
-              data={(trendsData?.data_points || []).map((point: any) => ({
-                date: point.date,
-                tvl: displayCurrency === 'usd' ? point.tvl_usd : point.tvl_xrp,
-                volume:
-                  displayCurrency === 'usd'
-                    ? point.trading_volume_usd
-                    : point.trading_volume_xrp,
-              }))}
+              data={(trendsData?.data_points || []).map(
+                (point: HistoricalDataPoint) => ({
+                  date: point.date,
+                  tvl:
+                    displayCurrency === 'usd' ? point.tvl_usd : point.tvl_xrp,
+                  volume:
+                    displayCurrency === 'usd'
+                      ? point.trading_volume_usd
+                      : point.trading_volume_xrp,
+                }),
+              )}
               isLoading={trendsLoading}
               displayCurrency={displayCurrency}
               setDisplayCurrency={setDisplayCurrency}
@@ -280,8 +283,6 @@ export const AMMPool = () => {
             tab={tab}
             isMainnet={isMainnet}
             lpToken={lpToken}
-            asset1={asset1}
-            asset2={asset2}
             tvlUsd={losData?.tvl_usd}
             isDeleted={isDeleted}
           />

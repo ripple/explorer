@@ -1,6 +1,6 @@
 import { FC, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 import { Account } from '../../shared/components/Account'
 import { Amount } from '../../shared/components/Amount'
 import { Loader } from '../../shared/components/Loader'
@@ -13,10 +13,10 @@ import {
 } from '../../shared/NumberFormattingUtils'
 import { shortenAccount, shortenTxHash } from '../../shared/utils'
 import { useLanguage } from '../../shared/hooks'
-import { AMMDepositWithdrawTx } from '../types'
+import { AMMDepositWithdrawFormatted } from '../types'
 
 interface AMMDepositWithdrawTableProps {
-  transactions: AMMDepositWithdrawTx[]
+  transactions: AMMDepositWithdrawFormatted[]
   isLoading: boolean
   totalItems: number
   currentPage: number
@@ -60,7 +60,7 @@ export const AMMDepositWithdrawTable: FC<AMMDepositWithdrawTableProps> = ({
   const lpTokenLabel =
     type === 'deposit' ? t('lp_tokens_received') : t('lp_tokens_redeemed')
 
-  const renderAssetAmount = (asset: AMMDepositWithdrawTx['asset']) => {
+  const renderAssetAmount = (asset: AMMDepositWithdrawFormatted['asset']) => {
     if (!asset || Number(asset.amount) === 0) {
       return '--'
     }
@@ -68,7 +68,7 @@ export const AMMDepositWithdrawTable: FC<AMMDepositWithdrawTableProps> = ({
     return <Amount value={asset} displayIssuer shortenIssuer useParseAmount />
   }
 
-  const renderTransaction = (tx: AMMDepositWithdrawTx) => (
+  const renderTransaction = (tx: AMMDepositWithdrawFormatted) => (
     <tr key={`${tx.hash}-${tx.ledger}`}>
       <td className="tx-hash">
         <Link to={`/transactions/${tx.hash}`}>{shortenTxHash(tx.hash)}</Link>
