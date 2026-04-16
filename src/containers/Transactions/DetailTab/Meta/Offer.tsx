@@ -8,18 +8,27 @@ import {
 import { localizeNumber } from '../../../shared/utils'
 import { Account } from '../../../shared/components/Account'
 import Currency from '../../../shared/components/Currency'
+import type { Amount } from '../../../shared/types'
 import type { MetaRenderFunctionWithTx, MetaNode } from './types'
 
-const getCurrency = (takerAmount: any): string => {
-  if (takerAmount?.mpt_issuance_id) return takerAmount.mpt_issuance_id
-  return takerAmount?.currency || 'XRP'
+const isMPTOrIOUAmount = (
+  takerAmount: Amount | undefined,
+): takerAmount is Exclude<Amount, string> =>
+  typeof takerAmount === 'object' && takerAmount !== null
+
+const getCurrency = (takerAmount: Amount | undefined): string => {
+  if (!isMPTOrIOUAmount(takerAmount)) return 'XRP'
+  if ('mpt_issuance_id' in takerAmount) return takerAmount.mpt_issuance_id
+  return takerAmount.currency || 'XRP'
 }
 
-const getIsMPT = (takerAmount: any): boolean => !!takerAmount?.mpt_issuance_id
+const getIsMPT = (takerAmount: Amount | undefined): boolean =>
+  isMPTOrIOUAmount(takerAmount) && 'mpt_issuance_id' in takerAmount
 
-const getIssuer = (takerAmount: any): string | undefined => {
-  if (takerAmount?.mpt_issuance_id) return undefined
-  return takerAmount?.issuer
+const getIssuer = (takerAmount: Amount | undefined): string | undefined => {
+  if (!isMPTOrIOUAmount(takerAmount)) return undefined
+  if ('mpt_issuance_id' in takerAmount) return undefined
+  return takerAmount.issuer
 }
 
 const normalize = (

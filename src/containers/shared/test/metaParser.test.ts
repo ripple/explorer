@@ -74,8 +74,7 @@ describe('findAssetAmount', () => {
             LedgerIndex: 'GHI789',
             FinalFields: {
               Account: 'rTestAccount',
-              MPTokenIssuanceID:
-                TEST_MPT_ID,
+              MPTokenIssuanceID: TEST_MPT_ID,
               MPTAmount: '990000',
             },
             PreviousFields: {
@@ -93,9 +92,7 @@ describe('findAssetAmount', () => {
       baseTx,
     )
     expect(result).toBeDefined()
-    expect(result!.currency).toBe(
-      TEST_MPT_ID,
-    )
+    expect(result!.currency).toBe(TEST_MPT_ID)
     expect(result!.amount).toBe(10000)
     expect(result!.isMPT).toBe(true)
   })
@@ -135,8 +132,7 @@ describe('findAssetAmount', () => {
             LedgerIndex: 'JKL012',
             NewFields: {
               Account: 'rTestAccount',
-              MPTokenIssuanceID:
-                TEST_MPT_ID,
+              MPTokenIssuanceID: TEST_MPT_ID,
               MPTAmount: '5000',
             },
           },
