@@ -4,60 +4,6 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import i18n from '../../../../../i18n/testConfigEnglish'
 import { HoldersTable, XRPLHolder } from '../HoldersTable'
 
-jest.mock('../../Account', () => ({
-  Account: ({ displayText }: { displayText: string }) => (
-    <span data-testid="account">{displayText}</span>
-  ),
-}))
-
-jest.mock('../../../utils', () => ({
-  shortenAccount: (account: string) =>
-    account.length > 12
-      ? `${account.slice(0, 7)}...${account.slice(-5)}`
-      : account,
-}))
-
-jest.mock('../../Pagination', () => ({
-  Pagination: ({
-    onPageChange,
-    totalItems,
-    pageSize = 15,
-  }: {
-    onPageChange: (page: number) => void
-    totalItems: number
-    pageSize?: number
-  }) => {
-    const totalPages = Math.max(1, Math.ceil(totalItems / pageSize))
-    if (totalPages <= 1) return null
-    return (
-      <div>
-        <button type="button" onClick={() => onPageChange(2)}>
-          Next Page
-        </button>
-      </div>
-    )
-  },
-}))
-
-jest.mock('../../Loader', () => ({
-  Loader: () => <div>Loading...</div>,
-}))
-
-jest.mock('../../../NumberFormattingUtils', () => ({
-  formatLargeNumber: (value: number, decimals: number, lang: string) => ({
-    num: value.toFixed(decimals),
-    unit: '',
-    lang,
-  }),
-  parseIntegerAmount: (amount: any) => {
-    if (amount === 0) return '0'
-    return String(amount)
-  },
-  parsePercent: (percent: any) => `${percent}%`,
-  parseCurrencyAmount: (amount: any) => `$${amount}`,
-  parseAmount: (amount: any) => String(amount),
-}))
-
 const TestWrapper = ({ children }: { children: React.ReactNode }) => (
   <I18nextProvider i18n={i18n}>
     <Router>{children}</Router>
@@ -162,7 +108,7 @@ describe('HoldersTable Component', () => {
         />
       </TestWrapper>,
     )
-    expect(screen.getByText('Loading...')).toBeInTheDocument()
+    expect(screen.getByRole('img', { name: /loading/i })).toBeInTheDocument()
   })
 
   it('shows no holders message when empty and not loading', () => {
@@ -193,8 +139,8 @@ describe('HoldersTable Component', () => {
         />
       </TestWrapper>,
     )
-    const nextButton = screen.getByText('Next Page')
-    fireEvent.click(nextButton)
+    const page2Button = screen.getByRole('button', { name: '2' })
+    fireEvent.click(page2Button)
     expect(mockOnPageChange).toHaveBeenCalledWith(2)
   })
 
@@ -226,7 +172,9 @@ describe('HoldersTable Component', () => {
         />
       </TestWrapper>,
     )
-    expect(screen.getByText('Next Page')).toBeInTheDocument()
+    expect(
+      screen.getByRole('navigation', { name: /pagination/i }),
+    ).toBeInTheDocument()
   })
 
   it('does not display pagination when all items fit on one page', () => {
@@ -241,7 +189,9 @@ describe('HoldersTable Component', () => {
         />
       </TestWrapper>,
     )
-    expect(screen.queryByText('Next Page')).not.toBeInTheDocument()
+    expect(
+      screen.queryByRole('navigation', { name: /pagination/i }),
+    ).not.toBeInTheDocument()
   })
 
   it('handles single holder correctly', () => {

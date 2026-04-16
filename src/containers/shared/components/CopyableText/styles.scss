@@ -11,11 +11,6 @@
   font-size: inherit;
   font-weight: inherit;
 
-  &:hover,
-  &:focus {
-    color: $green-30;
-  }
-
   .copy-tooltip {
     position: absolute;
     z-index: 1000;
@@ -33,7 +28,7 @@
     @include medium;
 
     &.copied {
-      color: $green-30;
+      color: $white;
     }
   }
 }
@@ -82,7 +77,7 @@
       @include medium;
 
       &.copied {
-        color: $green-30;
+        color: $white;
       }
     }
   }
