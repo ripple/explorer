@@ -74,6 +74,7 @@
   "not_found_default_title": "Página No Encontrada",
   "not_found_check_url": "Por favor, comprueba tu URL",
   "not_found": "No encontrado",
+  "hash_not_found": null,
   "buy": "Comprar",
   "sell": "Vender",
   "price": "Precio",

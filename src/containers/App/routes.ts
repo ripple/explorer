@@ -99,3 +99,9 @@ export const AMM_POOL_ROUTE: RouteDefinition<{
 }> = {
   path: '/amm/:id/:tab?',
 }
+
+export const SEARCH_RESULT_ROUTE: RouteDefinition<{
+  id: string
+}> = {
+  path: '/search/:id',
+}

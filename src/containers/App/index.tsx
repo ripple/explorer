@@ -32,6 +32,7 @@ import {
   VAULTS_ROUTE,
   AMM_RANKINGS_ROUTE,
   AMM_POOL_ROUTE,
+  SEARCH_RESULT_ROUTE,
 } from './routes'
 import { LedgersPage as Ledgers } from '../Ledgers'
 import { Ledger } from '../Ledger'
@@ -54,6 +55,7 @@ import { Vault } from '../Vault'
 import { Vaults } from '../Vaults'
 import { AMMPool } from '../AMMPool'
 import { AMMRankings } from '../AMMRankings'
+import SearchResult from '../SearchResult'
 import { FEATURE_VAULTS_PAGE } from './featureFlags'
 
 export const AppWrapper = () => {
@@ -96,6 +98,7 @@ export const AppWrapper = () => {
       [AMM_POOL_ROUTE, AMMPool],
       mode === 'mainnet' && [AMM_RANKINGS_ROUTE, AMMRankings],
       FEATURE_VAULTS_PAGE && [VAULTS_ROUTE, Vaults],
+      [SEARCH_RESULT_ROUTE, SearchResult],
     ] as (false | [RouteDefinition<any>, any])[]
   ).filter(Boolean) as [RouteDefinition<any>, any][]
 
