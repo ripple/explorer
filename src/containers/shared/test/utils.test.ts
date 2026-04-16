@@ -205,6 +205,14 @@ describe('AMM utils format asset', () => {
 
     expect(formatted).toEqual({ currency: 'USD', issuer: 'your mom' })
   })
+
+  it('formats MPT asset', () => {
+    const mptId = '000003C31D321B7DDA58324DC38CDF18934FAFFFCDF69D5F'
+    const asset = { mpt_issuance_id: mptId }
+    const formatted = formatAsset(asset)
+
+    expect(formatted).toEqual({ currency: mptId, isMPT: true })
+  })
 })
 
 describe('Shorten utils', () => {
