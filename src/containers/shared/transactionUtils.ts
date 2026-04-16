@@ -274,18 +274,9 @@ export function zeroPad(
 }
 
 export function normalizeAmount(
-  amount:
-    | IssuedCurrencyAmount
-    | number
-    | string
-    | { mpt_issuance_id: string; value: string },
+  amount: IssuedCurrencyAmount | number | string,
   language = 'en-US',
 ): string | null {
-  if (typeof amount === 'object' && 'mpt_issuance_id' in amount) {
-    const currency = amount.mpt_issuance_id
-    const numberOption = { ...CURRENCY_OPTIONS, currency }
-    return localizeNumber(amount.value, language, numberOption)
-  }
   const currency = typeof amount === 'object' ? amount.currency : 'XRP'
   const value =
     typeof amount === 'object' ? amount.value : Number(amount) / XRP_BASE
