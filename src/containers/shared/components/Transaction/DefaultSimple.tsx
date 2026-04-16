@@ -34,12 +34,12 @@ const AMOUNT_OBJECT_KEY_COUNT = 3
 
 const displayKey = (key: string) => key.replace(/([a-z])([A-Z])/g, '$1 $2')
 
-const isMPTAsset = (value: any) =>
+export const isMPTAsset = (value: any) =>
   typeof value === 'object' &&
   typeof value.mpt_issuance_id === 'string' &&
   !value.value
 
-const isMPTAmount = (value: any) =>
+export const isMPTAmount = (value: any) =>
   typeof value === 'object' &&
   typeof value.mpt_issuance_id === 'string' &&
   typeof value.value === 'string'
