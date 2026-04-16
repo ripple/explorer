@@ -1,6 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter as Router } from 'react-router-dom'
+import { QueryClient, QueryClientProvider } from 'react-query'
 import i18n from '../../../../../i18n/testConfigEnglish'
 import { DexTradeTable, DexTradeFormatted } from '../DexTradeTable'
 
@@ -9,10 +10,16 @@ jest.mock('../../Amount', () => ({
   Amount: ({ value }: any) => <div>{value.amount}</div>,
 }))
 
+const queryClient = new QueryClient({
+  defaultOptions: { queries: { retry: 0 } },
+})
+
 const TestWrapper = ({ children }: { children: React.ReactNode }) => (
-  <I18nextProvider i18n={i18n}>
-    <Router>{children}</Router>
-  </I18nextProvider>
+  <QueryClientProvider client={queryClient}>
+    <I18nextProvider i18n={i18n}>
+      <Router>{children}</Router>
+    </I18nextProvider>
+  </QueryClientProvider>
 )
 
 const mockDexTrades: DexTradeFormatted[] = [

@@ -1,20 +1,27 @@
 import { render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import { I18nextProvider } from 'react-i18next'
+import { QueryClient, QueryClientProvider } from 'react-query'
 import i18n from '../../../i18n/testConfig'
 import { AMMPoolHeader } from '../AMMPoolHeader'
 import { FormattedBalance } from '../types'
+
+const queryClient = new QueryClient({
+  defaultOptions: { queries: { retry: 0 } },
+})
 
 const renderComponent = (
   asset1: FormattedBalance | null = null,
   asset2: FormattedBalance | null = null,
 ) =>
   render(
-    <I18nextProvider i18n={i18n}>
-      <MemoryRouter>
-        <AMMPoolHeader asset1={asset1} asset2={asset2} />
-      </MemoryRouter>
-    </I18nextProvider>,
+    <QueryClientProvider client={queryClient}>
+      <I18nextProvider i18n={i18n}>
+        <MemoryRouter>
+          <AMMPoolHeader asset1={asset1} asset2={asset2} />
+        </MemoryRouter>
+      </I18nextProvider>
+    </QueryClientProvider>,
   )
 
 describe('AMMPoolHeader', () => {

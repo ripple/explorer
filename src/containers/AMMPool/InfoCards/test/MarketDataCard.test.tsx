@@ -1,10 +1,15 @@
 import { render, screen } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
 import { MemoryRouter } from 'react-router-dom'
+import { QueryClient, QueryClientProvider } from 'react-query'
 import i18n from '../../../../i18n/testConfig'
 import { MarketDataCard } from '../MarketDataCard'
 import { TooltipProvider } from '../../../shared/components/Tooltip'
 import { LOSAMMPoolData, FormattedBalance } from '../../types'
+
+const queryClient = new QueryClient({
+  defaultOptions: { queries: { retry: 0 } },
+})
 
 interface RenderProps {
   losData?: LOSAMMPoolData
@@ -44,18 +49,20 @@ const renderComponent = ({
   lpTokenBalance = '1000000',
 }: RenderProps = {}) =>
   render(
-    <I18nextProvider i18n={i18n}>
-      <MemoryRouter>
-        <TooltipProvider>
-          <MarketDataCard
-            losData={losData}
-            balance1={balance1}
-            balance2={balance2}
-            lpTokenBalance={lpTokenBalance}
-          />
-        </TooltipProvider>
-      </MemoryRouter>
-    </I18nextProvider>,
+    <QueryClientProvider client={queryClient}>
+      <I18nextProvider i18n={i18n}>
+        <MemoryRouter>
+          <TooltipProvider>
+            <MarketDataCard
+              losData={losData}
+              balance1={balance1}
+              balance2={balance2}
+              lpTokenBalance={lpTokenBalance}
+            />
+          </TooltipProvider>
+        </MemoryRouter>
+      </I18nextProvider>
+    </QueryClientProvider>,
   )
 
 describe('MarketDataCard', () => {
@@ -129,18 +136,20 @@ describe('MarketDataCard', () => {
 
   it('does not render balance or LP rows when balances and LP are absent', () => {
     render(
-      <I18nextProvider i18n={i18n}>
-        <MemoryRouter>
-          <TooltipProvider>
-            <MarketDataCard
-              losData={defaultLosData}
-              balance1={null}
-              balance2={null}
-              lpTokenBalance={undefined}
-            />
-          </TooltipProvider>
-        </MemoryRouter>
-      </I18nextProvider>,
+      <QueryClientProvider client={queryClient}>
+        <I18nextProvider i18n={i18n}>
+          <MemoryRouter>
+            <TooltipProvider>
+              <MarketDataCard
+                losData={defaultLosData}
+                balance1={null}
+                balance2={null}
+                lpTokenBalance={undefined}
+              />
+            </TooltipProvider>
+          </MemoryRouter>
+        </I18nextProvider>
+      </QueryClientProvider>,
     )
     const labels = document.querySelectorAll('.info-card-label')
     const balanceLabels = Array.from(labels).filter((l) =>
@@ -152,17 +161,19 @@ describe('MarketDataCard', () => {
 
   it('renders only balances and LP tokens when losData is undefined', () => {
     const { container } = render(
-      <I18nextProvider i18n={i18n}>
-        <MemoryRouter>
-          <TooltipProvider>
-            <MarketDataCard
-              balance1={defaultBalance1}
-              balance2={defaultBalance2}
-              lpTokenBalance="1000000"
-            />
-          </TooltipProvider>
-        </MemoryRouter>
-      </I18nextProvider>,
+      <QueryClientProvider client={queryClient}>
+        <I18nextProvider i18n={i18n}>
+          <MemoryRouter>
+            <TooltipProvider>
+              <MarketDataCard
+                balance1={defaultBalance1}
+                balance2={defaultBalance2}
+                lpTokenBalance="1000000"
+              />
+            </TooltipProvider>
+          </MemoryRouter>
+        </I18nextProvider>
+      </QueryClientProvider>,
     )
     // LOS fields hidden
     expect(screen.queryByText('tvl')).not.toBeInTheDocument()
