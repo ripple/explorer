@@ -1,0 +1,15 @@
+/* PermissionDelegation-specific overrides.
+   Layout, header, toggle, arrow, and table base styles are reused
+   from AccountAsset via the shared .account-asset / .asset-section-header /
+   .account-asset-table classes. */
+
+.permission-delegation .permission-delegation-table-wrapper {
+  .loader {
+    min-height: 50px;
+  }
+
+  /* Override the large min-width from account-asset-table since we only have 3 columns */
+  .account-asset-table table {
+    min-width: 0;
+  }
+}
