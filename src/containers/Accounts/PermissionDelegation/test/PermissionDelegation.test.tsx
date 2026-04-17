@@ -1,4 +1,10 @@
-import { render, screen, cleanup, waitFor, fireEvent } from '@testing-library/react'
+import {
+  render,
+  screen,
+  cleanup,
+  waitFor,
+  fireEvent,
+} from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { QueryClientProvider } from 'react-query'
@@ -27,7 +33,9 @@ const TestWrapper = ({ children }: { children: React.ReactNode }) => (
   <I18nextProvider i18n={i18n}>
     <Router>
       <SocketContext.Provider value={mockSocket}>
-        <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+        <QueryClientProvider client={queryClient}>
+          {children}
+        </QueryClientProvider>
       </SocketContext.Provider>
     </Router>
   </I18nextProvider>
@@ -47,9 +55,7 @@ const mockDelegateResponse = {
     {
       Account: 'rTestAccount123456789012345678901',
       Authorize: 'rPT1Sjq2YGrBMTttX4GZHjKu9dyfzbpAYe',
-      Permissions: [
-        { Permission: { PermissionValue: 'OfferCreate' } },
-      ],
+      Permissions: [{ Permission: { PermissionValue: 'OfferCreate' } }],
       LedgerEntryType: 'Delegate',
     },
   ],
@@ -166,4 +172,3 @@ describe('PermissionDelegation component', () => {
     expect(screen.getByText('Payment')).toBeInTheDocument()
   })
 })
-

@@ -15,7 +15,7 @@ import { AccountSummary } from './AccountSummary'
 import { useXRPToUSDRate } from '../shared/hooks/useXRPToUSDRate'
 import AccountAsset from './AccountAsset'
 import AccountHeader from './AccountHeader'
-import PermissionDelegation from './PermissionDelegation'
+import { PermissionDelegation } from './PermissionDelegation'
 
 export const Accounts = () => {
   const { trackScreenLoaded, trackException } = useAnalytics()

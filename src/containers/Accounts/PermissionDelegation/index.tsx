@@ -91,23 +91,19 @@ export const PermissionDelegation = ({
                 <tbody>
                   {delegates.length === 0 ? (
                     <EmptyMessageTableRow colSpan={3}>
-                      {t(
-                        'account_page_permission_delegation_no_delegations',
-                      )}
+                      {t('account_page_permission_delegation_no_delegations')}
                     </EmptyMessageTableRow>
                   ) : (
                     delegates.flatMap((delegate) =>
-                      delegate.Permissions.map((perm, idx) => (
+                      delegate.Permissions.map((perm) => (
                         <tr
-                          key={`${delegate.Authorize}-${perm.Permission.PermissionValue}-${idx}`}
+                          key={`${delegate.Authorize}-${perm.Permission.PermissionValue}`}
                         >
                           <td>{perm.Permission.PermissionValue}</td>
                           <td>
                             <Account
                               account={delegate.Authorize}
-                              displayText={shortenAccount(
-                                delegate.Authorize,
-                              )}
+                              displayText={shortenAccount(delegate.Authorize)}
                             />
                           </td>
                           <td>
