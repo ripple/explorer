@@ -45,26 +45,36 @@ const renderChanges = (
         </b>{' '}
         <Trans i18nKey="decreased_from_to">
           decreased by
-          <b>{{ change: localizeNumber(changePays, language, options) }}</b>
+          <b>
+            {
+              {
+                change: localizeNumber(changePays, language, options),
+              } as any
+            }
+          </b>
           from
           <b>
-            {{
-              previous: localizeNumber(
-                normalize(prevPays, paysCurrency),
-                language,
-                options,
-              ),
-            }}
+            {
+              {
+                previous: localizeNumber(
+                  normalize(prevPays, paysCurrency),
+                  language,
+                  options,
+                ),
+              } as any
+            }
           </b>
           to
           <b>
-            {{
-              final: localizeNumber(
-                normalize(finalPays, paysCurrency),
-                language,
-                options,
-              ),
-            }}
+            {
+              {
+                final: localizeNumber(
+                  normalize(finalPays, paysCurrency),
+                  language,
+                  options,
+                ),
+              } as any
+            }
           </b>
         </Trans>
       </li>,
@@ -84,26 +94,36 @@ const renderChanges = (
         </b>{' '}
         <Trans i18nKey="decreased_from_to">
           decreased by
-          <b>{{ change: localizeNumber(changeGets, language, options) }}</b>
+          <b>
+            {
+              {
+                change: localizeNumber(changeGets, language, options),
+              } as any
+            }
+          </b>
           from
           <b>
-            {{
-              previous: localizeNumber(
-                normalize(prevGets, getsCurrency),
-                language,
-                options,
-              ),
-            }}
+            {
+              {
+                previous: localizeNumber(
+                  normalize(prevGets, getsCurrency),
+                  language,
+                  options,
+                ),
+              } as any
+            }
           </b>
           to
           <b>
-            {{
-              final: localizeNumber(
-                normalize(finalGets, getsCurrency),
-                language,
-                options,
-              ),
-            }}
+            {
+              {
+                final: localizeNumber(
+                  normalize(finalGets, getsCurrency),
+                  language,
+                  options,
+                ),
+              } as any
+            }
           </b>
         </Trans>
       </li>,

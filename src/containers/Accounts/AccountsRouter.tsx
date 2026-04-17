@@ -1,6 +1,5 @@
 import { useContext } from 'react'
-import { useParams } from 'react-router'
-import { Navigate } from 'react-router'
+import { Navigate, useParams } from 'react-router'
 import { useQuery } from 'react-query'
 import {
   isValidClassicAddress,

@@ -207,10 +207,7 @@ describe('Search component', () => {
       <HelmetProvider>
         <I18nextProvider i18n={i18n}>
           <SocketContext.Provider value={client}>
-            <MemoryRouter
-              initialEntries={['/']}
-              future={V7_FUTURE_ROUTER_FLAGS}
-            >
+            <MemoryRouter initialEntries={['/']}>
               <QueryClientProvider client={queryClient}>
                 <Routes>
                   <Route path="/" element={<Search />} />
