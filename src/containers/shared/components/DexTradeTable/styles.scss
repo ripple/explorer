@@ -1,10 +1,9 @@
 @use '../../css/variables' as *;
 @use '../../css/table';
+@use '../../css/data-tables-notice';
 
 // =============================================================================
 // DEX TRADE TABLE - Component-specific styles
-// Shared styles (.notice-with-controls, .action-pill) are in
-// src/containers/Token/shared/styles.scss
 // =============================================================================
 
 .text-truncate {

@@ -12,6 +12,7 @@ import {
   shortenDomain,
   shortenNFTTokenID,
   shortenMPTID,
+  shortenLPToken,
   stripHttpProtocol,
   convertToHttpURL,
 } from '../utils'
@@ -304,6 +305,16 @@ describe('Shorten utils', () => {
       expect(convertToHttpURL('ftp://example.com/file.txt')).toBe(
         'ftp://example.com/file.txt',
       )
+    })
+  })
+
+  describe('shortenLPToken', () => {
+    it('keeps first 10 and last 7 characters', () => {
+      const token = '03CE60C3DB22CF7F7157810936F27A5B485C8DB9'
+      const result = shortenLPToken(token)
+      expect(result).toBe('03CE60C3DB...85C8DB9')
+      expect(result.startsWith(token.substring(0, 10))).toBe(true)
+      expect(result.endsWith(token.substring(token.length - 7))).toBe(true)
     })
   })
 })

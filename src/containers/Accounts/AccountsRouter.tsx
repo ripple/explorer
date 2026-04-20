@@ -1,5 +1,6 @@
 import { useContext } from 'react'
 import { useParams } from 'react-router'
+import { Navigate } from 'react-router-dom'
 import { useQuery } from 'react-query'
 import {
   isValidClassicAddress,
@@ -14,6 +15,9 @@ import { ERROR_MESSAGES } from './Errors'
 import { Loader } from '../shared/components/Loader'
 import { Error } from '../../rippled/lib/utils'
 import { BAD_REQUEST } from '../shared/utils'
+import { buildPath } from '../shared/routing'
+import { AMM_POOL_ROUTE } from '../App/routes'
+import { getDeletedAMMData } from '../AMMPool/utils'
 
 const getErrorMessage = (error: any) =>
   ERROR_MESSAGES[error] || ERROR_MESSAGES.default
@@ -31,28 +35,56 @@ export const AccountsRouter = () => {
   const { id: accountId = '' } = useParams<{ id: string }>()
   const rippledSocket = useContext(SocketContext)
 
-  const { data: comp, error } = useQuery([accountId], () => {
+  const { data: comp, error } = useQuery([accountId], async () => {
     let classicAddress = accountId
     if (isValidXAddress(accountId)) {
       classicAddress = xAddressToClassicAddress(accountId).classicAddress
     }
 
     if (!isValidClassicAddress(classicAddress)) {
-      return Promise.reject(new Error('account malformed', BAD_REQUEST))
+      throw new Error('account malformed', BAD_REQUEST)
     }
 
-    return (
-      getAccountInfo(rippledSocket, classicAddress)
-        .then(() => <Accounts />)
-        // Even if account info fails it might be a deleted account
-        .catch((responseError: Error) => {
-          if (responseError?.code === 404) {
-            return <Accounts />
-          }
+    try {
+      const data = await getAccountInfo(rippledSocket, classicAddress)
 
-          return Promise.reject(responseError)
-        })
-    )
+      if (data.AMMID) {
+        return (
+          <Navigate
+            to={buildPath(AMM_POOL_ROUTE, { id: classicAddress })}
+            replace
+          />
+        )
+      }
+
+      return <Accounts />
+    } catch (responseError: any) {
+      // Even if account info fails it might be a deleted account or deleted AMM
+      if (responseError?.code === 404) {
+        try {
+          const deletedAmm = await getDeletedAMMData(
+            rippledSocket,
+            classicAddress,
+          )
+
+          if (deletedAmm) {
+            return (
+              <Navigate
+                to={buildPath(AMM_POOL_ROUTE, { id: classicAddress })}
+                replace
+              />
+            )
+          }
+        } catch (e) {
+          // eslint-disable-next-line no-console
+          console.error('Failed to check for deleted AMM pool:', e)
+        }
+
+        return <Accounts />
+      }
+
+      throw responseError
+    }
   })
 
   if (!accountId) {
