@@ -1,12 +1,23 @@
 import OfferCreate from './mock_data/OfferCreateWithExpirationAndCancel.json'
 import OfferCreateInvertedCurrencies from './mock_data/OfferCreateInvertedCurrencies.json'
 import OfferCreateWithPermissionedDomainID from './mock_data/OfferCreateWithPermissionedDomainID.json'
+import mockOfferCreateMPT from './mock_data/OfferCreateMPT.json'
 import { Description } from '../Description'
 import { createDescriptionRenderFactory } from '../../test'
+import { useMPTIssuance } from '../../../../hooks/useMPTIssuance'
+
+jest.mock('../../../../hooks/useMPTIssuance', () => ({
+  ...jest.requireActual('../../../../hooks/useMPTIssuance'),
+  useMPTIssuance: jest.fn(),
+}))
 
 const renderComponent = createDescriptionRenderFactory(Description)
 
 describe('OfferCreate: Description', () => {
+  beforeEach(() => {
+    ;(useMPTIssuance as jest.Mock).mockReturnValue({ data: undefined })
+  })
+
   it('renders description for transaction with cancel and expiration', () => {
     const { container, unmount } = renderComponent(OfferCreate)
 
@@ -34,6 +45,48 @@ describe('OfferCreate: Description', () => {
 
     expect(container.innerHTML).toBe(
       '<div>The account<a data-testid="account" title="rD7ShWxq6xRYWDSDfzhKbfaJDerxd7nnds" class="account" href="/accounts/rD7ShWxq6xRYWDSDfzhKbfaJDerxd7nnds">rD7ShWxq6xRYWDSDfzhKbfaJDerxd7nnds</a>offered to pay<b><span class="amount" data-testid="amount"><span class="amount-localized" data-testid="amount-localized">17,588.363594</span> <span class="currency" data-testid="currency">XRP</span></span></b>in order to receive<b><span class="amount" data-testid="amount"><span class="amount-localized" data-testid="amount-localized">$10.00</span> <a data-testid="currency" class="currency" href="/token/USD.rnybsH3BZKKCG7fwPzTeLtGejnq6UQyNCC">USD.rnybsH3BZKKCG7fwPzTeLtGejnq6UQyNCC</a></span></b></div><div>offer_create_desc_line_2<b><span> 0.00056856</span><small><span class="currency" data-testid="currency">XRP</span>/<a data-testid="currency" class="currency" href="/token/USD.rnybsH3BZKKCG7fwPzTeLtGejnq6UQyNCC">USD.rnybsH3BZKKCG7fwPzTeLtGejnq6UQyNCC</a></small></b></div><div>offer_create_desc_line_5<b>: 4A4879496CFF23CA32242D50DA04DDB41F4561167276A62AF21899F83DF28812</b></div>',
+    )
+    unmount()
+  })
+
+  it('renders OfferCreate with MPT (no ticker - displays mpt_issuance_id)', () => {
+    ;(useMPTIssuance as jest.Mock).mockReturnValue({
+      data: { assetScale: 0 },
+    })
+    const { container, unmount } = renderComponent(mockOfferCreateMPT)
+    const currencies = container.querySelectorAll('[data-testid="currency"]')
+    const mptCurrencies = Array.from(currencies).filter((el) =>
+      el.getAttribute('href')?.includes('/mpt/'),
+    )
+
+    // MPT should display full mpt_issuance_id when no ticker is available
+    expect(mptCurrencies[0]).toHaveTextContent(
+      '000003C31D321B7DDA58324DC38CDF18934FAFFFCDF69D5F',
+    )
+    // Links should point to the MPT page
+    expect(mptCurrencies[0]).toHaveAttribute(
+      'href',
+      '/mpt/000003C31D321B7DDA58324DC38CDF18934FAFFFCDF69D5F',
+    )
+    unmount()
+  })
+
+  it('renders OfferCreate with MPT (with ticker - displays ticker symbol)', () => {
+    ;(useMPTIssuance as jest.Mock).mockReturnValue({
+      data: { assetScale: 0, parsedMPTMetadata: { ticker: 'XMPT' } },
+    })
+    const { container, unmount } = renderComponent(mockOfferCreateMPT)
+    const currencies = container.querySelectorAll('[data-testid="currency"]')
+    const mptCurrencies = Array.from(currencies).filter((el) =>
+      el.getAttribute('href')?.includes('/mpt/'),
+    )
+
+    // MPT should display ticker symbol when available
+    expect(mptCurrencies[0]).toHaveTextContent('XMPT')
+    // Links should still point to the MPT page using the full ID
+    expect(mptCurrencies[0]).toHaveAttribute(
+      'href',
+      '/mpt/000003C31D321B7DDA58324DC38CDF18934FAFFFCDF69D5F',
     )
     unmount()
   })

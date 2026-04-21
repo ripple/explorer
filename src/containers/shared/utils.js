@@ -436,14 +436,6 @@ export const formatDurationDetailed = (totalSeconds, maxUnits = 4) => {
 export const removeRoutes = (routes, ...routesToRemove) =>
   routes.filter((route) => !routesToRemove.includes(route.title))
 
-export const formatAsset = (asset) =>
-  typeof asset === 'string'
-    ? { currency: 'XRP' }
-    : {
-        currency: asset.currency,
-        issuer: asset.issuer,
-      }
-
 // For AMM, the trading fee is in units of 1/100,000; a value of 1 is equivalent to a 0.001% fee.
 export const formatTradingFee = (tradingFee) =>
   tradingFee !== undefined

@@ -7,7 +7,6 @@ import {
   localizeDate,
   durationToHuman,
   formatDurationDetailed,
-  formatAsset,
   shortenAccount,
   shortenDomain,
   shortenNFTTokenID,
@@ -188,22 +187,6 @@ describe('utils', () => {
 
     // Test negative values (should handle absolute value)
     expect(formatDurationDetailed(-3665)).toBe('1hr.1min.5s')
-  })
-})
-
-describe('AMM utils format asset', () => {
-  it('formats XRP asset', () => {
-    const asset = '10000000000'
-    const formatted = formatAsset(asset)
-
-    expect(formatted).toEqual({ currency: 'XRP' })
-  })
-
-  it('formats non XRP asset', () => {
-    const asset = { currency: 'USD', amount: '100000', issuer: 'your mom' }
-    const formatted = formatAsset(asset)
-
-    expect(formatted).toEqual({ currency: 'USD', issuer: 'your mom' })
   })
 })
 

@@ -1,21 +1,25 @@
-import { useQuery } from 'react-query'
 import mockEscrowFinish from './mock_data/EscrowFinish.json'
 import { Description } from '../Description'
 import i18n from '../../../../../../i18n/testConfigEnglish'
 import { createDescriptionRenderFactory } from '../../test'
+import { useMPTIssuance } from '../../../../hooks/useMPTIssuance'
+
+jest.mock('../../../../hooks/useMPTIssuance', () => ({
+  ...jest.requireActual('../../../../hooks/useMPTIssuance'),
+  useMPTIssuance: jest.fn(),
+}))
 
 const renderComponent = createDescriptionRenderFactory(Description, i18n)
-
-jest.mock('react-query', () => ({
-  ...jest.requireActual('react-query'),
-  useQuery: jest.fn(),
-}))
 
 function getTestByName(name: string) {
   return mockEscrowFinish[name]
 }
 
 describe('EscrowFinishDescription', () => {
+  beforeEach(() => {
+    ;(useMPTIssuance as jest.Mock).mockReturnValue({ data: undefined })
+  })
+
   it('renders description for EscrowFinish', () => {
     const { container, unmount } = renderComponent(
       getTestByName('EscrowFinish having XRP escrowed'),
@@ -56,10 +60,9 @@ describe('EscrowFinishDescription', () => {
       assetScale: 4,
     }
 
-    // @ts-ignore
-    useQuery.mockImplementation(() => ({
+    ;(useMPTIssuance as jest.Mock).mockReturnValue({
       data,
-    }))
+    })
 
     const { container, unmount } = renderComponent(
       getTestByName('EscrowFinish having MPT escrowed'),

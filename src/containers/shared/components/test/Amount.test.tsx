@@ -1,17 +1,20 @@
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter } from 'react-router-dom'
 import { cleanup, render, screen } from '@testing-library/react'
-import { useQuery } from 'react-query'
 import { Amount } from '../Amount'
 import i18n from '../../../../i18n/testConfig'
+import { useMPTIssuance } from '../../hooks/useMPTIssuance'
 
-jest.mock('react-query', () => ({
-  ...jest.requireActual('react-query'),
-  useQuery: jest.fn(),
+jest.mock('../../hooks/useMPTIssuance', () => ({
+  ...jest.requireActual('../../hooks/useMPTIssuance'),
+  useMPTIssuance: jest.fn(),
 }))
 
 describe('Amount', () => {
   afterEach(cleanup)
+  beforeEach(() => {
+    ;(useMPTIssuance as jest.Mock).mockReturnValue({ data: undefined })
+  })
   const renderComponent = (component: JSX.Element) =>
     render(
       <I18nextProvider i18n={i18n}>
@@ -141,10 +144,9 @@ describe('Amount', () => {
       flags: [],
     }
 
-    // @ts-ignore
-    useQuery.mockImplementation(() => ({
+    ;(useMPTIssuance as jest.Mock).mockReturnValue({
       data,
-    }))
+    })
 
     const value = {
       amount: '1043001',

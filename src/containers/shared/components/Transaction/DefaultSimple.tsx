@@ -27,18 +27,35 @@ const DEFAULT_TX_ELEMENTS = [
   'warnings',
 ]
 
+// Currency objects have at most 2 keys: `currency` and optionally `issuer`
+const MAX_CURRENCY_OBJECT_KEYS = 2
+// Amount objects have exactly 3 keys: `currency`, `issuer`, and `value`
+const AMOUNT_OBJECT_KEY_COUNT = 3
+
 const displayKey = (key: string) => key.replace(/([a-z])([A-Z])/g, '$1 $2')
 
-const isCurrency = (value: any) =>
+export const isMPTAsset = (value: any) =>
   typeof value === 'object' &&
-  Object.keys(value).length <= 2 &&
-  (value.issuer == null || typeof value.issuer === 'string') &&
-  typeof value.currency === 'string'
+  typeof value.mpt_issuance_id === 'string' &&
+  !value.value
+
+export const isMPTAmount = (value: any) =>
+  typeof value === 'object' &&
+  typeof value.mpt_issuance_id === 'string' &&
+  typeof value.value === 'string'
+
+const isCurrency = (value: any) =>
+  isMPTAsset(value) ||
+  (typeof value === 'object' &&
+    Object.keys(value).length <= MAX_CURRENCY_OBJECT_KEYS &&
+    (value.issuer == null || typeof value.issuer === 'string') &&
+    typeof value.currency === 'string')
 
 const isAmount = (amount: any, key: any = null) =>
   key === 'Amount' ||
+  isMPTAmount(amount) ||
   (typeof amount === 'object' &&
-    Object.keys(amount).length === 3 &&
+    Object.keys(amount).length === AMOUNT_OBJECT_KEY_COUNT &&
     typeof amount.issuer === 'string' &&
     typeof amount.currency === 'string' &&
     typeof amount.value === 'string')
@@ -111,7 +128,11 @@ const getRowNested = (key: any, value: any, uniqueKey: string = '') => {
         label={displayKey(key)}
         data-testid={key}
       >
-        <Currency currency={value.currency} issuer={value.issuer} />
+        <Currency
+          currency={value.mpt_issuance_id || value.currency}
+          issuer={value.issuer}
+          isMPT={!!value.mpt_issuance_id}
+        />
       </SimpleRow>
     )
   }
