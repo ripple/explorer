@@ -2,6 +2,9 @@
   "name": "explorer",
   "description": "XRPL Data Visualization",
   "version": "1.5.0",
+  "overrides": {
+    "stylelint-order": "^8.1.1"
+  },
   "dependencies": {
     "@rollup/plugin-inject": "^5.0.5",
     "@vitejs/plugin-react": "^5.1.1",
@@ -86,13 +89,13 @@
     "react-error-overlay": "6.0.11",
     "sass": "^1.80.5",
     "source-map-explorer": "^2.5.3",
-    "stylelint": "^16.26.1",
+    "stylelint": "^17.8.0",
     "stylelint-config-idiomatic-order": "^10.0.0",
-    "stylelint-config-recommended-scss": "^14.1.0",
-    "stylelint-config-standard": "^36.0.1",
-    "stylelint-order": "^6.0.4",
+    "stylelint-config-recommended-scss": "^17.0.0",
+    "stylelint-config-standard": "^40.0.0",
+    "stylelint-order": "^8.1.1",
     "stylelint-prettier": "^5.0.3",
-    "stylelint-scss": "^6.12.1",
+    "stylelint-scss": "^7.0.0",
     "ts-jest": "^29.4.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3",
