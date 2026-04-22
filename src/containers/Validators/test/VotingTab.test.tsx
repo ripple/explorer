@@ -1,6 +1,6 @@
 import { render, waitFor } from '@testing-library/react'
 import moxios from 'moxios'
-import { Route } from 'react-router-dom'
+import { Route } from 'react-router'
 import i18n from '../../../i18n/testConfigEnglish'
 import { VotingTab } from '../VotingTab'
 import { QuickHarness } from '../../test/utils'
@@ -60,6 +60,9 @@ describe('VotingTab container', () => {
 
     await waitFor(() => {
       expect(container.querySelectorAll('.metrics .cell').length).toBe(3)
+      expect(container.querySelectorAll('.voting-amendment .rows').length).toBe(
+        2,
+      )
     })
 
     // Render fees voting correctly
@@ -71,7 +74,6 @@ describe('VotingTab container', () => {
     // Render amendments correctly
     expect(container.querySelectorAll('.amendment-label').length).toBe(1)
     const rows = container.querySelectorAll('.voting-amendment .rows')
-    expect(rows.length).toBe(2)
     expect(rows[0].innerHTML).toContain('AMM')
     expect(rows[0].innerHTML).toContain('Nay')
     expect(rows[1].innerHTML).toContain('Clawback')

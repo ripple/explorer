@@ -1,4 +1,12 @@
-import { FC, useContext, useEffect, useMemo, useRef, useState } from 'react'
+import {
+  FC,
+  PropsWithChildren,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import axios from 'axios'
 import type { LedgerStream, ValidationStream } from 'xrpl'
 import { AnyJson } from 'xrpl-client'
@@ -52,7 +60,7 @@ const truncateLedgers = (ledgers: Record<string, Ledger>, count) =>
       return accumulator
     }, {})
 
-export const StreamsProvider: FC = ({ children }) => {
+export const StreamsProvider: FC<PropsWithChildren> = ({ children }) => {
   // In custom mode we populate metrics from ledgers loaded into memory
   const useServerMetrics = process.env.VITE_ENVIRONMENT !== 'custom'
   const [ledgers, setLedgers] = useState<Record<number, Ledger>>({})

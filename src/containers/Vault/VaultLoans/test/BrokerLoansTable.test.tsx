@@ -15,7 +15,7 @@
 
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
-import { BrowserRouter as Router } from 'react-router-dom'
+import { BrowserRouter as Router } from 'react-router'
 import { QueryClientProvider, QueryClient } from 'react-query'
 import i18n from '../../../../i18n/testConfigEnglish'
 import SocketContext from '../../../shared/SocketContext'
@@ -28,6 +28,10 @@ import Mock = jest.Mock
 
 jest.mock('../../../../rippled/lib/rippled', () => ({
   getLedgerEntry: jest.fn(),
+}))
+
+jest.mock('../../../shared/hooks/useTokenToUSDRate', () => ({
+  useTokenToUSDRate: () => ({ rate: 1.5, isAvailable: true, isLoading: false }),
 }))
 
 const mockedGetLedgerEntry = getLedgerEntry as Mock

@@ -1,9 +1,9 @@
 import { ReactNode, Ref } from 'react'
-import { generatePath } from 'react-router'
 import {
+  generatePath,
   NavLink as RouterLink,
   useParams as useRouterParams,
-} from 'react-router-dom'
+} from 'react-router'
 
 /**
  * A definition for a react-router route that allows for typed routes

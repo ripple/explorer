@@ -5,7 +5,7 @@ import {
   MemoryRouter,
   Routes,
   Route,
-} from 'react-router-dom'
+} from 'react-router'
 import { HelmetProvider } from 'react-helmet-async'
 import moxios from 'moxios'
 import { QueryClientProvider } from 'react-query'
@@ -15,7 +15,7 @@ import SearchResult from '../../SearchResult'
 import * as rippled from '../../../rippled/lib/rippled'
 import SocketContext from '../../shared/SocketContext'
 import MockWsClient from '../../test/mockWsClient'
-import { flushPromises, V7_FUTURE_ROUTER_FLAGS } from '../../test/utils'
+import { flushPromises } from '../../test/utils'
 import { queryClient } from '../../shared/QueryClient'
 
 describe('Search component', () => {
@@ -24,7 +24,7 @@ describe('Search component', () => {
     return render(
       <I18nextProvider i18n={i18n}>
         <SocketContext.Provider value={client}>
-          <Router future={V7_FUTURE_ROUTER_FLAGS}>
+          <Router>
             <QueryClientProvider client={queryClient}>
               <Search />
             </QueryClientProvider>
@@ -207,10 +207,7 @@ describe('Search component', () => {
       <HelmetProvider>
         <I18nextProvider i18n={i18n}>
           <SocketContext.Provider value={client}>
-            <MemoryRouter
-              initialEntries={['/']}
-              future={V7_FUTURE_ROUTER_FLAGS}
-            >
+            <MemoryRouter initialEntries={['/']}>
               <QueryClientProvider client={queryClient}>
                 <Routes>
                   <Route path="/" element={<Search />} />
