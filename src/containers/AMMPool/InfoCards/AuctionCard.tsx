@@ -123,7 +123,7 @@ export const AuctionCard: FC<AuctionCardProps> = ({
     replacementCostRaw != null ? getLPTokenUSD(replacementCostRaw) : null
 
   return (
-    <div className="amm-pool-info-card">
+    <div className="info-card">
       <h3 className="info-card-title">
         <AuctionIcon className="info-card-icon" />
         {t('auction')}
@@ -142,7 +142,6 @@ export const AuctionCard: FC<AuctionCardProps> = ({
             )}
           </span>
         </div>
-        <div className="info-card-separator" />
         <div className="info-card-row">
           <span className="info-card-label">{t('expiration')}</span>
           <span className="info-card-value">
@@ -155,14 +154,12 @@ export const AuctionCard: FC<AuctionCardProps> = ({
               : '--'}
           </span>
         </div>
-        <div className="info-card-separator" />
         <div className="info-card-row">
           <span className="info-card-label">{t('discounted_fee')}</span>
           <span className="info-card-value info-card-value-orange">
             {discountedFee}
           </span>
         </div>
-        <div className="info-card-separator" />
         <div className="info-card-row">
           <span className="info-card-label">{t('price_paid')}</span>
           <span className="info-card-value">
@@ -182,7 +179,6 @@ export const AuctionCard: FC<AuctionCardProps> = ({
             )}
           </span>
         </div>
-        <div className="info-card-separator" />
         <div className="info-card-row">
           <span className="info-card-label">{t('replacement_cost')}</span>
           <span className="info-card-value">
