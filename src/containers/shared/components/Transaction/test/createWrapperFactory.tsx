@@ -1,7 +1,7 @@
 import { render, RenderResult } from '@testing-library/react'
 import { ReactElement } from 'react'
 import { I18nextProvider } from 'react-i18next'
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter } from 'react-router'
 import { i18n } from 'i18next'
 import { QueryClientProvider } from 'react-query'
 import defaultI18nConfig from '../../../../../i18n/testConfig'
@@ -12,7 +12,6 @@ import {
   TransactionTableDetailComponent,
 } from '../types'
 import { testQueryClient } from '../../../../test/QueryClient'
-import { V7_FUTURE_ROUTER_FLAGS } from '../../../../test/utils'
 import SocketContext from '../../../SocketContext'
 import MockWsClient from '../../../../test/mockWsClient'
 
@@ -31,7 +30,7 @@ export function renderWithProviders(
   return render(
     <QueryClientProvider client={testQueryClient}>
       <I18nextProvider i18n={i18nConfig || defaultI18nConfig}>
-        <BrowserRouter future={V7_FUTURE_ROUTER_FLAGS}>
+        <BrowserRouter>
           <SocketContext.Provider value={mockSocket}>
             {TestComponent}
           </SocketContext.Provider>

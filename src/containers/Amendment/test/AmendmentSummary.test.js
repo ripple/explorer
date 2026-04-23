@@ -1,6 +1,6 @@
 import { render, waitFor } from '@testing-library/react'
 import moxios from 'moxios'
-import { Route } from 'react-router-dom'
+import { Route } from 'react-router'
 import { Amendment } from '..'
 import i18n from '../../../i18n/testConfig'
 import NetworkContext from '../../shared/NetworkContext'

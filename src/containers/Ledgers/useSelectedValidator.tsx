@@ -2,6 +2,7 @@ import {
   createContext,
   Dispatch,
   FC,
+  PropsWithChildren,
   SetStateAction,
   useContext,
   useMemo,
@@ -20,7 +21,9 @@ export const SelectedValidatorContext =
       validator,
   })
 
-export const SelectedValidatorProvider: FC = ({ children }) => {
+export const SelectedValidatorProvider: FC<PropsWithChildren> = ({
+  children,
+}) => {
   const [selectedValidator, setSelectedValidator] = useState<string>()
 
   const selectedValidatorValues = useMemo(

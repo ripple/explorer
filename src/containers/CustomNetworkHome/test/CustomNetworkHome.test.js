@@ -4,6 +4,11 @@ import CustomNetworkHome from '../index'
 import MockWsClient from '../../test/mockWsClient'
 import { CUSTOM_NETWORKS_STORAGE_KEY } from '../../shared/hooks'
 import { QuickHarness } from '../../test/utils'
+import { locationAssign } from '../../shared/navigate'
+
+jest.mock('../../shared/navigate', () => ({
+  locationAssign: jest.fn(),
+}))
 
 describe('CustomNetworkHome page', () => {
   let client
@@ -47,18 +52,14 @@ describe('CustomNetworkHome page', () => {
   })
 
   describe('test redirects', () => {
-    const { location } = window
-    const mockedFunction = jest.fn()
     const oldEnvs = process.env
 
     beforeEach(() => {
-      delete window.location
-      window.location = { assign: mockedFunction }
+      locationAssign.mockClear()
       process.env = { ...oldEnvs, VITE_ENVIRONMENT: 'mainnet' }
     })
 
     afterEach(() => {
-      window.location = location
       process.env = oldEnvs
     })
 
@@ -73,7 +74,7 @@ describe('CustomNetworkHome page', () => {
         currentTarget: { value: 'custom_url' },
       })
 
-      expect(mockedFunction).toHaveBeenCalledWith(
+      expect(locationAssign).toHaveBeenCalledWith(
         `${process.env.VITE_CUSTOMNETWORK_LINK}/custom_url`,
       )
     })

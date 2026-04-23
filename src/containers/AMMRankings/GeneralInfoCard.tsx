@@ -53,55 +53,51 @@ export const GeneralInfoCard: FC<GeneralInfoCardProps> = ({
   )
 
   return (
-    <div className="general-info-card">
-      <div className="card-header">
-        <InfoIcon className="info-icon" />
-        <span className="card-title">{t('general_info')}</span>
-      </div>
-
-      <div className="stats-container">
-        <div className="stat-row">
-          <div className="stat-label">
+    <div className="info-card">
+      <h3 className="info-card-title">
+        <InfoIcon className="info-card-icon" />
+        {t('general_info')}
+      </h3>
+      <div className="info-card-rows">
+        <div className="info-card-row">
+          <span className="info-card-label">
             {t('tvl')}
             {renderTooltip('tvl')}
-          </div>
-          <div className="stat-value">
+          </span>
+          <span className="info-card-value">
             {tvl ? formatCurrencyAmount(tvl) : DEFAULT_EMPTY_VALUE}
-          </div>
+          </span>
         </div>
-
-        <div className="stat-row">
-          <div className="stat-label">
+        <div className="info-card-row">
+          <span className="info-card-label">
             {t('number_of_amms')}
             {renderTooltip('number_of_amms')}
-          </div>
-          <div className="stat-value">
+          </span>
+          <span className="info-card-value">
             {stats.amm_pool_count
               ? stats.amm_pool_count.toLocaleString()
               : DEFAULT_EMPTY_VALUE}
-          </div>
+          </span>
         </div>
-
-        <div className="stat-row">
-          <div className="stat-label">
+        <div className="info-card-row">
+          <span className="info-card-label">
             {t('number_of_lps')}
             {renderTooltip('number_of_lps')}
-          </div>
-          <div className="stat-value">
+          </span>
+          <span className="info-card-value">
             {stats.liquidity_provider_count
               ? stats.liquidity_provider_count.toLocaleString()
               : DEFAULT_EMPTY_VALUE}
-          </div>
+          </span>
         </div>
-
-        <div className="stat-row">
-          <div className="stat-label">
+        <div className="info-card-row">
+          <span className="info-card-label">
             {t('volume_24h' as any)}
             {renderTooltip('volume_24h_all')}
-          </div>
-          <div className="stat-value">
+          </span>
+          <span className="info-card-value">
             {volume24h ? formatCurrencyAmount(volume24h) : DEFAULT_EMPTY_VALUE}
-          </div>
+          </span>
         </div>
       </div>
     </div>

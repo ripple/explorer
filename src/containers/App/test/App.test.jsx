@@ -7,7 +7,7 @@ import i18n from '../../../i18n/testConfig'
 import { AppWrapper } from '../index'
 import MockWsClient from '../../test/mockWsClient'
 import { getAccountInfo } from '../../../rippled/lib/rippled'
-import { flushPromises, V7_FUTURE_ROUTER_FLAGS } from '../../test/utils'
+import { flushPromises } from '../../test/utils'
 import { CUSTOM_NETWORKS_STORAGE_KEY } from '../../shared/hooks'
 import { Error } from '../../../rippled/lib/utils'
 
@@ -85,7 +85,7 @@ describe('App container', () => {
     }
 
     return render(
-      <MemoryRouter initialEntries={[path]} future={V7_FUTURE_ROUTER_FLAGS}>
+      <MemoryRouter initialEntries={[path]}>
         <I18nextProvider i18n={i18n}>
           <AppWrapper />
         </I18nextProvider>
@@ -121,19 +121,19 @@ describe('App container', () => {
     const { container } = renderApp()
     await waitFor(() => {
       expect(document.title).toEqual('xrpl_explorer | ledgers')
+      expect(window.dataLayer).toEqual([
+        {
+          page_path: '/',
+          page_title: `xrpl_explorer | ledgers`,
+          event: 'screen_view',
+          network: 'mainnet',
+        },
+      ])
     })
     expect(container.querySelector('header')).not.toHaveClass(
       'header-no-network',
     )
     expect(container.querySelectorAll('.ledgers').length).toBe(1)
-    expect(window.dataLayer).toEqual([
-      {
-        page_path: '/',
-        page_title: `xrpl_explorer | ledgers`,
-        event: 'screen_view',
-        network: 'mainnet',
-      },
-    ])
   })
 
   it('renders ledger explorer page', async () => {
@@ -188,15 +188,15 @@ describe('App container', () => {
     renderApp('/zzz')
     await waitFor(() => {
       expect(document.title).toEqual('xrpl_explorer | not_found_default_title')
+      expect(window.dataLayer).toEqual([
+        {
+          description: 'not_found_default_title -- not_found_check_url',
+          event: 'not_found',
+          network: 'mainnet',
+          page_path: '/zzz',
+        },
+      ])
     })
-    expect(window.dataLayer).toEqual([
-      {
-        description: 'not_found_default_title -- not_found_check_url',
-        event: 'not_found',
-        network: 'mainnet',
-        page_path: '/zzz',
-      },
-    ])
   })
 
   it('renders ledger page', async () => {
@@ -246,15 +246,15 @@ describe('App container', () => {
     renderApp(`/transactions/${id}`)
     await waitFor(() => {
       expect(document.title).toEqual(`xrpl_explorer | invalid_transaction_hash`)
+      expect(window.dataLayer).toEqual([
+        {
+          page_path: '/transactions/12345',
+          event: 'not_found',
+          network: 'mainnet',
+          description: 'invalid_transaction_hash -- check_transaction_hash',
+        },
+      ])
     })
-    expect(window.dataLayer).toEqual([
-      {
-        page_path: '/transactions/12345',
-        event: 'not_found',
-        network: 'mainnet',
-        description: 'invalid_transaction_hash -- check_transaction_hash',
-      },
-    ])
   })
 
   it('renders transaction page with no hash', async () => {
@@ -268,14 +268,16 @@ describe('App container', () => {
     expect(container.querySelector('.no-match .hint').textContent).toBe(
       'transaction_empty_hint',
     )
-    expect(window.dataLayer).toEqual([
-      {
-        page_path: '/transactions/',
-        event: 'not_found',
-        network: 'mainnet',
-        description: 'transaction_empty_title -- transaction_empty_hint',
-      },
-    ])
+    await waitFor(() => {
+      expect(window.dataLayer).toEqual([
+        {
+          page_path: '/transactions/',
+          event: 'not_found',
+          network: 'mainnet',
+          description: 'transaction_empty_title -- transaction_empty_hint',
+        },
+      ])
+    })
   })
 
   it('renders account page for classic address', async () => {
@@ -285,15 +287,15 @@ describe('App container', () => {
     await flushPromises()
     await waitFor(() => {
       expect(document.title).toEqual(`xrpl_explorer | rKV8HEL3vLc6...`)
+      expect(window.dataLayer).toEqual([
+        {
+          page_path: '/accounts/rKV8HEL3vLc6q9waTiJcewdRdSFyx67QFb#ssss',
+          page_title: 'xrpl_explorer | rKV8HEL3vLc6...',
+          event: 'screen_view',
+          network: 'mainnet',
+        },
+      ])
     })
-    expect(window.dataLayer).toEqual([
-      {
-        page_path: '/accounts/rKV8HEL3vLc6q9waTiJcewdRdSFyx67QFb#ssss',
-        page_title: 'xrpl_explorer | rKV8HEL3vLc6...',
-        event: 'screen_view',
-        network: 'mainnet',
-      },
-    ])
   })
 
   it('renders account page for malformed', async () => {
@@ -303,15 +305,15 @@ describe('App container', () => {
     )
     await waitFor(() => {
       expect(document.title).toEqual(`xrpl_explorer | invalid_xrpl_address`)
+      expect(window.dataLayer).toEqual([
+        {
+          page_path: '/accounts/rZaChweF5oXn#ssss',
+          description: 'invalid_xrpl_address -- check_account_id',
+          event: 'not_found',
+          network: 'mainnet',
+        },
+      ])
     })
-    expect(window.dataLayer).toEqual([
-      {
-        page_path: '/accounts/rZaChweF5oXn#ssss',
-        description: 'invalid_xrpl_address -- check_account_id',
-        event: 'not_found',
-        network: 'mainnet',
-      },
-    ])
   })
 
   it('renders account page for a deleted account', async () => {
@@ -321,15 +323,15 @@ describe('App container', () => {
     )
     await waitFor(() => {
       expect(document.title).toEqual(`xrpl_explorer | r35jYntLwkrb...`)
+      expect(window.dataLayer).toEqual([
+        {
+          page_path: '/accounts/r35jYntLwkrbc3edisgavDbEdNRSKgcQE6#ssss',
+          page_title: `xrpl_explorer | r35jYntLwkrb...`,
+          event: 'screen_view',
+          network: 'mainnet',
+        },
+      ])
     })
-    expect(window.dataLayer).toEqual([
-      {
-        page_path: '/accounts/r35jYntLwkrbc3edisgavDbEdNRSKgcQE6#ssss',
-        page_title: `xrpl_explorer | r35jYntLwkrb...`,
-        event: 'screen_view',
-        network: 'mainnet',
-      },
-    ])
     expect(mockGetAccountInfo).toHaveBeenCalledWith(
       expect.anything(),
       'r35jYntLwkrbc3edisgavDbEdNRSKgcQE6',
@@ -341,16 +343,16 @@ describe('App container', () => {
     renderApp(`/accounts/${id}#ssss`)
     await waitFor(() => {
       expect(document.title).toEqual(`xrpl_explorer | XVVFXHFdehYh...`)
+      expect(window.dataLayer).toEqual([
+        {
+          page_path:
+            '/accounts/XVVFXHFdehYhofb7XRWeJYV6kjTEwboaHpB9S1ruYMsuXcG#ssss',
+          page_title: `xrpl_explorer | XVVFXHFdehYh...`,
+          event: 'screen_view',
+          network: 'mainnet',
+        },
+      ])
     })
-    expect(window.dataLayer).toEqual([
-      {
-        page_path:
-          '/accounts/XVVFXHFdehYhofb7XRWeJYV6kjTEwboaHpB9S1ruYMsuXcG#ssss',
-        page_title: `xrpl_explorer | XVVFXHFdehYh...`,
-        event: 'screen_view',
-        network: 'mainnet',
-      },
-    ])
     expect(mockGetAccountInfo).toHaveBeenCalledWith(
       expect.anything(),
       'rKV8HEL3vLc6q9waTiJcewdRdSFyx67QFb',
@@ -368,14 +370,16 @@ describe('App container', () => {
     expect(container.querySelector('.no-match .hint').textContent).toBe(
       'account_empty_hint',
     )
-    expect(window.dataLayer).toEqual([
-      {
-        page_path: '/accounts/',
-        event: 'not_found',
-        network: 'mainnet',
-        description: 'account_empty_title -- account_empty_hint',
-      },
-    ])
+    await waitFor(() => {
+      expect(window.dataLayer).toEqual([
+        {
+          page_path: '/accounts/',
+          event: 'not_found',
+          network: 'mainnet',
+          description: 'account_empty_title -- account_empty_hint',
+        },
+      ])
+    })
   })
 
   it('redirects legacy transactions page', async () => {
@@ -386,20 +390,20 @@ describe('App container', () => {
       expect(document.title).toEqual(
         `xrpl_explorer | transaction_short 50BB0CC6...`,
       )
+      expect(window.dataLayer).toEqual([
+        {
+          page_path:
+            '/transactions/50BB0CC6EFC4F5EF9954E654D3230D4480DC83907A843C736B28420C7F02F774',
+          event: 'screen_view',
+          network: 'mainnet',
+          page_title: 'xrpl_explorer | transaction_short 50BB0CC6...',
+          tec_code: 'tecKILLED',
+          transaction_action: 'CREATE',
+          transaction_category: 'DEX',
+          transaction_type: 'OfferCreate',
+        },
+      ])
     })
-    expect(window.dataLayer).toEqual([
-      {
-        page_path:
-          '/transactions/50BB0CC6EFC4F5EF9954E654D3230D4480DC83907A843C736B28420C7F02F774',
-        event: 'screen_view',
-        network: 'mainnet',
-        page_title: 'xrpl_explorer | transaction_short 50BB0CC6...',
-        tec_code: 'tecKILLED',
-        transaction_action: 'CREATE',
-        transaction_category: 'DEX',
-        transaction_type: 'OfferCreate',
-      },
-    ])
   })
 
   it('redirects legacy account page', async () => {
@@ -407,30 +411,30 @@ describe('App container', () => {
     renderApp(`/#/graph/${id}#ssss`)
     await waitFor(() => {
       expect(document.title).toEqual(`xrpl_explorer | rKV8HEL3vLc6...`)
+      expect(window.dataLayer).toEqual([
+        {
+          page_path: '/accounts/rKV8HEL3vLc6q9waTiJcewdRdSFyx67QFb#ssss',
+          page_title: 'xrpl_explorer | rKV8HEL3vLc6...',
+          event: 'screen_view',
+          network: 'mainnet',
+        },
+      ])
     })
-    expect(window.dataLayer).toEqual([
-      {
-        page_path: '/accounts/rKV8HEL3vLc6q9waTiJcewdRdSFyx67QFb#ssss',
-        page_title: 'xrpl_explorer | rKV8HEL3vLc6...',
-        event: 'screen_view',
-        network: 'mainnet',
-      },
-    ])
   })
 
   it('redirects legacy account page with no account', async () => {
     renderApp(`/#/graph/`)
     await waitFor(() => {
       expect(document.title).toEqual(`xrpl_explorer | ledgers`)
+      expect(window.dataLayer).toEqual([
+        {
+          page_path: '/',
+          page_title: 'xrpl_explorer | ledgers',
+          event: 'screen_view',
+          network: 'mainnet',
+        },
+      ])
     })
-    expect(window.dataLayer).toEqual([
-      {
-        page_path: '/',
-        page_title: 'xrpl_explorer | ledgers',
-        event: 'screen_view',
-        network: 'mainnet',
-      },
-    ])
   })
 
   it('renders custom mode homepage', async () => {
