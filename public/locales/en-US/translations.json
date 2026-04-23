@@ -386,6 +386,7 @@
   "missed_validations": "{{count}} missed validations",
   "incomplete": "incomplete",
   "base_fee": "Base Fee",
+  "drops": "drops",
   "account_reserve": "Account Reserve",
   "object_reserve": "Object Reserve",
   "vote": "Vote",
