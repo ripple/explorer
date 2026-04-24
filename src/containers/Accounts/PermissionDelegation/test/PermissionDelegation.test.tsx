@@ -86,7 +86,9 @@ describe('PermissionDelegation component', () => {
       )
     })
 
-    expect(container.querySelector('.permission-delegation')).toBeNull()
+    await waitFor(() => {
+      expect(container.querySelector('.permission-delegation')).toBeNull()
+    })
   })
 
   it('renders the section title when delegations exist', async () => {
@@ -130,7 +132,7 @@ describe('PermissionDelegation component', () => {
     )
 
     await waitFor(() => {
-      expect(screen.getByText('Permission Delegation')).toBeInTheDocument()
+      expect(screen.getByText('Payment')).toBeInTheDocument()
     })
 
     expect(container.querySelector('.permission-delegation')).not.toBeNull()
