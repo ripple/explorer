@@ -89,7 +89,7 @@ describe('PermissionDelegation component', () => {
     expect(container.querySelector('.permission-delegation')).toBeNull()
   })
 
-  it('renders the section title and table headers when delegations exist', async () => {
+  it('renders the section title when delegations exist', async () => {
     mockedGetAccountObjects.mockResolvedValue(mockDelegateResponse)
 
     render(
@@ -99,12 +99,8 @@ describe('PermissionDelegation component', () => {
     )
 
     await waitFor(() => {
-      expect(screen.getByText('Permission delegation')).toBeInTheDocument()
+      expect(screen.getByText('Permission Delegation')).toBeInTheDocument()
     })
-
-    expect(screen.getByText('Permission')).toBeInTheDocument()
-    expect(screen.getByText('Granted To')).toBeInTheDocument()
-    expect(screen.getByText('Status')).toBeInTheDocument()
   })
 
   it('renders all permission rows from delegate objects', async () => {
@@ -122,12 +118,9 @@ describe('PermissionDelegation component', () => {
 
     expect(screen.getByText('TrustSet')).toBeInTheDocument()
     expect(screen.getByText('OfferCreate')).toBeInTheDocument()
-
-    const activeStatuses = screen.getAllByText('Active')
-    expect(activeStatuses).toHaveLength(3)
   })
 
-  it('reuses AccountAsset CSS classes', async () => {
+  it('renders with collapsible section and delegate cards', async () => {
     mockedGetAccountObjects.mockResolvedValue(mockDelegateResponse)
 
     const { container } = render(
@@ -137,14 +130,20 @@ describe('PermissionDelegation component', () => {
     )
 
     await waitFor(() => {
-      expect(screen.getByText('Permission delegation')).toBeInTheDocument()
+      expect(screen.getByText('Permission Delegation')).toBeInTheDocument()
     })
 
-    expect(container.querySelector('.account-asset')).not.toBeNull()
-    expect(container.querySelector('.asset-section-header')).not.toBeNull()
-    expect(container.querySelector('.account-asset-title')).not.toBeNull()
-    expect(container.querySelector('.asset-section-toggle')).not.toBeNull()
-    expect(container.querySelector('.account-asset-table')).not.toBeNull()
+    expect(container.querySelector('.permission-delegation')).not.toBeNull()
+    expect(
+      container.querySelector('.collapsible-section-header'),
+    ).not.toBeNull()
+    expect(container.querySelector('.collapsible-section-title')).not.toBeNull()
+    expect(
+      container.querySelector('.collapsible-section-toggle'),
+    ).not.toBeNull()
+    expect(container.querySelector('.delegate-list')).not.toBeNull()
+    expect(container.querySelectorAll('.delegate-item').length).toBe(2)
+    expect(container.querySelectorAll('.permission-chip').length).toBe(3)
   })
 
   it('toggles the table visibility when clicking the toggle button', async () => {

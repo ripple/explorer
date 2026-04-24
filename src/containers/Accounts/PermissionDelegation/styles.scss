@@ -1,15 +1,55 @@
-/* PermissionDelegation-specific overrides.
-   Layout, header, toggle, arrow, and table base styles are reused
-   from AccountAsset via the shared .account-asset / .asset-section-header /
-   .account-asset-table classes. */
+@use '../../shared/css/variables' as *;
 
-.permission-delegation .permission-delegation-table-wrapper {
-  .loader {
-    min-height: 50px;
+.permission-delegation {
+  .delegate-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
   }
 
-  /* Override the large min-width from account-asset-table since we only have 3 columns */
-  .account-asset-table table {
-    min-width: 0;
+  .delegate-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    background: $black-80;
+
+    @media (max-width: $tablet-portrait-upper-boundary) {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+  }
+
+  .delegate-authorize {
+    flex-shrink: 0;
+    font-size: 14px;
+  }
+
+  .delegate-permissions {
+    display: flex;
+    flex: 1;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 6px;
+
+    @media (max-width: $tablet-portrait-upper-boundary) {
+      justify-content: flex-start;
+    }
+  }
+
+  .permission-chip {
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: $black-70;
+    color: $black-0;
+    font-size: 12px;
+    letter-spacing: 0.03em;
+    @include semibold;
+  }
+
+  .loader {
+    min-height: 50px;
   }
 }
