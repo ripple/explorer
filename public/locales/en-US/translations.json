@@ -757,6 +757,7 @@
   "account_page_asset_table_no_lptoken": "No LP Tokens found",
   "account_page_asset_table_no_mpt": "No MPTs found",
   "account_page_asset_table_no_nft": "No NFTs found",
+  "account_page_permission_delegation": "Permission Delegation",
   "tx_hash": "Tx Hash",
   "timestamp": "Timestamp (UTC)",
   "amount_in": "Amount In",

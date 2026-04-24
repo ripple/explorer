@@ -31,6 +31,11 @@ jest.mock('../AccountAsset', () => ({
   default: () => <div data-testid="account-asset">Account Asset</div>,
 }))
 
+jest.mock('../PermissionDelegation', () => ({
+  __esModule: true,
+  PermissionDelegation: () => null,
+}))
+
 jest.mock('../AccountTransactionTable', () => ({
   __esModule: true,
   AccountTransactionTable: () => (

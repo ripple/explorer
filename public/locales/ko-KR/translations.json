@@ -757,6 +757,7 @@
   "account_page_asset_table_no_lptoken": null,
   "account_page_asset_table_no_mpt": null,
   "account_page_asset_table_no_nft": null,
+  "account_page_permission_delegation": null,
   "tx_hash": null,
   "timestamp": null,
   "amount_in": null,

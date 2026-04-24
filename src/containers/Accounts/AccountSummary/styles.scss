@@ -92,44 +92,6 @@
   }
 
   .properties {
-    /* layout for header and the chevron toggle */
-    .properties-header {
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      margin: 24px 0;
-      gap: 2px;
-
-      h3 {
-        margin: 0;
-        color: $black-0;
-        font-size: 20px;
-      }
-
-      .properties-toggle {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        padding: 6px;
-        border: 0;
-        background: transparent;
-        color: inherit;
-        cursor: pointer;
-      }
-
-      .properties-arrow {
-        display: inline-block;
-        width: 18px;
-        height: 18px;
-        transform-origin: center;
-        transition: transform 180ms ease;
-      }
-
-      .properties-arrow.open {
-        transform: rotate(180deg);
-      }
-    }
-
     .properties-grid {
       display: grid;
       align-items: start;
@@ -465,63 +427,40 @@
       }
     }
 
-    .properties {
-      .properties-header {
-        gap: 8px;
+    .properties .properties-grid {
+      margin-top: 12px;
+      gap: 12px;
+      grid-template-columns: 1fr;
 
-        .properties-toggle {
-          padding: 4px;
-        }
-
-        .properties-arrow {
-          width: 16px;
-          height: 16px;
-        }
+      .flags-card,
+      .signers-card {
+        padding: 16px;
       }
 
-      .properties-grid {
-        margin-top: 12px;
-        gap: 12px;
-        grid-template-columns: 1fr;
+      .flags-card {
+        grid-column: auto;
+      }
 
-        .flags-card,
-        .signers-card {
-          padding: 16px;
-        }
+      .signers-card {
+        grid-column: auto;
+      }
 
-        .flags-card {
-          grid-column: auto;
-        }
+      .flags-list,
+      .signers-list {
+        max-height: calc(5 * 64px);
+        padding-inline: 4px;
+      }
 
-        .signers-card {
-          grid-column: auto;
-        }
-
-        .flags-list,
-        .signers-list {
-          max-height: calc(5 * 64px);
-          padding-inline: 4px;
-        }
-
-        .flag-item,
-        .signer-item {
-          padding: 10px;
-        }
+      .flag-item,
+      .signer-item {
+        padding: 10px;
       }
     }
   }
 
   @media (max-width: $tablet-portrait-upper-boundary) {
-    .properties {
-      .properties-header {
-        h3 {
-          font-size: 18px;
-        }
-      }
-
-      .properties-grid .card-header .header-title {
-        font-size: 18px;
-      }
+    .properties .properties-grid .card-header .header-title {
+      font-size: 18px;
     }
   }
 }
