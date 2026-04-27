@@ -876,6 +876,10 @@ const getVault = (rippledSocket, vaultId) =>
       throw new Error(resp.error_message, 500)
     }
 
+    if (resp.node?.LedgerEntryType !== 'Vault') {
+      throw new Error('Not a Vault', 404)
+    }
+
     return resp.node
   })
 
