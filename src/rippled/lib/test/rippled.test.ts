@@ -5,11 +5,6 @@ import {
   getNegativeUNL,
 } from '../rippled'
 
-// TODO: Future revisions should add unit-test coverage for the remaining
-// methods exported from src/rippled/lib/rippled.ts (getTransaction, getLedger,
-// getNFTInfo, getAccountInfo, getLedgerEntry, etc.). Each has its own
-// error-handling branches that deserve direct coverage.
-
 const VAULT_INDEX =
   'EF98FDBA404CBEB4F746DA1026B859E260BBB459D111268F6A26BBC7C4811A04'
 
