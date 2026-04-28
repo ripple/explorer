@@ -1,8 +1,13 @@
-import { getVault } from '../rippled'
+import {
+  getVault,
+  getLoanBroker,
+  getMPTIssuance,
+  getNegativeUNL,
+} from '../rippled'
 
-// TODO: Future revisions should add unit-test coverage for the other methods
-// exported from src/rippled/lib/rippled.ts (getTransaction, getLedger,
-// getNFTInfo, getAccountInfo, getLoanBroker, etc.). Each has its own
+// TODO: Future revisions should add unit-test coverage for the remaining
+// methods exported from src/rippled/lib/rippled.ts (getTransaction, getLedger,
+// getNFTInfo, getAccountInfo, getLedgerEntry, etc.). Each has its own
 // error-handling branches that deserve direct coverage.
 
 const VAULT_INDEX =
@@ -101,5 +106,128 @@ describe('getVault', () => {
       message: 'unexpected failure',
       code: 500,
     })
+  })
+})
+
+describe('getLoanBroker', () => {
+  const LOAN_BROKER_INDEX =
+    '1111111111111111111111111111111111111111111111111111111111111111'
+
+  it('returns resp.node when the ledger entry is a LoanBroker', async () => {
+    const node = {
+      LedgerEntryType: 'LoanBroker',
+      Owner: 'rExampleLoanBrokerOwner',
+      index: LOAN_BROKER_INDEX,
+    }
+    const socket = makeSocket({ index: LOAN_BROKER_INDEX, node })
+
+    await expect(getLoanBroker(socket, LOAN_BROKER_INDEX)).resolves.toEqual(
+      node,
+    )
+  })
+
+  it('throws when the ledger entry is not a LoanBroker (e.g. Check)', async () => {
+    const socket = makeSocket({
+      index: LOAN_BROKER_INDEX,
+      node: {
+        LedgerEntryType: 'Check',
+        Account: 'rExampleCheckSender',
+        index: LOAN_BROKER_INDEX,
+      },
+    })
+
+    await expect(
+      getLoanBroker(socket, LOAN_BROKER_INDEX),
+    ).rejects.toMatchObject({
+      message: 'Not a LoanBroker',
+      code: 404,
+    })
+  })
+
+  it('throws "LoanBroker not found" when rippled returns entryNotFound', async () => {
+    const socket = makeSocket({ error: 'entryNotFound' })
+
+    await expect(
+      getLoanBroker(socket, LOAN_BROKER_INDEX),
+    ).rejects.toMatchObject({
+      message: 'LoanBroker not found',
+      code: 404,
+    })
+  })
+})
+
+describe('getMPTIssuance', () => {
+  const MPT_ID = '00002AF2588C244FE5F74BF48B5C5E2823235B243AA34634'
+
+  it('returns the full response when the ledger entry is an MPTokenIssuance', async () => {
+    const resp = {
+      node: {
+        LedgerEntryType: 'MPTokenIssuance',
+        Issuer: 'rExampleMPTIssuer',
+        Sequence: 1,
+      },
+      ledger_index: 100,
+      validated: true,
+    }
+    const socket = makeSocket(resp)
+
+    await expect(getMPTIssuance(socket, MPT_ID)).resolves.toEqual(resp)
+  })
+
+  it('throws when the ledger entry is not an MPTokenIssuance', async () => {
+    const socket = makeSocket({
+      node: {
+        LedgerEntryType: 'Vault',
+        Owner: 'rExampleVaultOwner',
+      },
+      validated: true,
+    })
+
+    await expect(getMPTIssuance(socket, MPT_ID)).rejects.toMatchObject({
+      message: 'Not an MPTokenIssuance',
+      code: 404,
+    })
+  })
+
+  it('throws "MPT Issuance not found" when rippled returns entryNotFound', async () => {
+    const socket = makeSocket({ error: 'entryNotFound' })
+
+    await expect(getMPTIssuance(socket, MPT_ID)).rejects.toMatchObject({
+      message: 'MPT Issuance not found',
+      code: 404,
+    })
+  })
+})
+
+describe('getNegativeUNL', () => {
+  it('returns the full response when the ledger entry is a NegativeUNL', async () => {
+    const resp = {
+      node: {
+        LedgerEntryType: 'NegativeUNL',
+        DisabledValidators: [],
+      },
+      validated: true,
+    }
+    const socket = makeSocket(resp)
+
+    await expect(getNegativeUNL(socket)).resolves.toEqual(resp)
+  })
+
+  it('throws when the ledger entry is not a NegativeUNL', async () => {
+    const socket = makeSocket({
+      node: { LedgerEntryType: 'AccountRoot' },
+      validated: true,
+    })
+
+    await expect(getNegativeUNL(socket)).rejects.toMatchObject({
+      message: 'Not a NegativeUNL',
+      code: 404,
+    })
+  })
+
+  it('returns [] when the entry is missing', async () => {
+    const socket = makeSocket({ error: 'entryNotFound' })
+
+    await expect(getNegativeUNL(socket)).resolves.toEqual([])
   })
 })

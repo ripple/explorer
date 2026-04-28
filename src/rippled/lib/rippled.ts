@@ -594,6 +594,10 @@ const getNegativeUNL = async (
     throw new Error(resp.error_message, 500)
   }
 
+  if (resp.node?.LedgerEntryType !== 'NegativeUNL') {
+    throw new Error('Not a NegativeUNL', 404)
+  }
+
   return resp
 }
 
@@ -727,6 +731,10 @@ const getMPTIssuance = async (
 
   if (resp.error_message) {
     throw new Error(resp.error_message, 500)
+  }
+
+  if (resp.node?.LedgerEntryType !== 'MPTokenIssuance') {
+    throw new Error('Not an MPTokenIssuance', 404)
   }
 
   return resp
@@ -904,6 +912,10 @@ const getLoanBroker = (rippledSocket, loanBrokerId) =>
 
     if (resp.error_message) {
       throw new Error(resp.error_message, 500)
+    }
+
+    if (resp.node?.LedgerEntryType !== 'LoanBroker') {
+      throw new Error('Not a LoanBroker', 404)
     }
 
     return resp.node
