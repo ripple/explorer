@@ -6,7 +6,7 @@
  * various financial metrics.
  *
  * Key concepts tested:
- * - Vault privacy flag (lsfPrivate: 0x00000001)
+ * - Vault privacy flag (lsfVaultPrivate: 0x00010000)
  * - Asset types: XRP, IOU tokens, and MPTs (Multi-Purpose Tokens)
  * - Compact number formatting (K for thousands, M for millions)
  * - Hex-encoded Data field decoding
@@ -213,16 +213,16 @@ describe('VaultHeader Component', () => {
    * =========================================
    * SECTION 2: Private Vault Flag Tests
    * =========================================
-   * Vaults can be public or private, controlled by the lsfPrivate flag (0x00000001)
+   * Vaults can be public or private, controlled by the lsfVaultPrivate flag (0x00010000)
    * The UI displays this as YES/NO pill buttons
    */
   describe('Private Vault Flag', () => {
-    it('displays YES as active when vault is private (flag = 0x00000001)', () => {
-      // lsfPrivate flag is bit 0 (0x00000001) from XLS-65d spec
+    it('displays YES as active when vault is private (flag = 0x00010000)', () => {
+      // lsfVaultPrivate flag is bit 16 (0x00010000) from XLS-65d spec
       const vaultData = {
         Owner: 'rTestOwner',
         Asset: { currency: 'XRP' },
-        Flags: 0x00000001, // Private vault
+        Flags: 0x00010000, // Private vault
       }
 
       const { container } = render(
@@ -301,11 +301,11 @@ describe('VaultHeader Component', () => {
     })
 
     it('correctly identifies private flag when combined with other flags', () => {
-      // Flags can have multiple bits set; we need bitwise AND to check lsfPrivate
+      // Flags can have multiple bits set; we need bitwise AND to check lsfVaultPrivate
       const vaultData = {
         Owner: 'rTestOwner',
         Asset: { currency: 'XRP' },
-        Flags: 0x00010001, // Private flag + another flag
+        Flags: 0x00010001, // Private flag (0x00010000) + another flag (0x00000001)
       }
 
       const { container } = render(
