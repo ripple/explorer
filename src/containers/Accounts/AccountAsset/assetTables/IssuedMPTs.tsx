@@ -7,6 +7,7 @@ import { Loader } from '../../../shared/components/Loader'
 import { EmptyMessageTableRow } from '../../../shared/EmptyMessageTableRow'
 import { FutureDataIcon } from '../FutureDataIcon'
 import { Tooltip, useTooltip } from '../../../shared/components/Tooltip'
+import HoverIcon from '../../../shared/images/hover.svg'
 import { getAccountObjects } from '../../../../rippled/lib/rippled'
 import SocketContext from '../../../shared/SocketContext'
 import {
@@ -65,6 +66,12 @@ const fetchAccountIssuedMPTs = async (
         BigInt(formattedIssuance?.outstandingAmt) || 0,
         formattedIssuance?.assetScale || 0,
       ),
+      confidentialSupply: formattedIssuance?.confidentialOutstandingAmt
+        ? convertScaledPrice(
+            BigInt(formattedIssuance.confidentialOutstandingAmt),
+            formattedIssuance?.assetScale || 0,
+          )
+        : null,
       assetClass: (parsedMPTMetadata?.asset_class as string) || null,
       transferFee: formatTransferFee(formattedIssuance?.transferFee, 'MPT'),
       locked: formattedIssuance?.flags?.includes('lsfMPTLocked')
@@ -80,7 +87,21 @@ const IssuedMPTsContent = ({ accountId, onChange }: IssuedMPTsProps) => {
   const lang = useLanguage()
   const { t } = useTranslation()
   const rippledSocket = useContext(SocketContext)
-  const { tooltip } = useTooltip()
+  const { tooltip, showTooltip, hideTooltip } = useTooltip()
+
+  const renderConfBalanceTooltip = () => (
+    <HoverIcon
+      className="hover"
+      onMouseOver={(e) => {
+        const rect = e.currentTarget.getBoundingClientRect()
+        showTooltip('text', e, t('confidential_balance_tooltip'), {
+          x: rect.left + rect.width / 2,
+          y: rect.top - 60,
+        })
+      }}
+      onMouseLeave={() => hideTooltip()}
+    />
+  )
 
   const issuedMPTsQuery = useQuery(['issuedMPTs', accountId], () =>
     fetchAccountIssuedMPTs(accountId, rippledSocket),
@@ -109,6 +130,10 @@ const IssuedMPTsContent = ({ accountId, onChange }: IssuedMPTsProps) => {
             <th>{t('account_page_asset_table_column_ticker')}</th>
             <th>{t('account_page_asset_table_column_price_usd')}</th>
             <th>{t('account_page_asset_table_column_circulating_supply')}</th>
+            <th>
+              {t('account_page_asset_table_column_confidential_balance')}{' '}
+              {renderConfBalanceTooltip()}
+            </th>
             <th>{t('account_page_asset_table_column_asset_class')}</th>
             <th>{t('account_page_asset_table_column_transfer_fee')}</th>
             <th>{t('account_page_asset_table_column_locked')}</th>
@@ -116,7 +141,7 @@ const IssuedMPTsContent = ({ accountId, onChange }: IssuedMPTsProps) => {
         </thead>
         <tbody>
           {rows.length === 0 ? (
-            <EmptyMessageTableRow colSpan={7}>
+            <EmptyMessageTableRow colSpan={8}>
               {t('account_page_asset_table_no_mpt')}
             </EmptyMessageTableRow>
           ) : (
@@ -132,6 +157,11 @@ const IssuedMPTsContent = ({ accountId, onChange }: IssuedMPTsProps) => {
                   <FutureDataIcon />
                 </td>
                 <td>{parseAmount(token.supply, 1, lang)}</td>
+                <td>
+                  {token.confidentialSupply
+                    ? parseAmount(token.confidentialSupply, 1, lang)
+                    : '--'}
+                </td>
                 <td>
                   {token.assetClass ? token.assetClass.toUpperCase() : '--'}
                 </td>

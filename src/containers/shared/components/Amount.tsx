@@ -20,6 +20,8 @@ export interface AmountProps {
   displayCurrency?: boolean
   /** Format amount with parseAmount instead of localizeNumber. */
   useParseAmount?: boolean
+  /** Override the amount display with custom content (e.g. "Confidential"). Skips numeric parsing. */
+  displayOverride?: React.ReactNode
 }
 
 export const Amount = ({
@@ -29,6 +31,7 @@ export const Amount = ({
   shortenIssuer = false,
   displayCurrency = true,
   useParseAmount: useParsed = false,
+  displayOverride,
 }: AmountProps) => {
   const language = useLanguage()
   const rippledSocket = useContext(SocketContext)
@@ -85,6 +88,11 @@ export const Amount = ({
         enabled: isMPT,
       },
     ) || {}
+
+  // Handle custom display override (e.g. confidential amounts)
+  if (displayOverride != null) {
+    return renderAmount(displayOverride)
+  }
 
   // Handle the special case where amount is '< 0.0001'
   if (isSmallAmountString) {

@@ -554,6 +554,9 @@ export function convertScaledPrice(assetPrice, scale) {
 export const shortenAccount = (addr = '') =>
   addr.length > 12 ? `${addr.slice(0, 7)}...${addr.slice(-5)}` : addr
 
+export const shortenEncryptionKey = (key = '') =>
+  key.length > 12 ? `${key.slice(0, 6)}...${key.slice(-4)}` : key
+
 export const stripHttpProtocol = (url = '') => url.replace(/^https?:\/\//, '')
 
 export const shortenDomain = (

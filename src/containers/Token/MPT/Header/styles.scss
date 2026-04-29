@@ -114,6 +114,16 @@
     }
   }
 
+  .hover {
+    position: relative;
+    top: -1px;
+    width: 14px;
+    height: 14px;
+    margin-left: 4px;
+    cursor: default;
+    vertical-align: middle;
+  }
+
   // MPT-specific description value styling
   .description-value {
     max-width: 300px;
@@ -122,6 +132,10 @@
 
   // Settings box flag status styling
   .settings-box {
+    .header-box-item {
+      align-items: center;
+    }
+
     .flag-status {
       min-width: 85px;
       padding: 4px 10px;

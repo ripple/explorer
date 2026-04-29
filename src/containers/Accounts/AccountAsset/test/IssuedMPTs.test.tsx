@@ -91,6 +91,7 @@ describe('IssuedMPTs', () => {
     expect(screen.getByText('Ticker')).toBeInTheDocument()
     expect(screen.getByText('Price (USD)')).toBeInTheDocument()
     expect(screen.getByText('Circ Supply')).toBeInTheDocument()
+    expect(screen.getByText('Conf Balance')).toBeInTheDocument()
     expect(screen.getByText('Asset Class')).toBeInTheDocument()
     expect(screen.getByText('Transfer Fee')).toBeInTheDocument()
     expect(screen.getByText('Locked')).toBeInTheDocument()
@@ -195,5 +196,46 @@ describe('IssuedMPTs', () => {
     // Each MPT has 1 FutureDataIcon (price USD) = 3 MPTs * 1 icon = 3 total
     const futureDataIcons = document.querySelectorAll('.future-data')
     expect(futureDataIcons).toHaveLength(3)
+
+    // Verify confidential balance column shows '--' for non-confidential MPTs
+    const usdCells = usdRow.querySelectorAll('td')
+    expect(usdCells[4]).toHaveTextContent('--') // conf balance column
+  })
+
+  it('shows confidential supply when available', async () => {
+    mockedGetAccountObjects.mockResolvedValueOnce({
+      account_objects: [
+        {
+          mpt_issuance_id: '000004C463C52827307480341125DA65C267105D00000001',
+          OutstandingAmount: '1000000',
+          ConfidentialOutstandingAmount: '50000',
+          TransferFee: 5000,
+          Flags: 0,
+          AssetScale: 2,
+          MPTokenMetadata:
+            '7B227469636B6572223A22555344222C22697373756572' +
+            '5F6E616D65223A22476174656875622' +
+            '22C2261737365745F636C617373223A226F74686572222C226E616D65223A22555344' +
+            '20546F6B656E222C2269636F6E223A2268747470733A2F2F6578616D706C652E636F6D2F7573642E706E67227D',
+        },
+      ],
+      marker: '',
+    })
+
+    render(
+      <TestWrapper>
+        <IssuedMPTs accountId="rTest123" />
+      </TestWrapper>,
+    )
+
+    await waitFor(() => {
+      expect(screen.getByText('000004C463...5D00000001')).toBeInTheDocument()
+    })
+
+    const rows = screen.getAllByRole('row')
+    const dataRow = rows[1]
+    const cells = dataRow.querySelectorAll('td')
+    // Conf balance column (index 4) should show scaled value: 50000 / 100 = 500
+    expect(cells[4]).toHaveTextContent('500')
   })
 })

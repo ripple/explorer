@@ -7,6 +7,7 @@ import { Loader } from '../../../shared/components/Loader'
 import { EmptyMessageTableRow } from '../../../shared/EmptyMessageTableRow'
 import { Account } from '../../../shared/components/Account'
 import { Tooltip, useTooltip } from '../../../shared/components/Tooltip'
+import HoverIcon from '../../../shared/images/hover.svg'
 import {
   formatMPTIssuance,
   formatMPToken,
@@ -51,10 +52,14 @@ const fetchAccountHeldMPTs = async (accountId: string, rippledSocket: any) => {
     }
   } while (marker)
 
-  // Format and filter MPTs
+  // Format and filter MPTs (include tokens with confidential balances even if public balance is 0)
   const positiveBalanceMPTs = mpts
     .map((mpToken: any) => formatMPToken(mpToken))
-    .filter((mpToken: any) => parseInt(mpToken.mptAmount || '0', 10) > 0)
+    .filter(
+      (mpToken: any) =>
+        parseInt(mpToken.mptAmount || '0', 10) > 0 ||
+        mpToken.hasConfidentialBalance,
+    )
 
   // For each MPTokenIssuanceID, call getMPTIssuance and format the response
   const mptIssuancePromises = positiveBalanceMPTs.map(async (mpToken: any) => {
@@ -111,6 +116,7 @@ const fetchAccountHeldMPTs = async (accountId: string, rippledSocket: any) => {
 
         return ''
       })(),
+      hasConfidentialBalance: mpToken.hasConfidentialBalance,
     }
   })
 
@@ -121,7 +127,21 @@ const HeldMPTsContent = ({ accountId, onChange }: HeldMPTsProps) => {
   const lang = useLanguage()
   const { t } = useTranslation()
   const rippledSocket = useContext(SocketContext)
-  const { tooltip } = useTooltip()
+  const { tooltip, showTooltip, hideTooltip } = useTooltip()
+
+  const renderConfBalanceTooltip = () => (
+    <HoverIcon
+      className="hover"
+      onMouseOver={(e) => {
+        const rect = e.currentTarget.getBoundingClientRect()
+        showTooltip('text', e, t('confidential_balance_row_tooltip'), {
+          x: rect.left + rect.width / 2,
+          y: rect.top - 60,
+        })
+      }}
+      onMouseLeave={() => hideTooltip()}
+    />
+  )
 
   const heldMPTsQuery = useQuery(['heldMPTs', accountId], () =>
     fetchAccountHeldMPTs(accountId, rippledSocket),
@@ -163,49 +183,108 @@ const HeldMPTsContent = ({ accountId, onChange }: HeldMPTsProps) => {
               {t('account_page_asset_table_no_mpt')}
             </EmptyMessageTableRow>
           ) : (
-            rows.map((token) => (
-              <tr key={token.tokenId}>
-                <td>
-                  <RouteLink to={MPT_ROUTE} params={{ id: token.tokenId }}>
-                    {shortenMPTID(token.tokenId)}
-                  </RouteLink>
-                </td>
-                <td>{token.ticker ? token.ticker : '--'}</td>
-                <td>
-                  <Account
-                    account={token.issuer}
-                    displayText={
-                      token.issuerName || shortenAccount(token.issuer)
-                    }
-                  />
-                </td>
-                <td>
-                  <FutureDataIcon />
-                </td>
-                <td>{parseAmount(token.balance, 1, lang)}</td>
-                <td>
-                  <FutureDataIcon />
-                </td>
-                <td>
-                  {token.assetClass ? token.assetClass.toUpperCase() : '--'}
-                </td>
-                <td className="transfer-fee">{token.transferFee}%</td>
-                <td>
-                  {(() => {
-                    if (token.locked === '') {
-                      return '--'
-                    }
-                    if (token.locked === 'Global') {
-                      return t('account_page_asset_table_mpt_locked_global')
-                    }
-                    if (token.locked === 'Individual') {
-                      return t('account_page_asset_table_mpt_locked_individual')
-                    }
-                    return token.locked
-                  })()}
-                </td>
-              </tr>
-            ))
+            rows.flatMap((token) => {
+              const publicRow = (
+                <tr key={token.tokenId}>
+                  <td>
+                    <RouteLink to={MPT_ROUTE} params={{ id: token.tokenId }}>
+                      {shortenMPTID(token.tokenId)}
+                    </RouteLink>
+                  </td>
+                  <td>{token.ticker ? token.ticker : '--'}</td>
+                  <td>
+                    <Account
+                      account={token.issuer}
+                      displayText={
+                        token.issuerName || shortenAccount(token.issuer)
+                      }
+                    />
+                  </td>
+                  <td>
+                    <FutureDataIcon />
+                  </td>
+                  <td>{parseAmount(token.balance, 1, lang)}</td>
+                  <td>
+                    <FutureDataIcon />
+                  </td>
+                  <td>
+                    {token.assetClass ? token.assetClass.toUpperCase() : '--'}
+                  </td>
+                  <td className="transfer-fee">{token.transferFee}%</td>
+                  <td>
+                    {(() => {
+                      if (token.locked === '') {
+                        return '--'
+                      }
+                      if (token.locked === 'Global') {
+                        return t('account_page_asset_table_mpt_locked_global')
+                      }
+                      if (token.locked === 'Individual') {
+                        return t(
+                          'account_page_asset_table_mpt_locked_individual',
+                        )
+                      }
+                      return token.locked
+                    })()}
+                  </td>
+                </tr>
+              )
+
+              if (!token.hasConfidentialBalance) {
+                return [publicRow]
+              }
+
+              const confidentialRow = (
+                <tr
+                  key={`${token.tokenId}-confidential`}
+                  style={{ opacity: 0.5 }}
+                >
+                  <td>
+                    └{' '}
+                    <RouteLink to={MPT_ROUTE} params={{ id: token.tokenId }}>
+                      {shortenMPTID(token.tokenId)}
+                    </RouteLink>{' '}
+                    {renderConfBalanceTooltip()}
+                  </td>
+                  <td>{token.ticker || '--'}</td>
+                  <td>
+                    <Account
+                      account={token.issuer}
+                      displayText={
+                        token.issuerName || shortenAccount(token.issuer)
+                      }
+                    />
+                  </td>
+                  <td>
+                    <FutureDataIcon />
+                  </td>
+                  <td>&#x1F512;</td>
+                  <td>&#x1F512;</td>
+                  <td>
+                    {token.assetClass ? token.assetClass.toUpperCase() : '--'}
+                  </td>
+                  <td className="transfer-fee">{token.transferFee}%</td>
+                  <td>
+                    {(() => {
+                      if (token.locked === '') {
+                        return '--'
+                      }
+                      if (token.locked === 'Global') {
+                        return t('account_page_asset_table_mpt_locked_global')
+                      }
+                      if (token.locked === 'Individual') {
+                        return t(
+                          'account_page_asset_table_mpt_locked_individual',
+                        )
+                      }
+                      return token.locked
+                    })()}
+                  </td>
+                </tr>
+              )
+
+              return [publicRow, confidentialRow]
+            })
           )}
         </tbody>
       </table>

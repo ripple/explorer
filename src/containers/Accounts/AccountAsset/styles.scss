@@ -151,6 +151,16 @@
   min-width: 980px;
   border-collapse: separate;
   color: var(--text);
+
+  .hover {
+    position: relative;
+    top: -1px;
+    width: 14px;
+    height: 14px;
+    margin-left: 4px;
+    cursor: default;
+    vertical-align: middle;
+  }
 }
 
 .account-asset-table thead th {
