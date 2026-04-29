@@ -132,7 +132,7 @@ const HeldMPTsContent = ({ accountId, onChange }: HeldMPTsProps) => {
   const renderConfBalanceTooltip = () => (
     <HoverIcon
       className="hover"
-      onMouseOver={(e: React.MouseEvent) => {
+      onMouseOver={(e) => {
         const rect = e.currentTarget.getBoundingClientRect()
         showTooltip('text', e, t('confidential_balance_row_tooltip'), {
           x: rect.left + rect.width / 2,
