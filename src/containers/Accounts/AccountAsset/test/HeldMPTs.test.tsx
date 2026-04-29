@@ -232,4 +232,102 @@ describe('HeldMPTs', () => {
     const futureDataIcons = document.querySelectorAll('.future-data')
     expect(futureDataIcons).toHaveLength(6)
   })
+
+  it('shows confidential sub-row when MPT has confidential balance', async () => {
+    mockedGetAccountMPTs.mockResolvedValueOnce({
+      account_objects: [
+        {
+          MPTokenIssuanceID: '000004C463C52827307480341125DA65C267105D00000001',
+          MPTAmount: '1000000',
+          Flags: 0,
+          ConfidentialBalanceSpending: 'AABB',
+          ConfidentialBalanceInbox: 'CCDD',
+        },
+      ],
+      marker: '',
+    })
+
+    render(
+      <TestWrapper>
+        <HeldMPTs accountId="rTest123" />
+      </TestWrapper>,
+    )
+
+    await waitFor(() => {
+      expect(
+        screen.getAllByText('000004C463...5D00000001').length,
+      ).toBeGreaterThan(0)
+    })
+
+    // Should have 2 data rows: public row + confidential sub-row
+    const rows = screen.getAllByRole('row')
+    const dataRows = rows.slice(1)
+    expect(dataRows).toHaveLength(2)
+
+    // Confidential sub-row should have opacity 0.5 and start with └
+    const confidentialRow = dataRows[1]
+    expect(confidentialRow).toHaveAttribute('style', 'opacity: 0.5;')
+    expect(confidentialRow).toHaveTextContent('└')
+    // Lock icons in balance columns
+    expect(confidentialRow).toHaveTextContent('🔒')
+  })
+
+  it('does not show confidential sub-row when MPT has no confidential balance', async () => {
+    mockedGetAccountMPTs.mockResolvedValueOnce({
+      account_objects: [
+        {
+          MPTokenIssuanceID: '000004C463C52827307480341125DA65C267105D00000001',
+          MPTAmount: '1000000',
+          Flags: 0,
+        },
+      ],
+      marker: '',
+    })
+
+    render(
+      <TestWrapper>
+        <HeldMPTs accountId="rTest123" />
+      </TestWrapper>,
+    )
+
+    await waitFor(() => {
+      expect(screen.getByText('000004C463...5D00000001')).toBeInTheDocument()
+    })
+
+    // Should have only 1 data row, no confidential sub-row
+    const rows = screen.getAllByRole('row')
+    const dataRows = rows.slice(1)
+    expect(dataRows).toHaveLength(1)
+  })
+
+  it('includes MPTs with zero public balance but confidential balance', async () => {
+    mockedGetAccountMPTs.mockResolvedValueOnce({
+      account_objects: [
+        {
+          MPTokenIssuanceID: '000004C463C52827307480341125DA65C267105D00000001',
+          MPTAmount: '0',
+          Flags: 0,
+          ConfidentialBalanceSpending: 'AABB',
+        },
+      ],
+      marker: '',
+    })
+
+    render(
+      <TestWrapper>
+        <HeldMPTs accountId="rTest123" />
+      </TestWrapper>,
+    )
+
+    await waitFor(() => {
+      expect(
+        screen.getAllByText('000004C463...5D00000001').length,
+      ).toBeGreaterThan(0)
+    })
+
+    // Should show the MPT even though public balance is 0
+    const rows = screen.getAllByRole('row')
+    const dataRows = rows.slice(1)
+    expect(dataRows).toHaveLength(2) // public row + confidential sub-row
+  })
 })
