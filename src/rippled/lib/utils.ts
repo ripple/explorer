@@ -45,6 +45,7 @@ const MPT_ISSUANCE_FLAGS: FlagMap = {
   0x00000010: 'lsfMPTCanTrade',
   0x00000020: 'lsfMPTCanTransfer',
   0x00000040: 'lsfMPTCanClawback',
+  0x00000080: 'lsfMPTCanConfidentialAmount',
 }
 const MPTOKEN_FLAGS: FlagMap = {
   0x00000001: 'lsfMPTLocked',
@@ -261,10 +262,13 @@ interface MPTIssuanceInfo {
   AssetScale: number
   MaximumAmount?: string
   OutstandingAmount?: string
+  ConfidentialOutstandingAmount?: string
   TransferFee: number
   Sequence: number
   MPTokenMetadata?: string
   Flags: number
+  IssuerEncryptionKey?: string
+  AuditorEncryptionKey?: string
 }
 
 interface FormattedMPTIssuance {
@@ -272,6 +276,7 @@ interface FormattedMPTIssuance {
   assetScale: number
   maxAmt?: string
   outstandingAmt: string
+  confidentialOutstandingAmt?: string
   transferFee: number
   sequence: number
   metadata?: any
@@ -279,6 +284,8 @@ interface FormattedMPTIssuance {
   rawMPTMetadata?: string
   parsedMPTMetadata?: Record<string, unknown>
   isMPTMetadataCompliant: boolean
+  issuerEncryptionKey?: string
+  auditorEncryptionKey?: string
 }
 
 const formatMPTIssuance = (info: MPTIssuanceInfo): FormattedMPTIssuance => {
@@ -296,12 +303,17 @@ const formatMPTIssuance = (info: MPTIssuanceInfo): FormattedMPTIssuance => {
     outstandingAmt: info.OutstandingAmount
       ? BigInt(info.OutstandingAmount).toString(10)
       : '0',
+    confidentialOutstandingAmt: info.ConfidentialOutstandingAmount
+      ? BigInt(info.ConfidentialOutstandingAmount).toString(10)
+      : undefined,
     transferFee: info.TransferFee,
     sequence: info.Sequence,
     rawMPTMetadata,
     parsedMPTMetadata: parseMPTMetadata(rawMPTMetadataHex),
     isMPTMetadataCompliant: isMPTMetadataCompliant(rawMPTMetadataHex),
     flags: buildFlags(info.Flags, MPT_ISSUANCE_FLAGS),
+    issuerEncryptionKey: info.IssuerEncryptionKey,
+    auditorEncryptionKey: info.AuditorEncryptionKey,
   }
 }
 
@@ -310,6 +322,10 @@ interface MPTokenInfo {
   Flags: number
   MPTokenIssuanceID: string
   MPTAmount?: bigint
+  HolderEncryptionKey?: string
+  ConfidentialBalanceSpending?: string
+  ConfidentialBalanceInbox?: string
+  ConfidentialBalanceVersion?: number
 }
 
 interface FormattedMPToken {
@@ -318,6 +334,9 @@ interface FormattedMPToken {
   mptIssuanceID: string
   mptIssuer: string
   mptAmount: string
+  holderEncryptionKey?: string
+  hasConfidentialBalance: boolean
+  confidentialBalanceVersion?: number
 }
 
 const formatMPToken = (info: MPTokenInfo): FormattedMPToken => ({
@@ -328,6 +347,10 @@ const formatMPToken = (info: MPTokenInfo): FormattedMPToken => ({
     hexToBytes(info.MPTokenIssuanceID.substring(8, 48)),
   ),
   mptAmount: info.MPTAmount ? info.MPTAmount.toString(10) : '0',
+  holderEncryptionKey: info.HolderEncryptionKey,
+  hasConfidentialBalance:
+    !!info.ConfidentialBalanceSpending || !!info.ConfidentialBalanceInbox,
+  confidentialBalanceVersion: info.ConfidentialBalanceVersion,
 })
 
 export {

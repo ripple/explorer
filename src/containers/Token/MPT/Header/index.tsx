@@ -89,6 +89,7 @@ export const Header = (props: Props) => {
     assetScale,
     maxAmt,
     outstandingAmt,
+    confidentialOutstandingAmt,
     transferFee,
     flags,
     rawMPTMetadata,
@@ -231,6 +232,7 @@ export const Header = (props: Props) => {
           <MarketData
             maxAmt={maxAmt}
             outstandingAmt={outstandingAmt}
+            confidentialOutstandingAmt={confidentialOutstandingAmt}
             assetScale={assetScale}
           />
           <Settings flags={flags} />

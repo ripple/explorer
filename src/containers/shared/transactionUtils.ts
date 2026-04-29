@@ -73,6 +73,8 @@ export const TX_FLAGS: Record<string, Record<number, string>> = {
   MPTokenIssuanceSet: {
     0x00000001: 'tfMPTLock',
     0x00000002: 'tfMPTUnlock',
+    0x00001000: 'tfMPTSetCanConfidentialAmount',
+    0x00002000: 'tfMPTClearCanConfidentialAmount',
   },
   NFTokenMint: {
     0x00000001: 'tfBurnable',
