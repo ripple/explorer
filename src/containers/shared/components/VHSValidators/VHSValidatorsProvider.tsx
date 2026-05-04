@@ -1,4 +1,4 @@
-import { FC, useContext } from 'react'
+import { FC, PropsWithChildren, useContext } from 'react'
 import { useQuery } from 'react-query'
 import axios from 'axios'
 import { VHSValidatorsContext } from './VHSValidatorsContext'
@@ -8,7 +8,7 @@ import NetworkContext from '../../NetworkContext'
 import { VHSValidatorsHookResult } from './types'
 import { FETCH_INTERVAL_ERROR_MILLIS, FETCH_INTERVAL_MILLIS } from '../../utils'
 
-export const VHSValidatorsProvider: FC = ({ children }) => {
+export const VHSValidatorsProvider: FC<PropsWithChildren> = ({ children }) => {
   const network = useContext(NetworkContext)
 
   const { data: value } = useQuery<VHSValidatorsHookResult>(

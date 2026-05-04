@@ -54,8 +54,10 @@ describe('AccountTransactionsTable container', () => {
 
     await flushPromises()
 
+    await waitFor(() => {
+      expect(container.querySelector('.load-more-btn')).toBeInTheDocument()
+    })
     expect(container.querySelector('.col-token')).not.toBeInTheDocument()
-    expect(container.querySelector('.load-more-btn')).toBeInTheDocument()
     expect(container.querySelector('.transaction-table')).toBeInTheDocument()
     expect(
       container.querySelector('.transaction-li.transaction-li-header'),
@@ -96,8 +98,8 @@ describe('AccountTransactionsTable container', () => {
 
     await waitFor(() => {
       expect(container.querySelectorAll('.col-token').length).toBeGreaterThan(0)
+      expect(container.querySelector('.load-more-btn')).toBeInTheDocument()
     })
-    expect(container.querySelector('.load-more-btn')).toBeInTheDocument()
     expect(container.querySelector('.transaction-table')).toBeInTheDocument()
     expect(
       container.querySelector('.transaction-li.transaction-li-header'),

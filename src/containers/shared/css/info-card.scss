@@ -1,0 +1,131 @@
+@use './variables' as *;
+
+/*
+ * Shared styles for info cards that display a title with an icon and a list
+ * of label/value rows separated by horizontal dividers.
+ *
+ * Usage:
+ *   @use '../shared/css/info-card';
+ *
+ *   <div class="info-card">
+ *     <h3 class="info-card-title">
+ *       <Icon class="info-card-icon" />
+ *       Title
+ *     </h3>
+ *     <div class="info-card-rows">
+ *       <div class="info-card-row">
+ *         <span class="info-card-label">Label</span>
+ *         <span class="info-card-value">Value</span>
+ *       </div>
+ *       ...more rows
+ *     </div>
+ *   </div>
+ *
+ * Dividers between rows are added automatically via CSS — do not include
+ * separator elements.
+ *
+ * Modifier classes for values:
+ *   info-card-value-green   — success/active state
+ *   info-card-value-orange  — warning/attention state
+ *   info-card-value-link    — clickable link appearance
+ *
+ * Use info-card-subtitle for secondary text within a value cell.
+ */
+
+.info-card {
+  padding: 24px;
+  border: 1px solid $black-60;
+  border-radius: 8px;
+  background: $black-80;
+
+  .info-card-title {
+    display: flex;
+    align-items: center;
+    margin: 0 0 16px;
+    color: $white;
+    font-size: 20px;
+    gap: 8px;
+    @include bold;
+  }
+
+  .info-card-icon {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+  }
+
+  .info-card-rows {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .info-card-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 10px 0;
+    gap: 4px;
+
+    &:not(:last-child) {
+      border-bottom: 1px solid $black-60;
+    }
+
+    &:first-child {
+      padding-top: 0;
+    }
+
+    &:last-child {
+      padding-bottom: 0;
+    }
+  }
+
+  .info-card-label {
+    display: flex;
+    align-items: center;
+    color: $black-40;
+    font-size: 14px;
+    line-height: 1.5;
+    text-transform: uppercase;
+    @include semibold;
+
+    .hover {
+      width: 14px;
+      height: 14px;
+      margin-left: 4px;
+      cursor: default;
+    }
+  }
+
+  .info-card-value {
+    color: $white;
+    font-size: 14px;
+    line-height: 1.5;
+    text-align: right;
+    word-break: break-all;
+    @include regular;
+
+    &-green {
+      color: $green;
+    }
+
+    &-orange {
+      color: $orange;
+    }
+
+    &-link {
+      color: $green-30;
+
+      a {
+        color: $green-30;
+      }
+    }
+  }
+
+  .info-card-subtitle {
+    margin-top: 4px;
+    color: $black-40;
+    font-size: 12px;
+    line-height: 1.5;
+    @include regular;
+  }
+}

@@ -1,5 +1,4 @@
-import { renderHook, act } from '@testing-library/react-hooks'
-import { waitFor } from '@testing-library/react'
+import { renderHook, act, waitFor } from '@testing-library/react'
 import { CursorPaginationService } from '../../services/CursorPaginationService'
 import { useCursorPaginatedQuery } from '../useCursorPaginatedQuery'
 

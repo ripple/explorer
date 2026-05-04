@@ -77,7 +77,13 @@ const renderChanges = (
         </b>{' '}
         <Trans i18nKey="decreased_from_to">
           decreased by
-          <b>{{ change: localizeNumber(changePays, language, options) }}</b>
+          <b>
+            {
+              {
+                change: localizeNumber(changePays, language, options),
+              } as any
+            }
+          </b>
           from
           <b>
             {{
@@ -117,7 +123,13 @@ const renderChanges = (
         </b>{' '}
         <Trans i18nKey="decreased_from_to">
           decreased by
-          <b>{{ change: localizeNumber(changeGets, language, options) }}</b>
+          <b>
+            {
+              {
+                change: localizeNumber(changeGets, language, options),
+              } as any
+            }
+          </b>
           from
           <b>
             {{

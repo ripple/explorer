@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react'
-import { Route } from 'react-router-dom'
+import { Route } from 'react-router'
 import { NFTTabs } from '../NFTTabs'
 import i18n from '../../../../i18n/testConfig'
 import { QuickHarness } from '../../../test/utils'

@@ -1,6 +1,6 @@
 import { render, cleanup } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
-import { BrowserRouter as Router } from 'react-router-dom'
+import { BrowserRouter as Router } from 'react-router'
 
 import { QueryClientProvider } from 'react-query'
 import EnableAmendment from './mock_data/EnableAmendment.json'
@@ -13,13 +13,12 @@ import { expectSimpleRowText } from '../../shared/components/Transaction/test'
 import SocketContext from '../../shared/SocketContext'
 import MockWsClient from '../../test/mockWsClient'
 import { queryClient } from '../../shared/QueryClient'
-import { V7_FUTURE_ROUTER_FLAGS } from '../../test/utils'
 
 describe('SimpleTab container', () => {
   let client
   const renderSimpleTab = (tx: any, width = 1200) =>
     render(
-      <Router future={V7_FUTURE_ROUTER_FLAGS}>
+      <Router>
         <QueryClientProvider client={queryClient}>
           <I18nextProvider i18n={i18n}>
             <SocketContext.Provider value={client}>

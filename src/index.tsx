@@ -1,6 +1,6 @@
 import { Suspense } from 'react'
-import ReactDOM from 'react-dom'
-import { BrowserRouter as Router } from 'react-router-dom'
+import { createRoot } from 'react-dom/client'
+import { BrowserRouter as Router } from 'react-router'
 import { I18nextProvider } from 'react-i18next'
 import { Buffer } from 'buffer'
 import { unregister } from './registerServiceWorker'
@@ -10,8 +10,10 @@ import i18n from './i18n'
 
 window.Buffer = Buffer
 
+const root = createRoot(document.getElementById('xrpl-explorer')!)
+
 const renderApp = () => {
-  ReactDOM.render(
+  root.render(
     <Suspense fallback="Loading">
       <I18nextProvider i18n={i18n}>
         <Router>
@@ -19,7 +21,6 @@ const renderApp = () => {
         </Router>
       </I18nextProvider>
     </Suspense>,
-    document.getElementById('xrpl-explorer'),
   )
 }
 

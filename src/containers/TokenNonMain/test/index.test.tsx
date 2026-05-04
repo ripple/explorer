@@ -1,5 +1,5 @@
 import { render, waitFor } from '@testing-library/react'
-import { Route } from 'react-router-dom'
+import { Route } from 'react-router'
 import i18n from '../../../i18n/testConfig'
 import { TokenNonMain } from '../index'
 import { flushPromises, QuickHarness } from '../../test/utils'

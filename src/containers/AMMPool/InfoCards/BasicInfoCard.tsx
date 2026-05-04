@@ -38,7 +38,7 @@ export const BasicInfoCard: FC<BasicInfoCardProps> = ({
     : '--'
 
   return (
-    <div className="amm-pool-info-card">
+    <div className="info-card">
       <h3 className="info-card-title">
         <BasicInfoIcon className="info-card-icon" />
         {t('basic_info')}
@@ -54,29 +54,24 @@ export const BasicInfoCard: FC<BasicInfoCardProps> = ({
           </span>
         </div>
         {lpTokenCurrency && (
-          <>
-            <div className="info-card-separator" />
-            <div className="info-card-row">
-              <span className="info-card-label">
-                {t('lp_token_currency_code')}
-              </span>
-              <span className="info-card-value">
-                <CopyableText
-                  text={lpTokenCurrency}
-                  displayText={shortenLPToken(lpTokenCurrency)}
-                />
-              </span>
-            </div>
-          </>
+          <div className="info-card-row">
+            <span className="info-card-label">
+              {t('lp_token_currency_code')}
+            </span>
+            <span className="info-card-value">
+              <CopyableText
+                text={lpTokenCurrency}
+                displayText={shortenLPToken(lpTokenCurrency)}
+              />
+            </span>
+          </div>
         )}
-        <div className="info-card-separator" />
         <div className="info-card-row">
           <span className="info-card-label">{t('trading_fee')}</span>
           <span className="info-card-value info-card-value-orange">
             {tradingFeePercent}%
           </span>
         </div>
-        <div className="info-card-separator" />
         <div className="info-card-row">
           <span className="info-card-label">{t('created_on')}</span>
           <span className="info-card-value">{createdDate}</span>

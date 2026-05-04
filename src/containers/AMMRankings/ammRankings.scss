@@ -1,5 +1,6 @@
 @use '../shared/css/variables' as *;
 @use '../shared/css/table';
+@use '../shared/css/info-card';
 
 .amm-rankings-page {
   overflow: visible;
@@ -28,7 +29,7 @@
     flex-direction: column-reverse;
     align-items: stretch;
     margin-bottom: 64px;
-    gap: 16px;
+    gap: 32px;
 
     @include for-size(desktop-up) {
       flex-direction: row;
@@ -50,71 +51,13 @@
   // ─── General Info Card ────────────────────────────────────────
   // Align the top of the card with the top of the chart container,
   // accounting for the section title + controls above the chart.
-  .general-info-card {
+  .info-card {
     @include for-size(desktop-up) {
       min-width: 200px;
       max-width: 320px;
       flex: 1;
       // Offset = chart-section-title height + margin + controls height + margin
       margin-top: 84px;
-    }
-
-    padding: 20px 24px;
-    border: 1px solid $black-70;
-    border-radius: $border-radius;
-    background-color: $black-80;
-
-    .card-header {
-      display: flex;
-      align-items: center;
-      margin-bottom: 16px;
-      gap: 8px;
-
-      .info-icon {
-        width: 20px;
-        height: 20px;
-        color: $white;
-      }
-
-      .card-title {
-        color: $white;
-        font-size: 16px;
-        @include semibold;
-      }
-    }
-
-    .stats-container {
-      display: flex;
-      flex-direction: column;
-
-      .stat-row {
-        display: flex;
-        align-items: baseline;
-        justify-content: space-between;
-        padding: 12px 0;
-        border-bottom: 1px solid $black-70;
-
-        &:first-child {
-          padding-top: 0;
-        }
-
-        .stat-label {
-          display: inline-flex;
-          align-items: center;
-          color: $black-40;
-          font-size: 14px;
-          gap: 6px;
-          letter-spacing: 0.5px;
-          text-transform: uppercase;
-          @include bold;
-        }
-
-        .stat-value {
-          color: $white;
-          font-size: 14px;
-          font-weight: normal;
-        }
-      }
     }
   }
 

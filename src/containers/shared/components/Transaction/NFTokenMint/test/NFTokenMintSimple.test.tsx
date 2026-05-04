@@ -1,4 +1,4 @@
-import { BrowserRouter as Router } from 'react-router-dom'
+import { BrowserRouter as Router } from 'react-router'
 import { render } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
 import { Simple as NFTokenMint } from '../Simple'
@@ -13,13 +13,12 @@ import summarizeTransaction from '../../../../../../rippled/lib/txSummary'
 import i18n from '../../../../../../i18n/testConfig'
 import { convertHexToString } from '../../../../../../rippled/lib/utils'
 import { expectSimpleRowText, expectSimpleRowNotToExist } from '../../test'
-import { V7_FUTURE_ROUTER_FLAGS } from '../../../../../test/utils'
 
 describe('NFTokenMint', () => {
   it('handles NFTokenMint that modified 2 nodes', () => {
     const { container } = render(
       <I18nextProvider i18n={i18n}>
-        <Router future={V7_FUTURE_ROUTER_FLAGS}>
+        <Router>
           <NFTokenMint
             data={summarizeTransaction(transactionModified2, true).details!}
           />
@@ -41,7 +40,7 @@ describe('NFTokenMint', () => {
   it('handles NFTokenMint that modified 1 node and created 1 node', () => {
     const { container } = render(
       <I18nextProvider i18n={i18n}>
-        <Router future={V7_FUTURE_ROUTER_FLAGS}>
+        <Router>
           <NFTokenMint
             data={
               summarizeTransaction(transactionModified1Created1, true).details!
@@ -65,7 +64,7 @@ describe('NFTokenMint', () => {
   it('handles NFTokenMint that modified 2 nodes and created 1 node', () => {
     const { container } = render(
       <I18nextProvider i18n={i18n}>
-        <Router future={V7_FUTURE_ROUTER_FLAGS}>
+        <Router>
           <NFTokenMint
             data={
               summarizeTransaction(transactionModified2Created1, true).details!
@@ -89,7 +88,7 @@ describe('NFTokenMint', () => {
   it('handles NFTokenMint with issuer', () => {
     const { container } = render(
       <I18nextProvider i18n={i18n}>
-        <Router future={V7_FUTURE_ROUTER_FLAGS}>
+        <Router>
           <NFTokenMint
             data={summarizeTransaction(transactionWithIssuer, true).details!}
           />
@@ -122,7 +121,7 @@ describe('NFTokenMint', () => {
   it('handles NFTokenMint that modified 3 nodes', () => {
     const { container } = render(
       <I18nextProvider i18n={i18n}>
-        <Router future={V7_FUTURE_ROUTER_FLAGS}>
+        <Router>
           <NFTokenMint
             data={
               summarizeTransaction(transactionModified4Created1, true).details!
@@ -150,7 +149,7 @@ describe('NFTokenMint', () => {
   it('handles NFTokenMint that has null URI', () => {
     const { container } = render(
       <I18nextProvider i18n={i18n}>
-        <Router future={V7_FUTURE_ROUTER_FLAGS}>
+        <Router>
           <NFTokenMint
             data={summarizeTransaction(transactionNullURI, true).details!}
           />
@@ -164,7 +163,7 @@ describe('NFTokenMint', () => {
   it('handles NFTokenMint that failed', () => {
     const { container } = render(
       <I18nextProvider i18n={i18n}>
-        <Router future={V7_FUTURE_ROUTER_FLAGS}>
+        <Router>
           <NFTokenMint
             data={summarizeTransaction(transactionFailed, true).details!}
           />

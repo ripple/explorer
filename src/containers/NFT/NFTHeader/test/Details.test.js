@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter } from 'react-router'
 import { Details } from '../Details'
 import i18n from '../../../../i18n/testConfig'
 

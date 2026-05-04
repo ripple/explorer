@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
-import { BrowserRouter as Router } from 'react-router-dom'
+import { BrowserRouter as Router } from 'react-router'
 import { SimpleTab } from '../SimpleTab'
 import {
   expectSimpleRowLabel,
@@ -8,13 +8,12 @@ import {
 } from '../../shared/components/Transaction/test'
 import i18n from '../../../i18n/testConfigEnglish'
 import validator from './mock_data/validator.json'
-import { V7_FUTURE_ROUTER_FLAGS } from '../../test/utils'
 
 describe('SimpleTab container', () => {
   const renderSimpleTab = (width = 1200) =>
     render(
       <I18nextProvider i18n={i18n}>
-        <Router future={V7_FUTURE_ROUTER_FLAGS}>
+        <Router>
           <SimpleTab data={validator} width={width} />
         </Router>
       </I18nextProvider>,
