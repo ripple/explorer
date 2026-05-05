@@ -386,6 +386,7 @@
   "missed_validations": "{{count}}회의 유효성 검증이 누락되었습니다",
   "incomplete": "미완료",
   "base_fee": null,
+  "drops": null,
   "account_reserve": null,
   "object_reserve": null,
   "vote": null,

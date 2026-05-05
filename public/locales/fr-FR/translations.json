@@ -386,6 +386,7 @@
   "missed_validations": "{{count}} validations manquées",
   "incomplete": "incomplet",
   "base_fee": null,
+  "drops": null,
   "account_reserve": null,
   "object_reserve": null,
   "vote": null,

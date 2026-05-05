@@ -385,6 +385,7 @@
   "missed_validations": "{{count}} validacions perdudes",
   "incomplete": "incomplet",
   "base_fee": "Comissío Base",
+  "drops": null,
   "account_reserve": "Reserva de Compte",
   "object_reserve": "Reserva d'Objectes",
   "vote": "Vota",
