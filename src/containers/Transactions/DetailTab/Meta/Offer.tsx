@@ -86,23 +86,27 @@ const renderChanges = (
           </b>
           from
           <b>
-            {{
-              previous: localizeNumber(
-                normalize(prevPays, paysCurrency, paysIsMPT),
-                language,
-                options,
-              ),
-            }}
+            {
+              {
+                previous: localizeNumber(
+                  normalize(prevPays, paysCurrency, paysIsMPT),
+                  language,
+                  options,
+                ),
+              } as any
+            }
           </b>
           to
           <b>
-            {{
-              final: localizeNumber(
-                normalize(finalPays, paysCurrency, paysIsMPT),
-                language,
-                options,
-              ),
-            }}
+            {
+              {
+                final: localizeNumber(
+                  normalize(finalPays, paysCurrency, paysIsMPT),
+                  language,
+                  options,
+                ),
+              } as any
+            }
           </b>
         </Trans>
       </li>,
@@ -132,23 +136,27 @@ const renderChanges = (
           </b>
           from
           <b>
-            {{
-              previous: localizeNumber(
-                normalize(prevGets, getsCurrency, getsIsMPT),
-                language,
-                options,
-              ),
-            }}
+            {
+              {
+                previous: localizeNumber(
+                  normalize(prevGets, getsCurrency, getsIsMPT),
+                  language,
+                  options,
+                ),
+              } as any
+            }
           </b>
           to
           <b>
-            {{
-              final: localizeNumber(
-                normalize(finalGets, getsCurrency, getsIsMPT),
-                language,
-                options,
-              ),
-            }}
+            {
+              {
+                final: localizeNumber(
+                  normalize(finalGets, getsCurrency, getsIsMPT),
+                  language,
+                  options,
+                ),
+              } as any
+            }
           </b>
         </Trans>
       </li>,
