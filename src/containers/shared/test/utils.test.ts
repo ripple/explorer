@@ -93,6 +93,25 @@ describe('utils', () => {
     ).toEqual('12.233400')
   })
 
+  it('localizeNumber preserves precision for MPT-flagged string values', () => {
+    // 2^63 - 1 — the max representable MPTAmount per the XRPL spec. Without
+    // the BigInt branch this would round to "9,223,372,036,854,776,000".
+    expect(localizeNumber('9223372036854775807', 'en-US', {}, true)).toEqual(
+      '9,223,372,036,854,775,807',
+    )
+    // Scaled MPTAmount — integer part is formatted via BigInt, fractional
+    // digits are appended verbatim.
+    expect(localizeNumber('9223372036854.775807', 'en-US', {}, true)).toEqual(
+      '9,223,372,036,854.775807',
+    )
+    // Negative MPT-shaped string (defensive — unusual in practice).
+    expect(localizeNumber('-9223372036854775807', 'en-US', {}, true)).toEqual(
+      '-9,223,372,036,854,775,807',
+    )
+    // Small values still work through the same path.
+    expect(localizeNumber('1000', 'en-US', {}, true)).toEqual('1,000')
+  })
+
   it('formatPrice', () => {
     expect(formatPrice(22.35)).toEqual('$22.35')
     expect(

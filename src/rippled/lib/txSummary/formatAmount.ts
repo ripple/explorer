@@ -84,20 +84,23 @@ export function formatAmountWithAsset(amount: string | number, asset: Asset) {
     return undefined
   }
 
+  // MPTAmount values can be up to 2^63 - 1, beyond Number.MAX_SAFE_INTEGER.
+  // Keep them as strings so downstream consumers (e.g. <Amount/> via BigInt)
+  // can preserve precision.
+  if (asset.isMPT) {
+    return {
+      currency: asset.currency,
+      amount: typeof amount === 'string' ? amount : String(amount),
+      isMPT: true,
+    }
+  }
+
   const numericAmount = typeof amount === 'string' ? parseFloat(amount) : amount
 
   if (asset.currency === 'XRP') {
     return {
       currency: 'XRP',
       amount: numericAmount / XRP_BASE,
-    }
-  }
-
-  if (asset.isMPT) {
-    return {
-      currency: asset.currency,
-      amount: numericAmount,
-      isMPT: true,
     }
   }
 

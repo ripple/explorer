@@ -160,4 +160,59 @@ describe('Amount', () => {
       '1,043.001',
     )
   })
+
+  it('preserves MPT precision for value at the spec maximum (2^63 - 1)', async () => {
+    // 2^63 - 1 scaled by 6 decimals is 9,223,372,036,854.775807. With the
+    // pre-BigInt parseInt path this overflowed to ~9.223372036854776e18 and
+    // rendered as "9,223,372,036,854.776" (last three digits lost).
+    ;(useMPTIssuance as jest.Mock).mockReturnValue({
+      data: {
+        issuer: 'rL2LzUhsBJMqsaVCXVvzedPjePbjVzBCC',
+        assetScale: 6,
+        maxAmt: '9223372036854775807',
+        outstandingAmt: '9223372036854775807',
+        sequence: 1,
+        metadata: '',
+        flags: [],
+      },
+    })
+
+    const value = {
+      amount: '9223372036854775807',
+      currency: '0000098F03B3BCE934EE8CAA1DF25A42032388361B9E5A65',
+      isMPT: true,
+    }
+    renderComponent(<Amount value={value} displayIssuer={false} />)
+
+    expect(screen.getByTestId('amount-localized')).toHaveTextContent(
+      '9,223,372,036,854.775807',
+    )
+  })
+
+  it('preserves MPT precision when assetScale is 0', async () => {
+    ;(useMPTIssuance as jest.Mock).mockReturnValue({
+      data: {
+        issuer: 'rL2LzUhsBJMqsaVCXVvzedPjePbjVzBCC',
+        assetScale: 0,
+        maxAmt: '9223372036854775807',
+        outstandingAmt: '9223372036854775807',
+        sequence: 1,
+        metadata: '',
+        flags: [],
+      },
+    })
+
+    const value = {
+      amount: '9223372036854775807',
+      currency: '0000098F03B3BCE934EE8CAA1DF25A42032388361B9E5A65',
+      isMPT: true,
+    }
+    renderComponent(<Amount value={value} displayIssuer={false} />)
+
+    // With scale 0 the entire 2^63 - 1 must render as a clean grouped integer
+    // with no missing low-order digits.
+    expect(screen.getByTestId('amount-localized')).toHaveTextContent(
+      '9,223,372,036,854,775,807',
+    )
+  })
 })

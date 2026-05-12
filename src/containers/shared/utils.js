@@ -167,8 +167,34 @@ export const localizeNumber = (
   options = {},
   isMPT = false,
 ) => {
-  const number = Number.parseFloat(num)
   const config = { ...NUMBER_DEFAULT_OPTIONS, ...options }
+
+  // MPT amounts can exceed Number.MAX_SAFE_INTEGER (up to 2^63 - 1) and their
+  // scaled forms can keep many fractional digits. Group the integer part via
+  // BigInt and append the fraction so no digits are lost in Number.parseFloat.
+  if (isMPT && typeof num === 'string' && /^-?\d+(\.\d+)?$/.test(num)) {
+    const [intPart, rawFrac = ''] = num.split('.')
+    const minFrac = config.minimumFractionDigits ?? 0
+    const maxFrac = config.maximumFractionDigits ?? rawFrac.length
+    let fracPart = rawFrac.slice(0, maxFrac)
+    // Trim trailing zeros down to minFrac so '0.100' renders as '0.1'.
+    let end = fracPart.length
+    while (end > minFrac && fracPart[end - 1] === '0') end -= 1
+    fracPart = fracPart.slice(0, end)
+    if (fracPart.length < minFrac) fracPart = fracPart.padEnd(minFrac, '0')
+
+    const sign = intPart.startsWith('-') ? '-' : ''
+    const absInt = sign ? intPart.slice(1) : intPart
+    const grouped = new Intl.NumberFormat(lang, {
+      ...config,
+      style: 'decimal',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(BigInt(absInt))
+    return fracPart ? `${sign}${grouped}.${fracPart}` : `${sign}${grouped}`
+  }
+
+  const number = Number.parseFloat(num)
 
   if (Number.isNaN(number)) {
     return null

@@ -72,10 +72,9 @@ export const Amount = ({
   if (isMPT && typeof value !== 'string') {
     if (mptIssuanceData) {
       const scale = mptIssuanceData.assetScale ?? 0
-      const scaledAmount = convertScaledPrice(
-        parseInt(amount as string, 10).toString(16),
-        scale,
-      )
+      // MPTAmount can be up to 2^63 - 1, beyond Number.MAX_SAFE_INTEGER.
+      // Use BigInt so the integer value is not truncated before scaling.
+      const scaledAmount = convertScaledPrice(BigInt(amount as string), scale)
 
       return renderAmount(localizeNumber(scaledAmount, language, {}, true))
     }
