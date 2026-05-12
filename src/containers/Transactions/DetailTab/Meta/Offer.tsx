@@ -42,6 +42,19 @@ const normalize = (
     : String(value)
 }
 
+// MPTAmount can be up to 2^63 - 1, beyond Number.MAX_SAFE_INTEGER,
+// so subtract with BigInt to preserve precision.
+const computeChange = (
+  prevValue: number | string | undefined,
+  finalValue: number | string | undefined,
+  isMPT: boolean,
+): number | string => {
+  if (isMPT && prevValue != null && finalValue != null) {
+    return (BigInt(prevValue) - BigInt(finalValue)).toString()
+  }
+  return Number(prevValue) - Number(finalValue)
+}
+
 const renderChanges = (
   _t: any,
   language: string,
@@ -59,8 +72,16 @@ const renderChanges = (
   const finalGets = final.TakerGets.value || final.TakerGets
   const prevPays = prev?.TakerPays?.value || prev?.TakerPays
   const prevGets = prev?.TakerGets?.value || prev?.TakerGets
-  const changePays = normalize(prevPays - finalPays, paysCurrency, paysIsMPT)
-  const changeGets = normalize(prevGets - finalGets, getsCurrency, getsIsMPT)
+  const changePays = normalize(
+    computeChange(prevPays, finalPays, paysIsMPT),
+    paysCurrency,
+    paysIsMPT,
+  )
+  const changeGets = normalize(
+    computeChange(prevGets, finalGets, getsIsMPT),
+    getsCurrency,
+    getsIsMPT,
+  )
 
   if (prevPays && finalPays) {
     const options = { ...CURRENCY_OPTIONS, currency: paysCurrency }
