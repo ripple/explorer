@@ -1,0 +1,46 @@
+@use '../../css/variables' as *;
+
+.maintenance-banner {
+  padding: 14px 24px;
+  border-radius: $border-radius;
+  margin: 12px;
+  background: linear-gradient(135deg, $blue-purple-40 0%, $blue-purple-70 100%);
+  color: $white;
+
+  @include for-size(desktop-up) {
+    margin: 16px 20px;
+  }
+
+  &__content {
+    display: flex;
+    max-width: 1200px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    gap: 8px;
+    text-align: center;
+
+    @include for-size(desktop-up) {
+      flex-direction: row;
+      gap: 16px;
+      text-align: initial;
+    }
+  }
+
+  &__icon {
+    flex-shrink: 0;
+    font-size: 24px;
+  }
+
+  &__text {
+    line-height: 1.45;
+  }
+
+  &__countdown {
+    display: inline-block;
+    min-width: 130px;
+    font-family: 'Courier New', monospace;
+    @include semibold;
+  }
+}
