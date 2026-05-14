@@ -3,13 +3,9 @@
 .maintenance-banner {
   padding: 14px 24px;
   border-radius: $border-radius;
-  margin: 12px;
+  margin-bottom: 8px;
   background: linear-gradient(135deg, $blue-purple-40 0%, $blue-purple-70 100%);
   color: $white;
-
-  @include for-size(desktop-up) {
-    margin: 16px 20px;
-  }
 
   &__content {
     display: flex;
