@@ -2,9 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { convertScaledPrice } from '../../../shared/utils'
 import { parseAmount } from '../../../shared/NumberFormattingUtils'
 import { Tooltip, useTooltip } from '../../../shared/components/Tooltip'
-import HoverIcon from '../../../shared/images/hover.svg'
-
-const TOOLTIP_Y_OFFSET = 60
+import { ConfBalanceTooltipIcon } from '../../../shared/components/ConfBalanceTooltipIcon'
 
 interface MarketDataProps {
   maxAmt?: string
@@ -20,7 +18,7 @@ export const MarketData = ({
   assetScale,
 }: MarketDataProps): JSX.Element => {
   const { t } = useTranslation()
-  const { tooltip, showTooltip, hideTooltip } = useTooltip()
+  const { tooltip } = useTooltip()
 
   const formattedSupply = parseAmount(
     convertScaledPrice(BigInt(maxAmt || '0'), assetScale ?? 0),
@@ -35,20 +33,6 @@ export const MarketData = ({
         convertScaledPrice(BigInt(confidentialOutstandingAmt), assetScale ?? 0),
       )
     : undefined
-
-  const renderConfBalanceTooltip = () => (
-    <HoverIcon
-      className="hover"
-      onMouseOver={(e) => {
-        const rect = e.currentTarget.getBoundingClientRect()
-        showTooltip('text', e, t('confidential_balance_tooltip'), {
-          x: rect.left + rect.width / 2,
-          y: rect.top - TOOLTIP_Y_OFFSET,
-        })
-      }}
-      onMouseLeave={() => hideTooltip()}
-    />
-  )
 
   return (
     <div className="header-box">
@@ -67,7 +51,7 @@ export const MarketData = ({
           <div className="header-box-item">
             <div className="item-name">
               {t('token_page.confidential_balances')}{' '}
-              {renderConfBalanceTooltip()}
+              <ConfBalanceTooltipIcon tooltipKey="confidential_balance_tooltip" />
             </div>
             <div className="item-value">{formattedConfidentialAmt}</div>
           </div>

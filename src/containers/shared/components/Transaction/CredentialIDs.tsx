@@ -3,13 +3,30 @@ import { SimpleRow } from './SimpleRow'
 
 interface CredentialIDsProps {
   credentialIDs: string[]
+  inline?: boolean
 }
 
-export const CredentialIDs = ({ credentialIDs }: CredentialIDsProps) => {
+export const CredentialIDs = ({
+  credentialIDs,
+  inline = false,
+}: CredentialIDsProps) => {
   const { t } = useTranslation()
 
   if (!credentialIDs || credentialIDs.length === 0) {
     return null
+  }
+
+  if (inline) {
+    return (
+      <div className="credential-ids">
+        <span className="label">{t('credential_ids')}: </span>
+        {credentialIDs.map((id) => (
+          <div key={id} className="credential-id">
+            {id}
+          </div>
+        ))}
+      </div>
+    )
   }
 
   return (

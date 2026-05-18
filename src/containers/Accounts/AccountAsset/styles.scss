@@ -181,6 +181,10 @@
   text-transform: uppercase;
 }
 
+.account-asset-table tbody tr.confidential-row {
+  opacity: 0.5;
+}
+
 .account-asset-table tbody td {
   padding: 10px 12px;
   border-bottom: 1px solid $black-80; /* Table row separator */

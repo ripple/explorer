@@ -7,7 +7,7 @@ import { Loader } from '../../../shared/components/Loader'
 import { EmptyMessageTableRow } from '../../../shared/EmptyMessageTableRow'
 import { FutureDataIcon } from '../FutureDataIcon'
 import { Tooltip, useTooltip } from '../../../shared/components/Tooltip'
-import HoverIcon from '../../../shared/images/hover.svg'
+import { ConfBalanceTooltipIcon } from '../../../shared/components/ConfBalanceTooltipIcon'
 import { getAccountObjects } from '../../../../rippled/lib/rippled'
 import SocketContext from '../../../shared/SocketContext'
 import {
@@ -87,21 +87,7 @@ const IssuedMPTsContent = ({ accountId, onChange }: IssuedMPTsProps) => {
   const lang = useLanguage()
   const { t } = useTranslation()
   const rippledSocket = useContext(SocketContext)
-  const { tooltip, showTooltip, hideTooltip } = useTooltip()
-
-  const renderConfBalanceTooltip = () => (
-    <HoverIcon
-      className="hover"
-      onMouseOver={(e) => {
-        const rect = e.currentTarget.getBoundingClientRect()
-        showTooltip('text', e, t('confidential_balance_tooltip'), {
-          x: rect.left + rect.width / 2,
-          y: rect.top - 60,
-        })
-      }}
-      onMouseLeave={() => hideTooltip()}
-    />
-  )
+  const { tooltip } = useTooltip()
 
   const issuedMPTsQuery = useQuery(['issuedMPTs', accountId], () =>
     fetchAccountIssuedMPTs(accountId, rippledSocket),
@@ -132,7 +118,7 @@ const IssuedMPTsContent = ({ accountId, onChange }: IssuedMPTsProps) => {
             <th>{t('account_page_asset_table_column_circulating_supply')}</th>
             <th>
               {t('account_page_asset_table_column_confidential_balance')}{' '}
-              {renderConfBalanceTooltip()}
+              <ConfBalanceTooltipIcon tooltipKey="confidential_balance_tooltip" />
             </th>
             <th>{t('account_page_asset_table_column_asset_class')}</th>
             <th>{t('account_page_asset_table_column_transfer_fee')}</th>

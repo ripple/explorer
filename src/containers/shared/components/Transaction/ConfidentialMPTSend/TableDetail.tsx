@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { TransactionTableDetailProps } from '../types'
 import { Amount } from '../../Amount'
 import { Account } from '../../Account'
+import { CredentialIDs } from '../CredentialIDs'
 
 export const TableDetail = ({ instructions }: TransactionTableDetailProps) => {
   const { t } = useTranslation()
@@ -17,16 +18,7 @@ export const TableDetail = ({ instructions }: TransactionTableDetailProps) => {
         }
       />{' '}
       <span>{t('to')}</span> <Account account={destination} />
-      {credentialIDs?.length > 0 && (
-        <div className="credential-ids">
-          <span className="label">{t('credential_ids')}: </span>
-          {credentialIDs.map((id: string) => (
-            <div key={id} className="credential-id">
-              {id}
-            </div>
-          ))}
-        </div>
-      )}
+      <CredentialIDs credentialIDs={credentialIDs} inline />
     </div>
   )
 }

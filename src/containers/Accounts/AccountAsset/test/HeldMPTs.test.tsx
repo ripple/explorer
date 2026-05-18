@@ -264,9 +264,9 @@ describe('HeldMPTs', () => {
     const dataRows = rows.slice(1)
     expect(dataRows).toHaveLength(2)
 
-    // Confidential sub-row should have opacity 0.5 and start with └
+    // Confidential sub-row should be marked with confidential-row class and start with └
     const confidentialRow = dataRows[1]
-    expect(confidentialRow).toHaveAttribute('style', 'opacity: 0.5;')
+    expect(confidentialRow).toHaveClass('confidential-row')
     expect(confidentialRow).toHaveTextContent('└')
     // Lock icons in balance columns
     expect(confidentialRow).toHaveTextContent('🔒')

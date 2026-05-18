@@ -554,8 +554,9 @@ export function convertScaledPrice(assetPrice, scale) {
 export const shortenAccount = (addr = '') =>
   addr.length > 12 ? `${addr.slice(0, 7)}...${addr.slice(-5)}` : addr
 
+// Encryption keys are fixed-length (33-byte / 66-char hex), so we always shorten.
 export const shortenEncryptionKey = (key = '') =>
-  key.length > 12 ? `${key.slice(0, 6)}...${key.slice(-4)}` : key
+  key ? `${key.slice(0, 6)}...${key.slice(-4)}` : key
 
 export const stripHttpProtocol = (url = '') => url.replace(/^https?:\/\//, '')
 

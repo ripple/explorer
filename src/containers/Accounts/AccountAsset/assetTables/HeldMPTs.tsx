@@ -7,7 +7,7 @@ import { Loader } from '../../../shared/components/Loader'
 import { EmptyMessageTableRow } from '../../../shared/EmptyMessageTableRow'
 import { Account } from '../../../shared/components/Account'
 import { Tooltip, useTooltip } from '../../../shared/components/Tooltip'
-import HoverIcon from '../../../shared/images/hover.svg'
+import { ConfBalanceTooltipIcon } from '../../../shared/components/ConfBalanceTooltipIcon'
 import {
   formatMPTIssuance,
   formatMPToken,
@@ -127,21 +127,7 @@ const HeldMPTsContent = ({ accountId, onChange }: HeldMPTsProps) => {
   const lang = useLanguage()
   const { t } = useTranslation()
   const rippledSocket = useContext(SocketContext)
-  const { tooltip, showTooltip, hideTooltip } = useTooltip()
-
-  const renderConfBalanceTooltip = () => (
-    <HoverIcon
-      className="hover"
-      onMouseOver={(e) => {
-        const rect = e.currentTarget.getBoundingClientRect()
-        showTooltip('text', e, t('confidential_balance_row_tooltip'), {
-          x: rect.left + rect.width / 2,
-          y: rect.top - 60,
-        })
-      }}
-      onMouseLeave={() => hideTooltip()}
-    />
-  )
+  const { tooltip } = useTooltip()
 
   const heldMPTsQuery = useQuery(['heldMPTs', accountId], () =>
     fetchAccountHeldMPTs(accountId, rippledSocket),
@@ -237,14 +223,14 @@ const HeldMPTsContent = ({ accountId, onChange }: HeldMPTsProps) => {
               const confidentialRow = (
                 <tr
                   key={`${token.tokenId}-confidential`}
-                  style={{ opacity: 0.5 }}
+                  className="confidential-row"
                 >
                   <td>
                     └{' '}
                     <RouteLink to={MPT_ROUTE} params={{ id: token.tokenId }}>
                       {shortenMPTID(token.tokenId)}
                     </RouteLink>{' '}
-                    {renderConfBalanceTooltip()}
+                    <ConfBalanceTooltipIcon tooltipKey="confidential_balance_row_tooltip" />
                   </td>
                   <td>{token.ticker || '--'}</td>
                   <td>
