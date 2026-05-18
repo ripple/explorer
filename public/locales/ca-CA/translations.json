@@ -919,5 +919,7 @@
   "number_of_lps_tooltip": null,
   "search_amms": null,
   "tvl_tooltip": null,
-  "volume_24h_all_tooltip": null
+  "volume_24h_all_tooltip": null,
+  "maintenance_banner.notice": null,
+  "maintenance_banner.countdown_prefix": null
 }
