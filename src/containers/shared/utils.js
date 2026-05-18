@@ -185,12 +185,19 @@ export const localizeNumber = (
 
     const sign = intPart.startsWith('-') ? '-' : ''
     const absInt = sign ? intPart.slice(1) : intPart
-    const grouped = new Intl.NumberFormat(lang, {
+    // Intl.NumberFormat validates `currency` regardless of `style`, and for
+    // MPT amounts the "currency" is an mpt_issuance_id (48-hex), which is
+    // not a valid ISO code — strip it before formatting.
+    const groupedConfig = {
       ...config,
       style: 'decimal',
       minimumFractionDigits: 0,
       maximumFractionDigits: 0,
-    }).format(BigInt(absInt))
+    }
+    delete groupedConfig.currency
+    const grouped = new Intl.NumberFormat(lang, groupedConfig).format(
+      BigInt(absInt),
+    )
     return fracPart ? `${sign}${grouped}.${fracPart}` : `${sign}${grouped}`
   }
 
