@@ -101,7 +101,12 @@ const renderChanges = (
           <b>
             {
               {
-                change: localizeNumber(changePays, language, options),
+                change: localizeNumber(
+                  changePays,
+                  language,
+                  options,
+                  paysIsMPT,
+                ),
               } as any
             }
           </b>
@@ -113,6 +118,7 @@ const renderChanges = (
                   normalize(prevPays, paysCurrency, paysIsMPT),
                   language,
                   options,
+                  paysIsMPT,
                 ),
               } as any
             }
@@ -125,6 +131,7 @@ const renderChanges = (
                   normalize(finalPays, paysCurrency, paysIsMPT),
                   language,
                   options,
+                  paysIsMPT,
                 ),
               } as any
             }
@@ -151,7 +158,12 @@ const renderChanges = (
           <b>
             {
               {
-                change: localizeNumber(changeGets, language, options),
+                change: localizeNumber(
+                  changeGets,
+                  language,
+                  options,
+                  getsIsMPT,
+                ),
               } as any
             }
           </b>
@@ -163,6 +175,7 @@ const renderChanges = (
                   normalize(prevGets, getsCurrency, getsIsMPT),
                   language,
                   options,
+                  getsIsMPT,
                 ),
               } as any
             }
@@ -175,6 +188,7 @@ const renderChanges = (
                   normalize(finalGets, getsCurrency, getsIsMPT),
                   language,
                   options,
+                  getsIsMPT,
                 ),
               } as any
             }
