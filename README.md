@@ -3,7 +3,6 @@
 [![License](https://img.shields.io/github/license/ripple/explorer)](https://github.com/ripple/explorer/blob/main/LICENSE)
 
 # XRPL Explorer
-<!-- test: verifying copilot review access -->
 
 This repo contains the source code for the block explorer of the XRP Ledger hosted at livenet.xrpl.org.
 
@@ -91,3 +90,5 @@ When updating translation entires or adding new languages consult the guide [Tra
 - Latest news in [react blog](https://reactjs.org/blog)
 - [React documentation](https://react.dev)
 - [How to think in react](https://reactjs.org/docs/thinking-in-react.html) and break down components
+
+<!-- Test: verifying copilot review access -->
