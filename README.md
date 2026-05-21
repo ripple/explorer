@@ -3,6 +3,7 @@
 [![License](https://img.shields.io/github/license/ripple/explorer)](https://github.com/ripple/explorer/blob/main/LICENSE)
 
 # XRPL Explorer
+<!-- test: verifying copilot review access -->
 
 This repo contains the source code for the block explorer of the XRP Ledger hosted at livenet.xrpl.org.
 
