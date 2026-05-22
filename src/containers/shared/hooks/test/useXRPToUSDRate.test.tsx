@@ -1,5 +1,4 @@
-import { renderHook } from '@testing-library/react-hooks'
-import { waitFor } from '@testing-library/react'
+import { renderHook, waitFor } from '@testing-library/react'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { useXRPToUSDRate } from '../useXRPToUSDRate'
 import SocketContext from '../../SocketContext'
@@ -67,7 +66,9 @@ describe('useXRPToUSDRate', () => {
     // Force useQuery to refetch
     queryClient.invalidateQueries('XRPToUSDRate')
 
-    await waitFor(() => expect(result.current).toBe(2.1))
-    expect(Log.error).toHaveBeenCalledTimes(1)
+    await waitFor(() => {
+      expect(result.current).toBe(2.1)
+      expect(Log.error).toHaveBeenCalledTimes(1)
+    })
   })
 })

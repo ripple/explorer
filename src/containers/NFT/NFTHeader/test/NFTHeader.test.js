@@ -1,6 +1,6 @@
 import { render, fireEvent, waitFor } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter } from 'react-router'
 import { useQuery, QueryClientProvider } from 'react-query'
 import { NFTHeader } from '../NFTHeader'
 import i18n from '../../../../i18n/testConfig'

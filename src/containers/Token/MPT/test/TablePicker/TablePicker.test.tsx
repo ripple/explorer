@@ -1,12 +1,11 @@
 import { render } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
-import { BrowserRouter as Router } from 'react-router-dom'
+import { BrowserRouter as Router } from 'react-router'
 import { QueryClientProvider } from 'react-query'
 import moxios from 'moxios'
 import i18n from '../../../../../i18n/testConfig'
 import { TablePicker } from '../../TablePicker'
 import { testQueryClient } from '../../../../test/QueryClient'
-import { V7_FUTURE_ROUTER_FLAGS } from '../../../../test/utils'
 
 import { getAccountTransactions } from '../../../../../rippled'
 
@@ -64,7 +63,7 @@ describe('MPT TablePicker container', () => {
     return render(
       <QueryClientProvider client={testQueryClient}>
         <I18nextProvider i18n={i18n}>
-          <Router future={V7_FUTURE_ROUTER_FLAGS}>
+          <Router>
             <TablePicker
               mptIssuanceId={TEST_MPT_ID}
               issuer={TEST_ISSUER}

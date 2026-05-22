@@ -51,7 +51,7 @@ interface Props {
 
 // Vault flags from XLS-65d spec
 const VAULT_FLAGS = {
-  lsfPrivate: 0x00000001,
+  lsfVaultPrivate: 0x00010000,
 }
 
 // Withdrawal policy values from XLS-65d spec
@@ -145,7 +145,7 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
   const vaultCredential = mptIssuanceData?.DomainID
 
   const isPrivate =
-    flags !== undefined && (flags & VAULT_FLAGS.lsfPrivate) !== 0
+    flags !== undefined && (flags & VAULT_FLAGS.lsfVaultPrivate) !== 0
 
   const decodedData = convertHexToString(vaultDataRaw)
   const vaultWebsite = parseVaultWebsite(vaultDataRaw)

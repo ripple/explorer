@@ -1,5 +1,4 @@
-import { renderHook } from '@testing-library/react-hooks'
-import { waitFor } from '@testing-library/react'
+import { renderHook, waitFor } from '@testing-library/react'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { useTokenToUSDRate } from '../useTokenToUSDRate'
 import * as useXRPToUSDRateModule from '../useXRPToUSDRate'

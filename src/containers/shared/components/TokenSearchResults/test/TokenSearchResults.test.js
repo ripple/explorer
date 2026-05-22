@@ -45,8 +45,11 @@ describe('Testing tokens search', () => {
     const { container } = renderSearchResults()
     await flushPromises()
 
-    const searchMenu = container.querySelectorAll('.search-results-menu')
-    expect(searchMenu.length).toEqual(1)
+    await waitFor(() => {
+      expect(container.querySelectorAll('.search-results-menu').length).toEqual(
+        1,
+      )
+    })
   })
 
   it('renders all tokens ', async () => {

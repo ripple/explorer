@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { useEffect, useRef } from 'react'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 import { Account } from '../../../../shared/components/Account'
 import { Loader } from '../../../../shared/components/Loader'
 import { EmptyStateMessage } from '../../../../shared/components/EmptyStateMessage'

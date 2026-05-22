@@ -16,8 +16,8 @@ export const Description = ({
   return (
     <div key="trust_set">
       <Trans i18nKey="trust_set_description">
-        It establishes <b>{{ amount }}</b>
-        as the maximum amount of <b>{{ currency }}</b>
+        It establishes <b>{{ amount } as any}</b>
+        as the maximum amount of <b>{{ currency } as any}</b>
         from <Account account={issuer} />
         that <Account account={tx.Account} />
         is willing to hold

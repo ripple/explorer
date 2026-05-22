@@ -1,4 +1,4 @@
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter } from 'react-router'
 import { cleanup, render, screen } from '@testing-library/react'
 import Currency from '../Currency'
 

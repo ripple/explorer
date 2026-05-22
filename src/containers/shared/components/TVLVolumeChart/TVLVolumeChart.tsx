@@ -6,6 +6,7 @@ import { DualAxisAreaChart, AxisConfig } from '../DualAxisAreaChart'
 import { Loader } from '../Loader'
 import { useTooltip } from '../Tooltip'
 import { parseAmount } from '../../NumberFormattingUtils'
+import { GREEN_500, PURPLE_500 } from '../../utils'
 import { CurrencySwitch } from '../CurrencySwitch'
 import './styles.scss'
 
@@ -24,8 +25,8 @@ export interface TVLVolumeChartProps {
 }
 
 const TIME_RANGES = ['1W', '1M', '6M', '1Y', '5Y'] as const
-const TVL_COLOR = '#32E685'
-const VOLUME_COLOR = '#7919FF'
+const TVL_COLOR = GREEN_500
+const VOLUME_COLOR = PURPLE_500
 
 const formatDateTick = (value: string, timeRange: string): string => {
   const date = new Date(value)
