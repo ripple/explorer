@@ -1,9 +1,8 @@
 import { render } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
-import { BrowserRouter as Router } from 'react-router-dom'
+import { BrowserRouter as Router } from 'react-router'
 import i18n from '../../../../../i18n/testConfig'
 import { GeneralOverview } from '../../Header/GeneralOverview'
-import { V7_FUTURE_ROUTER_FLAGS } from '../../../../test/utils'
 
 const TEST_MPT_ID = '00000004A407AF5856CCF3C42619DAA925813FC955C72983'
 const TEST_ISSUER = 'rTestIssuer123456789012345678901234'
@@ -12,7 +11,7 @@ describe('GeneralOverview component', () => {
   const renderComponent = (props: any = {}) =>
     render(
       <I18nextProvider i18n={i18n}>
-        <Router future={V7_FUTURE_ROUTER_FLAGS}>
+        <Router>
           <GeneralOverview
             issuer={props.issuer || TEST_ISSUER}
             issuerName={props.issuerName}

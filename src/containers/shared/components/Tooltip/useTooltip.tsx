@@ -3,6 +3,7 @@ import {
   Dispatch,
   FC,
   MouseEvent,
+  PropsWithChildren,
   SetStateAction,
   useContext,
   useMemo,
@@ -28,7 +29,7 @@ export const TooltipContext = createContext<TooltipContextType>({
   showTooltip: () => {},
 })
 
-export const TooltipProvider: FC = ({ children }) => {
+export const TooltipProvider: FC<PropsWithChildren> = ({ children }) => {
   const [tooltip, setTooltip] = useState<any>()
   const hideTooltip = () => setTooltip(undefined)
   const showTooltip = (

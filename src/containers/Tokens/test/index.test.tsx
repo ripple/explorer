@@ -1,6 +1,6 @@
 import { render, waitFor } from '@testing-library/react'
 import moxios from 'moxios'
-import { Route } from 'react-router-dom'
+import { Route } from 'react-router'
 import i18n from '../../../i18n/testConfigEnglish'
 import { Tokens } from '..'
 import NetworkContext from '../../shared/NetworkContext'
@@ -50,12 +50,11 @@ describe('Tokens Page container', () => {
     await flushPromises()
     await waitFor(() => {
       expect(container.querySelectorAll('.tokens-page').length).toBe(1)
+      expect(container.querySelectorAll('.metric').length).toBe(4)
     })
 
     // Metrics
     const metrics = container.querySelectorAll('.metric')
-
-    expect(metrics.length).toBe(4)
 
     expect(metrics[0].querySelector('.title')?.textContent).toContain(
       '# of Tokens',

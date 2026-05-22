@@ -6,7 +6,7 @@ import {
   fireEvent,
 } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
-import { BrowserRouter as Router } from 'react-router-dom'
+import { BrowserRouter as Router } from 'react-router'
 import { QueryClientProvider } from 'react-query'
 import i18n from '../../../../i18n/testConfigEnglish'
 import SocketContext from '../../../shared/SocketContext'
@@ -366,13 +366,16 @@ describe('AccountAsset Component', () => {
         '.collapsible-section-body',
       )
       const heldSection = allSections[0] // First section (Held)
+
+      await waitFor(() => {
+        const heldTables = heldSection.querySelectorAll('.account-asset-table')
+        expect(heldTables.length).toBe(4)
+      })
+
       const heldWrappers = heldSection.querySelectorAll(
         '.account-asset-table-wrapper',
       )
       expect(heldWrappers.length).toBe(4)
-
-      const heldTables = heldSection.querySelectorAll('.account-asset-table')
-      expect(heldTables.length).toBe(4)
     })
 
     it('renders all issued asset components simultaneously', async () => {
@@ -397,15 +400,18 @@ describe('AccountAsset Component', () => {
         '.collapsible-section-body',
       )
       const issuedSection = allSections[1] // Second section (Issued)
+
+      await waitFor(() => {
+        const issuedTables = issuedSection.querySelectorAll(
+          '.account-asset-table',
+        )
+        expect(issuedTables.length).toBe(3)
+      })
+
       const issuedWrappers = issuedSection.querySelectorAll(
         '.account-asset-table-wrapper',
       )
       expect(issuedWrappers.length).toBe(3)
-
-      const issuedTables = issuedSection.querySelectorAll(
-        '.account-asset-table',
-      )
-      expect(issuedTables.length).toBe(3)
     })
 
     it('passes accountId to all child components', async () => {

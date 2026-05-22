@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { I18nextProvider } from 'react-i18next'
-import { BrowserRouter as Router } from 'react-router-dom'
+import { BrowserRouter as Router } from 'react-router'
 import { QueryClientProvider } from 'react-query'
 import i18n from '../../../../i18n/testConfigEnglish'
 import { CUSTOM_NETWORKS_STORAGE_KEY } from '../../../shared/hooks'
@@ -9,6 +9,13 @@ import SocketContext from '../../../shared/SocketContext'
 import MockWsClient from '../../../test/mockWsClient'
 import { NetworkPicker } from '../NetworkPicker'
 import { queryClient } from '../../../shared/QueryClient'
+import { locationAssign } from '../../../shared/navigate'
+
+jest.mock('../../../shared/navigate', () => ({
+  locationAssign: jest.fn(),
+}))
+
+const mockedLocationAssign = locationAssign as jest.Mock
 
 describe('NetworkPicker component', () => {
   let client: MockWsClient
@@ -35,15 +42,10 @@ describe('NetworkPicker component', () => {
     )
   }
 
-  const { location } = window
-  const mockedFunction = jest.fn()
   const oldEnvs = process.env
 
   beforeEach(() => {
-    // @ts-expect-error - no idea why this errors here but is fine in CustomNetworkHome tests
-    delete window.location
-    // @ts-expect-error - no idea why this errors here but is fine in CustomNetworkHome tests
-    window.location = { assign: mockedFunction }
+    mockedLocationAssign.mockClear()
     process.env = {
       ...oldEnvs,
       VITE_ENVIRONMENT: 'mainnet',
@@ -58,7 +60,6 @@ describe('NetworkPicker component', () => {
 
   afterEach(() => {
     client.close()
-    window.location.assign(location.href)
     process.env = oldEnvs
   })
 
@@ -107,7 +108,7 @@ describe('NetworkPicker component', () => {
     const customInput = screen.getByRole('textbox')
     await userEvent.type(customInput, 'custom_url{Enter}')
 
-    expect(mockedFunction).toHaveBeenCalledWith(
+    expect(mockedLocationAssign).toHaveBeenCalledWith(
       `${process.env.VITE_CUSTOMNETWORK_LINK}/custom_url`,
     )
   })

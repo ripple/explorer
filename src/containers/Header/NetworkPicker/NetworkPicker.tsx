@@ -5,6 +5,7 @@ import { useCustomNetworks } from '../../shared/hooks'
 import SocketContext from '../../shared/SocketContext'
 import './NetworkPicker.scss'
 import { useAnalytics } from '../../shared/analytics'
+import { locationAssign } from '../../shared/navigate'
 
 export interface Network {
   network: string
@@ -132,7 +133,7 @@ export const NetworkPicker = () => {
     }
 
     trackNetworkSwitch('custom', newRippledUrl)
-    window.location.assign(`${CUSTOM_NETWORK_BASE_LINK}/${newRippledUrl}`)
+    locationAssign(`${CUSTOM_NETWORK_BASE_LINK}/${newRippledUrl}`)
   }
 
   return (

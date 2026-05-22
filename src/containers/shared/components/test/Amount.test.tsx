@@ -1,5 +1,5 @@
 import { I18nextProvider } from 'react-i18next'
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter } from 'react-router'
 import { cleanup, render, screen } from '@testing-library/react'
 import { useQuery } from 'react-query'
 import { Amount } from '../Amount'

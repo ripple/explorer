@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 import { AMENDMENT_ROUTE, TRANSACTION_ROUTE } from '../App/routes'
 import { Loader } from '../shared/components/Loader'
 import { useLanguage } from '../shared/hooks'

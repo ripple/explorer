@@ -921,5 +921,7 @@
   "number_of_lps_tooltip": "Number of unique liquidity providers across all AMM pools",
   "search_amms": "Search AMMs",
   "tvl_tooltip": "Total value locked across all active AMM pools",
-  "volume_24h_all_tooltip": "Total DEX trading volume across all active AMM pools from 00:00–23:59 UTC of the previous day"
+  "volume_24h_all_tooltip": "Total DEX trading volume across all active AMM pools from 00:00–23:59 UTC of the previous day",
+  "maintenance_banner.notice": "Scheduled maintenance: {{window}} (~{{duration}} min downtime).",
+  "maintenance_banner.countdown_prefix": "Starts in"
 }

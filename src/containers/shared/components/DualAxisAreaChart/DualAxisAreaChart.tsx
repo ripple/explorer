@@ -54,7 +54,7 @@ export const DualAxisAreaChart: FC<DualAxisAreaChartProps> = ({
   tickColor = '#888',
   tickFontSize = 13,
   showGrid = true,
-  gradientOpacity = 0.5,
+  gradientOpacity = 0.8,
 }) => {
   const tickInterval = data.length > 6 ? Math.floor(data.length / 5) : 0
 

@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react-hooks'
+import { renderHook } from '@testing-library/react'
 import { useMarketCalculations } from '../../hooks/useMarketCalculations'
 import { TokenHoldersData } from '../../api/holders'
 import { LOSToken } from '../../../../shared/losTypes'
