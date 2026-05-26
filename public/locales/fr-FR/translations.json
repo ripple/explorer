@@ -942,5 +942,7 @@
   "auditor_encryption_key": null,
   "credentials": null,
   "registered": null,
-  "included": null
+  "included": null,
+  "maintenance_banner.notice": null,
+  "maintenance_banner.countdown_prefix": null
 }

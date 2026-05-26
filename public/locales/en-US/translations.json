@@ -942,5 +942,7 @@
   "auditor_encryption_key": "Auditor Encryption Key",
   "credentials": "Credentials",
   "registered": "Registered",
-  "included": "Included"
+  "included": "Included",
+  "maintenance_banner.notice": "Scheduled maintenance: {{window}} (~{{duration}} min downtime).",
+  "maintenance_banner.countdown_prefix": "Starts in"
 }
