@@ -3,6 +3,6 @@ import { TransactionCommonFields } from '../types'
 export interface ConfidentialMPTClawback extends TransactionCommonFields {
   MPTokenIssuanceID: string
   Holder: string
-  MPTAmount: number
+  MPTAmount: string
   ZKProof: string
 }
