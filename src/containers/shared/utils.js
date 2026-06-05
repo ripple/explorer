@@ -167,8 +167,41 @@ export const localizeNumber = (
   options = {},
   isMPT = false,
 ) => {
-  const number = Number.parseFloat(num)
   const config = { ...NUMBER_DEFAULT_OPTIONS, ...options }
+
+  // MPT amounts can exceed Number.MAX_SAFE_INTEGER (up to 2^63 - 1) and their
+  // scaled forms can keep many fractional digits. Group the integer part via
+  // BigInt and append the fraction so no digits are lost in Number.parseFloat.
+  if (isMPT && typeof num === 'string' && /^-?\d+(\.\d+)?$/.test(num)) {
+    const [intPart, rawFrac = ''] = num.split('.')
+    const minFrac = config.minimumFractionDigits ?? 0
+    const maxFrac = config.maximumFractionDigits ?? rawFrac.length
+    let fracPart = rawFrac.slice(0, maxFrac)
+    // Trim trailing zeros down to minFrac so '0.100' renders as '0.1'.
+    let end = fracPart.length
+    while (end > minFrac && fracPart[end - 1] === '0') end -= 1
+    fracPart = fracPart.slice(0, end)
+    if (fracPart.length < minFrac) fracPart = fracPart.padEnd(minFrac, '0')
+
+    const sign = intPart.startsWith('-') ? '-' : ''
+    const absInt = sign ? intPart.slice(1) : intPart
+    // Intl.NumberFormat validates `currency` regardless of `style`, and for
+    // MPT amounts the "currency" is an mpt_issuance_id (48-hex), which is
+    // not a valid ISO code — strip it before formatting.
+    const groupedConfig = {
+      ...config,
+      style: 'decimal',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }
+    delete groupedConfig.currency
+    const grouped = new Intl.NumberFormat(lang, groupedConfig).format(
+      BigInt(absInt),
+    )
+    return fracPart ? `${sign}${grouped}.${fracPart}` : `${sign}${grouped}`
+  }
+
+  const number = Number.parseFloat(num)
 
   if (Number.isNaN(number)) {
     return null
@@ -435,14 +468,6 @@ export const formatDurationDetailed = (totalSeconds, maxUnits = 4) => {
 
 export const removeRoutes = (routes, ...routesToRemove) =>
   routes.filter((route) => !routesToRemove.includes(route.title))
-
-export const formatAsset = (asset) =>
-  typeof asset === 'string'
-    ? { currency: 'XRP' }
-    : {
-        currency: asset.currency,
-        issuer: asset.issuer,
-      }
 
 // For AMM, the trading fee is in units of 1/100,000; a value of 1 is equivalent to a 0.001% fee.
 export const formatTradingFee = (tradingFee) =>

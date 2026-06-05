@@ -1,0 +1,29 @@
+{
+  "tx": {
+    "Account": "ratB3Rp7pcid4hzwSYTWiqWXYXFmWUFDv1",
+    "AccountOther": "rPTScb8m3wq6r3Ys93Ec5at7LYDmWrtndi",
+    "Amount": {
+      "mpt_issuance_id": "00000BDE5B4F868ECE457207E2C1750065987730B8839E0D",
+      "value": "42"
+    },
+    "Asset": {
+      "mpt_issuance_id": "00000BDE5B4F868ECE457207E2C1750065987730B8839E0D"
+    },
+    "Fee": "10",
+    "Flags": 2147483648,
+    "Sequence": 5,
+    "SigningPubKey": "ED2D7565F8E1432940E5B3BEB4562DE99DB880323B5C8A178376D5B481A7DB6E1C",
+    "TransactionType": "TokenSwapPropose",
+    "TxnSignature": "153E5473EB70B6E073F22A8281AE1E5593C96369CACDC1E2DB9FA54C5B3EC7C07F458061858DD7AE061198E7CB8BF56A7034F102016DFDB5F38EF4C28466B308",
+    "ctid": "C000005800000000",
+    "date": 749136066
+  },
+  "meta": {
+    "AffectedNodes": [],
+    "TransactionIndex": 0,
+    "TransactionResult": "tesSUCCESS"
+  },
+  "hash": "F84CCA4C6948B0D068A2D97A8CA92F557CE3615D98F6E90540369D4A4F122D0E",
+  "inLedger": 88,
+  "ledger_index": 88
+}

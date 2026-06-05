@@ -1,11 +1,17 @@
+import MPTTokenSwapPropose from './mock_data/MPTTokenSwapPropose.json'
 import NewEscrowCreate from './mock_data/NewEscrowCreate.json'
 import SetHook from './mock_data/SetHook.json'
 import SetHook2 from './mock_data/SetHook2.json'
 import TokenSwapPropose from './mock_data/TokenSwapPropose.json'
-import { DefaultSimple } from '../DefaultSimple'
+import { DefaultSimple, isMPTAsset, isMPTAmount } from '../DefaultSimple'
 import { renderWithProviders } from './createWrapperFactory'
 import { expectSimpleRowText } from './expectations'
 import summarizeTransaction from '../../../../../rippled/lib/txSummary'
+
+jest.mock('../../../hooks/useMPTIssuance', () => ({
+  ...jest.requireActual('../../../hooks/useMPTIssuance'),
+  useMPTIssuance: () => ({ data: undefined }),
+}))
 
 function renderComponent(tx: { tx: any; meta: any }) {
   // eslint-disable-next-line no-param-reassign -- needed so parsers aren't triggered
@@ -144,5 +150,62 @@ describe('DefaultSimple', () => {
       'AmountOther',
       '$33.00 USD.rnz5f1MFcgbVxzYhU5hUKbKquEJHJady5K',
     )
+  })
+
+  it('renders Currency with isMPT=true when given an MPT asset', () => {
+    const MPT_ID = '00000BDE5B4F868ECE457207E2C1750065987730B8839E0D'
+    const { container } = renderComponent(MPTTokenSwapPropose)
+
+    // When isMPT=true, Currency renders a RouteLink to MPT_ROUTE (/mpt/:id).
+    // This is the behavioral proof that DefaultSimple passed isMPT=true.
+    const assetLink = container.querySelector(
+      `[data-testid="Asset"] a[href="/mpt/${MPT_ID}"]`,
+    )
+    expect(assetLink).toBeInTheDocument()
+  })
+})
+
+describe('isMPTAsset', () => {
+  it('returns true for an asset object with mpt_issuance_id and no value', () => {
+    expect(isMPTAsset({ mpt_issuance_id: 'ABC123' })).toBe(true)
+  })
+
+  it('returns false when value is present (that is an amount, not an asset)', () => {
+    expect(isMPTAsset({ mpt_issuance_id: 'ABC123', value: '10' })).toBe(false)
+  })
+
+  it('returns false when mpt_issuance_id is missing', () => {
+    expect(isMPTAsset({ currency: 'USD' })).toBe(false)
+  })
+
+  it('returns false when mpt_issuance_id is not a string', () => {
+    expect(isMPTAsset({ mpt_issuance_id: 123 })).toBe(false)
+  })
+
+  it('returns false for non-objects', () => {
+    expect(isMPTAsset('ABC123')).toBe(false)
+    expect(isMPTAsset(42)).toBe(false)
+  })
+})
+
+describe('isMPTAmount', () => {
+  it('returns true when both mpt_issuance_id and value are strings', () => {
+    expect(isMPTAmount({ mpt_issuance_id: 'ABC123', value: '10' })).toBe(true)
+  })
+
+  it('returns false when value is missing (that is an asset, not an amount)', () => {
+    expect(isMPTAmount({ mpt_issuance_id: 'ABC123' })).toBe(false)
+  })
+
+  it('returns false when value is not a string', () => {
+    expect(isMPTAmount({ mpt_issuance_id: 'ABC123', value: 10 })).toBe(false)
+  })
+
+  it('returns false when mpt_issuance_id is missing', () => {
+    expect(isMPTAmount({ currency: 'USD', value: '10' })).toBe(false)
+  })
+
+  it('returns false for non-objects', () => {
+    expect(isMPTAmount('ABC123')).toBe(false)
   })
 })

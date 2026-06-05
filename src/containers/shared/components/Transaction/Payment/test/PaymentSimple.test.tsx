@@ -1,4 +1,3 @@
-import { useQuery } from 'react-query'
 import {
   createSimpleRenderFactory,
   expectSimpleRowLabel,
@@ -14,15 +13,20 @@ import mockPaymentSourceTag from './mock_data/PaymentWithSourceTag.json'
 import mockPaymentMPT from './mock_data/PaymentMPT.json'
 import mockPermDomainID from './mock_data/PaymentWithPermDomainID.json'
 import mockPaymentWithCredentialIDs from './mock_data/PaymentWithCredentialIDs.json'
+import { useMPTIssuance } from '../../../../hooks/useMPTIssuance'
 
-jest.mock('react-query', () => ({
-  ...jest.requireActual('react-query'),
-  useQuery: jest.fn(),
+jest.mock('../../../../hooks/useMPTIssuance', () => ({
+  ...jest.requireActual('../../../../hooks/useMPTIssuance'),
+  useMPTIssuance: jest.fn(),
 }))
 
 const renderComponent = createSimpleRenderFactory(Simple)
 
 describe('Payment: Simple', () => {
+  beforeEach(() => {
+    ;(useMPTIssuance as jest.Mock).mockReturnValue({ data: undefined })
+  })
+
   it('renders', () => {
     const { container, unmount } = renderComponent(mockPayment)
 
@@ -131,10 +135,9 @@ describe('Payment: Simple', () => {
       assetScale: 3,
     }
 
-    // @ts-ignore
-    useQuery.mockImplementation(() => ({
+    ;(useMPTIssuance as jest.Mock).mockReturnValue({
       data,
-    }))
+    })
 
     const { container, unmount } = renderComponent(mockPaymentMPT)
 
@@ -143,6 +146,28 @@ describe('Payment: Simple', () => {
       'amount',
       `0.1 000003C31D321B7DDA58324DC38CDF18934FAFFFCDF69D5F`,
     )
+    expectSimpleRowLabel(container, 'amount', `send`)
+
+    expectSimpleRowText(
+      container,
+      'destination',
+      `rw6UtpfBFaGht6SiC1HpDPNw6Yt25pKvnu`,
+    )
+
+    unmount()
+  })
+
+  it('renders direct MPT payment with ticker', () => {
+    ;(useMPTIssuance as jest.Mock).mockReturnValue({
+      data: {
+        assetScale: 3,
+        parsedMPTMetadata: { ticker: 'XMPT' },
+      },
+    })
+
+    const { container, unmount } = renderComponent(mockPaymentMPT)
+
+    expectSimpleRowText(container, 'amount', `0.1 XMPT`)
     expectSimpleRowLabel(container, 'amount', `send`)
 
     expectSimpleRowText(

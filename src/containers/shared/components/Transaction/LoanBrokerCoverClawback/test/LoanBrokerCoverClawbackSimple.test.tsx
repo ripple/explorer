@@ -1,19 +1,23 @@
-import { useQuery } from 'react-query'
 import { createSimpleRenderFactory, expectSimpleRowText } from '../../test'
 import { Simple } from '../Simple'
 import LoanBrokerCoverClawback from './mock_data/LoanBrokerCoverClawback.json'
 import LoanBrokerCoverClawbackZeroAmount from './mock_data/LoanBrokerCoverClawbackZeroAmount.json'
 import LoanBrokerCoverClawbackNoAmount from './mock_data/LoanBrokerCoverClawbackNoAmount.json'
 import LoanBrokerCoverClawbackMPT from './mock_data/LoanBrokerCoverClawbackMPT.json'
+import { useMPTIssuance } from '../../../../hooks/useMPTIssuance'
 
-jest.mock('react-query', () => ({
-  ...jest.requireActual('react-query'),
-  useQuery: jest.fn(),
+jest.mock('../../../../hooks/useMPTIssuance', () => ({
+  ...jest.requireActual('../../../../hooks/useMPTIssuance'),
+  useMPTIssuance: jest.fn(),
 }))
 
 const renderComponent = createSimpleRenderFactory(Simple)
 
 describe('LoanBrokerCoverClawback: Simple', () => {
+  beforeEach(() => {
+    ;(useMPTIssuance as jest.Mock).mockReturnValue({ data: undefined })
+  })
+
   it('renders with explicit amount', () => {
     const { container, unmount } = renderComponent(LoanBrokerCoverClawback)
     expectSimpleRowText(
@@ -64,11 +68,11 @@ describe('LoanBrokerCoverClawback: Simple', () => {
   })
 
   it('renders with calculated MPT amount when Amount is undefined', () => {
-    ;(useQuery as jest.Mock).mockImplementation(() => ({
+    ;(useMPTIssuance as jest.Mock).mockReturnValue({
       data: {
         assetScale: 2,
       },
-    }))
+    })
 
     const { container, unmount } = renderComponent(LoanBrokerCoverClawbackMPT)
     expectSimpleRowText(

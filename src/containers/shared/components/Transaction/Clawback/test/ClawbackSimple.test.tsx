@@ -1,19 +1,23 @@
-import { useQuery } from 'react-query'
 import { createSimpleRenderFactory, expectSimpleRowText } from '../../test'
 import { Simple } from '../Simple'
 import transaction from './mock_data/Clawback.json'
 import transactionFailure from './mock_data/Clawback_Failure.json'
 import transactionMPT from './mock_data/ClawbackMPT.json'
 import transactionMPTFailure from './mock_data/ClawbackMPT_Failure.json'
+import { useMPTIssuance } from '../../../../hooks/useMPTIssuance'
 
-jest.mock('react-query', () => ({
-  ...jest.requireActual('react-query'),
-  useQuery: jest.fn(),
+jest.mock('../../../../hooks/useMPTIssuance', () => ({
+  ...jest.requireActual('../../../../hooks/useMPTIssuance'),
+  useMPTIssuance: jest.fn(),
 }))
 
 const renderComponent = createSimpleRenderFactory(Simple)
 
 describe('Clawback', () => {
+  beforeEach(() => {
+    ;(useMPTIssuance as jest.Mock).mockReturnValue({ data: undefined })
+  })
+
   it('handles Clawback simple view ', () => {
     const { container, unmount } = renderComponent(transaction)
     expectSimpleRowText(
@@ -34,10 +38,9 @@ describe('Clawback', () => {
       assetScale: 3,
     }
 
-    // @ts-ignore
-    useQuery.mockImplementation(() => ({
+    ;(useMPTIssuance as jest.Mock).mockReturnValue({
       data,
-    }))
+    })
     const { container, unmount } = renderComponent(transactionMPT)
     expectSimpleRowText(
       container,
@@ -73,10 +76,9 @@ describe('Clawback', () => {
       assetScale: 3,
     }
 
-    // @ts-ignore
-    useQuery.mockImplementation(() => ({
+    ;(useMPTIssuance as jest.Mock).mockReturnValue({
       data,
-    }))
+    })
     const { container, unmount } = renderComponent(transactionMPTFailure)
 
     expectSimpleRowText(

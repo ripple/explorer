@@ -7,7 +7,6 @@ import {
   localizeDate,
   durationToHuman,
   formatDurationDetailed,
-  formatAsset,
   shortenAccount,
   shortenDomain,
   shortenNFTTokenID,
@@ -92,6 +91,25 @@ describe('utils', () => {
         minimumFractionDigits: 6,
       }),
     ).toEqual('12.233400')
+  })
+
+  it('localizeNumber preserves precision for MPT-flagged string values', () => {
+    // 2^63 - 1 — the max representable MPTAmount per the XRPL spec. Without
+    // the BigInt branch this would round to "9,223,372,036,854,776,000".
+    expect(localizeNumber('9223372036854775807', 'en-US', {}, true)).toEqual(
+      '9,223,372,036,854,775,807',
+    )
+    // Scaled MPTAmount — integer part is formatted via BigInt, fractional
+    // digits are appended verbatim.
+    expect(localizeNumber('9223372036854.775807', 'en-US', {}, true)).toEqual(
+      '9,223,372,036,854.775807',
+    )
+    // Negative MPT-shaped string (defensive — unusual in practice).
+    expect(localizeNumber('-9223372036854775807', 'en-US', {}, true)).toEqual(
+      '-9,223,372,036,854,775,807',
+    )
+    // Small values still work through the same path.
+    expect(localizeNumber('1000', 'en-US', {}, true)).toEqual('1,000')
   })
 
   it('formatPrice', () => {
@@ -188,22 +206,6 @@ describe('utils', () => {
 
     // Test negative values (should handle absolute value)
     expect(formatDurationDetailed(-3665)).toBe('1hr.1min.5s')
-  })
-})
-
-describe('AMM utils format asset', () => {
-  it('formats XRP asset', () => {
-    const asset = '10000000000'
-    const formatted = formatAsset(asset)
-
-    expect(formatted).toEqual({ currency: 'XRP' })
-  })
-
-  it('formats non XRP asset', () => {
-    const asset = { currency: 'USD', amount: '100000', issuer: 'your mom' }
-    const formatted = formatAsset(asset)
-
-    expect(formatted).toEqual({ currency: 'USD', issuer: 'your mom' })
   })
 })
 

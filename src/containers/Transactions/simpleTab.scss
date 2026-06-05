@@ -74,6 +74,14 @@ $subdued-color: $black-40;
             }
           }
 
+          a.currency {
+            color: $green-30;
+
+            &:hover {
+              color: $green-50;
+            }
+          }
+
           &.list {
             margin-bottom: 12px;
 

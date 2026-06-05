@@ -1,12 +1,12 @@
-import { useQuery } from 'react-query'
 import i18n from '../../../../../../i18n/testConfigEnglish'
 import mockEscrowCreateTests from './mock_data/EscrowCreate.json'
 import { Description } from '../Description'
 import { createDescriptionRenderFactory } from '../../test'
+import { useMPTIssuance } from '../../../../hooks/useMPTIssuance'
 
-jest.mock('react-query', () => ({
-  ...jest.requireActual('react-query'),
-  useQuery: jest.fn(),
+jest.mock('../../../../hooks/useMPTIssuance', () => ({
+  ...jest.requireActual('../../../../hooks/useMPTIssuance'),
+  useMPTIssuance: jest.fn(),
 }))
 
 const renderComponent = createDescriptionRenderFactory(Description, i18n)
@@ -16,6 +16,10 @@ function getTestByName(name: string) {
 }
 
 describe('EscrowCreateDescription', () => {
+  beforeEach(() => {
+    ;(useMPTIssuance as jest.Mock).mockReturnValue({ data: undefined })
+  })
+
   it('renders description for EscrowCreate', () => {
     const { container, unmount } = renderComponent(
       getTestByName('renders EscrowCreate'),
@@ -55,10 +59,9 @@ describe('EscrowCreateDescription', () => {
       assetScale: 4,
     }
 
-    // @ts-ignore
-    useQuery.mockImplementation(() => ({
+    ;(useMPTIssuance as jest.Mock).mockReturnValue({
       data,
-    }))
+    })
 
     const { container, unmount } = renderComponent(
       getTestByName('test MPT amount'),

@@ -13,9 +13,16 @@ import {
 import { convertRippleDate } from '../../../../../rippled/lib/utils'
 import Currency from '../../Currency'
 import { Amount } from '../../Amount'
-import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'
+import {
+  formatAmount,
+  formatAsset,
+  isMPTAmount,
+} from '../../../../../rippled/lib/txSummary/formatAmount'
 
-const normalize = (amount: any) => amount.value || amount / XRP_BASE
+const normalize = (amount: any) => {
+  if (isMPTAmount(amount)) return Number(amount.value)
+  return amount.value ? Number(amount.value) : amount / XRP_BASE
+}
 
 const Description: TransactionDescriptionComponent = (
   props: TransactionDescriptionProps,
@@ -23,8 +30,10 @@ const Description: TransactionDescriptionComponent = (
   const { t, i18n } = useTranslation()
   const language = i18n.resolvedLanguage
   const { data } = props
-  const paysCurrency = data.tx.TakerPays.currency || 'XRP'
-  const getsCurrency = data.tx.TakerGets.currency || 'XRP'
+  const paysAsset = formatAsset(data.tx.TakerPays)
+  const getsAsset = formatAsset(data.tx.TakerGets)
+  const paysCurrency = paysAsset.currency
+  const getsCurrency = getsAsset.currency
   const paysValue = normalize(data.tx.TakerPays)
   const getsValue = normalize(data.tx.TakerGets)
   const invert =
@@ -38,14 +47,16 @@ const Description: TransactionDescriptionComponent = (
     pair = (
       <small>
         <Currency
-          currency={data.tx.TakerGets.currency || 'XRP'}
-          issuer={data.tx.TakerGets.issuer}
+          currency={getsAsset.currency}
+          issuer={getsAsset.issuer}
+          isMPT={getsAsset.isMPT}
           displaySymbol={false}
         />
         /
         <Currency
-          currency={data.tx.TakerPays.currency || 'XRP'}
-          issuer={data.tx.TakerPays.issuer}
+          currency={paysAsset.currency}
+          issuer={paysAsset.issuer}
+          isMPT={paysAsset.isMPT}
           displaySymbol={false}
         />
       </small>
@@ -54,14 +65,16 @@ const Description: TransactionDescriptionComponent = (
     pair = (
       <small>
         <Currency
-          currency={data.tx.TakerPays.currency || 'XRP'}
-          issuer={data.tx.TakerPays.issuer}
+          currency={paysAsset.currency}
+          issuer={paysAsset.issuer}
+          isMPT={paysAsset.isMPT}
           displaySymbol={false}
         />
         /
         <Currency
-          currency={data.tx.TakerGets.currency || 'XRP'}
-          issuer={data.tx.TakerGets.issuer}
+          currency={getsAsset.currency}
+          issuer={getsAsset.issuer}
+          isMPT={getsAsset.isMPT}
           displaySymbol={false}
         />
       </small>

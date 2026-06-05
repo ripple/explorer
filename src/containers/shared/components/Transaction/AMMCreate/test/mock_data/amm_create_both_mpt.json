@@ -1,0 +1,75 @@
+{
+  "tx": {
+    "Account": "rwRGF9pmfEGT4GcZ379cYC9p3wpJDozy8w",
+    "Amount": {
+      "mpt_issuance_id": "000003C31D321B7DDA58324DC38CDF18934FAFFFCDF69D5F",
+      "value": "5000"
+    },
+    "Amount2": {
+      "mpt_issuance_id": "00000ABC2E631B9DFA58324DC38CDF18934FAFFFCDF69D5F",
+      "value": "2000"
+    },
+    "Fee": "10",
+    "Flags": 0,
+    "Sequence": 3,
+    "SigningPubKey": "02BFF00BCB2D25845C1D7C1FC5AAAE465B56CBB966BF034E1F6FFC097E8A6FBD28",
+    "TradingFee": 1,
+    "TransactionType": "AMMCreate",
+    "TxnSignature": "304402200CE5EA35FB7545CA8CD3231C2EE6F23D6B9EF7E146F23016905B9516721D5745022062DCC01BB7617C93F85DAE93917CC585FF09AE690BA78FDC5924565EEC186C70",
+    "date": "2022-11-21T20:58:11Z"
+  },
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "LedgerEntryType": "MPToken",
+          "LedgerIndex": "AABB00112233445566778899AABBCCDDEEFF00112233445566778899AABBCCDD",
+          "FinalFields": {
+            "Account": "rwRGF9pmfEGT4GcZ379cYC9p3wpJDozy8w",
+            "MPTokenIssuanceID": "000003C31D321B7DDA58324DC38CDF18934FAFFFCDF69D5F",
+            "MPTAmount": "495000"
+          },
+          "PreviousFields": {
+            "MPTAmount": "500000"
+          }
+        }
+      },
+      {
+        "ModifiedNode": {
+          "LedgerEntryType": "MPToken",
+          "LedgerIndex": "CCDD00112233445566778899AABBCCDDEEFF00112233445566778899AABBCCDD",
+          "FinalFields": {
+            "Account": "rwRGF9pmfEGT4GcZ379cYC9p3wpJDozy8w",
+            "MPTokenIssuanceID": "00000ABC2E631B9DFA58324DC38CDF18934FAFFFCDF69D5F",
+            "MPTAmount": "248000"
+          },
+          "PreviousFields": {
+            "MPTAmount": "250000"
+          }
+        }
+      },
+      {
+        "CreatedNode": {
+          "LedgerEntryType": "AMM",
+          "LedgerIndex": "C7FD06649235AF4CABD8FA6D8BB0CAF6C6EA5038A74D0DDD5025290683636D02",
+          "NewFields": {
+            "Account": "rMEdVzU8mtEArzjrN9avm3kA675GX7ez8W",
+            "Asset": {
+              "mpt_issuance_id": "000003C31D321B7DDA58324DC38CDF18934FAFFFCDF69D5F"
+            },
+            "Asset2": {
+              "mpt_issuance_id": "00000ABC2E631B9DFA58324DC38CDF18934FAFFFCDF69D5F"
+            },
+            "LPTokenBalance": {
+              "currency": "03930D02208264E2E40EC1B0C09E4DB96EE197B1",
+              "issuer": "rMEdVzU8mtEArzjrN9avm3kA675GX7ez8W",
+              "value": "10000000"
+            }
+          }
+        }
+      }
+    ],
+    "TransactionIndex": 0,
+    "TransactionResult": "tesSUCCESS"
+  }
+}

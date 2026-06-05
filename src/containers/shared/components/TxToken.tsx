@@ -11,8 +11,8 @@ interface Props {
 function getTokenPair(
   type: string,
   fee: number,
-  amount: { currency: string; amount: number },
-  amount2: { currency: string; amount: number },
+  amount: { currency: string; amount: number; isMPT?: boolean },
+  amount2: { currency: string; amount: number; isMPT?: boolean },
 ) {
   if (
     type === 'AMMWithdraw' ||
@@ -22,11 +22,11 @@ function getTokenPair(
   ) {
     const first =
       amount?.amount && amount.amount !== fee ? (
-        <Currency currency={amount.currency} />
+        <Currency currency={amount.currency} isMPT={amount.isMPT} />
       ) : undefined
     const second =
       amount2?.amount && amount2.amount !== fee ? (
-        <Currency currency={amount2.currency} />
+        <Currency currency={amount2.currency} isMPT={amount2.isMPT} />
       ) : undefined
 
     if (first && second) {

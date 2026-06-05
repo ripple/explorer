@@ -1,17 +1,20 @@
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter } from 'react-router'
 import { cleanup, render, screen } from '@testing-library/react'
-import { useQuery } from 'react-query'
 import { Amount } from '../Amount'
 import i18n from '../../../../i18n/testConfig'
+import { useMPTIssuance } from '../../hooks/useMPTIssuance'
 
-jest.mock('react-query', () => ({
-  ...jest.requireActual('react-query'),
-  useQuery: jest.fn(),
+jest.mock('../../hooks/useMPTIssuance', () => ({
+  ...jest.requireActual('../../hooks/useMPTIssuance'),
+  useMPTIssuance: jest.fn(),
 }))
 
 describe('Amount', () => {
   afterEach(cleanup)
+  beforeEach(() => {
+    ;(useMPTIssuance as jest.Mock).mockReturnValue({ data: undefined })
+  })
   const renderComponent = (component: JSX.Element) =>
     render(
       <I18nextProvider i18n={i18n}>
@@ -141,10 +144,9 @@ describe('Amount', () => {
       flags: [],
     }
 
-    // @ts-ignore
-    useQuery.mockImplementation(() => ({
+    ;(useMPTIssuance as jest.Mock).mockReturnValue({
       data,
-    }))
+    })
 
     const value = {
       amount: '1043001',
@@ -156,6 +158,61 @@ describe('Amount', () => {
 
     expect(screen.getByTestId('amount-localized')).toHaveTextContent(
       '1,043.001',
+    )
+  })
+
+  it('preserves MPT precision for value at the spec maximum (2^63 - 1)', async () => {
+    // 2^63 - 1 scaled by 6 decimals is 9,223,372,036,854.775807. With the
+    // pre-BigInt parseInt path this overflowed to ~9.223372036854776e18 and
+    // rendered as "9,223,372,036,854.776" (last three digits lost).
+    ;(useMPTIssuance as jest.Mock).mockReturnValue({
+      data: {
+        issuer: 'rL2LzUhsBJMqsaVCXVvzedPjePbjVzBCC',
+        assetScale: 6,
+        maxAmt: '9223372036854775807',
+        outstandingAmt: '9223372036854775807',
+        sequence: 1,
+        metadata: '',
+        flags: [],
+      },
+    })
+
+    const value = {
+      amount: '9223372036854775807',
+      currency: '0000098F03B3BCE934EE8CAA1DF25A42032388361B9E5A65',
+      isMPT: true,
+    }
+    renderComponent(<Amount value={value} displayIssuer={false} />)
+
+    expect(screen.getByTestId('amount-localized')).toHaveTextContent(
+      '9,223,372,036,854.775807',
+    )
+  })
+
+  it('preserves MPT precision when assetScale is 0', async () => {
+    ;(useMPTIssuance as jest.Mock).mockReturnValue({
+      data: {
+        issuer: 'rL2LzUhsBJMqsaVCXVvzedPjePbjVzBCC',
+        assetScale: 0,
+        maxAmt: '9223372036854775807',
+        outstandingAmt: '9223372036854775807',
+        sequence: 1,
+        metadata: '',
+        flags: [],
+      },
+    })
+
+    const value = {
+      amount: '9223372036854775807',
+      currency: '0000098F03B3BCE934EE8CAA1DF25A42032388361B9E5A65',
+      isMPT: true,
+    }
+    renderComponent(<Amount value={value} displayIssuer={false} />)
+
+    // With scale 0 the entire 2^63 - 1 must render as a clean grouped integer
+    // with no missing low-order digits.
+    expect(screen.getByTestId('amount-localized')).toHaveTextContent(
+      '9,223,372,036,854,775,807',
     )
   })
 })

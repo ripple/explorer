@@ -35,8 +35,8 @@ const getBookOffers = async (
     let highestExchangeRate = 0
     let lowestExchangeRate = Number.MAX_VALUE
     for (const offer of offers) {
-      const takerPays = offer.TakerPays.value || offer.TakerPays
-      const takerGets = offer.TakerGets.value || offer.TakerGets
+      const takerPays = Number(offer.TakerPays.value || offer.TakerPays)
+      const takerGets = Number(offer.TakerGets.value || offer.TakerGets)
       const rate = takerPays / takerGets
       if (rate > highestExchangeRate) {
         highestExchangeRate = rate

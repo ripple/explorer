@@ -1,0 +1,75 @@
+{
+  "tx": {
+    "Account": "rUuVtbgagFKjHPTxmN639XYVHLATnB6VNk",
+    "Asset": {
+      "mpt_issuance_id": "000003C31D321B7DDA58324DC38CDF18934FAFFFCDF69D5F"
+    },
+    "Asset2": {
+      "mpt_issuance_id": "00000ABC2E631B9DFA58324DC38CDF18934FAFFFCDF69D5F"
+    },
+    "Fee": "12",
+    "Flags": 1,
+    "Holder": "r4eWC5DixP74dpk7FDzXcap1BJ2NaoUeZN",
+    "LastLedgerSequence": 254460,
+    "Sequence": 254428,
+    "SigningPubKey": "ED7FBCDEF465DF8D6D25B50EDF4B10ECB4A50C15B4A7F5EE49437DD17B5B67E39B",
+    "TransactionType": "AMMClawback",
+    "TxnSignature": "19846DD492CD9F914333DA06CE17545A8447BDC5F0191F76ABDDEFFECA2261E9A75861D66578AF83569B254D6303C475F92DB84B9C4979EE8C0F20AFAD405304",
+    "ctid": "C003E1EA00000002",
+    "date": 1739385880000
+  },
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "LedgerEntryType": "MPToken",
+          "LedgerIndex": "AABB00112233445566778899AABBCCDDEEFF00112233445566778899AABBCCDD",
+          "FinalFields": {
+            "Account": "r4eWC5DixP74dpk7FDzXcap1BJ2NaoUeZN",
+            "MPTokenIssuanceID": "000003C31D321B7DDA58324DC38CDF18934FAFFFCDF69D5F",
+            "MPTAmount": "740"
+          },
+          "PreviousFields": {
+            "MPTAmount": "1000"
+          }
+        }
+      },
+      {
+        "ModifiedNode": {
+          "LedgerEntryType": "MPToken",
+          "LedgerIndex": "CCDD00112233445566778899AABBCCDDEEFF00112233445566778899AABBCCDD",
+          "FinalFields": {
+            "Account": "r4eWC5DixP74dpk7FDzXcap1BJ2NaoUeZN",
+            "MPTokenIssuanceID": "00000ABC2E631B9DFA58324DC38CDF18934FAFFFCDF69D5F",
+            "MPTAmount": "900"
+          },
+          "PreviousFields": {
+            "MPTAmount": "1000"
+          }
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rUuVtbgagFKjHPTxmN639XYVHLATnB6VNk",
+            "Balance": "99999940",
+            "Flags": 2155872256,
+            "OwnerCount": 0,
+            "Sequence": 254429
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "49648B64B65B612D89AA414A3C352400A3B38DE891D551C7103E4C439F0270FE",
+          "PreviousFields": {
+            "Balance": "99999952",
+            "Sequence": 254428
+          }
+        }
+      }
+    ],
+    "TransactionIndex": 0,
+    "TransactionResult": "tesSUCCESS"
+  },
+  "hash": "9ADAC8C3CF9A7D162EFB93F9CFEBBFFBD8B17F3AFAE26C634E154FF1015AEFC0",
+  "ledger_index": 254442,
+  "date": 1739385880000
+}

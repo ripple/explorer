@@ -18,12 +18,14 @@ export const TableDetail = (props: any) => {
           <Currency
             currency={firstCurrency.currency}
             issuer={firstCurrency.issuer}
+            isMPT={firstCurrency.isMPT}
             shortenIssuer
           />
           /
           <Currency
             currency={secondCurrency.currency}
             issuer={secondCurrency.issuer}
+            isMPT={secondCurrency.isMPT}
             shortenIssuer
           />
         </span>

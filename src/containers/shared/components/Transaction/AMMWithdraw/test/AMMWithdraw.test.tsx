@@ -9,9 +9,21 @@ import withdrawUSDMock from './mock_data/withdraw_usd.json'
 import withdrawXRPMock from './mock_data/withdraw_xrp.json'
 import withdrawEpriceMock from './mock_data/withdraw_eprice.json'
 import withdrawAll from './mock_data/withdraw_all.json'
+import withdrawMPT from './mock_data/withdraw_mpt.json'
+import withdrawBothMPT from './mock_data/withdraw_both_mpt.json'
+import { useMPTIssuance } from '../../../../hooks/useMPTIssuance'
+
+jest.mock('../../../../hooks/useMPTIssuance', () => ({
+  ...jest.requireActual('../../../../hooks/useMPTIssuance'),
+  useMPTIssuance: jest.fn(),
+}))
 
 describe('AMM Withdraw Tests', () => {
   const renderComponent = createSimpleRenderFactory(Simple)
+
+  beforeEach(() => {
+    ;(useMPTIssuance as jest.Mock).mockReturnValue({ data: undefined })
+  })
 
   it('renders from transaction', () => {
     const { container, unmount } = renderComponent(withdrawMock)
@@ -82,6 +94,65 @@ describe('AMM Withdraw Tests', () => {
     const { container, unmount } = renderComponent(withdrawAll)
     expectSimpleRowNotToExist(container, 'asset2')
     expectSimpleRowText(container, 'asset1', '\uE9000.000005 XRP')
+    unmount()
+  })
+
+  it('renders with XRP + MPT withdraw (no ticker)', () => {
+    ;(useMPTIssuance as jest.Mock).mockReturnValue({
+      data: { assetScale: 0 },
+    })
+    const { container, unmount } = renderComponent(withdrawMPT)
+    expectSimpleRowText(container, 'asset1', '\uE900999.99998 XRP')
+    expectSimpleRowText(
+      container,
+      'asset2',
+      '5,000 000003C31D321B7DDA58324DC38CDF18934FAFFFCDF69D5F',
+    )
+    unmount()
+  })
+
+  it('renders with XRP + MPT withdraw (with ticker)', () => {
+    ;(useMPTIssuance as jest.Mock).mockReturnValue({
+      data: { assetScale: 0, parsedMPTMetadata: { ticker: 'XGLD' } },
+    })
+    const { container, unmount } = renderComponent(withdrawMPT)
+    expectSimpleRowText(container, 'asset1', '\uE900999.99998 XRP')
+    expectSimpleRowText(container, 'asset2', '5,000 XGLD')
+    unmount()
+  })
+
+  it('renders with both MPT assets withdraw (no ticker)', () => {
+    ;(useMPTIssuance as jest.Mock).mockReturnValue({
+      data: { assetScale: 0 },
+    })
+    const { container, unmount } = renderComponent(withdrawBothMPT)
+    expectSimpleRowText(
+      container,
+      'asset1',
+      '3,000 000003C31D321B7DDA58324DC38CDF18934FAFFFCDF69D5F',
+    )
+    expectSimpleRowText(
+      container,
+      'asset2',
+      '1,500 00000ABC2E631B9DFA58324DC38CDF18934FAFFFCDF69D5F',
+    )
+    unmount()
+  })
+
+  it('renders with both MPT assets withdraw (with ticker)', () => {
+    ;(useMPTIssuance as jest.Mock).mockImplementation((mptID: string) => {
+      if (mptID === '000003C31D321B7DDA58324DC38CDF18934FAFFFCDF69D5F') {
+        return {
+          data: { assetScale: 0, parsedMPTMetadata: { ticker: 'XGLD' } },
+        }
+      }
+      return {
+        data: { assetScale: 0, parsedMPTMetadata: { ticker: 'XUSD' } },
+      }
+    })
+    const { container, unmount } = renderComponent(withdrawBothMPT)
+    expectSimpleRowText(container, 'asset1', '3,000 XGLD')
+    expectSimpleRowText(container, 'asset2', '1,500 XUSD')
     unmount()
   })
 })

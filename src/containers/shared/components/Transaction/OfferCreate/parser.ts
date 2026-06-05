@@ -1,11 +1,14 @@
 import { CURRENCY_ORDER } from '../../../transactionUtils'
-import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'
+import {
+  formatAmount,
+  formatAsset,
+} from '../../../../../rippled/lib/txSummary/formatAmount'
 
 export function parser(tx: any) {
   const gets = formatAmount(tx.TakerGets)
-  const base = tx.TakerGets.currency ? tx.TakerGets : { currency: 'XRP' }
-  const counter = tx.TakerPays.currency ? tx.TakerPays : { currency: 'XRP' }
   const pays = formatAmount(tx.TakerPays)
+  const base = formatAsset(tx.TakerGets)
+  const counter = formatAsset(tx.TakerPays)
   const price = Number(pays.amount) / Number(gets.amount)
   const invert =
     CURRENCY_ORDER.indexOf(counter.currency) >

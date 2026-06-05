@@ -8,10 +8,21 @@ import mockPaymentSendMax from './mock_data/PaymentWithSendMax.json'
 import mockPaymentSourceTag from './mock_data/PaymentWithSourceTag.json'
 import mockPermDomainID from './mock_data/PaymentWithPermDomainID.json'
 import mockPaymentCredentialIDs from './mock_data/PaymentWithCredentialIDs.json'
+import mockPaymentMPT from './mock_data/PaymentMPT.json'
+import { useMPTIssuance } from '../../../../hooks/useMPTIssuance'
+
+jest.mock('../../../../hooks/useMPTIssuance', () => ({
+  ...jest.requireActual('../../../../hooks/useMPTIssuance'),
+  useMPTIssuance: jest.fn(),
+}))
 
 const renderComponent = createTableDetailRenderFactory(TableDetail)
 
 describe('Payment: TableDetail', () => {
+  beforeEach(() => {
+    ;(useMPTIssuance as jest.Mock).mockReturnValue({ data: undefined })
+  })
+
   it('renders', () => {
     const { container, unmount } = renderComponent(mockPayment)
 
@@ -101,6 +112,30 @@ describe('Payment: TableDetail', () => {
       '8B685088D546B9E8905D26206F452BB2F44D9A33C9BD9BCF280F7BA39015A956',
     )
 
+    unmount()
+  })
+
+  it('renders direct MPT payment (no ticker - displays mpt_issuance_id)', () => {
+    ;(useMPTIssuance as jest.Mock).mockReturnValue({
+      data: { assetScale: 3 },
+    })
+    const { container, unmount } = renderComponent(mockPaymentMPT)
+
+    expect(container.querySelector('.payment')).toHaveTextContent(
+      'send0.1 000003C31D321B7DDA58324DC38CDF18934FAFFFCDF69D5Ftorw6UtpfBFaGht6SiC1HpDPNw6Yt25pKvnu',
+    )
+    unmount()
+  })
+
+  it('renders direct MPT payment (with ticker - displays ticker symbol)', () => {
+    ;(useMPTIssuance as jest.Mock).mockReturnValue({
+      data: { assetScale: 3, parsedMPTMetadata: { ticker: 'XMPT' } },
+    })
+    const { container, unmount } = renderComponent(mockPaymentMPT)
+
+    expect(container.querySelector('.payment')).toHaveTextContent(
+      'send0.1 XMPTtorw6UtpfBFaGht6SiC1HpDPNw6Yt25pKvnu',
+    )
     unmount()
   })
 })

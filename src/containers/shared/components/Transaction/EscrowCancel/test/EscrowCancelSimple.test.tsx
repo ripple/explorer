@@ -1,20 +1,24 @@
-import { useQuery } from 'react-query'
 import { createSimpleRenderFactory } from '../../test/createWrapperFactory'
 import { Simple } from '../Simple'
 import mockEscrowCancel from './mock_data/EscrowCancel.json'
+import { useMPTIssuance } from '../../../../hooks/useMPTIssuance'
+
+jest.mock('../../../../hooks/useMPTIssuance', () => ({
+  ...jest.requireActual('../../../../hooks/useMPTIssuance'),
+  useMPTIssuance: jest.fn(),
+}))
 
 const renderComponent = createSimpleRenderFactory(Simple)
-
-jest.mock('react-query', () => ({
-  ...jest.requireActual('react-query'),
-  useQuery: jest.fn(),
-}))
 
 function getTestByName(name: string) {
   return mockEscrowCancel[name]
 }
 
 describe('EscrowCancelSimple', () => {
+  beforeEach(() => {
+    ;(useMPTIssuance as jest.Mock).mockReturnValue({ data: undefined })
+  })
+
   it('renders with an expiration and offer', () => {
     const { container, unmount } = renderComponent(
       getTestByName('EscrowCancel having XRP escrowed'),
@@ -59,10 +63,9 @@ describe('EscrowCancelSimple', () => {
       assetScale: 4,
     }
 
-    // @ts-ignore
-    useQuery.mockImplementation(() => ({
+    ;(useMPTIssuance as jest.Mock).mockReturnValue({
       data,
-    }))
+    })
 
     const { container, unmount } = renderComponent(
       getTestByName('EscrowCancel having MPT escrowed'),

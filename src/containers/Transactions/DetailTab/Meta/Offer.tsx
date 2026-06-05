@@ -8,10 +8,52 @@ import {
 import { localizeNumber } from '../../../shared/utils'
 import { Account } from '../../../shared/components/Account'
 import Currency from '../../../shared/components/Currency'
+import type { Amount } from '../../../shared/types'
 import type { MetaRenderFunctionWithTx, MetaNode } from './types'
 
-const normalize = (value: number | string, currency: string): string =>
-  currency === 'XRP' ? (Number(value) / XRP_BASE).toString() : String(value)
+const isMPTOrIOUAmount = (
+  takerAmount: Amount | undefined,
+): takerAmount is Exclude<Amount, string> =>
+  typeof takerAmount === 'object' && takerAmount !== null
+
+const getCurrency = (takerAmount: Amount | undefined): string => {
+  if (!isMPTOrIOUAmount(takerAmount)) return 'XRP'
+  if ('mpt_issuance_id' in takerAmount) return takerAmount.mpt_issuance_id
+  return takerAmount.currency || 'XRP'
+}
+
+const getIsMPT = (takerAmount: Amount | undefined): boolean =>
+  isMPTOrIOUAmount(takerAmount) && 'mpt_issuance_id' in takerAmount
+
+const getIssuer = (takerAmount: Amount | undefined): string | undefined => {
+  if (!isMPTOrIOUAmount(takerAmount)) return undefined
+  if ('mpt_issuance_id' in takerAmount) return undefined
+  return takerAmount.issuer
+}
+
+const normalize = (
+  value: number | string,
+  currency: string,
+  isMPT: boolean = false,
+): string => {
+  if (isMPT) return String(value)
+  return currency === 'XRP'
+    ? (Number(value) / XRP_BASE).toString()
+    : String(value)
+}
+
+// MPTAmount can be up to 2^63 - 1, beyond Number.MAX_SAFE_INTEGER,
+// so subtract with BigInt to preserve precision.
+const computeChange = (
+  prevValue: number | string | undefined,
+  finalValue: number | string | undefined,
+  isMPT: boolean,
+): number | string => {
+  if (isMPT && prevValue != null && finalValue != null) {
+    return (BigInt(prevValue) - BigInt(finalValue)).toString()
+  }
+  return Number(prevValue) - Number(finalValue)
+}
 
 const renderChanges = (
   _t: any,
@@ -22,14 +64,24 @@ const renderChanges = (
   const meta: JSX.Element[] = []
   const final = node.FinalFields
   const prev = node?.PreviousFields
-  const paysCurrency = final.TakerPays.currency || 'XRP'
-  const getsCurrency = final.TakerGets.currency || 'XRP'
+  const paysCurrency = getCurrency(final.TakerPays)
+  const getsCurrency = getCurrency(final.TakerGets)
+  const paysIsMPT = getIsMPT(final.TakerPays)
+  const getsIsMPT = getIsMPT(final.TakerGets)
   const finalPays = final.TakerPays.value || final.TakerPays
   const finalGets = final.TakerGets.value || final.TakerGets
   const prevPays = prev?.TakerPays?.value || prev?.TakerPays
   const prevGets = prev?.TakerGets?.value || prev?.TakerGets
-  const changePays = normalize(prevPays - finalPays, paysCurrency)
-  const changeGets = normalize(prevGets - finalGets, getsCurrency)
+  const changePays = normalize(
+    computeChange(prevPays, finalPays, paysIsMPT),
+    paysCurrency,
+    paysIsMPT,
+  )
+  const changeGets = normalize(
+    computeChange(prevGets, finalGets, getsIsMPT),
+    getsCurrency,
+    getsIsMPT,
+  )
 
   if (prevPays && finalPays) {
     const options = { ...CURRENCY_OPTIONS, currency: paysCurrency }
@@ -39,7 +91,8 @@ const renderChanges = (
         <b>
           <Currency
             currency={paysCurrency}
-            issuer={final.TakerPays.issuer}
+            issuer={getIssuer(final.TakerPays)}
+            isMPT={paysIsMPT}
             displaySymbol={false}
           />
         </b>{' '}
@@ -48,7 +101,12 @@ const renderChanges = (
           <b>
             {
               {
-                change: localizeNumber(changePays, language, options),
+                change: localizeNumber(
+                  changePays,
+                  language,
+                  options,
+                  paysIsMPT,
+                ),
               } as any
             }
           </b>
@@ -57,9 +115,10 @@ const renderChanges = (
             {
               {
                 previous: localizeNumber(
-                  normalize(prevPays, paysCurrency),
+                  normalize(prevPays, paysCurrency, paysIsMPT),
                   language,
                   options,
+                  paysIsMPT,
                 ),
               } as any
             }
@@ -69,9 +128,10 @@ const renderChanges = (
             {
               {
                 final: localizeNumber(
-                  normalize(finalPays, paysCurrency),
+                  normalize(finalPays, paysCurrency, paysIsMPT),
                   language,
                   options,
+                  paysIsMPT,
                 ),
               } as any
             }
@@ -88,7 +148,8 @@ const renderChanges = (
         <b>
           <Currency
             currency={getsCurrency}
-            issuer={final.TakerGets.issuer}
+            issuer={getIssuer(final.TakerGets)}
+            isMPT={getsIsMPT}
             displaySymbol={false}
           />
         </b>{' '}
@@ -97,7 +158,12 @@ const renderChanges = (
           <b>
             {
               {
-                change: localizeNumber(changeGets, language, options),
+                change: localizeNumber(
+                  changeGets,
+                  language,
+                  options,
+                  getsIsMPT,
+                ),
               } as any
             }
           </b>
@@ -106,9 +172,10 @@ const renderChanges = (
             {
               {
                 previous: localizeNumber(
-                  normalize(prevGets, getsCurrency),
+                  normalize(prevGets, getsCurrency, getsIsMPT),
                   language,
                   options,
+                  getsIsMPT,
                 ),
               } as any
             }
@@ -118,9 +185,10 @@ const renderChanges = (
             {
               {
                 final: localizeNumber(
-                  normalize(finalGets, getsCurrency),
+                  normalize(finalGets, getsCurrency, getsIsMPT),
                   language,
                   options,
+                  getsIsMPT,
                 ),
               } as any
             }
@@ -143,11 +211,14 @@ const render: MetaRenderFunctionWithTx = (
 ) => {
   const lines: JSX.Element[] = []
   const fields = node.FinalFields || node.NewFields
-  const paysCurrency = fields.TakerPays.currency || 'XRP'
-  const getsCurrency = fields.TakerGets.currency || 'XRP'
+  const paysCurrency = getCurrency(fields.TakerPays)
+  const getsCurrency = getCurrency(fields.TakerGets)
+  const paysIsMPT = getIsMPT(fields.TakerPays)
+  const getsIsMPT = getIsMPT(fields.TakerGets)
   const takerPaysValue = normalize(
     fields.TakerPays.value || fields.TakerPays,
     paysCurrency,
+    paysIsMPT,
   )
   const invert =
     CURRENCY_ORDER.indexOf(getsCurrency) > CURRENCY_ORDER.indexOf(paysCurrency)
@@ -214,16 +285,22 @@ const render: MetaRenderFunctionWithTx = (
         components={{
           Currency: (
             <Currency
-              currency={(invert ? getsCurrency : paysCurrency) || 'XRP'}
-              issuer={invert ? tx.TakerGets?.issuer : tx.TakerPays?.issuer}
+              currency={invert ? getsCurrency : paysCurrency}
+              issuer={
+                invert ? getIssuer(tx.TakerGets) : getIssuer(tx.TakerPays)
+              }
+              isMPT={invert ? getsIsMPT : paysIsMPT}
               displaySymbol={false}
               shortenIssuer
             />
           ),
           Currency2: (
             <Currency
-              currency={(invert ? paysCurrency : getsCurrency) || 'XRP'}
-              issuer={invert ? tx.TakerPays?.issuer : tx.TakerGets?.issuer}
+              currency={invert ? paysCurrency : getsCurrency}
+              issuer={
+                invert ? getIssuer(tx.TakerPays) : getIssuer(tx.TakerGets)
+              }
+              isMPT={invert ? paysIsMPT : getsIsMPT}
               displaySymbol={false}
               shortenIssuer
             />
