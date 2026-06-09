@@ -46,11 +46,14 @@ export interface FormattedMPTIssuance {
   assetScale?: number
   maxAmt?: string
   outstandingAmt?: string
+  confidentialOutstandingAmt?: string
   flags?: string[]
   transferFee?: number
   rawMPTMetadata?: string
   parsedMPTMetadata?: Record<string, unknown>
   isMPTMetadataCompliant: boolean
+  issuerEncryptionKey?: string
+  auditorEncryptionKey?: string
 }
 
 export interface ErrorMessage {
