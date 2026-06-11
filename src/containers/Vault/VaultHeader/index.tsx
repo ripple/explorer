@@ -15,6 +15,7 @@ import {
   shortenAccount,
   getCurrencySymbol,
   isCurrencyExoticSymbol,
+  convertScaledPrice,
 } from '../../shared/utils'
 import './styles.scss'
 import { useAnalytics } from '../../shared/analytics'
@@ -47,6 +48,7 @@ interface Props {
   data: VaultData
   vaultId: string
   displayCurrency: string
+  assetScale?: number
 }
 
 // Vault flags from XLS-65d spec
@@ -59,7 +61,12 @@ const WITHDRAWAL_POLICIES: { [key: number]: string } = {
   1: 'first_come_first_served',
 }
 
-export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
+export const VaultHeader = ({
+  data,
+  vaultId,
+  displayCurrency,
+  assetScale,
+}: Props) => {
   const { t } = useTranslation()
   const { trackException } = useAnalytics()
   const rippledSocket = useContext(SocketContext)
@@ -86,10 +93,19 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
   const convertToDisplayCurrency = (
     amount: string | undefined,
   ): string | undefined => {
-    if (!amount || displayCurrency !== 'USD') return amount
+    if (!amount) return amount
 
-    const numAmount = Number(amount)
-    if (Number.isNaN(numAmount)) return amount
+    let normalized = amount
+    if (asset?.currency === 'XRP') {
+      normalized = convertScaledPrice(BigInt(amount), 6)
+    } else if (asset?.mpt_issuance_id) {
+      normalized = convertScaledPrice(BigInt(amount), assetScale ?? 0)
+    }
+
+    if (displayCurrency !== 'USD') return normalized
+
+    const numAmount = Number(normalized)
+    if (Number.isNaN(numAmount)) return normalized
 
     return tokenToUsdRate > 0 ? String(numAmount * tokenToUsdRate) : undefined
   }
@@ -300,7 +316,7 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
                   ) {
                     return '--'
                   }
-                  const amount = convertedAmount ?? assetsTotal
+                  const amount = convertedAmount ?? '0'
                   if (amount === undefined) return '--'
                   if (
                     ['0', '0.00', '0.0000'].includes(
@@ -334,7 +350,15 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
                 value={(() => {
                   if (assetsMaximum === undefined) return t('no_limit')
 
-                  const parsedAmt = parseAmount(assetsMaximum, 2)
+                  const convertedAmount =
+                    convertToDisplayCurrency(assetsMaximum)
+                  if (
+                    convertedAmount === undefined &&
+                    displayCurrency === 'USD'
+                  ) {
+                    return '--'
+                  }
+                  const parsedAmt = parseAmount(convertedAmount ?? '0', 2)
                   if (['0', '0.00', '0.0000'].includes(parsedAmt)) return '--'
 
                   const displayedCurrency: string = getDisplayCurrencyLabel()
@@ -353,7 +377,15 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
               <TokenTableRow
                 label={t('available_to_borrow')}
                 value={(() => {
-                  const parsedAmt = parseAmount(assetsAvailable ?? '0', 2)
+                  const convertedAmount =
+                    convertToDisplayCurrency(assetsAvailable)
+                  if (
+                    convertedAmount === undefined &&
+                    displayCurrency === 'USD'
+                  ) {
+                    return '--'
+                  }
+                  const parsedAmt = parseAmount(convertedAmount ?? '0', 2)
                   if (['0', '0.00', '0.0000'].includes(parsedAmt)) return '--'
 
                   const displayedCurrency: string = getDisplayCurrencyLabel()
@@ -368,7 +400,15 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
               <TokenTableRow
                 label={t('unrealized_loss')}
                 value={(() => {
-                  const parsedAmt = parseAmount(lossUnrealized ?? '0', 2)
+                  const convertedAmount =
+                    convertToDisplayCurrency(lossUnrealized)
+                  if (
+                    convertedAmount === undefined &&
+                    displayCurrency === 'USD'
+                  ) {
+                    return '--'
+                  }
+                  const parsedAmt = parseAmount(convertedAmount ?? '0', 2)
                   if (['0', '0.00', '0.0000'].includes(parsedAmt)) return '--'
 
                   const displayedCurrency: string = getDisplayCurrencyLabel()
