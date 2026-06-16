@@ -51,6 +51,8 @@ interface Props {
   assetScale?: number
 }
 
+const DEFAULT_EMPTY_VALUE = '--'
+
 // Vault flags from XLS-65d spec
 const VAULT_FLAGS = {
   lsfVaultPrivate: 0x00010000,
@@ -314,16 +316,16 @@ export const VaultHeader = ({
                     convertedAmount === undefined &&
                     displayCurrency === 'USD'
                   ) {
-                    return '--'
+                    return DEFAULT_EMPTY_VALUE
                   }
                   const amount = convertedAmount ?? '0'
-                  if (amount === undefined) return '--'
+                  if (amount === undefined) return DEFAULT_EMPTY_VALUE
                   if (
                     ['0', '0.00', '0.0000'].includes(
                       parseAmount(amount ?? '0', 2),
                     )
                   )
-                    return '--'
+                    return DEFAULT_EMPTY_VALUE
                   // Note: As per the NumberFormat policy, prices in the range of [10_000, 1M] do not display decimal values
                   // Very large prices (greater than 1M must have two decimal places)
                   const displayedCurrency: string = getDisplayCurrencyLabel()
@@ -356,10 +358,11 @@ export const VaultHeader = ({
                     convertedAmount === undefined &&
                     displayCurrency === 'USD'
                   ) {
-                    return '--'
+                    return DEFAULT_EMPTY_VALUE
                   }
                   const parsedAmt = parseAmount(convertedAmount ?? '0', 2)
-                  if (['0', '0.00', '0.0000'].includes(parsedAmt)) return '--'
+                  if (['0', '0.00', '0.0000'].includes(parsedAmt))
+                    return DEFAULT_EMPTY_VALUE
 
                   const displayedCurrency: string = getDisplayCurrencyLabel()
                   if (
@@ -383,10 +386,11 @@ export const VaultHeader = ({
                     convertedAmount === undefined &&
                     displayCurrency === 'USD'
                   ) {
-                    return '--'
+                    return DEFAULT_EMPTY_VALUE
                   }
                   const parsedAmt = parseAmount(convertedAmount ?? '0', 2)
-                  if (['0', '0.00', '0.0000'].includes(parsedAmt)) return '--'
+                  if (['0', '0.00', '0.0000'].includes(parsedAmt))
+                    return DEFAULT_EMPTY_VALUE
 
                   const displayedCurrency: string = getDisplayCurrencyLabel()
                   if (
@@ -406,10 +410,11 @@ export const VaultHeader = ({
                     convertedAmount === undefined &&
                     displayCurrency === 'USD'
                   ) {
-                    return '--'
+                    return DEFAULT_EMPTY_VALUE
                   }
                   const parsedAmt = parseAmount(convertedAmount ?? '0', 2)
-                  if (['0', '0.00', '0.0000'].includes(parsedAmt)) return '--'
+                  if (['0', '0.00', '0.0000'].includes(parsedAmt))
+                    return DEFAULT_EMPTY_VALUE
 
                   const displayedCurrency: string = getDisplayCurrencyLabel()
                   if (
