@@ -12,6 +12,7 @@ import {
   aggregateData,
   aggregateNodes,
   aggregateValidators,
+  handleNodeVersion,
 } from '../UpgradeStatus'
 import { UPGRADE_STATUS_ROUTE } from '../../App/routes'
 
@@ -76,6 +77,38 @@ const nodesData = [
     timezone: 'America/Los_Angeles',
   },
 ]
+
+describe('handleNodeVersion', () => {
+  it('strips the rippled- prefix', () => {
+    expect(handleNodeVersion('rippled-3.1.3')).toEqual('3.1.3')
+  })
+
+  it('strips the xrpld- prefix', () => {
+    expect(handleNodeVersion('xrpld-3.2.0')).toEqual('3.2.0')
+  })
+
+  it('preserves the release suffix', () => {
+    expect(handleNodeVersion('xrpld-3.2.0-b7')).toEqual('3.2.0-b7')
+    expect(handleNodeVersion('rippled-1.9.4-b1')).toEqual('1.9.4-b1')
+  })
+
+  it('strips the build hash after +', () => {
+    expect(
+      handleNodeVersion(
+        'xrpld-3.3.0-b0+9af4fb521e169c056f9eff16779195b7146e8f92.DEBUG',
+      ),
+    ).toEqual('3.3.0-b0')
+    expect(
+      handleNodeVersion(
+        'rippled-1.9.4+ba3c0e51455a88d76d90b996f20c0f102ac3f5a0.DEBUG',
+      ),
+    ).toEqual('1.9.4')
+  })
+
+  it('leaves an already-clean version untouched', () => {
+    expect(handleNodeVersion('3.2.0')).toEqual('3.2.0')
+  })
+})
 
 describe('UpgradeStatus test functions', () => {
   it('aggregate data works with validators without keys', () => {
