@@ -944,5 +944,7 @@
   "registered": "Registered",
   "included": "Included",
   "maintenance_banner.notice": "Scheduled maintenance: {{window}} (~{{duration}} min downtime).",
-  "maintenance_banner.countdown_prefix": "Starts in"
+  "maintenance_banner.countdown_prefix": "Starts in",
+  "mutable": "Mutable",
+  "mutable_flags": "Mutable Flags"
 }

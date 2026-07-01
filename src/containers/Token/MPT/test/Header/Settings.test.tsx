@@ -7,7 +7,7 @@ describe('Settings component', () => {
   const renderComponent = (props: any = {}) =>
     render(
       <I18nextProvider i18n={i18n}>
-        <Settings flags={props.flags} />
+        <Settings flags={props.flags} mutableFlags={props.mutableFlags} />
       </I18nextProvider>,
     )
 
@@ -100,5 +100,29 @@ describe('Settings component', () => {
   it('handles undefined flags', () => {
     const { container } = renderComponent({ flags: undefined })
     expect(container.querySelectorAll('.flag-status.disabled')).toHaveLength(8)
+  })
+
+  it('does not render mutable badges when no mutable flags are set', () => {
+    const { queryAllByTestId } = renderComponent({ flags: [] })
+    expect(queryAllByTestId('mutable-badge')).toHaveLength(0)
+  })
+
+  it('marks a capability flag as mutable', () => {
+    const { container, getAllByTestId } = renderComponent({
+      flags: ['lsfMPTCanLock'],
+      mutableFlags: ['lsmfMPTCanEnableCanLock'],
+    })
+    expect(getAllByTestId('mutable-badge')).toHaveLength(1)
+    expect(container.querySelectorAll('.flag-status.mutable')).toHaveLength(1)
+  })
+
+  it('renders extra rows for mutable metadata and transfer fee', () => {
+    const { container, getAllByTestId } = renderComponent({
+      flags: [],
+      mutableFlags: ['lsmfMPTCanMutateMetadata', 'lsmfMPTCanMutateTransferFee'],
+    })
+    // 8 capability rows + metadata + transfer fee
+    expect(container.querySelectorAll('.header-box-item')).toHaveLength(10)
+    expect(getAllByTestId('mutable-badge')).toHaveLength(2)
   })
 })

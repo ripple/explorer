@@ -119,6 +119,37 @@ export const TX_FLAGS: Record<string, Record<number, string>> = {
   },
 }
 
+// Dynamic MPT (XLS-94) MutableFlags fields. These are separate UInt32 fields
+// from the standard `Flags` field, so they are decoded with their own maps.
+// Values mirror rippled's tmfMPT* definitions in TxFlags.h.
+
+// MPTokenIssuanceCreate.MutableFlags: declares which fields/flags may be
+// modified after creation. Boolean capabilities use the "CanEnable" form
+// (they may only be turned on later); Metadata/TransferFee use "CanMutate".
+export const MPT_CREATE_MUTABLE_FLAGS: Record<number, string> = {
+  0x00000002: 'tmfMPTCanEnableCanLock',
+  0x00000004: 'tmfMPTCanEnableRequireAuth',
+  0x00000008: 'tmfMPTCanEnableCanEscrow',
+  0x00000010: 'tmfMPTCanEnableCanTrade',
+  0x00000020: 'tmfMPTCanEnableCanTransfer',
+  0x00000040: 'tmfMPTCanEnableCanClawback',
+  0x00000080: 'tmfMPTCannotEnableCanHoldConfidentialBalance',
+  0x00010000: 'tmfMPTCanMutateMetadata',
+  0x00020000: 'tmfMPTCanMutateTransferFee',
+}
+
+// MPTokenIssuanceSet.MutableFlags: enables a previously-declared mutable
+// capability flag. Single "Set" bit per capability (no clear operation).
+export const MPT_SET_MUTABLE_FLAGS: Record<number, string> = {
+  0x00000001: 'tmfMPTSetCanLock',
+  0x00000002: 'tmfMPTSetRequireAuth',
+  0x00000004: 'tmfMPTSetCanEscrow',
+  0x00000008: 'tmfMPTSetCanTrade',
+  0x00000010: 'tmfMPTSetCanTransfer',
+  0x00000020: 'tmfMPTSetCanClawback',
+  0x00000040: 'tmfMPTSetCanHoldConfidentialBalance',
+}
+
 export const ACCOUNT_FLAGS: Record<number, string> = {
   17: 'asfAllowTrustLineLocking',
   16: 'asfAllowTrustLineClawback',

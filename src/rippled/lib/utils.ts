@@ -47,6 +47,20 @@ const MPT_ISSUANCE_FLAGS: FlagMap = {
   0x00000040: 'lsfMPTCanClawback',
   0x00000080: 'lsfMPTCanConfidentialAmount',
 }
+// MutableFlags on the MPTokenIssuance ledger object (Dynamic MPT, XLS-94).
+// Declares which fields/flags the issuer may modify after creation.
+// Values mirror rippled's lsmfMPT* definitions in LedgerFormats.h.
+const MPT_ISSUANCE_MUTABLE_FLAGS: FlagMap = {
+  0x00000002: 'lsmfMPTCanEnableCanLock',
+  0x00000004: 'lsmfMPTCanEnableRequireAuth',
+  0x00000008: 'lsmfMPTCanEnableCanEscrow',
+  0x00000010: 'lsmfMPTCanEnableCanTrade',
+  0x00000020: 'lsmfMPTCanEnableCanTransfer',
+  0x00000040: 'lsmfMPTCanEnableCanClawback',
+  0x00000080: 'lsmfMPTCannotEnableCanHoldConfidentialBalance',
+  0x00010000: 'lsmfMPTCanMutateMetadata',
+  0x00020000: 'lsmfMPTCanMutateTransferFee',
+}
 const MPTOKEN_FLAGS: FlagMap = {
   0x00000001: 'lsfMPTLocked',
   0x00000002: 'lsfMPTAuthorized',
@@ -267,6 +281,7 @@ interface MPTIssuanceInfo {
   Sequence: number
   MPTokenMetadata?: string
   Flags: number
+  MutableFlags?: number
   IssuerEncryptionKey?: string
   AuditorEncryptionKey?: string
 }
@@ -281,6 +296,7 @@ interface FormattedMPTIssuance {
   sequence: number
   metadata?: any
   flags: string[]
+  mutableFlags: string[]
   rawMPTMetadata?: string
   parsedMPTMetadata?: Record<string, unknown>
   isMPTMetadataCompliant: boolean
@@ -312,6 +328,7 @@ const formatMPTIssuance = (info: MPTIssuanceInfo): FormattedMPTIssuance => {
     parsedMPTMetadata: parseMPTMetadata(rawMPTMetadataHex),
     isMPTMetadataCompliant: isMPTMetadataCompliant(rawMPTMetadataHex),
     flags: buildFlags(info.Flags, MPT_ISSUANCE_FLAGS),
+    mutableFlags: buildFlags(info.MutableFlags, MPT_ISSUANCE_MUTABLE_FLAGS),
     issuerEncryptionKey: info.IssuerEncryptionKey,
     auditorEncryptionKey: info.AuditorEncryptionKey,
   }

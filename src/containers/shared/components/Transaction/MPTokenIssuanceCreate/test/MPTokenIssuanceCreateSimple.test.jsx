@@ -1,7 +1,8 @@
 import { createSimpleRenderFactory } from '../../test/createWrapperFactory'
 import { Simple } from '../Simple'
-import { expectSimpleRowText } from '../../test'
+import { expectSimpleRowText, expectSimpleRowNotToExist } from '../../test'
 import transactionSuccess from './mock_data/MPTokenIssuanceCreate.json'
+import transactionDynamic from './mock_data/MPTokenIssuanceCreate_Dynamic.json'
 
 const renderComponent = createSimpleRenderFactory(Simple)
 
@@ -22,6 +23,20 @@ describe('MPTokenIssuanceCreate', () => {
       'https://ipfs.io/ipfs/QmZnjmB9Tk4xaA9E679ytrPXda3beWMLUnMB5RFj1eStLp',
     )
     expectSimpleRowText(container, 'mpt-fee', '0.010%')
+    expectSimpleRowNotToExist(container, 'mpt-mutable-flags')
+    unmount()
+  })
+
+  it('handles Dynamic MPT MPTokenIssuanceCreate simple view', () => {
+    const { container, unmount } = renderComponent(transactionDynamic)
+
+    // MutableFlags 196610 = tmfMPTCanEnableCanLock (0x2) +
+    // tmfMPTCanMutateMetadata (0x10000) + tmfMPTCanMutateTransferFee (0x20000)
+    expectSimpleRowText(
+      container,
+      'mpt-mutable-flags',
+      'tmfMPTCanMutateTransferFee, tmfMPTCanMutateMetadata, tmfMPTCanEnableCanLock',
+    )
     unmount()
   })
 })

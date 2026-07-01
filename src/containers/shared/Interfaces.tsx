@@ -48,6 +48,7 @@ export interface FormattedMPTIssuance {
   outstandingAmt?: string
   confidentialOutstandingAmt?: string
   flags?: string[]
+  mutableFlags?: string[]
   transferFee?: number
   rawMPTMetadata?: string
   parsedMPTMetadata?: Record<string, unknown>

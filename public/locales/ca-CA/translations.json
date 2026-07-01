@@ -943,5 +943,7 @@
   "registered": null,
   "included": null,
   "maintenance_banner.notice": null,
-  "maintenance_banner.countdown_prefix": null
+  "maintenance_banner.countdown_prefix": null,
+  "mutable": null,
+  "mutable_flags": null
 }

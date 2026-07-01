@@ -136,6 +136,12 @@
       align-items: center;
     }
 
+    .flag-status-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
     .flag-status {
       min-width: 85px;
       padding: 4px 10px;
@@ -155,6 +161,13 @@
       &.disabled {
         background: $black-50;
         color: $black-0;
+      }
+
+      &.mutable {
+        min-width: 0;
+        border: 1px solid $green-50;
+        background: transparent;
+        color: $green-50;
       }
     }
   }
