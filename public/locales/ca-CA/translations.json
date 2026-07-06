@@ -945,5 +945,7 @@
   "maintenance_banner.notice": null,
   "maintenance_banner.countdown_prefix": null,
   "mutable": null,
-  "mutable_flags": null
+  "mutable_flags": null,
+  "mutable_flag_tooltip": null,
+  "mutable_field_tooltip": null
 }

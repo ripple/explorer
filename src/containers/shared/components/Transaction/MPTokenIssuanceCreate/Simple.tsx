@@ -71,8 +71,14 @@ export const Simple: TransactionSimpleComponent = ({
         </SimpleRow>
       )}
       {mutableFlags && mutableFlags.length > 0 && (
-        <SimpleRow label={t('mutable_flags')} data-testid="mpt-mutable-flags">
-          {mutableFlags.join(', ')}
+        <SimpleRow
+          label={t('mutable_flags')}
+          className="flag"
+          data-testid="mpt-mutable-flags"
+        >
+          {mutableFlags.map((flag) => (
+            <div key={flag}>{flag}</div>
+          ))}
         </SimpleRow>
       )}
     </>

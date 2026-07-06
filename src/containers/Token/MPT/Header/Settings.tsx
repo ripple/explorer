@@ -95,10 +95,13 @@ export const Settings = ({
           <div className="header-box-item" key={flag.key}>
             <div className="item-name">{flag.label}</div>
             <div className="flag-status-group">
-              {isMutable(flag.mutableFlag) && (
+              {/* Capabilities are one-directional (can only be enabled later),
+                  so only surface the pill while the flag is still disabled. */}
+              {isMutable(flag.mutableFlag) && !flag.enabled && (
                 <div
                   className="flag-status mutable"
                   data-testid="mutable-badge"
+                  title={t('mutable_flag_tooltip')}
                 >
                   {t('mutable')}
                 </div>
@@ -117,7 +120,11 @@ export const Settings = ({
           <div className="header-box-item" key={field.key}>
             <div className="item-name">{field.label}</div>
             <div className="flag-status-group">
-              <div className="flag-status mutable" data-testid="mutable-badge">
+              <div
+                className="flag-status mutable"
+                data-testid="mutable-badge"
+                title={t('mutable_field_tooltip')}
+              >
                 {t('mutable')}
               </div>
             </div>

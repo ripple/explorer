@@ -35,7 +35,17 @@ describe('MPTokenIssuanceCreate', () => {
     expectSimpleRowText(
       container,
       'mpt-mutable-flags',
-      'tmfMPTCanMutateTransferFee, tmfMPTCanMutateMetadata, tmfMPTCanEnableCanLock',
+      'tmfMPTCanEnableCanLock',
+    )
+    expectSimpleRowText(
+      container,
+      'mpt-mutable-flags',
+      'tmfMPTCanMutateMetadata',
+    )
+    expectSimpleRowText(
+      container,
+      'mpt-mutable-flags',
+      'tmfMPTCanMutateTransferFee',
     )
     unmount()
   })

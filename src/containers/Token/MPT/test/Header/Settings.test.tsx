@@ -107,13 +107,23 @@ describe('Settings component', () => {
     expect(queryAllByTestId('mutable-badge')).toHaveLength(0)
   })
 
-  it('marks a capability flag as mutable', () => {
+  it('marks a disabled capability flag as mutable', () => {
     const { container, getAllByTestId } = renderComponent({
-      flags: ['lsfMPTCanLock'],
+      flags: [],
       mutableFlags: ['lsmfMPTCanEnableCanLock'],
     })
     expect(getAllByTestId('mutable-badge')).toHaveLength(1)
     expect(container.querySelectorAll('.flag-status.mutable')).toHaveLength(1)
+  })
+
+  it('hides the mutable badge once a capability is enabled', () => {
+    // Capabilities are one-directional (enable-only), so a mutable badge on an
+    // already-enabled flag would be misleading.
+    const { queryAllByTestId } = renderComponent({
+      flags: ['lsfMPTCanLock'],
+      mutableFlags: ['lsmfMPTCanEnableCanLock'],
+    })
+    expect(queryAllByTestId('mutable-badge')).toHaveLength(0)
   })
 
   it('renders extra rows for mutable metadata and transfer fee', () => {

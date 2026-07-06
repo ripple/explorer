@@ -80,8 +80,14 @@ export const Simple: TransactionSimpleComponent = ({
         </SimpleRow>
       )}
       {flagChanges.length > 0 && (
-        <SimpleRow label={t('mutable_flags')} data-testid="mpt-mutable-flags">
-          {flagChanges.join(', ')}
+        <SimpleRow
+          label={t('mutable_flags')}
+          className="flag"
+          data-testid="mpt-mutable-flags"
+        >
+          {flagChanges.map((flag) => (
+            <div key={flag}>{flag}</div>
+          ))}
         </SimpleRow>
       )}
       {IssuerEncryptionKey && (
