@@ -106,6 +106,16 @@
   min-width: 980px;
   border-collapse: separate;
   color: var(--text);
+
+  .hover {
+    position: relative;
+    top: -1px;
+    width: 14px;
+    height: 14px;
+    margin-left: 4px;
+    cursor: default;
+    vertical-align: middle;
+  }
 }
 
 .account-asset-table thead th {
@@ -124,6 +134,10 @@
   font-size: 12px;
   text-align: left;
   text-transform: uppercase;
+}
+
+.account-asset-table tbody tr.confidential-row {
+  opacity: 0.5;
 }
 
 .account-asset-table tbody td {

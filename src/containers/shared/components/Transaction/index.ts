@@ -53,6 +53,11 @@ import { TicketCreateTransaction as TicketCreate } from './TicketCreate'
 import { TrustSetTransaction as TrustSet } from './TrustSet'
 import { UNLModifyTransaction as UNLModify } from './UNLModify'
 import { ClawbackTransaction as Clawback } from './Clawback'
+import { ConfidentialMPTConvertTransaction as ConfidentialMPTConvert } from './ConfidentialMPTConvert'
+import { ConfidentialMPTMergeInboxTransaction as ConfidentialMPTMergeInbox } from './ConfidentialMPTMergeInbox'
+import { ConfidentialMPTConvertBackTransaction as ConfidentialMPTConvertBack } from './ConfidentialMPTConvertBack'
+import { ConfidentialMPTSendTransaction as ConfidentialMPTSend } from './ConfidentialMPTSend'
+import { ConfidentialMPTClawbackTransaction as ConfidentialMPTClawback } from './ConfidentialMPTClawback'
 import { VaultCreateTransaction as VaultCreate } from './VaultCreate'
 import { VaultSetTransaction as VaultSet } from './VaultSet'
 import { VaultDepositTransaction as VaultDeposit } from './VaultDeposit'
@@ -80,6 +85,11 @@ export const transactionTypes: { [key: string]: TransactionMapping } = {
   AccountSet,
   Batch,
   Clawback,
+  ConfidentialMPTConvert,
+  ConfidentialMPTMergeInbox,
+  ConfidentialMPTConvertBack,
+  ConfidentialMPTSend,
+  ConfidentialMPTClawback,
   CredentialAccept,
   CredentialCreate,
   CredentialDelete,

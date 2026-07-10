@@ -49,6 +49,11 @@ export const Settings = ({ flags = [] }: Props): JSX.Element => {
       label: t('can_clawback'),
       enabled: flags.includes('lsfMPTCanClawback'),
     },
+    {
+      key: 'canConfidentialAmount',
+      label: t('can_confidential_amount'),
+      enabled: flags.includes('lsfMPTCanConfidentialAmount'),
+    },
   ]
 
   return (

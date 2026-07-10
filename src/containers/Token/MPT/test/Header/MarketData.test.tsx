@@ -10,6 +10,7 @@ describe('MarketData component', () => {
         <MarketData
           maxAmt={props.maxAmt}
           outstandingAmt={props.outstandingAmt}
+          confidentialOutstandingAmt={props.confidentialOutstandingAmt}
           assetScale={props.assetScale}
         />
       </I18nextProvider>,
@@ -88,5 +89,28 @@ describe('MarketData component', () => {
   it('displays AMM TVL placeholder', () => {
     const { container } = renderComponent()
     expect(container).toHaveTextContent('token_page.amm_tvl')
+  })
+
+  it('does not display confidential balances when not provided', () => {
+    const { container } = renderComponent()
+    expect(container).not.toHaveTextContent('token_page.confidential_balances')
+  })
+
+  it('displays confidential balances when provided', () => {
+    const { container } = renderComponent({
+      confidentialOutstandingAmt: '100000',
+      assetScale: 2,
+    })
+    expect(container).toHaveTextContent('token_page.confidential_balances')
+    expect(container).toHaveTextContent('1,000')
+  })
+
+  it('displays formatted confidential balances with scale 0', () => {
+    const { container } = renderComponent({
+      confidentialOutstandingAmt: '5000000',
+      assetScale: 0,
+    })
+    expect(container).toHaveTextContent('token_page.confidential_balances')
+    expect(container).toHaveTextContent('5.0M')
   })
 })

@@ -23,7 +23,7 @@ describe('Settings component', () => {
 
   it('renders all 7 flag items', () => {
     const { container } = renderComponent()
-    expect(container.querySelectorAll('.header-box-item')).toHaveLength(7)
+    expect(container.querySelectorAll('.header-box-item')).toHaveLength(8)
   })
 
   it('shows locked flag as disabled by default', () => {
@@ -75,22 +75,30 @@ describe('Settings component', () => {
     expect(container.querySelectorAll('.flag-status.enabled')).toHaveLength(1)
   })
 
+  it('shows can_confidential_amount flag status', () => {
+    const { container } = renderComponent({
+      flags: ['lsfMPTCanConfidentialAmount'],
+    })
+    expect(container).toHaveTextContent('can_confidential_amount')
+    expect(container.querySelectorAll('.flag-status.enabled')).toHaveLength(1)
+  })
+
   it('handles multiple flags enabled', () => {
     const { container } = renderComponent({
       flags: ['lsfMPTCanTransfer', 'lsfMPTCanTrade', 'lsfMPTCanLock'],
     })
     expect(container.querySelectorAll('.flag-status.enabled')).toHaveLength(3)
-    expect(container.querySelectorAll('.flag-status.disabled')).toHaveLength(4)
+    expect(container.querySelectorAll('.flag-status.disabled')).toHaveLength(5)
   })
 
   it('handles empty flags array', () => {
     const { container } = renderComponent({ flags: [] })
     expect(container.querySelectorAll('.flag-status.enabled')).toHaveLength(0)
-    expect(container.querySelectorAll('.flag-status.disabled')).toHaveLength(7)
+    expect(container.querySelectorAll('.flag-status.disabled')).toHaveLength(8)
   })
 
   it('handles undefined flags', () => {
     const { container } = renderComponent({ flags: undefined })
-    expect(container.querySelectorAll('.flag-status.disabled')).toHaveLength(7)
+    expect(container.querySelectorAll('.flag-status.disabled')).toHaveLength(8)
   })
 })
