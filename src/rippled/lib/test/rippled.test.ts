@@ -3,6 +3,7 @@ import {
   getLoanBroker,
   getMPTIssuance,
   getNegativeUNL,
+  getAccountSponsorship,
 } from '../rippled'
 
 const VAULT_INDEX =
@@ -224,5 +225,82 @@ describe('getNegativeUNL', () => {
     const socket = makeSocket({ error: 'entryNotFound' })
 
     await expect(getNegativeUNL(socket)).resolves.toEqual([])
+  })
+})
+
+describe('getAccountSponsorship', () => {
+  const ACCOUNT = 'rSponsee11111111111111111111111111'
+  const SPONSOR = 'rSponsor2222222222222222222222222'
+
+  it('returns the formatted sponsorship when this account is the sponsee', async () => {
+    const socket = makeSocket({
+      account_objects: [
+        {
+          LedgerEntryType: 'Sponsorship',
+          Owner: SPONSOR,
+          Sponsee: ACCOUNT,
+          FeeAmount: '1000',
+          MaxFee: '5000',
+          ReserveCount: 2,
+        },
+      ],
+    })
+
+    await expect(getAccountSponsorship(socket, ACCOUNT)).resolves.toEqual({
+      owner: SPONSOR,
+      sponsee: ACCOUNT,
+      feeAmount: '1000',
+      maxFee: '5000',
+      reserveCount: 2,
+    })
+    expect(socket.send).toHaveBeenCalledWith({
+      command: 'account_objects',
+      account: ACCOUNT,
+      ledger_index: 'validated',
+      type: 'sponsorship',
+      limit: 400,
+    })
+  })
+
+  it('ignores Sponsorship objects where this account is the sponsor, not the sponsee', async () => {
+    const socket = makeSocket({
+      account_objects: [
+        {
+          LedgerEntryType: 'Sponsorship',
+          Owner: ACCOUNT,
+          Sponsee: 'rSomeoneElse33333333333333333333',
+          FeeAmount: '1000',
+        },
+      ],
+    })
+
+    await expect(
+      getAccountSponsorship(socket, ACCOUNT),
+    ).resolves.toBeUndefined()
+  })
+
+  it('returns undefined when the account has no sponsorship objects', async () => {
+    const socket = makeSocket({ account_objects: [] })
+
+    await expect(
+      getAccountSponsorship(socket, ACCOUNT),
+    ).resolves.toBeUndefined()
+  })
+
+  it('returns undefined when the Sponsorship amendment is not enabled', async () => {
+    const socket = makeSocket({ error: 'invalidParams' })
+
+    await expect(
+      getAccountSponsorship(socket, ACCOUNT),
+    ).resolves.toBeUndefined()
+  })
+
+  it('throws when the account is not found', async () => {
+    const socket = makeSocket({ error: 'actNotFound' })
+
+    await expect(getAccountSponsorship(socket, ACCOUNT)).rejects.toMatchObject({
+      message: 'account not found',
+      code: 404,
+    })
   })
 })

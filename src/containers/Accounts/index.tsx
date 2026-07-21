@@ -15,6 +15,7 @@ import { AccountSummary } from './AccountSummary'
 import { useXRPToUSDRate } from '../shared/hooks/useXRPToUSDRate'
 import AccountAsset from './AccountAsset'
 import AccountHeader from './AccountHeader'
+import { SponsoredFeesReserves } from './SponsoredFeesReserves'
 
 export const Accounts = () => {
   const { trackScreenLoaded, trackException } = useAnalytics()
@@ -65,6 +66,7 @@ export const Accounts = () => {
           {showAccount && (
             <>
               <AccountSummary account={account} xrpToUSDRate={xrpToUSDRate} />
+              <SponsoredFeesReserves account={account} />
               <AccountAsset
                 // Use account.account since `accountId` could be an extended account
                 accountId={account.account}

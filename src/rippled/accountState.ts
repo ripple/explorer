@@ -6,6 +6,7 @@ import {
 import {
   getAccountInfo,
   getAccountPaychannels,
+  getAccountSponsorship,
   getServerInfo,
   getAccountTransactions,
 } from './lib/rippled'
@@ -34,6 +35,13 @@ export interface AccountState {
     quorum: number
     maxSigners: number
   }
+  sponsorship?: {
+    owner: string
+    sponsee: string
+    feeAmount?: string
+    maxFee?: string
+    reserveCount?: number
+  }
   info: {
     accountTransactionID?: string
     reserve?: number
@@ -43,6 +51,7 @@ export interface AccountState {
     emailHash?: string
     flags: string[]
     nftMinter?: string
+    sponsor?: string
   }
   xAddress?: {
     classicAddress: string
@@ -90,6 +99,7 @@ async function getAccountState(
       Promise.all([
         getAccountPaychannels(rippledSocket, classicAddress, info.ledger_index),
         getServerInfo(rippledSocket),
+        getAccountSponsorship(rippledSocket, classicAddress, info.ledger_index),
       ]).then((data) => ({
         account: info.Account as string,
         info: formatAccountInfo(info, data[1].info.validated_ledger),
@@ -97,6 +107,7 @@ async function getAccountState(
           ? formatSignerList(info.signer_lists[0])
           : undefined,
         paychannels: data[1],
+        sponsorship: data[2],
         xAddress: decomposedAddress || undefined,
         deleted: false,
       })),
