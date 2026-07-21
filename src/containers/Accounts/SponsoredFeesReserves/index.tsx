@@ -1,21 +1,34 @@
 import { useTranslation } from 'react-i18next'
 import { Account } from '../../shared/components/Account'
 import { shortenAccount } from '../../shared/utils'
+import type { AccountState } from '../../../rippled/accountState'
 import './styles.scss'
 
 interface Props {
-  account: any
+  account: AccountState
 }
+
+type ScopeKey =
+  | 'account_page_sponsored_scope_transaction_fees'
+  | 'account_page_sponsored_scope_base_reserve'
 
 export const SponsoredFeesReserves = ({ account }: Props) => {
   const { t } = useTranslation()
 
-  const transactionFeesSponsor = account.sponsorship?.owner
-  const baseReserveSponsor = account.info?.sponsor
-
-  if (!transactionFeesSponsor && !baseReserveSponsor) {
-    return null
-  }
+  const rows: { scopeKey: ScopeKey; sponsor: string }[] = (
+    [
+      {
+        scopeKey: 'account_page_sponsored_scope_transaction_fees',
+        sponsor: account.sponsorship?.owner,
+      },
+      {
+        scopeKey: 'account_page_sponsored_scope_base_reserve',
+        sponsor: account.info?.sponsor,
+      },
+    ] as { scopeKey: ScopeKey; sponsor: string | undefined }[]
+  ).filter((row): row is { scopeKey: ScopeKey; sponsor: string } =>
+    Boolean(row.sponsor),
+  )
 
   return (
     <div className="sponsored-fees-reserves-section">
@@ -32,30 +45,18 @@ export const SponsoredFeesReserves = ({ account }: Props) => {
             </tr>
           </thead>
           <tbody>
-            {transactionFeesSponsor && (
-              <tr>
-                <td>{t('account_page_sponsored_scope_transaction_fees')}</td>
+            {rows.map(({ scopeKey, sponsor }) => (
+              <tr key={scopeKey}>
+                <td>{t(scopeKey)}</td>
                 <td>
                   <Account
-                    account={transactionFeesSponsor}
-                    displayText={shortenAccount(transactionFeesSponsor)}
+                    account={sponsor}
+                    displayText={shortenAccount(sponsor)}
                   />
                 </td>
                 <td>{t('account_page_sponsored_status_active')}</td>
               </tr>
-            )}
-            {baseReserveSponsor && (
-              <tr>
-                <td>{t('account_page_sponsored_scope_base_reserve')}</td>
-                <td>
-                  <Account
-                    account={baseReserveSponsor}
-                    displayText={shortenAccount(baseReserveSponsor)}
-                  />
-                </td>
-                <td>{t('account_page_sponsored_status_active')}</td>
-              </tr>
-            )}
+            ))}
           </tbody>
         </table>
       </div>
