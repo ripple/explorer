@@ -16,6 +16,7 @@ import { useXRPToUSDRate } from '../shared/hooks/useXRPToUSDRate'
 import AccountAsset from './AccountAsset'
 import AccountHeader from './AccountHeader'
 import { SponsoredFeesReserves } from './SponsoredFeesReserves'
+import { PermissionDelegation } from './PermissionDelegation'
 
 export const Accounts = () => {
   const { trackScreenLoaded, trackException } = useAnalytics()
@@ -69,6 +70,7 @@ export const Accounts = () => {
               {(account.sponsorship?.owner || account.info?.sponsor) && (
                 <SponsoredFeesReserves account={account} />
               )}
+              <PermissionDelegation accountId={account.account} />
               <AccountAsset
                 // Use account.account since `accountId` could be an extended account
                 accountId={account.account}
