@@ -106,6 +106,8 @@ export const Vault = () => {
   const mptTicker = parseMPTokenMetadata(assetMptIssuanceData?.MPTokenMetadata)
     ?.ticker as string | undefined
 
+  const assetScale = assetMptIssuanceData?.AssetScale as number | undefined
+
   // Compute native currency label from vault asset
   const nativeCurrency =
     getCurrencySymbol(vaultData?.Asset?.currency) ??
@@ -180,6 +182,7 @@ export const Vault = () => {
             data={vaultData}
             vaultId={vaultId}
             displayCurrency={displayCurrency || nativeCurrency}
+            assetScale={assetScale}
           />
           {transactionAccountId && (
             <VaultLoans
@@ -188,6 +191,7 @@ export const Vault = () => {
               displayCurrency={displayCurrency || nativeCurrency}
               asset={vaultData.Asset}
               mptTicker={mptTicker}
+              assetScale={assetScale}
             />
           )}
           {/* TODO: Include the VaultDepositors component here once Clio APIs are available */}
