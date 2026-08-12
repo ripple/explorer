@@ -462,6 +462,7 @@
   "burnable": "Burnable",
   "only_xrp": "Only XRP",
   "transferable": "Transferable",
+  "mutable": "Mutable",
   "buy_offers": "Buy Offers",
   "sell_offers": "Sell Offers",
   "offer_index": "Offer ID",
