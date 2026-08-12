@@ -30,23 +30,11 @@ describe('MPTokenIssuanceCreate', () => {
   it('handles Dynamic MPT MPTokenIssuanceCreate simple view', () => {
     const { container, unmount } = renderComponent(transactionDynamic)
 
-    // MutableFlags 196610 = tmfMPTCanEnableCanLock (0x2) +
-    // tmfMPTCanMutateMetadata (0x10000) + tmfMPTCanMutateTransferFee (0x20000)
-    expectSimpleRowText(
-      container,
-      'mpt-mutable-flags',
-      'tmfMPTCanEnableCanLock',
-    )
-    expectSimpleRowText(
-      container,
-      'mpt-mutable-flags',
-      'tmfMPTCanMutateMetadata',
-    )
-    expectSimpleRowText(
-      container,
-      'mpt-mutable-flags',
-      'tmfMPTCanMutateTransferFee',
-    )
+    // ImmutableFlags 196610 = tifMPTCanLock (0x2) +
+    // tifMPTMetadata (0x10000) + tifMPTTransferFee (0x20000)
+    expectSimpleRowText(container, 'mpt-mutable-flags', 'tifMPTCanLock')
+    expectSimpleRowText(container, 'mpt-mutable-flags', 'tifMPTMetadata')
+    expectSimpleRowText(container, 'mpt-mutable-flags', 'tifMPTTransferFee')
     unmount()
   })
 })

@@ -47,19 +47,20 @@ const MPT_ISSUANCE_FLAGS: FlagMap = {
   0x00000040: 'lsfMPTCanClawback',
   0x00000080: 'lsfMPTCanConfidentialAmount',
 }
-// MutableFlags on the MPTokenIssuance ledger object (Dynamic MPT, XLS-94).
-// Declares which fields/flags the issuer may modify after creation.
-// Values mirror rippled's lsmfMPT* definitions in LedgerFormats.h.
-const MPT_ISSUANCE_MUTABLE_FLAGS: FlagMap = {
-  0x00000002: 'lsmfMPTCanEnableCanLock',
-  0x00000004: 'lsmfMPTCanEnableRequireAuth',
-  0x00000008: 'lsmfMPTCanEnableCanEscrow',
-  0x00000010: 'lsmfMPTCanEnableCanTrade',
-  0x00000020: 'lsmfMPTCanEnableCanTransfer',
-  0x00000040: 'lsmfMPTCanEnableCanClawback',
-  0x00000080: 'lsmfMPTCannotEnableCanHoldConfidentialBalance',
-  0x00010000: 'lsmfMPTCanMutateMetadata',
-  0x00020000: 'lsmfMPTCanMutateTransferFee',
+// ImmutableFlags on the MPTokenIssuance ledger object (Dynamic MPT, XLS-94).
+// A set bit permanently locks the corresponding field/capability — the issuer
+// can no longer change it via MPTokenIssuanceSet. Absent = everything mutable.
+// `lsif` prefix mirrors the `tif` transaction-level names; bit values are shared.
+const MPT_ISSUANCE_IMMUTABLE_FLAGS: FlagMap = {
+  0x00000002: 'lsifMPTCanLock',
+  0x00000004: 'lsifMPTRequireAuth',
+  0x00000008: 'lsifMPTCanEscrow',
+  0x00000010: 'lsifMPTCanTrade',
+  0x00000020: 'lsifMPTCanTransfer',
+  0x00000040: 'lsifMPTCanClawback',
+  0x00000080: 'lsifMPTCanHoldConfidentialBalance',
+  0x00010000: 'lsifMPTMetadata',
+  0x00020000: 'lsifMPTTransferFee',
 }
 const MPTOKEN_FLAGS: FlagMap = {
   0x00000001: 'lsfMPTLocked',
@@ -281,7 +282,7 @@ interface MPTIssuanceInfo {
   Sequence: number
   MPTokenMetadata?: string
   Flags: number
-  MutableFlags?: number
+  ImmutableFlags?: number
   IssuerEncryptionKey?: string
   AuditorEncryptionKey?: string
 }
@@ -296,7 +297,7 @@ interface FormattedMPTIssuance {
   sequence: number
   metadata?: any
   flags: string[]
-  mutableFlags: string[]
+  immutableFlags: string[]
   rawMPTMetadata?: string
   parsedMPTMetadata?: Record<string, unknown>
   isMPTMetadataCompliant: boolean
@@ -328,7 +329,7 @@ const formatMPTIssuance = (info: MPTIssuanceInfo): FormattedMPTIssuance => {
     parsedMPTMetadata: parseMPTMetadata(rawMPTMetadataHex),
     isMPTMetadataCompliant: isMPTMetadataCompliant(rawMPTMetadataHex),
     flags: buildFlags(info.Flags, MPT_ISSUANCE_FLAGS),
-    mutableFlags: buildFlags(info.MutableFlags, MPT_ISSUANCE_MUTABLE_FLAGS),
+    immutableFlags: buildFlags(info.ImmutableFlags, MPT_ISSUANCE_IMMUTABLE_FLAGS),
     issuerEncryptionKey: info.IssuerEncryptionKey,
     auditorEncryptionKey: info.AuditorEncryptionKey,
   }

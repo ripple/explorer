@@ -2,26 +2,27 @@ import { useTranslation } from 'react-i18next'
 
 interface Props {
   flags?: string[]
-  mutableFlags?: string[]
+  immutableFlags?: string[]
 }
 
 interface FlagItem {
   key: string
   label: string
   enabled: boolean
-  // The lsfMPTCanMutate* flag name (Dynamic MPT, XLS-94) that marks this setting
-  // mutable; present only for settings that can be declared mutable.
-  mutableFlag?: string
+  // The lsifMPT* flag name (Dynamic MPT, XLS-94) that permanently locks this
+  // capability; present only for settings that can be declared immutable.
+  immutableFlag?: string
 }
 
 export const Settings = ({
   flags = [],
-  mutableFlags = [],
+  immutableFlags = [],
 }: Props): JSX.Element => {
   const { t } = useTranslation()
 
-  const isMutable = (mutableFlag?: string): boolean =>
-    !!mutableFlag && mutableFlags.includes(mutableFlag)
+  // Returns true when the flag is NOT locked in immutableFlags (i.e. still mutable).
+  const isStillMutable = (immutableFlag?: string): boolean =>
+    !!immutableFlag && !immutableFlags.includes(immutableFlag)
 
   const flagItems: FlagItem[] = [
     {
@@ -33,37 +34,37 @@ export const Settings = ({
       key: 'canLock',
       label: t('can_lock'),
       enabled: flags.includes('lsfMPTCanLock'),
-      mutableFlag: 'lsmfMPTCanEnableCanLock',
+      immutableFlag: 'lsifMPTCanLock',
     },
     {
       key: 'requireAuth',
       label: t('require_auth'),
       enabled: flags.includes('lsfMPTRequireAuth'),
-      mutableFlag: 'lsmfMPTCanEnableRequireAuth',
+      immutableFlag: 'lsifMPTRequireAuth',
     },
     {
       key: 'canEscrow',
       label: t('can_escrow'),
       enabled: flags.includes('lsfMPTCanEscrow'),
-      mutableFlag: 'lsmfMPTCanEnableCanEscrow',
+      immutableFlag: 'lsifMPTCanEscrow',
     },
     {
       key: 'canTrade',
       label: t('can_trade'),
       enabled: flags.includes('lsfMPTCanTrade'),
-      mutableFlag: 'lsmfMPTCanEnableCanTrade',
+      immutableFlag: 'lsifMPTCanTrade',
     },
     {
       key: 'canTransfer',
       label: t('can_transfer'),
       enabled: flags.includes('lsfMPTCanTransfer'),
-      mutableFlag: 'lsmfMPTCanEnableCanTransfer',
+      immutableFlag: 'lsifMPTCanTransfer',
     },
     {
       key: 'canClawback',
       label: t('can_clawback'),
       enabled: flags.includes('lsfMPTCanClawback'),
-      mutableFlag: 'lsmfMPTCanEnableCanClawback',
+      immutableFlag: 'lsifMPTCanClawback',
     },
     {
       key: 'canConfidentialAmount',
@@ -72,20 +73,20 @@ export const Settings = ({
     },
   ]
 
-  // Mutable fields (Dynamic MPT) that are not capability flags. Only shown when
-  // the issuer declared them mutable at creation.
+  // Field items (Dynamic MPT) that are not capability flags. Shown only when
+  // the flag is NOT locked in immutableFlags (i.e. the field is still mutable).
   const mutableFieldItems = [
     {
       key: 'metadata',
       label: t('metadata'),
-      mutableFlag: 'lsmfMPTCanMutateMetadata',
+      immutableFlag: 'lsifMPTMetadata',
     },
     {
       key: 'transferFee',
       label: t('transfer_fee'),
-      mutableFlag: 'lsmfMPTCanMutateTransferFee',
+      immutableFlag: 'lsifMPTTransferFee',
     },
-  ].filter((item) => isMutable(item.mutableFlag))
+  ].filter((item) => isStillMutable(item.immutableFlag))
 
   return (
     <div className="header-box settings-box">
@@ -96,8 +97,9 @@ export const Settings = ({
             <div className="item-name">{flag.label}</div>
             <div className="flag-status-group">
               {/* Capabilities are one-directional (can only be enabled later),
-                  so only surface the pill while the flag is still disabled. */}
-              {isMutable(flag.mutableFlag) && !flag.enabled && (
+                  so only surface the "Mutable" pill while the flag is still
+                  not locked (not in immutableFlags) and not yet enabled. */}
+              {isStillMutable(flag.immutableFlag) && !flag.enabled && (
                 <div
                   className="flag-status mutable"
                   data-testid="mutable-badge"

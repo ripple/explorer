@@ -5,18 +5,18 @@ import {
   buildFlags,
   convertHexToString,
 } from '../../../../../rippled/lib/utils'
-import { MPT_CREATE_MUTABLE_FLAGS } from '../../../transactionUtils'
+import { MPT_IMMUTABLE_FLAGS } from '../../../transactionUtils'
 
 // TODO: use MPTokenIssuanceCreate when DynamicMPT is supported on xrpl.js
 interface MPTokenIssuanceCreateExtended extends MPTokenIssuanceCreate {
-  MutableFlags?: number
+  ImmutableFlags?: number
 }
 
 export const parser: TransactionParser<
   MPTokenIssuanceCreateExtended,
   MPTokenIssuanceCreateInstructions
 > = (tx, meta) => {
-  const mutableFlags = buildFlags(tx.MutableFlags, MPT_CREATE_MUTABLE_FLAGS)
+  const immutableFlags = buildFlags(tx.ImmutableFlags, MPT_IMMUTABLE_FLAGS)
   return {
     issuanceID: meta.mpt_issuance_id,
     metadata: tx.MPTokenMetadata
@@ -27,6 +27,6 @@ export const parser: TransactionParser<
     maxAmount: tx.MaximumAmount
       ? BigInt(tx.MaximumAmount).toString(10)
       : undefined,
-    mutableFlags: mutableFlags.length ? mutableFlags : undefined,
+    immutableFlags: immutableFlags.length ? immutableFlags : undefined,
   }
 }

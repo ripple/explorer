@@ -17,7 +17,7 @@ export const Simple: TransactionSimpleComponent = ({
     assetScale,
     transferFee,
     maxAmount,
-    mutableFlags,
+    immutableFlags,
   } = data.instructions
   const { t } = useTranslation()
   const language = useLanguage()
@@ -70,13 +70,13 @@ export const Simple: TransactionSimpleComponent = ({
           )}
         </SimpleRow>
       )}
-      {mutableFlags && mutableFlags.length > 0 && (
+      {immutableFlags && immutableFlags.length > 0 && (
         <SimpleRow
           label={t('mutable_flags')}
           className="flag"
           data-testid="mpt-mutable-flags"
         >
-          {mutableFlags.map((flag) => (
+          {immutableFlags.map((flag) => (
             <div key={flag}>{flag}</div>
           ))}
         </SimpleRow>

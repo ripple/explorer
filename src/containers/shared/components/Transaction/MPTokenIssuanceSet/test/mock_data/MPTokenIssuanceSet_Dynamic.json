@@ -4,7 +4,7 @@
     "Fee": "10",
     "Flags": 0,
     "MPTokenIssuanceID": "000002609BB39CEC721B5AB337B6BD862ACD2811CBBB5F18",
-    "MutableFlags": 17,
+    "ImmutableFlags": 17,
     "TransferFee": 500,
     "MPTokenMetadata": "464F4F",
     "Sequence": 609,
@@ -47,7 +47,7 @@
           "FinalFields": {
             "Flags": 32,
             "Issuer": "rEUGuTqrySk9o1rZSVx8seuvcsEZymeEYM",
-            "MutableFlags": 131106,
+            "ImmutableFlags": 131106,
             "OutstandingAmount": "0",
             "OwnerNode": "0",
             "Sequence": 608,

@@ -15,12 +15,12 @@ import {
   buildFlags,
   convertHexToString,
 } from '../../../../../rippled/lib/utils'
-import { MPT_SET_MUTABLE_FLAGS } from '../../../transactionUtils'
+import { MPT_IMMUTABLE_FLAGS } from '../../../transactionUtils'
 
 interface MPTokenIssuanceSetExtended extends MPTokenIssuanceSet {
   MPTokenMetadata?: string
   TransferFee?: number
-  MutableFlags?: number
+  ImmutableFlags?: number
   IssuerEncryptionKey?: string
   AuditorEncryptionKey?: string
 }
@@ -33,7 +33,7 @@ export const Simple: TransactionSimpleComponent = ({
     Holder,
     MPTokenMetadata,
     TransferFee,
-    MutableFlags,
+    ImmutableFlags,
     IssuerEncryptionKey,
     AuditorEncryptionKey,
   } = data.instructions
@@ -49,7 +49,7 @@ export const Simple: TransactionSimpleComponent = ({
           minimumFractionDigits: 3,
         })}%`
       : undefined
-  const flagChanges = buildFlags(MutableFlags, MPT_SET_MUTABLE_FLAGS)
+  const flagChanges = buildFlags(ImmutableFlags, MPT_IMMUTABLE_FLAGS)
 
   return (
     <>

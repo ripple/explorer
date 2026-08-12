@@ -92,7 +92,7 @@ export const Header = (props: Props) => {
     confidentialOutstandingAmt,
     transferFee,
     flags,
-    mutableFlags,
+    immutableFlags,
     rawMPTMetadata,
     parsedMPTMetadata,
     isMPTMetadataCompliant,
@@ -236,7 +236,7 @@ export const Header = (props: Props) => {
             confidentialOutstandingAmt={confidentialOutstandingAmt}
             assetScale={assetScale}
           />
-          <Settings flags={flags} mutableFlags={mutableFlags} />
+          <Settings flags={flags} immutableFlags={immutableFlags} />
           {(parsedMPTMetadata || rawMPTMetadata) && (
             <Metadata
               decodedMPTMetadata={(parsedMPTMetadata || rawMPTMetadata)!}
