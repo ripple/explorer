@@ -10,12 +10,16 @@ interface JsonViewProps {
   data: any
   showExpandButton?: boolean
   showBackground?: boolean
+  // Strings longer than this are collapsed/truncated in the tree. Pass a large
+  // value (e.g. Number.MAX_SAFE_INTEGER) to render long strings (URIs, etc.) in full.
+  collapseStringsAfterLength?: number
 }
 
 export const JsonView = ({
   data,
   showExpandButton = false,
   showBackground = false,
+  collapseStringsAfterLength = 65,
 }: JsonViewProps) => {
   const { t } = useTranslation()
   const [isExpanded, setIsExpanded] = useState(false)
@@ -46,7 +50,7 @@ export const JsonView = ({
       <ReactJson
         src={data}
         collapsed={isExpanded ? false : 5}
-        collapseStringsAfterLength={65}
+        collapseStringsAfterLength={collapseStringsAfterLength}
         customizeNode={(params) => {
           if (params.node === undefined)
             return { className: 'json-view--undefined' }

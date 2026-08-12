@@ -5,12 +5,13 @@ import './styles.scss'
 import {
   BAD_REQUEST,
   HASH192_REGEX,
-  shortenDomain,
   shortenMPTID,
-  stripHttpProtocol,
   convertToHttpURL,
-  shortenAccount,
 } from '../../../shared/utils'
+import {
+  getRegistrableDomain,
+  shortenDomainFromLeft,
+} from '../../../shared/domainUtils'
 import { CopyableText } from '../../../shared/components/CopyableText'
 import DomainLink from '../../../shared/components/DomainLink'
 import { FormattedMPTIssuance } from '../../../shared/Interfaces'
@@ -162,13 +163,6 @@ export const Header = (props: Props) => {
               />
             </span>
           )}
-          {/* Show issuer name if available */}
-          {issuerName && (
-            <div className="token-issuer-wrap">
-              (<span className="issuer-name">{shortenAccount(issuerName)}</span>
-              )
-            </div>
-          )}
         </div>
 
         {allUris.length > 0 && (
@@ -181,11 +175,10 @@ export const Header = (props: Props) => {
               <DomainLink
                 className="domain-link"
                 domain={allUris[0].uri}
-                displayDomain={shortenDomain(
-                  stripHttpProtocol(allUris[0].uri),
-                  12,
-                  7,
+                displayDomain={shortenDomainFromLeft(
+                  getRegistrableDomain(allUris[0].uri),
                 )}
+                title={allUris[0].uri}
               />
               {allUris.length > 1 && (
                 <button
@@ -203,11 +196,10 @@ export const Header = (props: Props) => {
                       key={`${uriItem.uri}-${uriItem.category}-${uriItem.title}`}
                       className="links-dropdown-item"
                       domain={uriItem.uri}
-                      displayDomain={shortenDomain(
-                        stripHttpProtocol(uriItem.uri),
-                        12,
-                        7,
+                      displayDomain={shortenDomainFromLeft(
+                        getRegistrableDomain(uriItem.uri),
                       )}
+                      title={uriItem.uri}
                       keepProtocol={false}
                     />
                   ))}

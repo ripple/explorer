@@ -24,9 +24,9 @@ describe('MarketData component', () => {
     )
   })
 
-  it('displays supply label', () => {
+  it('displays max supply label', () => {
     const { container } = renderComponent()
-    expect(container).toHaveTextContent('token_page.supply')
+    expect(container).toHaveTextContent('token_page.max_supply')
   })
 
   it('displays circulating supply label', () => {
@@ -61,13 +61,28 @@ describe('MarketData component', () => {
     expect(container).toHaveTextContent('5.0M')
   })
 
-  it('displays 0 for undefined amounts', () => {
+  it('displays circulating supply of 0 for undefined outstanding amount', () => {
+    const { container } = renderComponent({
+      maxAmt: '1000000',
+      outstandingAmt: undefined,
+      assetScale: 0,
+    })
+    expect(container).toHaveTextContent('0.00')
+  })
+
+  it('falls back to the max 63-bit cap for supply when maxAmt is undefined', () => {
+    // MaximumAmount is optional on-chain; when absent the cap is 2^63 - 1.
+    // Supply must reflect that cap so it is never shown as less than the
+    // circulating (outstanding) amount.
     const { container } = renderComponent({
       maxAmt: undefined,
-      outstandingAmt: undefined,
-      assetScale: undefined,
+      outstandingAmt: '281380138',
+      assetScale: 7,
     })
-    expect(container).toHaveTextContent('0')
+    // 9223372036854775807 / 10^7 -> ~922.3 billion
+    expect(container).toHaveTextContent('922.3B')
+    // circulating: 281380138 / 10^7 = 28.138...
+    expect(container).toHaveTextContent('28.14')
   })
 
   it('displays market cap placeholder', () => {

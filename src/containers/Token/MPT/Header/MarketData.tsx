@@ -11,6 +11,11 @@ interface MarketDataProps {
   assetScale?: number
 }
 
+// When an MPToken issuance omits MaximumAmount, its cap defaults to the largest
+// 63-bit integer (2^63 - 1). Use that so max supply is never shown as less than
+// the circulating (outstanding) amount.
+const MPT_MAX_AMOUNT = BigInt('9223372036854775807')
+
 export const MarketData = ({
   maxAmt,
   outstandingAmt,
@@ -21,7 +26,10 @@ export const MarketData = ({
   const { tooltip } = useTooltip()
 
   const formattedSupply = parseAmount(
-    convertScaledPrice(BigInt(maxAmt || '0'), assetScale ?? 0),
+    convertScaledPrice(
+      maxAmt !== undefined ? BigInt(maxAmt) : MPT_MAX_AMOUNT,
+      assetScale ?? 0,
+    ),
   )
 
   const formattedCircSupply = parseAmount(
@@ -40,7 +48,7 @@ export const MarketData = ({
       <div className="header-box-title">{t('token_page.market_data')}</div>
       <div className="header-box-contents">
         <div className="header-box-item">
-          <div className="item-name">{t('token_page.supply')}</div>
+          <div className="item-name">{t('token_page.max_supply')}</div>
           <div className="item-value">{formattedSupply}</div>
         </div>
         <div className="header-box-item">

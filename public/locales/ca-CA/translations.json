@@ -779,6 +779,7 @@
   "token_page.price": null,
   "token_page.holders": null,
   "token_page.supply": null,
+  "token_page.max_supply": null,
   "token_page.market_cap": null,
   "token_page.volume_24h": null,
   "token_page.trades_24h": null,

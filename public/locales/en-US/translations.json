@@ -781,6 +781,7 @@
   "token_page.price": "Price",
   "token_page.holders": "# of Holders",
   "token_page.supply": "Supply",
+  "token_page.max_supply": "Max Supply",
   "token_page.market_cap": "Market Cap",
   "token_page.volume_24h": "Traded Volume (24H)",
   "token_page.trades_24h": "# of Trades (24H)",
