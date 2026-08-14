@@ -41,7 +41,7 @@ export interface AccountState {
     feeAmount?: string
     maxFee?: string
     reserveCount?: number
-  }
+  }[]
   info: {
     accountTransactionID?: string
     reserve?: number

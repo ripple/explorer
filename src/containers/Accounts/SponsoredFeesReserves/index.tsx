@@ -15,20 +15,20 @@ type ScopeKey =
 export const SponsoredFeesReserves = ({ account }: Props) => {
   const { t } = useTranslation()
 
-  const rows: { scopeKey: ScopeKey; sponsor: string }[] = (
-    [
-      {
-        scopeKey: 'account_page_sponsored_scope_transaction_fees',
-        sponsor: account.sponsorship?.owner,
-      },
-      {
-        scopeKey: 'account_page_sponsored_scope_base_reserve',
-        sponsor: account.info?.sponsor,
-      },
-    ] as { scopeKey: ScopeKey; sponsor: string | undefined }[]
-  ).filter((row): row is { scopeKey: ScopeKey; sponsor: string } =>
-    Boolean(row.sponsor),
-  )
+  const rows: { scopeKey: ScopeKey; sponsor: string }[] = [
+    ...(account.sponsorship ?? []).map(({ owner }) => ({
+      scopeKey: 'account_page_sponsored_scope_transaction_fees' as ScopeKey,
+      sponsor: owner,
+    })),
+    ...(account.info?.sponsor
+      ? [
+          {
+            scopeKey: 'account_page_sponsored_scope_base_reserve' as ScopeKey,
+            sponsor: account.info.sponsor,
+          },
+        ]
+      : []),
+  ]
 
   return (
     <div className="sponsored-fees-reserves-section">
@@ -46,7 +46,7 @@ export const SponsoredFeesReserves = ({ account }: Props) => {
           </thead>
           <tbody>
             {rows.map(({ scopeKey, sponsor }) => (
-              <tr key={scopeKey}>
+              <tr key={`${scopeKey}-${sponsor}`}>
                 <td>{t(scopeKey)}</td>
                 <td>
                   <Account

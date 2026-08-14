@@ -61,10 +61,12 @@ describe('SponsoredFeesReserves Component', () => {
   it('renders only the Transaction Fees row when only fees are sponsored', () => {
     const account: AccountState = {
       ...baseAccount,
-      sponsorship: {
-        owner: 'rFeeSponsor2222222222222222222222',
-        sponsee: baseAccount.account,
-      },
+      sponsorship: [
+        {
+          owner: 'rFeeSponsor2222222222222222222222',
+          sponsee: baseAccount.account,
+        },
+      ],
     }
 
     render(
@@ -87,10 +89,12 @@ describe('SponsoredFeesReserves Component', () => {
         ...baseAccount.info,
         sponsor: 'rBaseReserveSponsor11111111111111',
       },
-      sponsorship: {
-        owner: 'rFeeSponsor2222222222222222222222',
-        sponsee: baseAccount.account,
-      },
+      sponsorship: [
+        {
+          owner: 'rFeeSponsor2222222222222222222222',
+          sponsee: baseAccount.account,
+        },
+      ],
     }
 
     render(
@@ -103,5 +107,36 @@ describe('SponsoredFeesReserves Component', () => {
     expect(screen.getByText('Base Reserve')).toBeInTheDocument()
     expect(screen.getAllByTestId('account-component')).toHaveLength(2)
     expect(screen.getAllByText('Active')).toHaveLength(2)
+  })
+
+  it('renders one Transaction Fees row per sponsor when there are multiple fee sponsors', () => {
+    const account: AccountState = {
+      ...baseAccount,
+      sponsorship: [
+        {
+          owner: 'rFeeSponsor2222222222222222222222',
+          sponsee: baseAccount.account,
+        },
+        {
+          owner: 'rFeeSponsor3333333333333333333333',
+          sponsee: baseAccount.account,
+        },
+      ],
+    }
+
+    render(
+      <TestWrapper>
+        <SponsoredFeesReserves account={account} />
+      </TestWrapper>,
+    )
+
+    expect(screen.getAllByText('Transaction Fees')).toHaveLength(2)
+    expect(screen.getAllByTestId('account-component')).toHaveLength(2)
+    expect(screen.getAllByTestId('account-component')[0]).toHaveTextContent(
+      'rFeeSponsor2222222222222222222222',
+    )
+    expect(screen.getAllByTestId('account-component')[1]).toHaveTextContent(
+      'rFeeSponsor3333333333333333333333',
+    )
   })
 })

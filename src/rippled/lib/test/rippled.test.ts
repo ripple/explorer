@@ -246,13 +246,15 @@ describe('getAccountSponsorship', () => {
       ],
     })
 
-    await expect(getAccountSponsorship(socket, ACCOUNT)).resolves.toEqual({
-      owner: SPONSOR,
-      sponsee: ACCOUNT,
-      feeAmount: '1000',
-      maxFee: '5000',
-      reserveCount: 2,
-    })
+    await expect(getAccountSponsorship(socket, ACCOUNT)).resolves.toEqual([
+      {
+        owner: SPONSOR,
+        sponsee: ACCOUNT,
+        feeAmount: '1000',
+        maxFee: '5000',
+        reserveCount: 2,
+      },
+    ])
     expect(socket.send).toHaveBeenCalledWith({
       command: 'account_objects',
       account: ACCOUNT,
@@ -260,6 +262,31 @@ describe('getAccountSponsorship', () => {
       type: 'sponsorship',
       limit: 400,
     })
+  })
+
+  it('returns all sponsorships when this account has multiple sponsors', async () => {
+    const SPONSOR_2 = 'rSponsor3333333333333333333333333'
+    const socket = makeSocket({
+      account_objects: [
+        {
+          LedgerEntryType: 'Sponsorship',
+          Owner: SPONSOR,
+          Sponsee: ACCOUNT,
+          FeeAmount: '1000',
+        },
+        {
+          LedgerEntryType: 'Sponsorship',
+          Owner: SPONSOR_2,
+          Sponsee: ACCOUNT,
+          FeeAmount: '2000',
+        },
+      ],
+    })
+
+    await expect(getAccountSponsorship(socket, ACCOUNT)).resolves.toEqual([
+      { owner: SPONSOR, sponsee: ACCOUNT, feeAmount: '1000' },
+      { owner: SPONSOR_2, sponsee: ACCOUNT, feeAmount: '2000' },
+    ])
   })
 
   it('ignores Sponsorship objects where this account is the sponsor, not the sponsee', async () => {

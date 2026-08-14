@@ -405,12 +405,12 @@ const getAccountSponsorship = async (
   }
 
   // A Sponsorship object is linked into both the sponsor's and sponsee's
-  // owner directories, so only keep the one where this account is sponsored.
-  const sponsorship = resp.account_objects.find(
+  // owner directories, so only keep the ones where this account is sponsored.
+  const sponsorships = resp.account_objects.filter(
     (d: any) => d.Sponsee === account,
   )
 
-  return sponsorship ? formatSponsorship(sponsorship) : undefined
+  return sponsorships.length ? sponsorships.map(formatSponsorship) : undefined
 }
 
 // get Token balance summary
