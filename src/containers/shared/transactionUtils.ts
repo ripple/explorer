@@ -74,8 +74,13 @@ export const TX_FLAGS: Record<string, Record<number, string>> = {
   MPTokenIssuanceSet: {
     0x00000001: 'tfMPTLock',
     0x00000002: 'tfMPTUnlock',
-    0x00001000: 'tfMPTSetCanConfidentialAmount',
-    0x00002000: 'tfMPTClearCanConfidentialAmount',
+    // Capability-setting flags (XLS-94 DynamicMPT): one-way, moved into Flags
+    0x00000004: 'tfMPTSetCanLock',
+    0x00000010: 'tfMPTSetCanEscrow',
+    0x00000020: 'tfMPTSetCanTrade',
+    0x00000040: 'tfMPTSetCanTransfer',
+    0x00000080: 'tfMPTSetCanClawback',
+    0x00000100: 'tfMPTSetCanHoldConfidentialBalance',
   },
   NFTokenMint: {
     0x00000001: 'tfBurnable',
@@ -117,6 +122,27 @@ export const TX_FLAGS: Record<string, Record<number, string>> = {
   XChainModifyBridge: {
     0x00010000: 'tfClearAccountCreateAmount',
   },
+}
+
+// Dynamic MPT (XLS-94) ImmutableFlags fields. These are separate UInt32 fields
+// from the standard `Flags` field, so they are decoded with their own maps.
+// Semantics: by default all fields/capabilities are mutable; setting a bit in
+// ImmutableFlags permanently locks that field/capability so it can never be
+// changed again via MPTokenIssuanceSet.
+
+// MPTokenIssuanceCreate.ImmutableFlags / MPTokenIssuanceSet.ImmutableFlags:
+// `tif` prefix (Transaction ImmutableFlag). Setting a bit permanently locks
+// the corresponding capability/field. Same bit values as the ledger `lsif*` map.
+export const MPT_IMMUTABLE_FLAGS: Record<number, string> = {
+  0x00000002: 'tifMPTCanLock',
+  0x00000004: 'tifMPTRequireAuth',
+  0x00000008: 'tifMPTCanEscrow',
+  0x00000010: 'tifMPTCanTrade',
+  0x00000020: 'tifMPTCanTransfer',
+  0x00000040: 'tifMPTCanClawback',
+  0x00000080: 'tifMPTCanHoldConfidentialBalance',
+  0x00010000: 'tifMPTMetadata',
+  0x00020000: 'tifMPTTransferFee',
 }
 
 export const ACCOUNT_FLAGS: Record<number, string> = {

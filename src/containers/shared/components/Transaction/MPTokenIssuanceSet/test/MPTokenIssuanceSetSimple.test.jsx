@@ -4,6 +4,7 @@ import { expectSimpleRowText, expectSimpleRowNotToExist } from '../../test'
 import transactionSuccess from './mock_data/MPTokenIssuanceSet.json'
 import transactionNoHolder from './mock_data/MPTokenIssuanceSet_NoHolder.json'
 import transactionFail from './mock_data/MPTokenIssuanceSet_Fail.json'
+import transactionDynamic from './mock_data/MPTokenIssuanceSet_Dynamic.json'
 
 const renderComponent = createSimpleRenderFactory(Simple)
 
@@ -32,6 +33,22 @@ describe('MPTokenIssuanceSet', () => {
       'mpt-issuance-id',
       '000002609BB39CEC721B5AB337B6BD862ACD2811CBBB5F18',
     )
+    expectSimpleRowNotToExist(container, 'mpt-holder')
+    unmount()
+  })
+
+  it('handles Dynamic MPT MPTokenIssuanceSet simple view', () => {
+    const { container, unmount } = renderComponent(transactionDynamic)
+
+    expectSimpleRowText(
+      container,
+      'mpt-issuance-id',
+      '000002609BB39CEC721B5AB337B6BD862ACD2811CBBB5F18',
+    )
+    expectSimpleRowText(container, 'mpt-fee', '0.500%')
+    expectSimpleRowText(container, 'mpt-metadata', 'FOO')
+    // ImmutableFlags 17 (0x11) = 0x10 (tifMPTCanTrade) + 0x01 (not in MPT_IMMUTABLE_FLAGS map)
+    expectSimpleRowText(container, 'mpt-mutable-flags', 'tifMPTCanTrade')
     expectSimpleRowNotToExist(container, 'mpt-holder')
     unmount()
   })

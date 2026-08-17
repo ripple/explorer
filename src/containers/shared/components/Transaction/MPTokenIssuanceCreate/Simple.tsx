@@ -11,8 +11,14 @@ import './styles.scss'
 export const Simple: TransactionSimpleComponent = ({
   data,
 }: TransactionSimpleProps<MPTokenIssuanceCreateInstructions>) => {
-  const { issuanceID, metadata, assetScale, transferFee, maxAmount } =
-    data.instructions
+  const {
+    issuanceID,
+    metadata,
+    assetScale,
+    transferFee,
+    maxAmount,
+    immutableFlags,
+  } = data.instructions
   const { t } = useTranslation()
   const language = useLanguage()
   const formattedFee =
@@ -62,6 +68,17 @@ export const Simple: TransactionSimpleComponent = ({
           ) : (
             metadata
           )}
+        </SimpleRow>
+      )}
+      {immutableFlags && immutableFlags.length > 0 && (
+        <SimpleRow
+          label={t('mutable_flags')}
+          className="flag"
+          data-testid="mpt-mutable-flags"
+        >
+          {immutableFlags.map((flag) => (
+            <div key={flag}>{flag}</div>
+          ))}
         </SimpleRow>
       )}
     </>
