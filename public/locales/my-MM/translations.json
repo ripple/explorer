@@ -392,6 +392,7 @@
   "missed_validations": "{{count}} ခု အတည်ပြုမှု လွဲချော်",
   "incomplete": "မပြီးပြည့်စုံ",
   "base_fee": "အခြေခံ အခကြေးငွေ",
+  "drops": null,
   "account_reserve": "အကောင့် သီးသန့်ငွေ",
   "object_reserve": "အရာဝတ္ထု သီးသန့်ငွေ",
   "vote": "မဲပေးရန်",

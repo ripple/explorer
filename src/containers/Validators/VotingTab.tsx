@@ -89,7 +89,7 @@ export const VotingTab: FC<{
       <div className="metrics metrics-voting">
         <div className="cell">
           <div className="label">{t('base_fee')}</div>
-          <div>{renderXRP(validatorData.base_fee / XRP_BASE)}</div>
+          <div>{`${validatorData.base_fee} ${t('drops')}`}</div>
         </div>
         <div className="cell">
           <div className="label">{t('account_reserve')}</div>

@@ -88,7 +88,11 @@ export const ValidatorsTable = (props: ValidatorsTableProps) => {
               <DownIcon className="fee-icon" title={pubkey} alt={pubkey} />
             </span>
           ))}
-        <span>{renderXRP(data / DROPS_TO_XRP_FACTOR, language)}</span>
+        {className === 'base_fee' ? (
+          <span>{`${data} ${t('drops')}`}</span>
+        ) : (
+          <span>{renderXRP(data / DROPS_TO_XRP_FACTOR, language)}</span>
+        )}
       </td>
     ) : (
       <td className={`${className} vote`} />
