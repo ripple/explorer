@@ -1,6 +1,5 @@
 import { useTranslation } from 'react-i18next'
 import { Account } from '../../shared/components/Account'
-import { shortenAccount } from '../../shared/utils'
 import type { AccountState } from '../../../rippled/accountState'
 import './styles.scss'
 
@@ -49,10 +48,7 @@ export const SponsoredFeesReserves = ({ account }: Props) => {
               <tr key={`${scopeKey}-${sponsor}`}>
                 <td>{t(scopeKey)}</td>
                 <td>
-                  <Account
-                    account={sponsor}
-                    displayText={shortenAccount(sponsor)}
-                  />
+                  <Account account={sponsor} />
                 </td>
                 <td>{t('account_page_sponsored_status_active')}</td>
               </tr>
