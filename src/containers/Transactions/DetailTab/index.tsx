@@ -11,6 +11,8 @@ import {
   XRP_BASE,
   buildFlags,
   buildMemos,
+  getSponsorScopes,
+  SPONSOR_SCOPE_LABEL_KEYS,
 } from '../../shared/transactionUtils'
 import './detailTab.scss'
 import { useLanguage } from '../../shared/hooks'
@@ -109,6 +111,32 @@ export const DetailTab: FC<{ data: any }> = ({ data }) => {
     ) : null
   }
 
+  const renderSponsor = () => {
+    if (!data.tx.Sponsor) return null
+    const scopes = getSponsorScopes(data.tx.SponsorFlags)
+    return (
+      <div className="detail-section" data-testid="sponsor-section">
+        <div className="title">{t('sponsor')}</div>
+        <div>
+          <Trans
+            i18nKey="sponsor_detail"
+            components={{ Account: <Account account={data.tx.Sponsor} /> }}
+          />
+        </div>
+        {scopes.length > 0 && (
+          <div className="sponsor-scopes">
+            {scopes
+              .map((scope) => t(SPONSOR_SCOPE_LABEL_KEYS[scope]))
+              .join(', ')}
+          </div>
+        )}
+        {data.tx.SponsorSignature && (
+          <div className="sponsor-co-signed">{t('sponsor_co_signed')}</div>
+        )}
+      </div>
+    )
+  }
+
   const renderSigners = () =>
     data.tx.Signers ? (
       <div className="detail-section">
@@ -128,6 +156,7 @@ export const DetailTab: FC<{ data: any }> = ({ data }) => {
       {renderStatus()}
       <TransactionDescription data={data} />
       {renderSigners()}
+      {renderSponsor()}
       <HookDetails data={data} />
       {renderFlags()}
       {renderFee()}

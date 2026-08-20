@@ -27,6 +27,14 @@ const formatPaychannel = (d: any) => ({
   settleDelay: d.SettleDelay,
 })
 
+const formatSponsorship = (d: any) => ({
+  owner: d.Owner,
+  sponsee: d.Sponsee,
+  feeAmount: d.FeeAmount,
+  maxFee: d.MaxFee,
+  reserveCount: d.ReserveCount,
+})
+
 const executeQuery = async (
   rippledSocket: XrplClient,
   params: any,
@@ -364,6 +372,45 @@ const getAccountBridges = async (
   }
 
   return undefined
+}
+
+// get the sponsorship covering this account's fees/reserves, if any
+const getAccountSponsorship = async (
+  rippledSocket: ExplorerXrplClient,
+  account: string,
+  ledgerIndex: string | number = 'validated',
+): Promise<any> => {
+  const resp = await query(rippledSocket, {
+    command: 'account_objects',
+    account,
+    ledger_index: ledgerIndex,
+    type: 'sponsorship',
+    limit: 400,
+  })
+  if (resp.error === 'actNotFound') {
+    throw new Error('account not found', 404)
+  }
+  if (resp.error === 'invalidParams') {
+    // thrown when the Sponsorship amendment is not activated
+    // TODO: remove this when XLS-68 is live in mainnet
+    return undefined
+  }
+
+  if (resp.error_message) {
+    throw new Error(resp.error_message, 500)
+  }
+
+  if (!resp.account_objects.length) {
+    return undefined
+  }
+
+  // A Sponsorship object is linked into both the sponsor's and sponsee's
+  // owner directories, so only keep the ones where this account is sponsored.
+  const sponsorships = resp.account_objects.filter(
+    (d: any) => d.Sponsee === account,
+  )
+
+  return sponsorships.length ? sponsorships.map(formatSponsorship) : undefined
 }
 
 // get Token balance summary
@@ -929,6 +976,7 @@ export {
   getAccountEscrows,
   getAccountPaychannels,
   getAccountBridges,
+  getAccountSponsorship,
   getAccountNFTs,
   getAccountObjects,
   getNFTsIssuedByAccount,

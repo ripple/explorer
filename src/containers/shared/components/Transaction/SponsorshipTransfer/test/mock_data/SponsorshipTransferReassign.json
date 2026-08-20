@@ -1,0 +1,22 @@
+{
+  "hash": "D1B2C3D4E5F6070809101112131415161718192021222324252627282930313D",
+  "ledger_index": 46635303,
+  "date": "2026-08-14T13:49:23+00:00",
+  "tx": {
+    "Account": "rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM",
+    "ObjectID": "04F57D5C7F5B660C187BB55227DFC703AEFE482AEA8EEAF4C7FA5ED9BFF3403E",
+    "Sponsor": "rBaseReserveSponsor2222222222222",
+    "SponsorFlags": 2,
+    "Fee": "12",
+    "Flags": 4,
+    "Sequence": 45,
+    "SigningPubKey": "ED5063FC56A0BD4398964FFD55B3FC353C291C34B81A60BFD33FDC0B036C4D403E",
+    "TransactionType": "SponsorshipTransfer",
+    "TxnSignature": "E98B5560AEE64C27C680E7B9A83239DB3035958761626186455E56C841EBD88438057A0B355C9410E6E5B1A494BFE957ADD8B4873FC9D4700A3BA1041451A905"
+  },
+  "meta": {
+    "AffectedNodes": [],
+    "TransactionIndex": 0,
+    "TransactionResult": "tesSUCCESS"
+  }
+}
