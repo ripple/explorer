@@ -13,6 +13,27 @@ export const XRP_BASE = 1000000
 export const hexMatch = /^(0x)?[0-9A-Fa-f]+$/
 export const ACCOUNT_ZERO = 'rrrrrrrrrrrrrrrrrrrrrhoLvTp'
 
+// Common `SponsorFlags` values (also reused by SponsorshipTransfer.SponsorFlags)
+const SPF_SPONSOR_FEE = 0x00000001
+const SPF_SPONSOR_RESERVE = 0x00000002
+
+export type SponsorScope = 'fee' | 'reserve'
+
+export const getSponsorScopes = (
+  sponsorFlags: number | undefined,
+): SponsorScope[] => {
+  const flags = sponsorFlags || 0
+  const scopes: SponsorScope[] = []
+  if (flags & SPF_SPONSOR_FEE) scopes.push('fee')
+  if (flags & SPF_SPONSOR_RESERVE) scopes.push('reserve')
+  return scopes
+}
+
+export const SPONSOR_SCOPE_LABEL_KEYS = {
+  fee: 'account_page_sponsored_scope_transaction_fees',
+  reserve: 'account_page_sponsored_scope_base_reserve',
+} as const
+
 export const TX_FLAGS: Record<string, Record<number, string>> = {
   all: {
     0x80000000: 'tfFullyCanonicalSig',
@@ -49,6 +70,18 @@ export const TX_FLAGS: Record<string, Record<number, string>> = {
   },
   LoanSet: {
     0x00010000: 'tfLoanOverpayment',
+  },
+  SponsorshipSet: {
+    0x00010000: 'tfSponsorshipSetRequireSignForFee',
+    0x00020000: 'tfSponsorshipClearRequireSignForFee',
+    0x00040000: 'tfSponsorshipSetRequireSignForReserve',
+    0x00080000: 'tfSponsorshipClearRequireSignForReserve',
+    0x00100000: 'tfDeleteObject',
+  },
+  SponsorshipTransfer: {
+    0x00000001: 'tfSponsorshipEnd',
+    0x00000002: 'tfSponsorshipCreate',
+    0x00000004: 'tfSponsorshipReassign',
   },
   LoanManage: {
     0x00010000: 'tfLoanDefault',
