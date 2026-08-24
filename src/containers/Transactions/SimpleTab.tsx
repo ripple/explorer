@@ -7,12 +7,7 @@ import { Simple } from './Simple'
 
 import { useLanguage } from '../shared/hooks'
 import { RouteLink } from '../shared/routing'
-import {
-  CURRENCY_OPTIONS,
-  XRP_BASE,
-  getSponsorScopes,
-  SPONSOR_SCOPE_LABEL_KEYS,
-} from '../shared/transactionUtils'
+import { CURRENCY_OPTIONS, XRP_BASE } from '../shared/transactionUtils'
 import { SimpleRow } from '../shared/components/Transaction/SimpleRow'
 import '../shared/css/simpleTab.scss'
 import './simpleTab.scss'
@@ -47,7 +42,6 @@ export const SimpleTab: FC<{ data: any; width: number }> = ({
     ticketSequence,
     isHook,
     sponsor,
-    sponsorFlags,
   ) => (
     <>
       <SimpleRow
@@ -74,13 +68,6 @@ export const SimpleTab: FC<{ data: any; width: number }> = ({
       {sponsor && (
         <SimpleRow label={t('sponsor')} data-testid="sponsor">
           <Account account={sponsor} />
-          {getSponsorScopes(sponsorFlags).length > 0 && (
-            <div className="sponsor-scopes">
-              {getSponsorScopes(sponsorFlags)
-                .map((scope) => t(SPONSOR_SCOPE_LABEL_KEYS[scope]))
-                .join(', ')}
-            </div>
-          )}
         </SimpleRow>
       )}
       <SimpleRow label={t('sequence_number')} data-testid="sequence">
@@ -119,7 +106,6 @@ export const SimpleTab: FC<{ data: any; width: number }> = ({
     processed.tx.TicketSequence,
     !!processed.tx.EmitDetails,
     processed.tx.Sponsor,
-    processed.tx.SponsorFlags,
   )
 
   return (

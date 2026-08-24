@@ -67,9 +67,7 @@ export const Accounts = () => {
           {showAccount && (
             <>
               <AccountSummary account={account} xrpToUSDRate={xrpToUSDRate} />
-              {(account.sponsorship?.length || account.info?.sponsor) && (
-                <SponsoredFeesReserves account={account} />
-              )}
+              <SponsoredFeesReserves account={account} />
               <PermissionDelegation accountId={account.account} />
               <AccountAsset
                 // Use account.account since `accountId` could be an extended account

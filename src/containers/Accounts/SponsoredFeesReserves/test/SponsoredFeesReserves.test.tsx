@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, fireEvent } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter as Router } from 'react-router'
 import i18n from '../../../../i18n/testConfigEnglish'
@@ -23,15 +23,34 @@ const baseAccount: AccountState = {
   deleted: false,
 }
 
+const openSection = () => {
+  fireEvent.click(
+    screen.getByLabelText('Toggle sponsored fees & reserves section'),
+  )
+}
+
 describe('SponsoredFeesReserves Component', () => {
-  it('renders no rows when the account has no sponsorship', () => {
+  it('renders the title and starts collapsed', () => {
     render(
       <TestWrapper>
         <SponsoredFeesReserves account={baseAccount} />
       </TestWrapper>,
     )
 
-    expect(screen.getByText('Sponsored fees & reserves')).toBeInTheDocument()
+    expect(screen.getByText('Sponsored Fees & Reserves')).toBeInTheDocument()
+    expect(screen.queryByText('No Sponsors')).not.toBeInTheDocument()
+  })
+
+  it('shows "No Sponsors" when the account has no sponsorship', () => {
+    render(
+      <TestWrapper>
+        <SponsoredFeesReserves account={baseAccount} />
+      </TestWrapper>,
+    )
+
+    openSection()
+
+    expect(screen.getByText('No Sponsors')).toBeInTheDocument()
     expect(screen.queryByText('Transaction Fees')).not.toBeInTheDocument()
     expect(screen.queryByText('Base Reserve')).not.toBeInTheDocument()
   })
@@ -50,6 +69,8 @@ describe('SponsoredFeesReserves Component', () => {
         <SponsoredFeesReserves account={account} />
       </TestWrapper>,
     )
+
+    openSection()
 
     expect(screen.getByText('Base Reserve')).toBeInTheDocument()
     expect(screen.queryByText('Transaction Fees')).not.toBeInTheDocument()
@@ -74,6 +95,8 @@ describe('SponsoredFeesReserves Component', () => {
         <SponsoredFeesReserves account={account} />
       </TestWrapper>,
     )
+
+    openSection()
 
     expect(screen.getByText('Transaction Fees')).toBeInTheDocument()
     expect(screen.queryByText('Base Reserve')).not.toBeInTheDocument()
@@ -103,10 +126,11 @@ describe('SponsoredFeesReserves Component', () => {
       </TestWrapper>,
     )
 
+    openSection()
+
     expect(screen.getByText('Transaction Fees')).toBeInTheDocument()
     expect(screen.getByText('Base Reserve')).toBeInTheDocument()
     expect(screen.getAllByTestId('account-component')).toHaveLength(2)
-    expect(screen.getAllByText('Active')).toHaveLength(2)
   })
 
   it('renders one Transaction Fees row per sponsor when there are multiple fee sponsors', () => {
@@ -129,6 +153,8 @@ describe('SponsoredFeesReserves Component', () => {
         <SponsoredFeesReserves account={account} />
       </TestWrapper>,
     )
+
+    openSection()
 
     expect(screen.getAllByText('Transaction Fees')).toHaveLength(2)
     expect(screen.getAllByTestId('account-component')).toHaveLength(2)

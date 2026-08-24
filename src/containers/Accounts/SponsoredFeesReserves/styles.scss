@@ -2,13 +2,6 @@
 
 .sponsored-fees-reserves-section {
   padding: 24px 0;
-
-  .sponsored-fees-reserves-title {
-    @include bold;
-
-    margin: 0 0 20px;
-    font-size: 20px;
-  }
 }
 
 .sponsored-fees-reserves-table-wrapper {
@@ -35,6 +28,13 @@
     border-bottom: 1px solid $black-80;
     color: $white;
     font-size: 14px;
+
+    &.empty-message {
+      padding: 16px;
+      color: $black-40;
+      font-size: 16px;
+      text-align: center;
+    }
   }
 
   tbody tr:first-child td {

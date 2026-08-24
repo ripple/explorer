@@ -1,5 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { Account } from '../../shared/components/Account'
+import { CollapsibleSection } from '../../shared/components/CollapsibleSection'
+import { EmptyMessageTableRow } from '../../shared/EmptyMessageTableRow'
 import type { AccountState } from '../../../rippled/accountState'
 import './styles.scss'
 
@@ -30,32 +32,38 @@ export const SponsoredFeesReserves = ({ account }: Props) => {
   ]
 
   return (
-    <div className="sponsored-fees-reserves-section">
-      <h2 className="sponsored-fees-reserves-title">
-        {t('account_page_sponsored_fees_reserves_title')}
-      </h2>
+    <CollapsibleSection
+      title={t('account_page_sponsored_fees_reserves_title')}
+      ariaLabel="Toggle sponsored fees & reserves section"
+      className="sponsored-fees-reserves-section"
+      defaultOpen={false}
+    >
       <div className="sponsored-fees-reserves-table-wrapper">
         <table className="sponsored-fees-reserves-table">
           <thead>
             <tr>
               <th>{t('account_page_sponsored_scope')}</th>
               <th>{t('account_page_sponsored_by')}</th>
-              <th>{t('status')}</th>
             </tr>
           </thead>
           <tbody>
-            {rows.map(({ scopeKey, sponsor }) => (
-              <tr key={`${scopeKey}-${sponsor}`}>
-                <td>{t(scopeKey)}</td>
-                <td>
-                  <Account account={sponsor} />
-                </td>
-                <td>{t('account_page_sponsored_status_active')}</td>
-              </tr>
-            ))}
+            {rows.length === 0 ? (
+              <EmptyMessageTableRow colSpan={2}>
+                {t('account_page_sponsored_none')}
+              </EmptyMessageTableRow>
+            ) : (
+              rows.map(({ scopeKey, sponsor }) => (
+                <tr key={`${scopeKey}-${sponsor}`}>
+                  <td>{t(scopeKey)}</td>
+                  <td>
+                    <Account account={sponsor} />
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>
-    </div>
+    </CollapsibleSection>
   )
 }
