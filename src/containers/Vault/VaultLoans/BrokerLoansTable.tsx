@@ -20,6 +20,7 @@ interface Props {
   currency: string
   displayCurrency: string
   asset?: AssetInfo
+  assetScale?: number
   isCurrencySpecialSymbol?: boolean
 }
 
@@ -28,6 +29,7 @@ export const BrokerLoansTable = ({
   currency,
   displayCurrency,
   asset,
+  assetScale,
   isCurrencySpecialSymbol = false,
 }: Props) => {
   const { t } = useTranslation()
@@ -126,6 +128,7 @@ export const BrokerLoansTable = ({
             currency={currency}
             displayCurrency={effectiveDisplayCurrency}
             asset={asset}
+            assetScale={assetScale}
             isCurrencySpecialSymbol={isCurrencySpecialSymbol}
           />
         ))}

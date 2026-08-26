@@ -443,8 +443,9 @@ describe('VaultHeader Component', () => {
       const vaultData = {
         Owner: 'rTestOwner',
         Asset: { currency: 'XRP' },
-        AssetsTotal: '12500000', // 12.5 million
-        AssetsAvailable: '5000000', // 5 million
+        // XRP amounts on the Vault ledger entry are in drops (1 XRP = 1,000,000 drops)
+        AssetsTotal: '12500000000000', // 12.5M XRP
+        AssetsAvailable: '5000000000000', // 5M XRP
       }
 
       render(
@@ -458,7 +459,6 @@ describe('VaultHeader Component', () => {
       )
 
       // Numbers >= 1,000,000 should display with M suffix
-      // Verify exact formatted values: 12,500,000 -> "12.5M XRP", 5,000,000 -> "5M XRP"
       expect(screen.getByText('\uE900 12.50M')).toBeInTheDocument()
       expect(screen.getByText('\uE900 5.00M')).toBeInTheDocument()
     })
@@ -467,8 +467,9 @@ describe('VaultHeader Component', () => {
       const vaultData = {
         Owner: 'rTestOwner',
         Asset: { currency: 'XRP' },
-        AssetsAvailable: '250000', // 250 thousand
-        LossUnrealized: '75000', // 75 thousand
+        // XRP amounts on the Vault ledger entry are in drops (1 XRP = 1,000,000 drops)
+        AssetsAvailable: '250000000000', // 250K XRP
+        LossUnrealized: '75000000000', // 75K XRP
       }
 
       render(
@@ -482,7 +483,6 @@ describe('VaultHeader Component', () => {
       )
 
       // Numbers >= 1,000 but < 1,000,000 should display with K suffix
-      // Verify exact formatted values: 250,000 -> "250K XRP", 75,000 -> "75K XRP"
       expect(screen.getByText('\uE900 250.00K')).toBeInTheDocument()
       expect(screen.getByText('\uE900 75.00K')).toBeInTheDocument()
     })
@@ -491,7 +491,8 @@ describe('VaultHeader Component', () => {
       const vaultData = {
         Owner: 'rTestOwner',
         Asset: { currency: 'XRP' },
-        AssetsAvailable: '500', // Less than 1000
+        // XRP amounts on the Vault ledger entry are in drops (1 XRP = 1,000,000 drops)
+        AssetsAvailable: '500000000', // 500 XRP
       }
 
       render(
@@ -505,7 +506,6 @@ describe('VaultHeader Component', () => {
       )
 
       // Numbers < 1,000 should display as-is without K/M suffix
-      // Verify exact formatted value: 500 -> "500 XRP"
       expect(screen.getByText('\uE900 500.00')).toBeInTheDocument()
     })
 
@@ -1050,6 +1050,43 @@ describe('VaultHeader Component', () => {
         expect(screen.getByText('5,000.00 VTKN')).toBeInTheDocument()
       })
     })
+
+    it('scales raw MPT amounts by 10^AssetScale before display', async () => {
+      const mptId = '00001234ABCD5678EF90ABCDEF1234567890ABCDEF'
+      const mptMetadata = {
+        ticker: 'VTKN',
+        name: 'Vault Token',
+      }
+      const mptMetadataHex = Buffer.from(JSON.stringify(mptMetadata))
+        .toString('hex')
+        .toUpperCase()
+
+      mockedGetMPTIssuance.mockResolvedValue({
+        node: { MPTokenMetadata: mptMetadataHex, AssetScale: 6 },
+      })
+
+      const vaultData = {
+        Owner: 'rTestOwner',
+        Asset: { mpt_issuance_id: mptId },
+        // Raw value 5,000,000 with AssetScale 6 → 5 VTKN (not 5,000,000 VTKN)
+        AssetsAvailable: '5000000',
+      }
+
+      render(
+        <TestWrapper>
+          <VaultHeader
+            data={vaultData}
+            vaultId="ABC123"
+            displayCurrency="XRP"
+            assetScale={6}
+          />
+        </TestWrapper>,
+      )
+
+      await waitFor(() => {
+        expect(screen.getByText('5.00 VTKN')).toBeInTheDocument()
+      })
+    })
   })
 
   /**
@@ -1119,7 +1156,8 @@ describe('VaultHeader Component', () => {
       const vaultData = {
         Owner: 'rTestOwner',
         Asset: { currency: 'XRP' },
-        AssetsMaximum: '10000000', // 10 million
+        // XRP amounts on the Vault ledger entry are in drops (1 XRP = 1,000,000 drops)
+        AssetsMaximum: '10000000000000', // 10M XRP
       }
 
       render(
@@ -1170,7 +1208,8 @@ describe('VaultHeader Component', () => {
       const vaultData = {
         Owner: 'rTestOwner',
         Asset: { currency: 'XRP' },
-        AssetsTotal: '5000000',
+        // XRP amounts on the Vault ledger entry are in drops (1 XRP = 1,000,000 drops)
+        AssetsTotal: '5000000000000', // 5M XRP
       }
 
       render(
@@ -1303,7 +1342,8 @@ describe('VaultHeader Component', () => {
       const vaultData = {
         Owner: 'rTestOwner',
         Asset: { currency: 'XRP' },
-        AssetsTotal: '1000000', // 1 million XRP
+        // XRP amounts on the Vault ledger entry are in drops (1 XRP = 1,000,000 drops)
+        AssetsTotal: '1000000000000', // 1M XRP
       }
 
       render(
@@ -1317,7 +1357,6 @@ describe('VaultHeader Component', () => {
       )
 
       // 1,000,000 XRP * 2.5 = 2,500,000 USD = "2.50M USD"
-      // formatAmount joins [prefix, formattedNum, currency] with spaces
       expect(screen.getByText('$2.50M USD')).toBeInTheDocument()
     })
 
@@ -1367,6 +1406,34 @@ describe('VaultHeader Component', () => {
 
       const tvlRow = screen.getByText('Total Value Locked (TVL)').closest('tr')
       expect(tvlRow).toHaveTextContent('Total Value Locked (TVL)$2.00M USD')
+    })
+
+    it('converts Available to Borrow to USD using exchange rate', () => {
+      mockXRPToUSDRate.mockReturnValue(2.5)
+      mockTokenToUSDRate.mockImplementation((token: any) => {
+        if (token?.currency === 'XRP') return 2.5
+        return 0
+      })
+
+      const vaultData = {
+        Owner: 'rTestOwner',
+        Asset: { currency: 'XRP' },
+        // XRP amounts on the Vault ledger entry are in drops (1 XRP = 1,000,000 drops)
+        AssetsAvailable: '2000000000000', // 2M XRP * 2.5 USD = $5M
+      }
+
+      render(
+        <TestWrapper>
+          <VaultHeader
+            data={vaultData}
+            vaultId="ABC123"
+            displayCurrency="USD"
+          />
+        </TestWrapper>,
+      )
+
+      const availableRow = screen.getByText('Available to Borrow').closest('tr')
+      expect(availableRow).toHaveTextContent('Available to Borrow$5.00M USD')
     })
   })
 })
