@@ -19,8 +19,8 @@ describe('NFT Setttings container', () => {
 
   it('renders defined fields', () => {
     const { container } = renderSettings()
-    expect(container.querySelectorAll('.row').length).toEqual(3)
+    expect(container.querySelectorAll('.row').length).toEqual(4)
     expect((container.textContent.match(/enabled/g) || []).length).toEqual(2)
-    expect((container.textContent.match(/disabled/g) || []).length).toEqual(1)
+    expect((container.textContent.match(/disabled/g) || []).length).toEqual(2)
   })
 })
