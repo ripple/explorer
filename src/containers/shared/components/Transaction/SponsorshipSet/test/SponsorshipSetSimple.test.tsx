@@ -20,9 +20,9 @@ describe('SponsorshipSet: Simple', () => {
       'sponsee',
       'rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM',
     )
-    expectSimpleRowText(container, 'fee-amount', '1.00 XRP')
+    expectSimpleRowText(container, 'fee-amount-delta', '1.00 XRP')
     expectSimpleRowText(container, 'max-fee', '0.001 XRP')
-    expectSimpleRowText(container, 'reserve-count', '5')
+    expectSimpleRowText(container, 'reserve-count-delta', '+5')
     unmount()
   })
 
@@ -31,7 +31,7 @@ describe('SponsorshipSet: Simple', () => {
 
     expectSimpleRowText(container, 'sponsorship-deleted', 'Sponsorship Deleted')
     expect(
-      container.querySelector('[data-testid="fee-amount"]'),
+      container.querySelector('[data-testid="fee-amount-delta"]'),
     ).not.toBeInTheDocument()
     unmount()
   })

@@ -18,10 +18,12 @@ export function parser(tx: SponsorshipSet) {
     sponsor,
     sponsee,
     isDelete: Boolean(flags & TF_DELETE_OBJECT),
-    feeAmount:
-      tx.FeeAmount !== undefined ? formatAmount(tx.FeeAmount) : undefined,
+    feeAmountDelta:
+      tx.FeeAmountDelta !== undefined
+        ? formatAmount(tx.FeeAmountDelta)
+        : undefined,
     maxFee: tx.MaxFee !== undefined ? formatAmount(tx.MaxFee) : undefined,
-    reserveCount: tx.ReserveCount,
+    remainingOwnerCountDelta: tx.RemainingOwnerCountDelta,
     requireSignForFee:
       Boolean(flags & TF_SET_REQUIRE_SIGN_FOR_FEE) || undefined,
     clearRequireSignForFee:

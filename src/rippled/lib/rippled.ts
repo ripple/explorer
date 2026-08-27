@@ -32,7 +32,7 @@ const formatSponsorship = (d: any) => ({
   sponsee: d.Sponsee,
   feeAmount: d.FeeAmount,
   maxFee: d.MaxFee,
-  reserveCount: d.ReserveCount,
+  reserveCount: d.RemainingOwnerCount,
 })
 
 const executeQuery = async (

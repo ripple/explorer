@@ -79,9 +79,9 @@ export const TX_FLAGS: Record<string, Record<number, string>> = {
     0x00100000: 'tfDeleteObject',
   },
   SponsorshipTransfer: {
-    0x00000001: 'tfSponsorshipEnd',
-    0x00000002: 'tfSponsorshipCreate',
-    0x00000004: 'tfSponsorshipReassign',
+    0x00010000: 'tfSponsorshipEnd',
+    0x00020000: 'tfSponsorshipCreate',
+    0x00040000: 'tfSponsorshipReassign',
   },
   LoanManage: {
     0x00010000: 'tfLoanDefault',

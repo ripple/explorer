@@ -12,9 +12,9 @@ export const Simple: TransactionSimpleComponent = ({
     sponsor,
     sponsee,
     isDelete,
-    feeAmount,
+    feeAmountDelta,
     maxFee,
-    reserveCount,
+    remainingOwnerCountDelta,
     requireSignForFee,
     requireSignForReserve,
   } = data.instructions
@@ -32,9 +32,9 @@ export const Simple: TransactionSimpleComponent = ({
           {t('sponsorship_deleted')}
         </SimpleRow>
       )}
-      {!isDelete && feeAmount && (
-        <SimpleRow label={t('fee_amount')} data-testid="fee-amount">
-          <Amount value={feeAmount} />
+      {!isDelete && feeAmountDelta && (
+        <SimpleRow label={t('fee_amount_delta')} data-testid="fee-amount-delta">
+          <Amount value={feeAmountDelta} />
         </SimpleRow>
       )}
       {!isDelete && maxFee && (
@@ -42,9 +42,14 @@ export const Simple: TransactionSimpleComponent = ({
           <Amount value={maxFee} />
         </SimpleRow>
       )}
-      {!isDelete && reserveCount !== undefined && (
-        <SimpleRow label={t('reserve_count')} data-testid="reserve-count">
-          {reserveCount}
+      {!isDelete && remainingOwnerCountDelta !== undefined && (
+        <SimpleRow
+          label={t('reserve_count_delta')}
+          data-testid="reserve-count-delta"
+        >
+          {remainingOwnerCountDelta > 0
+            ? `+${remainingOwnerCountDelta}`
+            : remainingOwnerCountDelta}
         </SimpleRow>
       )}
       {!isDelete && requireSignForFee && (

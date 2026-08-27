@@ -241,7 +241,7 @@ describe('getAccountSponsorship', () => {
           Sponsee: ACCOUNT,
           FeeAmount: '1000',
           MaxFee: '5000',
-          ReserveCount: 2,
+          RemainingOwnerCount: 2,
         },
       ],
     })

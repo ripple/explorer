@@ -5,9 +5,9 @@
   "tx": {
     "Account": "rFeeSponsorAlpha11111111111111111",
     "Sponsee": "rncKvRcdDq9hVJpdLdTcKoxsS3NSkXsvfM",
-    "FeeAmount": "1000000",
+    "FeeAmountDelta": "1000000",
     "MaxFee": "1000",
-    "ReserveCount": 5,
+    "RemainingOwnerCountDelta": 5,
     "Fee": "12",
     "Flags": 0,
     "Sequence": 42,

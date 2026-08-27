@@ -5,8 +5,14 @@ import { Amount } from '../../Amount'
 
 export const TableDetail = ({ instructions }: TransactionTableDetailProps) => {
   const { t } = useTranslation()
-  const { sponsor, sponsee, isDelete, feeAmount, maxFee, reserveCount } =
-    instructions
+  const {
+    sponsor,
+    sponsee,
+    isDelete,
+    feeAmountDelta,
+    maxFee,
+    remainingOwnerCountDelta,
+  } = instructions
 
   return (
     <div className="sponsorship-set">
@@ -26,10 +32,10 @@ export const TableDetail = ({ instructions }: TransactionTableDetailProps) => {
           </span>
         </div>
       )}
-      {!isDelete && feeAmount && (
+      {!isDelete && feeAmountDelta && (
         <div>
-          <span className="label">{t('fee_amount')}</span>
-          <Amount value={feeAmount} />
+          <span className="label">{t('fee_amount_delta')}</span>
+          <Amount value={feeAmountDelta} />
         </div>
       )}
       {!isDelete && maxFee && (
@@ -38,10 +44,14 @@ export const TableDetail = ({ instructions }: TransactionTableDetailProps) => {
           <Amount value={maxFee} />
         </div>
       )}
-      {!isDelete && reserveCount !== undefined && (
+      {!isDelete && remainingOwnerCountDelta !== undefined && (
         <div>
-          <span className="label">{t('reserve_count')}</span>
-          <span>{reserveCount}</span>
+          <span className="label">{t('reserve_count_delta')}</span>
+          <span>
+            {remainingOwnerCountDelta > 0
+              ? `+${remainingOwnerCountDelta}`
+              : remainingOwnerCountDelta}
+          </span>
         </div>
       )}
     </div>

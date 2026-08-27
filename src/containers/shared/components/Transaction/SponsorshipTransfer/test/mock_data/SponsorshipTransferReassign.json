@@ -8,7 +8,7 @@
     "Sponsor": "rBaseReserveSponsor2222222222222",
     "SponsorFlags": 2,
     "Fee": "12",
-    "Flags": 4,
+    "Flags": 262144,
     "Sequence": 45,
     "SigningPubKey": "ED5063FC56A0BD4398964FFD55B3FC353C291C34B81A60BFD33FDC0B036C4D403E",
     "TransactionType": "SponsorshipTransfer",

@@ -1,8 +1,8 @@
 import { SponsorshipTransfer } from './types'
 
-const TF_END = 0x00000001
-const TF_CREATE = 0x00000002
-const TF_REASSIGN = 0x00000004
+const TF_END = 0x00010000
+const TF_CREATE = 0x00020000
+const TF_REASSIGN = 0x00040000
 
 export type SponsorshipTransferOperation = 'create' | 'reassign' | 'end'
 

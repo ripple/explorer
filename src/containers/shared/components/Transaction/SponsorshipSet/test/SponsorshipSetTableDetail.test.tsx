@@ -23,7 +23,7 @@ describe('SponsorshipSetTableDetail', () => {
       container.querySelectorAll('[data-testid="amount"]')[1],
     ).toHaveTextContent('0.001 XRP')
     expect(container.querySelector('.sponsorship-set')).toHaveTextContent(
-      'Reserve Count5',
+      'Reserve Count Change+5',
     )
 
     unmount()
@@ -36,7 +36,7 @@ describe('SponsorshipSetTableDetail', () => {
       container.querySelector('[data-testid="sponsorship-deleted"]'),
     ).toHaveTextContent('Sponsorship Deleted')
     expect(container.querySelector('.sponsorship-set')).not.toHaveTextContent(
-      'Fee Amount',
+      'Fee Amount Change',
     )
 
     unmount()
