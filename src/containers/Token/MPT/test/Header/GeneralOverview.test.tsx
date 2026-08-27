@@ -44,6 +44,20 @@ describe('GeneralOverview component', () => {
     expect(container).toHaveTextContent('Test Issuer')
   })
 
+  it('displays the full issuer name untruncated (no address-style shortening)', () => {
+    const longName = 'Franklin Templeton Investments'
+    const { container } = renderComponent({ issuerName: longName })
+    // Full name should render; it must NOT be shortened to e.g. "Frankli...ments".
+    expect(container).toHaveTextContent(longName)
+    expect(container).not.toHaveTextContent('...')
+  })
+
+  it('falls back to the shortened account address when no issuer name', () => {
+    const { container } = renderComponent({ issuerName: undefined })
+    // shortenAccount keeps first 7 + last 5 chars of the address.
+    expect(container).toHaveTextContent('rTestIs...01234')
+  })
+
   it('displays transfer fee when provided', () => {
     const { container } = renderComponent({ transferFee: 1000 })
     // transferFee 1000 / 1000 = 1, formatted as percent = 1.000%

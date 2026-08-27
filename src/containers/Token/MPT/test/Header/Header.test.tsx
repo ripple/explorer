@@ -51,6 +51,8 @@ describe('MPT Header component', () => {
             setError={props.setError || jest.fn()}
             holdersCount={props.holdersCount}
             holdersLoading={props.holdersLoading || false}
+            circulatingSupply={props.circulatingSupply}
+            circulatingSupplyLoading={props.circulatingSupplyLoading}
           />
         </Router>
       </I18nextProvider>,
@@ -157,5 +159,15 @@ describe('MPT Header component', () => {
   it('renders Metadata component when metadata exists', () => {
     const { container } = renderComponent({ data: mockMPTData })
     expect(container.querySelectorAll('.metadata-box')).toHaveLength(1)
+  })
+
+  it('renders the circulating supply when provided', () => {
+    const { container } = renderComponent({
+      data: mockMPTData,
+      circulatingSupply: '3000',
+    })
+    // mockMPTData: outstandingAmt 500000 / 10^2 = 5,000.00 (Supply)
+    // circulatingSupply 3000 -> 3,000.00 (Circ Supply)
+    expect(container).toHaveTextContent('3,000.00')
   })
 })

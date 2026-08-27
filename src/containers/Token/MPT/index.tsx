@@ -24,6 +24,8 @@ import SocketContext from '../../shared/SocketContext'
 import { getMPTIssuance } from '../../../rippled/lib/rippled'
 import { formatMPTIssuance } from '../../../rippled/lib/utils'
 import { fetchAllMPTHolders } from './api/holders'
+import { calculateMptCirculatingSupply } from './utils/circulatingSupply'
+import { isRwaAssetClass } from '../shared/utils/circulatingSupply'
 import { paginationService as transfersPaginationService } from '../shared/services/transfersPagination'
 import { useCursorPaginatedQuery } from '../../shared/hooks/useCursorPaginatedQuery'
 import { PAGINATION_CONFIG, INITIAL_PAGE } from '../shared/constants'
@@ -85,9 +87,20 @@ export const MPT = () => {
       },
     )
 
-  // Fetch ALL holders data at once using mpt_holders Clio method
-  const { data: holdersData, isFetching: holdersLoading } = useQuery(
-    ['getMPTHolders', mptIssuanceId],
+  // Fetch ALL holders data at once using mpt_holders Clio method.
+  // Holder percentages/balances are derived from the outstanding amount and
+  // asset scale, so both belong in the query key.
+  const {
+    data: holdersData,
+    isFetching: holdersLoading,
+    isError: holdersError,
+  } = useQuery(
+    [
+      'getMPTHolders',
+      mptIssuanceId,
+      mptokenIssuance?.outstandingAmt,
+      mptokenIssuance?.assetScale,
+    ],
     async () =>
       fetchAllMPTHolders(
         rippledSocket,
@@ -98,6 +111,35 @@ export const MPT = () => {
     {
       enabled: !!mptokenIssuance?.issuer,
     },
+  )
+
+  // Circulating supply is only meaningful once holders resolve. While the fetch
+  // is pending (or hasn't started yet) show a spinner; if it failed, leave it
+  // undefined so the header renders "--" rather than the unadjusted supply.
+  const circulatingSupplyLoading =
+    holdersLoading || !(holdersData || holdersError)
+
+  // Circulating supply = outstanding amount minus large (>= 20%) holders, except
+  // for RWA tokens where those holders are custodians/treasuries (no exclusion).
+  const isRwa = isRwaAssetClass(
+    mptokenIssuance?.parsedMPTMetadata?.asset_class as string | undefined,
+  )
+  const circulatingSupply = useMemo(
+    () =>
+      holdersData
+        ? calculateMptCirculatingSupply(
+            mptokenIssuance?.outstandingAmt,
+            mptokenIssuance?.assetScale ?? 0,
+            holdersData.holders,
+            isRwa,
+          )
+        : undefined,
+    [
+      holdersData,
+      mptokenIssuance?.outstandingAmt,
+      mptokenIssuance?.assetScale,
+      isRwa,
+    ],
   )
 
   // Client-side pagination: slice the holders array for the current page
@@ -155,6 +197,8 @@ export const MPT = () => {
             setError={setError}
             holdersCount={holdersData?.totalHolders}
             holdersLoading={holdersLoading}
+            circulatingSupply={circulatingSupply}
+            circulatingSupplyLoading={circulatingSupplyLoading}
           />
         )
       )}
