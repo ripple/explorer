@@ -118,7 +118,8 @@ export interface AmendmentData {
   name: string
   threshold?: string
   consensus?: string
-  deprecated: boolean
+  retired: boolean
+  obsolete: boolean
   date: string | null
   tx_hash?: string
   ledger_index?: number

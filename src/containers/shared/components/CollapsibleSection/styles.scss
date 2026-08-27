@@ -1,0 +1,65 @@
+@use '../../css/variables' as *;
+
+.collapsible-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin: 24px 0 20px;
+  gap: 2px;
+
+  &:first-child {
+    margin-top: 0;
+  }
+
+  .collapsible-section-title {
+    @include bold;
+
+    margin: 0;
+    color: $black-0;
+    font-size: 20px;
+  }
+
+  .collapsible-section-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+  }
+
+  .collapsible-section-arrow {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    transform-origin: center;
+    transition: transform 180ms ease;
+  }
+
+  .collapsible-section-arrow.open {
+    transform: rotate(180deg);
+  }
+}
+
+@media (max-width: $tablet-landscape-upper-boundary) {
+  .collapsible-section-header {
+    gap: 8px;
+
+    .collapsible-section-toggle {
+      padding: 4px;
+    }
+
+    .collapsible-section-arrow {
+      width: 16px;
+      height: 16px;
+    }
+  }
+}
+
+@media (max-width: $tablet-portrait-upper-boundary) {
+  .collapsible-section-header .collapsible-section-title {
+    font-size: 18px;
+  }
+}

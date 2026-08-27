@@ -1,0 +1,55 @@
+@use '../../shared/css/variables' as *;
+
+.permission-delegation {
+  .delegate-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .delegate-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    border-radius: 8px;
+    background: $black-80;
+    gap: 16px;
+
+    @media (max-width: $tablet-portrait-upper-boundary) {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+  }
+
+  .delegate-authorize {
+    flex-shrink: 0;
+    font-size: 14px;
+  }
+
+  .delegate-permissions {
+    display: flex;
+    flex: 1;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 6px;
+
+    @media (max-width: $tablet-portrait-upper-boundary) {
+      justify-content: flex-start;
+    }
+  }
+
+  .permission-chip {
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: $black-70;
+    color: $black-0;
+    font-size: 12px;
+    letter-spacing: 0.03em;
+    @include semibold;
+  }
+
+  .loader {
+    min-height: 50px;
+  }
+}

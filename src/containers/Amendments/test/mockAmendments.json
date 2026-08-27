@@ -7,7 +7,8 @@
       "date": "2023-08-21T05:59:11.000Z",
       "name": "fixUniversalNumber",
       "rippled_version": "1.10.0",
-      "deprecated": false
+      "retired": false,
+      "obsolete": false
     },
     {
       "id": "75A7E01C505DD5A179DFE3E000A9B6F1EDDEB55A12F95579A23E15B15DC8BE5A",
@@ -16,13 +17,15 @@
       "date": "2023-08-21T05:59:11.000Z",
       "name": "ImmediateOfferKilled",
       "rippled_version": "1.10.0",
-      "deprecated": false
+      "retired": false,
+      "obsolete": false
     },
     {
       "id": "8CC0774A3BF66D1D22E76BBDA8E8A232E6B6313834301B3B23E8601196AE6455",
       "name": "AMM",
       "rippled_version": "1.12.0",
-      "deprecated": false,
+      "retired": false,
+      "obsolete": false,
       "threshold": "28/35",
       "consensus": "2.86%",
       "voted": {
@@ -85,7 +88,8 @@
       "id": "56B241D7A43D40354D02A9DC4C8DF5C7A1F930D92A9035C4E12291B3CA3E1C2B",
       "name": "Clawback",
       "rippled_version": "1.12.0",
-      "deprecated": false,
+      "retired": false,
+      "obsolete": false,
       "threshold": "28/35",
       "consensus": "11.43%",
       "voted": {
