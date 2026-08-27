@@ -947,6 +947,7 @@
   "maintenance_banner.countdown_prefix": "Starts in",
   "mutable": "Mutable",
   "mutable_flags": "Mutable Flags",
+  "immutable_flags": "Immutable Flags",
   "mutable_flag_tooltip": "The issuer can enable this flag later",
   "mutable_field_tooltip": "The issuer can change this value"
 }

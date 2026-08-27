@@ -72,7 +72,7 @@ export const Simple: TransactionSimpleComponent = ({
       )}
       {immutableFlags && immutableFlags.length > 0 && (
         <SimpleRow
-          label={t('mutable_flags')}
+          label={t('immutable_flags')}
           className="flag"
           data-testid="mpt-mutable-flags"
         >
