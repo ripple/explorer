@@ -947,9 +947,10 @@
   "included": null,
   "maintenance_banner.notice": null,
   "maintenance_banner.countdown_prefix": null,
-  "mutable": null,
-  "mutable_flags": null,
   "immutable_flags": null,
-  "mutable_flag_tooltip": null,
-  "mutable_field_tooltip": null
+  "can_enable": null,
+  "can_enable_flag_tooltip": null,
+  "immutable": null,
+  "immutable_flag_tooltip": null,
+  "immutable_field_tooltip": null
 }

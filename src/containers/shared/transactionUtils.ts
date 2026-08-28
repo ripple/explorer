@@ -76,6 +76,7 @@ export const TX_FLAGS: Record<string, Record<number, string>> = {
     0x00000002: 'tfMPTUnlock',
     // Capability-setting flags (XLS-94 DynamicMPT): one-way, moved into Flags
     0x00000004: 'tfMPTSetCanLock',
+    0x00000008: 'tfMPTSetRequireAuth',
     0x00000010: 'tfMPTSetCanEscrow',
     0x00000020: 'tfMPTSetCanTrade',
     0x00000040: 'tfMPTSetCanTransfer',

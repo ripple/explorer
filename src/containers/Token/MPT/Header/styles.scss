@@ -163,11 +163,20 @@
         color: $black-0;
       }
 
-      &.mutable {
+      // Capability not yet locked — issuer can still enable it.
+      &.can-enable {
         min-width: 0;
         border: 1px solid $green-50;
         background: transparent;
         color: $green-50;
+      }
+
+      // Capability/field permanently locked by the issuer via ImmutableFlags.
+      &.immutable {
+        min-width: 0;
+        border: 1px solid $orange-50;
+        background: transparent;
+        color: $orange-50;
       }
     }
   }

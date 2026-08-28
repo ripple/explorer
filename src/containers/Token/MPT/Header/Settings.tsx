@@ -9,9 +9,15 @@ interface FlagItem {
   key: string
   label: string
   enabled: boolean
-  // The lsifMPT* flag name (Dynamic MPT, XLS-94) that permanently locks this
-  // capability; present only for settings that can be declared immutable.
+  // The lsifMPT* flag name that permanently locks this capability (XLS-94).
   immutableFlag?: string
+}
+
+interface FieldItem {
+  key: string
+  label: string
+  // The lsifMPT* flag name that permanently locks this field (XLS-94).
+  immutableFlag: string
 }
 
 export const Settings = ({
@@ -20,9 +26,14 @@ export const Settings = ({
 }: Props): JSX.Element => {
   const { t } = useTranslation()
 
-  // Returns true when the flag is NOT locked in immutableFlags (i.e. still mutable).
-  const isStillMutable = (immutableFlag?: string): boolean =>
-    !!immutableFlag && !immutableFlags.includes(immutableFlag)
+  // Whether the lsif bit is present — the capability/field is permanently frozen.
+  const isLocked = (immutableFlag?: string): boolean =>
+    !!immutableFlag && immutableFlags.includes(immutableFlag)
+
+  // Whether the capability can still be enabled: not yet locked and not yet on.
+  // Absent immutableFlag means it is not a lockable capability (e.g. lsfMPTLocked).
+  const isCanEnable = (immutableFlag?: string, enabled = false): boolean =>
+    !!immutableFlag && !immutableFlags.includes(immutableFlag) && !enabled
 
   const flagItems: FlagItem[] = [
     {
@@ -74,9 +85,9 @@ export const Settings = ({
     },
   ]
 
-  // Field items (Dynamic MPT) that are not capability flags. Shown only when
-  // the flag is NOT locked in immutableFlags (i.e. the field is still mutable).
-  const mutableFieldItems = [
+  // Mutable fields (not capability flags): always shown. An Immutable badge
+  // appears once the issuer has permanently locked the field via ImmutableFlags.
+  const fieldItems: FieldItem[] = [
     {
       key: 'metadata',
       label: t('metadata'),
@@ -87,7 +98,7 @@ export const Settings = ({
       label: t('transfer_fee'),
       immutableFlag: 'lsifMPTTransferFee',
     },
-  ].filter((item) => isStillMutable(item.immutableFlag))
+  ]
 
   return (
     <div className="header-box settings-box">
@@ -97,16 +108,27 @@ export const Settings = ({
           <div className="header-box-item" key={flag.key}>
             <div className="item-name">{flag.label}</div>
             <div className="flag-status-group">
-              {/* Capabilities are one-directional (can only be enabled later),
-                  so only surface the "Mutable" pill while the flag is still
-                  not locked (not in immutableFlags) and not yet enabled. */}
-              {isStillMutable(flag.immutableFlag) && !flag.enabled && (
+              {/* Capabilities are one-way (enable-only). Show "Can Enable" while
+                  the flag is not yet locked and not yet on, so holders know the
+                  issuer can still activate this capability. */}
+              {isCanEnable(flag.immutableFlag, flag.enabled) && (
                 <div
-                  className="flag-status mutable"
-                  data-testid="mutable-badge"
-                  title={t('mutable_flag_tooltip')}
+                  className="flag-status can-enable"
+                  data-testid="can-enable-badge"
+                  title={t('can_enable_flag_tooltip')}
                 >
-                  {t('mutable')}
+                  {t('can_enable')}
+                </div>
+              )}
+              {/* Show "Immutable" when the issuer has permanently locked this
+                  capability via ImmutableFlags — it can never be enabled. */}
+              {isLocked(flag.immutableFlag) && !flag.enabled && (
+                <div
+                  className="flag-status immutable"
+                  data-testid="immutable-badge"
+                  title={t('immutable_flag_tooltip')}
+                >
+                  {t('immutable')}
                 </div>
               )}
               <div
@@ -119,17 +141,22 @@ export const Settings = ({
             </div>
           </div>
         ))}
-        {mutableFieldItems.map((field) => (
+        {fieldItems.map((field) => (
           <div className="header-box-item" key={field.key}>
             <div className="item-name">{field.label}</div>
             <div className="flag-status-group">
-              <div
-                className="flag-status mutable"
-                data-testid="mutable-badge"
-                title={t('mutable_field_tooltip')}
-              >
-                {t('mutable')}
-              </div>
+              {/* Show "Immutable" once the issuer has permanently locked this
+                  field. No badge when still changeable — the row being visible
+                  is enough to indicate the field exists and can be updated. */}
+              {isLocked(field.immutableFlag) && (
+                <div
+                  className="flag-status immutable"
+                  data-testid="immutable-badge"
+                  title={t('immutable_field_tooltip')}
+                >
+                  {t('immutable')}
+                </div>
+              )}
             </div>
           </div>
         ))}

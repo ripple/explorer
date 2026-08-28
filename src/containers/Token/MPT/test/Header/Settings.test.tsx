@@ -21,12 +21,14 @@ describe('Settings component', () => {
     )
   })
 
-  it('renders 8 capability flag items plus 2 field rows by default', () => {
-    // With no immutableFlags, metadata and transferFee field rows are shown
-    // (both still mutable), giving 8 capability rows + 2 field rows = 10.
+  it('renders 8 capability rows plus 2 field rows always', () => {
+    // Field rows (Metadata, TransferFee) are always visible regardless of
+    // immutableFlags — they show an Immutable badge when locked.
     const { container } = renderComponent()
     expect(container.querySelectorAll('.header-box-item')).toHaveLength(10)
   })
+
+  // ── Enabled / disabled status ───────────────────────────────────────────────
 
   it('shows locked flag as disabled by default', () => {
     const { container } = renderComponent({ flags: [] })
@@ -41,43 +43,43 @@ describe('Settings component', () => {
     expect(lockedItem.querySelectorAll('.flag-status.enabled')).toHaveLength(1)
   })
 
-  it('shows can_lock flag status', () => {
+  it('shows can_lock flag as enabled when present', () => {
     const { container } = renderComponent({ flags: ['lsfMPTCanLock'] })
     expect(container).toHaveTextContent('can_lock')
     expect(container.querySelectorAll('.flag-status.enabled')).toHaveLength(1)
   })
 
-  it('shows require_auth flag status', () => {
+  it('shows require_auth flag as enabled when present', () => {
     const { container } = renderComponent({ flags: ['lsfMPTRequireAuth'] })
     expect(container).toHaveTextContent('require_auth')
     expect(container.querySelectorAll('.flag-status.enabled')).toHaveLength(1)
   })
 
-  it('shows can_escrow flag status', () => {
+  it('shows can_escrow flag as enabled when present', () => {
     const { container } = renderComponent({ flags: ['lsfMPTCanEscrow'] })
     expect(container).toHaveTextContent('can_escrow')
     expect(container.querySelectorAll('.flag-status.enabled')).toHaveLength(1)
   })
 
-  it('shows can_trade flag status', () => {
+  it('shows can_trade flag as enabled when present', () => {
     const { container } = renderComponent({ flags: ['lsfMPTCanTrade'] })
     expect(container).toHaveTextContent('can_trade')
     expect(container.querySelectorAll('.flag-status.enabled')).toHaveLength(1)
   })
 
-  it('shows can_transfer flag status', () => {
+  it('shows can_transfer flag as enabled when present', () => {
     const { container } = renderComponent({ flags: ['lsfMPTCanTransfer'] })
     expect(container).toHaveTextContent('can_transfer')
     expect(container.querySelectorAll('.flag-status.enabled')).toHaveLength(1)
   })
 
-  it('shows can_clawback flag status', () => {
+  it('shows can_clawback flag as enabled when present', () => {
     const { container } = renderComponent({ flags: ['lsfMPTCanClawback'] })
     expect(container).toHaveTextContent('can_clawback')
     expect(container.querySelectorAll('.flag-status.enabled')).toHaveLength(1)
   })
 
-  it('shows can_confidential_amount flag status', () => {
+  it('shows can_confidential_amount flag as enabled when present', () => {
     const { container } = renderComponent({
       flags: ['lsfMPTCanConfidentialAmount'],
     })
@@ -93,78 +95,116 @@ describe('Settings component', () => {
     expect(container.querySelectorAll('.flag-status.disabled')).toHaveLength(5)
   })
 
-  it('handles empty flags array', () => {
+  it('handles empty flags array — all caps disabled', () => {
     const { container } = renderComponent({ flags: [] })
     expect(container.querySelectorAll('.flag-status.enabled')).toHaveLength(0)
     expect(container.querySelectorAll('.flag-status.disabled')).toHaveLength(8)
   })
 
-  it('handles undefined flags', () => {
+  it('handles undefined flags — all caps disabled', () => {
     const { container } = renderComponent({ flags: undefined })
     expect(container.querySelectorAll('.flag-status.disabled')).toHaveLength(8)
   })
 
-  it('shows mutable badges for all unlocked disabled caps and field rows when no immutableFlags set', () => {
-    // With no immutableFlags, all capabilities are still mutable and both field
-    // rows (metadata, transferFee) are visible. 7 disabled cap badges + 2 field
-    // row badges = 9 total. (locked flag has no immutableFlag so never badges.)
+  // ── Can Enable badge ────────────────────────────────────────────────────────
+  // Appears on disabled capabilities that have not been locked via ImmutableFlags.
+  // Tells holders: "the issuer can still activate this capability."
+
+  it('shows can-enable badges for all unlocked disabled caps when no immutableFlags set', () => {
+    // 7 lockable caps (canLock through canConfidentialAmount) × disabled + unlocked
+    // = 7 can-enable badges. lsfMPTLocked has no immutableFlag → no badge.
+    // Field rows show no badge when not locked.
     const { queryAllByTestId, container } = renderComponent({ flags: [] })
-    expect(queryAllByTestId('mutable-badge')).toHaveLength(9)
-    // 8 capability rows + metadata + transferFee field rows
+    expect(queryAllByTestId('can-enable-badge')).toHaveLength(7)
+    expect(queryAllByTestId('immutable-badge')).toHaveLength(0)
     expect(container.querySelectorAll('.header-box-item')).toHaveLength(10)
   })
 
-  it('hides the mutable badge for a capability once it is locked (in immutableFlags)', () => {
-    const { container, getAllByTestId } = renderComponent({
-      flags: [],
-      immutableFlags: ['lsifMPTCanLock'],
-    })
-    // lsifMPTCanLock is locked → its badge is hidden; 6 other disabled caps +
-    // 2 field rows still show badges = 8 total
-    expect(getAllByTestId('mutable-badge')).toHaveLength(8)
-    expect(container.querySelectorAll('.flag-status.mutable')).toHaveLength(8)
-  })
-
-  it('hides the mutable badge for confidential capability once locked in immutableFlags', () => {
-    const { container, getAllByTestId } = renderComponent({
-      flags: [],
-      immutableFlags: ['lsifMPTCanHoldConfidentialBalance'],
-    })
-    // lsifMPTCanHoldConfidentialBalance locked → its badge hidden;
-    // 6 other disabled caps + 2 field rows still show badges = 8 total
-    expect(getAllByTestId('mutable-badge')).toHaveLength(8)
-    expect(container.querySelectorAll('.flag-status.mutable')).toHaveLength(8)
-  })
-
-  it('hides the mutable badge once a capability is enabled', () => {
-    // Capabilities are one-directional (enable-only), so a mutable badge on an
-    // already-enabled flag would be misleading.
+  it('hides can-enable badge once a capability is enabled', () => {
+    // Capabilities are one-way (enable-only), so an enabled flag never needs
+    // the "Can Enable" indicator.
     const { queryAllByTestId } = renderComponent({
       flags: ['lsfMPTCanLock'],
       immutableFlags: [],
     })
-    // canLock is enabled → no badge for it; 6 other disabled caps + 2 field
-    // rows still show badges = 8 total
-    expect(queryAllByTestId('mutable-badge')).toHaveLength(8)
+    // canLock is enabled → no can-enable badge for it; 6 other disabled unlocked
+    expect(queryAllByTestId('can-enable-badge')).toHaveLength(6)
+    expect(queryAllByTestId('immutable-badge')).toHaveLength(0)
   })
 
-  it('hides extra field rows for metadata and transferFee when locked in immutableFlags', () => {
-    const { container } = renderComponent({
+  it('hides can-enable badge once a capability is locked in immutableFlags', () => {
+    // Locked = permanently disabled; "Can Enable" would be misleading.
+    const { queryAllByTestId } = renderComponent({
+      flags: [],
+      immutableFlags: ['lsifMPTCanLock'],
+    })
+    // canLock is locked → no can-enable badge; 6 other disabled unlocked caps
+    expect(queryAllByTestId('can-enable-badge')).toHaveLength(6)
+  })
+
+  // ── Immutable badge ─────────────────────────────────────────────────────────
+  // Appears on capabilities/fields permanently locked via ImmutableFlags.
+  // Tells everyone: "the issuer cannot change this — ever."
+
+  it('shows immutable badge for a locked capability', () => {
+    const { container, getAllByTestId, queryAllByTestId } = renderComponent({
+      flags: [],
+      immutableFlags: ['lsifMPTCanLock'],
+    })
+    // canLock locked → 1 immutable badge; 6 other disabled unlocked → 6 can-enable
+    expect(getAllByTestId('immutable-badge')).toHaveLength(1)
+    expect(queryAllByTestId('can-enable-badge')).toHaveLength(6)
+    expect(container.querySelectorAll('.flag-status.immutable')).toHaveLength(1)
+  })
+
+  it('shows immutable badge for locked confidential capability', () => {
+    const { getAllByTestId, queryAllByTestId } = renderComponent({
+      flags: [],
+      immutableFlags: ['lsifMPTCanHoldConfidentialBalance'],
+    })
+    expect(getAllByTestId('immutable-badge')).toHaveLength(1)
+    expect(queryAllByTestId('can-enable-badge')).toHaveLength(6)
+  })
+
+  it('does not show immutable badge for an already-enabled capability', () => {
+    // Once enabled, the "Immutable" badge would be redundant — the enabled status
+    // is already permanent (capabilities are one-way).
+    const { queryAllByTestId } = renderComponent({
+      flags: ['lsfMPTCanLock'],
+      immutableFlags: ['lsifMPTCanLock'],
+    })
+    expect(queryAllByTestId('immutable-badge')).toHaveLength(0)
+  })
+
+  // ── Field rows (Metadata / TransferFee) ─────────────────────────────────────
+  // Always shown. An Immutable badge appears when locked; no badge when mutable.
+
+  it('always shows metadata and transferFee rows regardless of immutableFlags', () => {
+    const { container: withLock } = renderComponent({
+      immutableFlags: ['lsifMPTMetadata', 'lsifMPTTransferFee'],
+    })
+    const { container: withoutLock } = renderComponent({ immutableFlags: [] })
+    // Both states → 8 cap rows + 2 field rows = 10
+    expect(withLock.querySelectorAll('.header-box-item')).toHaveLength(10)
+    expect(withoutLock.querySelectorAll('.header-box-item')).toHaveLength(10)
+  })
+
+  it('shows immutable badges on field rows when locked', () => {
+    const { getAllByTestId, queryAllByTestId } = renderComponent({
       flags: [],
       immutableFlags: ['lsifMPTMetadata', 'lsifMPTTransferFee'],
     })
-    // 8 capability rows only (field rows are hidden when locked)
-    expect(container.querySelectorAll('.header-box-item')).toHaveLength(8)
+    // 2 immutable badges on field rows; 7 can-enable on unlocked disabled caps
+    expect(getAllByTestId('immutable-badge')).toHaveLength(2)
+    expect(queryAllByTestId('can-enable-badge')).toHaveLength(7)
   })
 
-  it('shows extra rows for mutable metadata and transfer fee when not locked', () => {
-    const { container, getAllByTestId } = renderComponent({
+  it('shows no badges on field rows when not locked', () => {
+    const { queryAllByTestId } = renderComponent({
       flags: [],
       immutableFlags: [],
     })
-    // 8 capability rows + metadata + transfer fee (both still mutable)
-    expect(container.querySelectorAll('.header-box-item')).toHaveLength(10)
-    // badges: 7 disabled cap flags (not locked) + 2 field row badges = 9
-    expect(getAllByTestId('mutable-badge')).toHaveLength(9)
+    expect(queryAllByTestId('immutable-badge')).toHaveLength(0)
+    expect(queryAllByTestId('can-enable-badge')).toHaveLength(7)
   })
 })

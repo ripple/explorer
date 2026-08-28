@@ -947,9 +947,10 @@
   "included": "Included",
   "maintenance_banner.notice": "Scheduled maintenance: {{window}} (~{{duration}} min downtime).",
   "maintenance_banner.countdown_prefix": "Starts in",
-  "mutable": "Mutable",
-  "mutable_flags": "Mutable Flags",
-  "immutable_flags": "Immutable Flags",
-  "mutable_flag_tooltip": "The issuer can enable this flag later",
-  "mutable_field_tooltip": "The issuer can change this value"
+  "can_enable": "Can Enable",
+  "can_enable_flag_tooltip": "The issuer can still enable this capability — it has not been permanently locked",
+  "immutable": "Immutable",
+  "immutable_flag_tooltip": "This capability has been permanently locked by the issuer and cannot be enabled",
+  "immutable_field_tooltip": "This field has been permanently locked by the issuer and cannot be changed",
+  "immutable_flags": "Immutable Flags"
 }
