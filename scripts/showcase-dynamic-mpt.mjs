@@ -29,12 +29,16 @@ async function rpc(method, params = {}) {
   })
   if (!res.ok) throw new Error(`HTTP ${res.status}`)
   const { result } = await res.json()
-  if (result.error) throw new Error(`${result.error}: ${result.error_message ?? ''}`)
+  if (result.error)
+    throw new Error(`${result.error}: ${result.error_message ?? ''}`)
   return result
 }
 
 async function submit(txJson) {
-  const result = await rpc('submit', { tx_json: txJson, secret: GENESIS_SECRET })
+  const result = await rpc('submit', {
+    tx_json: txJson,
+    secret: GENESIS_SECRET,
+  })
   const eng = result.engine_result
   if (eng !== 'tesSUCCESS' && eng !== 'terQUEUED') {
     throw new Error(`${eng}: ${result.engine_result_message}`)
@@ -53,7 +57,7 @@ async function getValidatedTx(hash) {
       const result = await rpc('tx', { transaction: hash })
       if (result.validated) return result
     } catch (_) {}
-    await new Promise(r => setTimeout(r, 200))
+    await new Promise((r) => setTimeout(r, 200))
   }
   throw new Error(`tx ${hash} not validated after retries`)
 }
@@ -82,9 +86,7 @@ const METADATA_B = {
   ac: 'rwa',
   as: 'treasury',
   in: 'XRPL Foundation',
-  us: [
-    { u: 'https://example.org/rtbil', c: 'website', t: 'Product Page' },
-  ],
+  us: [{ u: 'https://example.org/rtbil', c: 'website', t: 'Product Page' }],
   ai: { interest_rate: '5.00%', maturity_date: '2027-06-30' },
 }
 
@@ -97,9 +99,7 @@ const METADATA_A_UPDATED = {
   i: 'https://example.org/dynx/icon.png',
   ac: 'defi',
   in: 'XRPL Foundation',
-  us: [
-    { u: 'https://example.org/dynx', c: 'website', t: 'Product Page' },
-  ],
+  us: [{ u: 'https://example.org/dynx', c: 'website', t: 'Product Page' }],
 }
 
 function toHex(obj) {
@@ -112,7 +112,9 @@ function toHex(obj) {
 async function main() {
   console.log(`Connecting to ${ENDPOINT} …`)
   const { info } = await rpc('server_info')
-  console.log(`  rippled ${info.build_version}  network_id=${info.network_id}\n`)
+  console.log(
+    `  rippled ${info.build_version}  network_id=${info.network_id}\n`,
+  )
 
   const { account_data } = await rpc('account_info', {
     account: GENESIS_ACCOUNT,
@@ -135,10 +137,10 @@ async function main() {
     Account: GENESIS_ACCOUNT,
     Sequence: seq++,
     Fee: '200',
-    Flags: 0x00000020,           // tfMPTCanTransfer
+    Flags: 0x00000020, // tfMPTCanTransfer
     AssetScale: 6,
     MaximumAmount: '1000000000000',
-    TransferFee: 100,            // 0.010% — still mutable
+    TransferFee: 100, // 0.010% — still mutable
     MPTokenMetadata: toHex(METADATA_A),
   })
   await advanceLedger()
@@ -157,18 +159,20 @@ async function main() {
   //        tifMPTRequireAuth, tifMPTMetadata; metadata renders as JSON in Detail.
   // Settings: CanLock + RequireAuth → "Immutable" badge;
   //           Metadata field row → "Immutable" badge; TransferFee row mutable.
-  console.log('TX2  MPTokenIssuanceCreate — with ImmutableFlags (RTBIL / RWA treasury)')
+  console.log(
+    'TX2  MPTokenIssuanceCreate — with ImmutableFlags (RTBIL / RWA treasury)',
+  )
   const hash2 = await submit({
     TransactionType: 'MPTokenIssuanceCreate',
     Account: GENESIS_ACCOUNT,
     Sequence: seq++,
     Fee: '200',
-    Flags: 0x00000024,           // tfMPTCanTransfer | tfMPTRequireAuth
+    Flags: 0x00000024, // tfMPTCanTransfer | tfMPTRequireAuth
     AssetScale: 2,
     MaximumAmount: '9223372036854775807',
-    TransferFee: 500,            // 0.500%
+    TransferFee: 500, // 0.500%
     MPTokenMetadata: toHex(METADATA_B),
-    ImmutableFlags: 0x00010006,  // tifMPTCanLock + tifMPTRequireAuth + tifMPTMetadata
+    ImmutableFlags: 0x00010006, // tifMPTCanLock + tifMPTRequireAuth + tifMPTMetadata
   })
   await advanceLedger()
   const tx2 = await getValidatedTx(hash2)
@@ -181,14 +185,16 @@ async function main() {
   // Flags: tfMPTSetCanEscrow(0x10) | tfMPTSetCanTrade(0x20) = 0x30
   // Shows: Set Simple with NO ImmutableFlags row; the tfMPTSetCan* bits appear
   //        automatically in the Detail tab via TX_FLAGS.MPTokenIssuanceSet.
-  console.log('TX3  MPTokenIssuanceSet — enable CanEscrow + CanTrade on Issuance A')
+  console.log(
+    'TX3  MPTokenIssuanceSet — enable CanEscrow + CanTrade on Issuance A',
+  )
   const hash3 = await submit({
     TransactionType: 'MPTokenIssuanceSet',
     Account: GENESIS_ACCOUNT,
     Sequence: seq++,
     Fee: '200',
     MPTokenIssuanceID: issuanceIdA,
-    Flags: 0x00000030,           // tfMPTSetCanEscrow | tfMPTSetCanTrade
+    Flags: 0x00000030, // tfMPTSetCanEscrow | tfMPTSetCanTrade
   })
   await advanceLedger()
   results.tx3 = { hash: hash3 }
@@ -201,53 +207,75 @@ async function main() {
   // Shows: Set Simple with TransferFee row (0.075%), Metadata row (JSON rendered),
   //        and "Immutable Flags" row listing tifMPTCanTrade, tifMPTCanTransfer,
   //        tifMPTTransferFee.
-  console.log('TX4  MPTokenIssuanceSet — update metadata + TransferFee + lock via ImmutableFlags on Issuance A')
+  console.log(
+    'TX4  MPTokenIssuanceSet — update metadata + TransferFee + lock via ImmutableFlags on Issuance A',
+  )
   const hash4 = await submit({
     TransactionType: 'MPTokenIssuanceSet',
     Account: GENESIS_ACCOUNT,
     Sequence: seq++,
     Fee: '200',
     MPTokenIssuanceID: issuanceIdA,
-    TransferFee: 750,            // update: 0.010% → 0.075%
+    TransferFee: 750, // update: 0.010% → 0.075%
     MPTokenMetadata: toHex(METADATA_A_UPDATED),
-    ImmutableFlags: 0x00020030,  // tifMPTCanTrade + tifMPTCanTransfer + tifMPTTransferFee
+    ImmutableFlags: 0x00020030, // tifMPTCanTrade + tifMPTCanTransfer + tifMPTTransferFee
   })
   await advanceLedger()
   results.tx4 = { hash: hash4 }
   console.log(`  hash: ${hash4}\n`)
 
   // ── Summary ──────────────────────────────────────────────────────────────────
-  console.log('═══════════════════════════════════════════════════════════════════')
+  console.log(
+    '═══════════════════════════════════════════════════════════════════',
+  )
   console.log('  EXPLORER URLS')
-  console.log('═══════════════════════════════════════════════════════════════════\n')
+  console.log(
+    '═══════════════════════════════════════════════════════════════════\n',
+  )
 
-  console.log('── MPTokenIssuanceCreate / Simple view ─────────────────────────────')
+  console.log(
+    '── MPTokenIssuanceCreate / Simple view ─────────────────────────────',
+  )
   console.log('  TX1  DYNX — no ImmutableFlags ("Immutable Flags" row absent)')
   console.log(`  ${EXPLORER}/transactions/${results.tx1.hash}/simple`)
   console.log()
-  console.log('  TX2  RTBIL — ImmutableFlags=0x10006 (tifMPTCanLock, tifMPTRequireAuth, tifMPTMetadata)')
+  console.log(
+    '  TX2  RTBIL — ImmutableFlags=0x10006 (tifMPTCanLock, tifMPTRequireAuth, tifMPTMetadata)',
+  )
   console.log(`  ${EXPLORER}/transactions/${results.tx2.hash}/simple`)
   console.log()
 
-  console.log('── MPTokenIssuanceSet / Simple view ────────────────────────────────')
-  console.log('  TX3  tfMPTSetCanEscrow + tfMPTSetCanTrade (see Detail tab for flag decode)')
+  console.log(
+    '── MPTokenIssuanceSet / Simple view ────────────────────────────────',
+  )
+  console.log(
+    '  TX3  tfMPTSetCanEscrow + tfMPTSetCanTrade (see Detail tab for flag decode)',
+  )
   console.log(`  ${EXPLORER}/transactions/${results.tx3.hash}/simple`)
   console.log()
   console.log('  TX4  TransferFee + Metadata (JSON) + ImmutableFlags rows')
   console.log(`  ${EXPLORER}/transactions/${results.tx4.hash}/simple`)
   console.log()
 
-  console.log('── MPT token Settings page ─────────────────────────────────────────')
-  console.log('  Issuance A  DYNX — "Can Enable" on unlocked caps; CanTrade+CanTransfer+TransferFee → "Immutable"')
+  console.log(
+    '── MPT token Settings page ─────────────────────────────────────────',
+  )
+  console.log(
+    '  Issuance A  DYNX — "Can Enable" on unlocked caps; CanTrade+CanTransfer+TransferFee → "Immutable"',
+  )
   console.log(`  ${EXPLORER}/token/mpt/${results.tx1.issuanceId}`)
   console.log()
-  console.log('  Issuance B  RTBIL — CanLock+RequireAuth+Metadata → "Immutable"; TransferFee still mutable')
+  console.log(
+    '  Issuance B  RTBIL — CanLock+RequireAuth+Metadata → "Immutable"; TransferFee still mutable',
+  )
   console.log(`  ${EXPLORER}/token/mpt/${results.tx2.issuanceId}`)
   console.log()
-  console.log('═══════════════════════════════════════════════════════════════════')
+  console.log(
+    '═══════════════════════════════════════════════════════════════════',
+  )
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.error('\nFatal:', err.message)
   process.exit(1)
 })

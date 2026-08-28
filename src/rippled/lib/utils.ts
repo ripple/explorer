@@ -329,7 +329,10 @@ const formatMPTIssuance = (info: MPTIssuanceInfo): FormattedMPTIssuance => {
     parsedMPTMetadata: parseMPTMetadata(rawMPTMetadataHex),
     isMPTMetadataCompliant: isMPTMetadataCompliant(rawMPTMetadataHex),
     flags: buildFlags(info.Flags, MPT_ISSUANCE_FLAGS),
-    immutableFlags: buildFlags(info.ImmutableFlags, MPT_ISSUANCE_IMMUTABLE_FLAGS),
+    immutableFlags: buildFlags(
+      info.ImmutableFlags,
+      MPT_ISSUANCE_IMMUTABLE_FLAGS,
+    ),
     issuerEncryptionKey: info.IssuerEncryptionKey,
     auditorEncryptionKey: info.AuditorEncryptionKey,
   }
