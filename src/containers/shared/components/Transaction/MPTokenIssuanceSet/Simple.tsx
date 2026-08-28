@@ -17,17 +17,9 @@ import {
 } from '../../../../../rippled/lib/utils'
 import { MPT_IMMUTABLE_FLAGS } from '../../../transactionUtils'
 
-interface MPTokenIssuanceSetExtended extends MPTokenIssuanceSet {
-  MPTokenMetadata?: string
-  TransferFee?: number
-  ImmutableFlags?: number
-  IssuerEncryptionKey?: string
-  AuditorEncryptionKey?: string
-}
-
 export const Simple: TransactionSimpleComponent = ({
   data,
-}: TransactionSimpleProps<MPTokenIssuanceSetExtended>) => {
+}: TransactionSimpleProps<MPTokenIssuanceSet>) => {
   const {
     MPTokenIssuanceID,
     Holder,

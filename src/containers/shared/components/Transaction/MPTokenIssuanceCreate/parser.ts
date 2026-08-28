@@ -7,13 +7,8 @@ import {
 } from '../../../../../rippled/lib/utils'
 import { MPT_IMMUTABLE_FLAGS } from '../../../transactionUtils'
 
-// Extends the base type until xrpl.js ships ImmutableFlags (PR #3417).
-interface MPTokenIssuanceCreateExtended extends MPTokenIssuanceCreate {
-  ImmutableFlags?: number
-}
-
 export const parser: TransactionParser<
-  MPTokenIssuanceCreateExtended,
+  MPTokenIssuanceCreate,
   MPTokenIssuanceCreateInstructions
 > = (tx, meta) => {
   const immutableFlags = buildFlags(tx.ImmutableFlags, MPT_IMMUTABLE_FLAGS)
