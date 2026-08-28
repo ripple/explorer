@@ -7,7 +7,7 @@ import {
 } from '../../../../../rippled/lib/utils'
 import { MPT_IMMUTABLE_FLAGS } from '../../../transactionUtils'
 
-// TODO: use MPTokenIssuanceCreate when DynamicMPT is supported on xrpl.js
+// Extends the base type until xrpl.js ships ImmutableFlags (PR #3417).
 interface MPTokenIssuanceCreateExtended extends MPTokenIssuanceCreate {
   ImmutableFlags?: number
 }
