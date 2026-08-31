@@ -19,6 +19,7 @@ import { useLanguage } from '../../shared/hooks'
 import { HookDetails } from './HookDetails'
 import { RouteLink } from '../../shared/routing'
 import { LEDGER_ROUTE } from '../../App/routes'
+import { getOperation } from '../../shared/components/Transaction/SponsorshipTransfer/parser'
 
 export const DetailTab: FC<{ data: any }> = ({ data }) => {
   const { t } = useTranslation()
@@ -112,6 +113,16 @@ export const DetailTab: FC<{ data: any }> = ({ data }) => {
   }
 
   const renderSponsor = () => {
+    // On create/reassign, SponsorshipTransfer reuses the common Sponsor
+    // field for its own "new sponsor of the target object" meaning, not for
+    // co-sponsoring this outer transaction, so it's excluded from the
+    // generic Sponsor section there. On tfSponsorshipEnd the spec requires
+    // Sponsor to be omitted for that purpose, so if it's present it can
+    // only be genuine outer co-sponsorship.
+    const isNewSponsorField =
+      data.tx.TransactionType === 'SponsorshipTransfer' &&
+      getOperation(data.tx.Flags || 0) !== 'end'
+    if (isNewSponsorField) return null
     if (!data.tx.Sponsor) return null
     const scopes = getSponsorScopes(data.tx.SponsorFlags)
     return (

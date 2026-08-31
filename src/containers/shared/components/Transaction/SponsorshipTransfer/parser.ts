@@ -6,7 +6,9 @@ const TF_REASSIGN = 0x00040000
 
 export type SponsorshipTransferOperation = 'create' | 'reassign' | 'end'
 
-function getOperation(flags: number): SponsorshipTransferOperation | undefined {
+export function getOperation(
+  flags: number,
+): SponsorshipTransferOperation | undefined {
   if (flags & TF_CREATE) return 'create'
   if (flags & TF_REASSIGN) return 'reassign'
   if (flags & TF_END) return 'end'
