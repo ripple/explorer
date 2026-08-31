@@ -17,10 +17,12 @@ export const SponsoredFeesReserves = ({ account }: Props) => {
   const { t } = useTranslation()
 
   const rows: { scopeKey: ScopeKey; sponsor: string }[] = [
-    ...(account.sponsorship ?? []).map(({ owner }) => ({
-      scopeKey: 'account_page_sponsored_scope_transaction_fees' as ScopeKey,
-      sponsor: owner,
-    })),
+    ...(account.sponsorship ?? [])
+      .filter(({ feeAmount }) => Number(feeAmount) > 0)
+      .map(({ owner }) => ({
+        scopeKey: 'account_page_sponsored_scope_transaction_fees' as ScopeKey,
+        sponsor: owner,
+      })),
     ...(account.info?.sponsor
       ? [
           {

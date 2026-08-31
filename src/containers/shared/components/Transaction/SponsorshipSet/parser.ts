@@ -3,9 +3,20 @@ import { SponsorshipSet } from './types'
 
 const TF_DELETE_OBJECT = 0x00100000
 const TF_SET_REQUIRE_SIGN_FOR_FEE = 0x00010000
-const TF_CLEAR_REQUIRE_SIGN_FOR_FEE = 0x00020000
 const TF_SET_REQUIRE_SIGN_FOR_RESERVE = 0x00040000
-const TF_CLEAR_REQUIRE_SIGN_FOR_RESERVE = 0x00080000
+
+// Signs the formatted delta amount explicitly, since a negative amount
+// (a withdrawal) would otherwise read identically to a positive one at a
+// glance in the UI.
+function getSignedDelta(delta: string | undefined) {
+  if (delta === undefined) return undefined
+  const formatted = formatAmount(delta)
+  const amount = Number(formatted.amount)
+  return {
+    value: { ...formatted, amount: Math.abs(amount) },
+    modifier: amount < 0 ? ('-' as const) : ('+' as const),
+  }
+}
 
 export function parser(tx: SponsorshipSet) {
   const flags = tx.Flags || 0
@@ -18,19 +29,12 @@ export function parser(tx: SponsorshipSet) {
     sponsor,
     sponsee,
     isDelete: Boolean(flags & TF_DELETE_OBJECT),
-    feeAmountDelta:
-      tx.FeeAmountDelta !== undefined
-        ? formatAmount(tx.FeeAmountDelta)
-        : undefined,
+    feeAmountDelta: getSignedDelta(tx.FeeAmountDelta),
     maxFee: tx.MaxFee !== undefined ? formatAmount(tx.MaxFee) : undefined,
     remainingOwnerCountDelta: tx.RemainingOwnerCountDelta,
     requireSignForFee:
       Boolean(flags & TF_SET_REQUIRE_SIGN_FOR_FEE) || undefined,
-    clearRequireSignForFee:
-      Boolean(flags & TF_CLEAR_REQUIRE_SIGN_FOR_FEE) || undefined,
     requireSignForReserve:
       Boolean(flags & TF_SET_REQUIRE_SIGN_FOR_RESERVE) || undefined,
-    clearRequireSignForReserve:
-      Boolean(flags & TF_CLEAR_REQUIRE_SIGN_FOR_RESERVE) || undefined,
   }
 }

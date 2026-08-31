@@ -33,24 +33,28 @@ export const Description = ({
     )
   }
 
-  if (operation === 'end' && sponsee) {
+  if (operation === 'end') {
+    if (sponsee) {
+      return (
+        <Trans
+          i18nKey="sponsorship_transfer_end_other"
+          components={{
+            Account: <Account account={account} />,
+            Sponsee: <Account account={sponsee} />,
+          }}
+        />
+      )
+    }
+
     return (
       <Trans
-        i18nKey="sponsorship_transfer_end_other"
+        i18nKey="sponsorship_transfer_end_self"
         components={{
           Account: <Account account={account} />,
-          Sponsee: <Account account={sponsee} />,
         }}
       />
     )
   }
 
-  return (
-    <Trans
-      i18nKey="sponsorship_transfer_end_self"
-      components={{
-        Account: <Account account={account} />,
-      }}
-    />
-  )
+  return null
 }

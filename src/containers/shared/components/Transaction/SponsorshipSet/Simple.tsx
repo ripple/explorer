@@ -34,7 +34,10 @@ export const Simple: TransactionSimpleComponent = ({
       )}
       {!isDelete && feeAmountDelta && (
         <SimpleRow label={t('fee_amount_delta')} data-testid="fee-amount-delta">
-          <Amount value={feeAmountDelta} />
+          <Amount
+            value={feeAmountDelta.value}
+            modifier={feeAmountDelta.modifier}
+          />
         </SimpleRow>
       )}
       {!isDelete && maxFee && (

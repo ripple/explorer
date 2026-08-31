@@ -130,6 +130,7 @@ export const TX_FLAGS: Record<string, Record<number, string>> = {
     0x00010000: 'tfNoDirectRipple',
     0x00020000: 'tfPartialPayment',
     0x00040000: 'tfLimitQuality',
+    0x00080000: 'tfSponsorCreatedAccount',
   },
   PaymentChannelClaim: {
     0x00010000: 'tfRenew',

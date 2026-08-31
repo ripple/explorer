@@ -40,7 +40,7 @@ export interface AccountState {
     sponsee: string
     feeAmount?: string
     maxFee?: string
-    reserveCount?: number
+    remainingOwnerCount?: number
   }[]
   info: {
     accountTransactionID?: string

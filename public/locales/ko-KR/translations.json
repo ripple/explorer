@@ -209,6 +209,8 @@
   "transaction_type_name_SetHook": "Hook 설정",
   "transaction_type_name_SetRegularKey": "일반 키 설정",
   "transaction_type_name_SignerListSet": "서명자 목록 설정",
+  "transaction_type_name_SponsorshipSet": null,
+  "transaction_type_name_SponsorshipTransfer": null,
   "transaction_type_name_TicketCreate": "티켓 생성",
   "transaction_type_name_TrustSet": "신뢰 설정",
   "transaction_type_name_VaultCreate": null,

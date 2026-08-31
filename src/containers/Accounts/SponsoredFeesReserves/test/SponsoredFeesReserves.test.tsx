@@ -86,6 +86,7 @@ describe('SponsoredFeesReserves Component', () => {
         {
           owner: 'rFeeSponsor2222222222222222222222',
           sponsee: baseAccount.account,
+          feeAmount: '1000000',
         },
       ],
     }
@@ -105,6 +106,30 @@ describe('SponsoredFeesReserves Component', () => {
     )
   })
 
+  it('omits the Transaction Fees row when the sponsorship has no fee budget', () => {
+    const account: AccountState = {
+      ...baseAccount,
+      sponsorship: [
+        {
+          owner: 'rFeeSponsor2222222222222222222222',
+          sponsee: baseAccount.account,
+          feeAmount: '0',
+        },
+      ],
+    }
+
+    render(
+      <TestWrapper>
+        <SponsoredFeesReserves account={account} />
+      </TestWrapper>,
+    )
+
+    openSection()
+
+    expect(screen.getByText('No Sponsors')).toBeInTheDocument()
+    expect(screen.queryByText('Transaction Fees')).not.toBeInTheDocument()
+  })
+
   it('renders both rows when both fees and reserve are sponsored', () => {
     const account: AccountState = {
       ...baseAccount,
@@ -116,6 +141,7 @@ describe('SponsoredFeesReserves Component', () => {
         {
           owner: 'rFeeSponsor2222222222222222222222',
           sponsee: baseAccount.account,
+          feeAmount: '1000000',
         },
       ],
     }
@@ -140,10 +166,12 @@ describe('SponsoredFeesReserves Component', () => {
         {
           owner: 'rFeeSponsor2222222222222222222222',
           sponsee: baseAccount.account,
+          feeAmount: '1000000',
         },
         {
           owner: 'rFeeSponsor3333333333333333333333',
           sponsee: baseAccount.account,
+          feeAmount: '2000000',
         },
       ],
     }

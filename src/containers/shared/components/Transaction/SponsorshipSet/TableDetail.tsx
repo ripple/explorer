@@ -35,7 +35,10 @@ export const TableDetail = ({ instructions }: TransactionTableDetailProps) => {
       {!isDelete && feeAmountDelta && (
         <div>
           <span className="label">{t('fee_amount_delta')}</span>
-          <Amount value={feeAmountDelta} />
+          <Amount
+            value={feeAmountDelta.value}
+            modifier={feeAmountDelta.modifier}
+          />
         </div>
       )}
       {!isDelete && maxFee && (

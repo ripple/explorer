@@ -252,7 +252,7 @@ describe('getAccountSponsorship', () => {
         sponsee: ACCOUNT,
         feeAmount: '1000',
         maxFee: '5000',
-        reserveCount: 2,
+        remainingOwnerCount: 2,
       },
     ])
     expect(socket.send).toHaveBeenCalledWith({
@@ -287,6 +287,40 @@ describe('getAccountSponsorship', () => {
       { owner: SPONSOR, sponsee: ACCOUNT, feeAmount: '1000' },
       { owner: SPONSOR_2, sponsee: ACCOUNT, feeAmount: '2000' },
     ])
+  })
+
+  it('pages through account_objects via marker to find sponsorships past the first page', async () => {
+    const socket = {
+      send: jest
+        .fn()
+        .mockResolvedValueOnce({
+          account_objects: [],
+          marker: 'page-2',
+        })
+        .mockResolvedValueOnce({
+          account_objects: [
+            {
+              LedgerEntryType: 'Sponsorship',
+              Owner: SPONSOR,
+              Sponsee: ACCOUNT,
+              FeeAmount: '1000',
+            },
+          ],
+        }),
+    } as any
+
+    await expect(getAccountSponsorship(socket, ACCOUNT)).resolves.toEqual([
+      { owner: SPONSOR, sponsee: ACCOUNT, feeAmount: '1000' },
+    ])
+    expect(socket.send).toHaveBeenCalledTimes(2)
+    expect(socket.send).toHaveBeenNthCalledWith(2, {
+      command: 'account_objects',
+      account: ACCOUNT,
+      ledger_index: 'validated',
+      type: 'sponsorship',
+      limit: 400,
+      marker: 'page-2',
+    })
   })
 
   it('ignores Sponsorship objects where this account is the sponsor, not the sponsee', async () => {
