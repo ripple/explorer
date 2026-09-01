@@ -1,5 +1,5 @@
+import type { SponsorshipSet } from 'xrpl'
 import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'
-import { SponsorshipSet } from './types'
 
 const TF_DELETE_OBJECT = 0x00100000
 const TF_SET_REQUIRE_SIGN_FOR_FEE = 0x00010000
@@ -19,7 +19,7 @@ function getSignedDelta(delta: string | undefined) {
 }
 
 export function parser(tx: SponsorshipSet) {
-  const flags = tx.Flags || 0
+  const flags = typeof tx.Flags === 'number' ? tx.Flags : 0
   // If CounterpartySponsor is given, this account is the sponsee; if Sponsee
   // is given, this account is the sponsor.
   const sponsor = tx.CounterpartySponsor ?? tx.Account

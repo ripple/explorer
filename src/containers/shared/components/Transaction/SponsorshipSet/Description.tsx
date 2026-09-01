@@ -1,7 +1,7 @@
 import { Trans } from 'react-i18next'
+import type { SponsorshipSet } from 'xrpl'
 import { TransactionDescriptionProps } from '../types'
 import { Account } from '../../Account'
-import { SponsorshipSet } from './types'
 import { parser } from './parser'
 
 function getDescriptionKey(

@@ -1,7 +1,7 @@
 import { Trans } from 'react-i18next'
+import type { SponsorshipTransfer } from 'xrpl'
 import { TransactionDescriptionProps } from '../types'
 import { Account } from '../../Account'
-import { SponsorshipTransfer } from './types'
 import { parser } from './parser'
 
 export const Description = ({

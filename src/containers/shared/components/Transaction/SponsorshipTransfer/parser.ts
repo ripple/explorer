@@ -1,4 +1,4 @@
-import { SponsorshipTransfer } from './types'
+import type { SponsorshipTransfer } from 'xrpl'
 
 const TF_END = 0x00010000
 const TF_CREATE = 0x00020000
@@ -17,7 +17,7 @@ export function getOperation(
 
 export function parser(tx: SponsorshipTransfer) {
   return {
-    operation: getOperation(tx.Flags || 0),
+    operation: getOperation(typeof tx.Flags === 'number' ? tx.Flags : 0),
     account: tx.Account,
     objectId: tx.ObjectID,
     sponsor: tx.Sponsor,
