@@ -5,11 +5,9 @@ export const LARGE_HOLDER_THRESHOLD_PERCENT = 20
 
 // Asset class (from token metadata) whose large holders — treasuries /
 // custodians — are legitimately part of circulating supply, so the large-holder
-// exclusion is skipped. Shared by the IOU and MPT token pages.
+// exclusion is skipped. Shared by the IOU and MPT token pages. Stablecoins are
+// an RWA subclass, so this class check covers them too.
 export const RWA_ASSET_CLASS = 'rwa'
-
-// Asset subclass whose supply is fully backed, so large holders are not excluded.
-export const STABLECOIN_ASSET_SUBCLASS = 'stablecoin'
 
 /**
  * Whether a holder's share is large enough to be treated as non-circulating.
@@ -61,7 +59,6 @@ interface IouTokenSupplyData {
   supply?: string
   circ_supply?: string
   asset_class?: string
-  asset_subclass?: string
 }
 
 interface IouHoldersData {
@@ -73,8 +70,9 @@ interface IouHoldersData {
  * Calculates an IOU token's circulating supply.
  *
  * Uses the reported circulating supply when present; otherwise subtracts large
- * holders from total supply. Stablecoins (fully backed) and RWAs (custodial
- * treasuries) skip that exclusion.
+ * holders from total supply — skipped for RWA tokens, whose large holders are
+ * custodial treasuries. Stablecoins are an RWA subclass, so the same
+ * `asset_class === 'rwa'` check covers them.
  *
  * @param tokenData - Token supply and asset-classification fields.
  * @param holdersData - Holder balances, used as a supply fallback.
@@ -90,10 +88,7 @@ export const calculateIouCirculatingSupply = (
 
   const supply = Number(tokenData.supply) || holdersData?.totalSupply || 0
 
-  if (
-    tokenData.asset_subclass === STABLECOIN_ASSET_SUBCLASS ||
-    isRwaAssetClass(tokenData.asset_class)
-  ) {
+  if (isRwaAssetClass(tokenData.asset_class)) {
     return supply
   }
 

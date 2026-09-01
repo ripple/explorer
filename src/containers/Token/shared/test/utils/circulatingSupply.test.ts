@@ -102,16 +102,7 @@ describe('calculateIouCirculatingSupply', () => {
     expect(calculateIouCirculatingSupply({}, holdersData)).toBe(750)
   })
 
-  it('does not subtract large holders for stablecoins', () => {
-    expect(
-      calculateIouCirculatingSupply(
-        { supply: '1000', asset_subclass: 'stablecoin' },
-        holdersData,
-      ),
-    ).toBe(1000)
-  })
-
-  it('does not subtract large holders for RWA tokens', () => {
+  it('does not subtract large holders for RWA tokens (incl. stablecoins, an RWA subclass)', () => {
     expect(
       calculateIouCirculatingSupply(
         { supply: '1000', asset_class: 'rwa' },
@@ -120,10 +111,10 @@ describe('calculateIouCirculatingSupply', () => {
     ).toBe(1000)
   })
 
-  it('still subtracts for other asset classes', () => {
+  it('still subtracts for non-RWA asset classes', () => {
     expect(
       calculateIouCirculatingSupply(
-        { supply: '1000', asset_class: 'memes', asset_subclass: 'other' },
+        { supply: '1000', asset_class: 'memes' },
         holdersData,
       ),
     ).toBe(750)

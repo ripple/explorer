@@ -12,10 +12,10 @@ interface MptHolderShare {
  * with the balances of large (>= 20%) holders removed.
  *
  * For RWA tokens the large holders are typically custodians/treasuries whose
- * balances are still legitimately part of supply, so the exclusion is skipped
- * (analogous to the IOU stablecoin rule). RWA is detected from the on-chain
- * `asset_class` metadata; there is no stablecoin exception because MPT
- * `asset_subclass` isn't fetched (that would need an XRPL Meta token call).
+ * balances are still legitimately part of supply, so the exclusion is skipped —
+ * the same rule the IOU page uses. RWA is detected from the on-chain
+ * `asset_class` metadata; stablecoins are an RWA subclass, so this class check
+ * covers them too.
  *
  * The arithmetic runs on unscaled BigInt amounts — MPT amounts can reach
  * UInt64 max (~9.2e18), well beyond exact double precision, and float residue
