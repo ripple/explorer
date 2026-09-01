@@ -56,21 +56,19 @@ describe('subtractLargeHolderBalances', () => {
 })
 
 describe('isRwaAssetClass', () => {
-  it('is true for the "rwa" asset class', () => {
+  it('is true for the lowercase "rwa" asset class', () => {
     expect(isRwaAssetClass('rwa')).toBe(true)
-  })
-
-  it('ignores case and surrounding whitespace', () => {
-    // MPT asset_class is free-form JSON authored by the issuer.
-    expect(isRwaAssetClass('RWA')).toBe(true)
-    expect(isRwaAssetClass('Rwa')).toBe(true)
-    expect(isRwaAssetClass('  rwa ')).toBe(true)
   })
 
   it('is false for other asset classes and undefined', () => {
     expect(isRwaAssetClass('other')).toBe(false)
     expect(isRwaAssetClass('US Treasuries')).toBe(false)
     expect(isRwaAssetClass(undefined)).toBe(false)
+  })
+
+  it('matches strictly — the XLS-89 asset_class is always lowercase', () => {
+    expect(isRwaAssetClass('RWA')).toBe(false)
+    expect(isRwaAssetClass(' rwa ')).toBe(false)
   })
 })
 

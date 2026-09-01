@@ -21,14 +21,14 @@ export const isLargeHolder = (percent: number): boolean =>
 /**
  * Whether a token's asset class marks it as a real-world asset.
  *
- * Compared case-insensitively: for MPTs this value is free-form JSON authored by
- * the issuer, so `RWA` / ` rwa ` should match too.
+ * The XLS-89 `asset_class` enum is defined in lowercase, so metadata always
+ * carries `rwa` (never `RWA`) — a direct comparison is sufficient.
  *
  * @param assetClass - The token's asset_class metadata value.
  * @returns true when the token is an RWA.
  */
 export const isRwaAssetClass = (assetClass: string | undefined): boolean =>
-  assetClass?.trim().toLowerCase() === RWA_ASSET_CLASS
+  assetClass === RWA_ASSET_CLASS
 
 interface HolderShare {
   percent: number
