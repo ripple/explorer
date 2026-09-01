@@ -125,6 +125,7 @@ interface AccountInfo {
   PreviousTxnID: string
   PreviousTxnLgrSeq: number
   NFTokenMinter?: string
+  Sponsor?: string
 }
 
 interface ServerInfoValidated {
@@ -147,6 +148,7 @@ interface FormattedAccountInfo {
   previousTxn: string
   previousLedger: number
   nftMinter?: string
+  sponsor?: string
 }
 
 const formatAccountInfo = (
@@ -171,6 +173,7 @@ const formatAccountInfo = (
   previousTxn: info.PreviousTxnID,
   previousLedger: info.PreviousTxnLgrSeq,
   nftMinter: info.NFTokenMinter,
+  sponsor: info.Sponsor,
 })
 
 const formatTransaction = (tx: any): any => {

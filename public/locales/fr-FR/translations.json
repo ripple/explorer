@@ -209,6 +209,8 @@
   "transaction_type_name_SetHook": "Crochet enregistré",
   "transaction_type_name_SetRegularKey": "Clé régulière définie",
   "transaction_type_name_SignerListSet": "Liste de signataires établie",
+  "transaction_type_name_SponsorshipSet": null,
+  "transaction_type_name_SponsorshipTransfer": null,
   "transaction_type_name_TicketCreate": "Ticket créé",
   "transaction_type_name_TrustSet": "Ligne de confiance créée",
   "transaction_type_name_VaultCreate": null,
