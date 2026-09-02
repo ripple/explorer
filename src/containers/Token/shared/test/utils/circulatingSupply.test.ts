@@ -66,6 +66,15 @@ describe('isRwaAssetClass', () => {
     expect(isRwaAssetClass(undefined)).toBe(false)
   })
 
+  it('is false (never throws) for non-string values from untrusted metadata', () => {
+    // asset_class is issuer-authored JSON; a non-string must compare unequal,
+    // not blow up on a string method.
+    expect(isRwaAssetClass(123)).toBe(false)
+    expect(isRwaAssetClass(null)).toBe(false)
+    expect(isRwaAssetClass({ rwa: true })).toBe(false)
+    expect(isRwaAssetClass(['rwa'])).toBe(false)
+  })
+
   it('matches strictly — the XLS-89 asset_class is always lowercase', () => {
     expect(isRwaAssetClass('RWA')).toBe(false)
     expect(isRwaAssetClass(' rwa ')).toBe(false)

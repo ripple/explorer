@@ -21,13 +21,15 @@ export const isLargeHolder = (percent: number): boolean =>
 /**
  * Whether a token's asset class marks it as a real-world asset.
  *
- * The XLS-89 `asset_class` enum is defined in lowercase, so metadata always
- * carries `rwa` (never `RWA`) — a direct comparison is sufficient.
+ * Accepts `unknown` because `asset_class` comes from issuer-authored metadata:
+ * it's compared directly against the lowercase XLS-89 value, so a non-string
+ * (or missing) value simply compares unequal — no coercion or method calls, so
+ * nothing to throw on.
  *
- * @param assetClass - The token's asset_class metadata value.
+ * @param assetClass - The token's asset_class metadata value (untrusted).
  * @returns true when the token is an RWA.
  */
-export const isRwaAssetClass = (assetClass: string | undefined): boolean =>
+export const isRwaAssetClass = (assetClass: unknown): boolean =>
   assetClass === RWA_ASSET_CLASS
 
 interface HolderShare {

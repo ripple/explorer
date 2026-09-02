@@ -121,9 +121,7 @@ export const MPT = () => {
 
   // Circulating supply = outstanding amount minus large (>= 20%) holders, except
   // for RWA tokens where those holders are custodians/treasuries (no exclusion).
-  const isRwa = isRwaAssetClass(
-    mptokenIssuance?.parsedMPTMetadata?.asset_class as string | undefined,
-  )
+  const isRwa = isRwaAssetClass(mptokenIssuance?.parsedMPTMetadata?.asset_class)
   const circulatingSupply = useMemo(
     () =>
       holdersData
