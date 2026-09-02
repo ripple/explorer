@@ -17,10 +17,6 @@ interface MptHolderShare {
  * `asset_class` metadata; stablecoins are an RWA subclass, so this class check
  * covers them too.
  *
- * The arithmetic runs on unscaled BigInt amounts — MPT amounts can reach
- * UInt64 max (~9.2e18), well beyond exact double precision, and float residue
- * would otherwise render a fully-held token as `< 0.0001` instead of `0.00`.
- *
  * @param outstandingAmt - Raw (unscaled) on-chain OutstandingAmount.
  * @param assetScale - The issuance's asset scale.
  * @param holders - Holders with their unscaled `rawBalance` and `percent`.
@@ -44,8 +40,5 @@ export const calculateMptCirculatingSupply = (
         outstanding,
       )
 
-  // Defensive floor: holder balances come from the same ledger snapshot as the
-  // outstanding amount, so this should not go negative — but never render a
-  // negative supply if it does.
   return convertScaledPrice(circulating < 0n ? 0n : circulating, assetScale)
 }
