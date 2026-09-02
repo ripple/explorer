@@ -1,4 +1,8 @@
-import { getRegistrableDomain, shortenDomainFromLeft } from '../domainUtils'
+import {
+  getRegistrableDomain,
+  shortenDomain,
+  shortenDomainFromLeft,
+} from '../domainUtils'
 
 describe('getRegistrableDomain', () => {
   it('reduces a full URL to its registrable domain', () => {
@@ -62,5 +66,17 @@ describe('shortenDomainFromLeft', () => {
 
   it('handles an empty string', () => {
     expect(shortenDomainFromLeft('')).toBe('')
+  })
+})
+
+describe('shortenDomain', () => {
+  it('shortens long domain names', () => {
+    const longDomain = 'verylongdomainnamethatexceedslimit.com'
+    expect(shortenDomain(longDomain)).toBe('verylongdomainn...dslimit.com')
+  })
+
+  it('returns short domain names unchanged', () => {
+    const shortDomain = 'example.com'
+    expect(shortenDomain(shortDomain)).toBe(shortDomain)
   })
 })

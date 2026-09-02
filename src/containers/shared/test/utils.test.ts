@@ -9,7 +9,6 @@ import {
   formatDurationDetailed,
   formatAsset,
   shortenAccount,
-  shortenDomain,
   shortenNFTTokenID,
   shortenMPTID,
   shortenLPToken,
@@ -233,18 +232,6 @@ describe('Shorten utils', () => {
 
     it('returns domain unchanged if no protocol', () => {
       expect(stripHttpProtocol('example.com')).toBe('example.com')
-    })
-  })
-
-  describe('shortenDomain', () => {
-    it('shortens long domain names', () => {
-      const longDomain = 'verylongdomainnamethatexceedslimit.com'
-      expect(shortenDomain(longDomain)).toBe('verylongdomainn...dslimit.com')
-    })
-
-    it('returns short domain names unchanged', () => {
-      const shortDomain = 'example.com'
-      expect(shortenDomain(shortDomain)).toBe(shortDomain)
     })
   })
 

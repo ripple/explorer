@@ -40,8 +40,28 @@ export const getRegistrableDomain = (url = ''): string => {
  * shortenDomainFromLeft('a-very-long-domain-name.example.com', 24) // '…domain-name.example.com'
  *
  * @param domain - The domain to shorten.
- * @param maxLength - Maximum rendered length, including the ellipsis. Defaults to 30.
+ * @param maxLength - Maximum rendered length, including the ellipsis. Defaults to 26.
  * @returns The domain, left-truncated with a leading `…` when it overflows.
  */
-export const shortenDomainFromLeft = (domain = '', maxLength = 30): string =>
+export const shortenDomainFromLeft = (domain = '', maxLength = 26): string =>
   domain.length > maxLength ? `…${domain.slice(-(maxLength - 1))}` : domain
+
+/**
+ * Middle-truncates a string, keeping the start and end (e.g.
+ * `verylongdomainn...dslimit.com`). Suited to resource URIs — such as NFT URLs —
+ * where the trailing path/filename distinguishes entries and is worth keeping
+ * visible, unlike the registrable-domain treatment used for website chips.
+ *
+ * @param domain - The string to shorten.
+ * @param prefixLength - Characters to keep from the start.
+ * @param suffixLength - Characters to keep from the end.
+ * @returns The string, middle-truncated with `...` when it overflows.
+ */
+export const shortenDomain = (
+  domain = '',
+  prefixLength = 15,
+  suffixLength = 11,
+): string =>
+  domain.length > prefixLength + suffixLength
+    ? `${domain.slice(0, prefixLength)}...${domain.slice(-suffixLength)}`
+    : domain

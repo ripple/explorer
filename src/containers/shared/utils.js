@@ -560,15 +560,6 @@ export const shortenEncryptionKey = (key = '') =>
 
 export const stripHttpProtocol = (url = '') => url.replace(/^https?:\/\//, '')
 
-export const shortenDomain = (
-  domain = '',
-  prefixLength = 15,
-  suffixLength = 11,
-) =>
-  domain.length > prefixLength + suffixLength
-    ? `${domain.slice(0, prefixLength)}...${domain.slice(-suffixLength)}`
-    : domain
-
 export const shortenNFTTokenID = (nftTokenID = '') =>
   nftTokenID.length > 20
     ? `${nftTokenID.slice(0, 10)}...${nftTokenID.slice(-10)}`

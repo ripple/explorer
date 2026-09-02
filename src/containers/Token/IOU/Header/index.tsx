@@ -18,7 +18,10 @@ import {
   parsePercent,
   parsePrice,
 } from '../../../shared/NumberFormattingUtils'
-import { shortenDomain, stripHttpProtocol } from '../../../shared/utils'
+import {
+  getRegistrableDomain,
+  shortenDomainFromLeft,
+} from '../../../shared/domainUtils'
 import { calculateIouCirculatingSupply } from '../../shared/utils/circulatingSupply'
 
 interface HeaderProps {
@@ -158,11 +161,10 @@ export const Header = ({
               <DomainLink
                 className="domain-link"
                 domain={tokenData.issuer_domain}
-                displayDomain={shortenDomain(
-                  stripHttpProtocol(tokenData.issuer_domain),
-                  12,
-                  7,
+                displayDomain={shortenDomainFromLeft(
+                  getRegistrableDomain(tokenData.issuer_domain),
                 )}
+                title={tokenData.issuer_domain}
               />
             </div>
           </div>
