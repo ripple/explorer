@@ -6,6 +6,7 @@ import axios from 'axios'
 import { useQuery } from 'react-query'
 import { useAnalytics } from '../../analytics'
 import { TokenSearchRow } from './TokenSearchRow'
+import { MPTSearchRow } from './MPTSearchRow'
 import SocketContext from '../../SocketContext'
 import Log from '../../log'
 import { getAccountLines } from '../../../../rippled/lib/rippled'
@@ -66,9 +67,9 @@ const SearchResults = ({
       .then((response) => response.data.tokens)
   }
 
-  const onLinkClick = () => {
+  const onLinkClick = (searchCategory: 'token' | 'mpt') => () => {
     analytics.track('token_search_click', {
-      search_category: 'token',
+      search_category: searchCategory,
       search_term: currentSearchValue,
     })
 
@@ -76,22 +77,50 @@ const SearchResults = ({
     setCurrentSearchInput('')
   }
 
-  return tokens.length > 0 ? (
-    <div className="search-results-menu">
-      <div className="search-results-header">
-        {t('tokens')} ({tokens.length})
-      </div>
+  const iouTokens = tokens.filter((token) => token.token_type !== 'MPT')
+  const mptTokens = tokens.filter((token) => token.token_type === 'MPT')
 
-      {tokens.map((token) => (
-        <TokenSearchRow
-          token={token}
-          onClick={onLinkClick}
-          xrpPrice={XRPUSDPrice}
-          key={`${token.currency}.${token.issuer_account}`}
-        />
-      ))}
+  if (tokens.length === 0) {
+    return null
+  }
+
+  return (
+    <div className="search-results-menu">
+      {iouTokens.length > 0 && (
+        <>
+          <div className="search-results-header">
+            {t('tokens')} ({iouTokens.length})
+          </div>
+
+          {iouTokens.map((token) => (
+            <TokenSearchRow
+              token={token}
+              onClick={onLinkClick('token')}
+              xrpPrice={XRPUSDPrice}
+              key={`${token.currency}.${token.issuer_account}`}
+            />
+          ))}
+        </>
+      )}
+
+      {mptTokens.length > 0 && (
+        <>
+          <div className="search-results-header">
+            {t('mpts')} ({mptTokens.length})
+          </div>
+
+          {mptTokens.map((token) => (
+            <MPTSearchRow
+              token={token}
+              onClick={onLinkClick('mpt')}
+              xrpPrice={XRPUSDPrice}
+              key={token.mpt_issuance_id ?? token.currency}
+            />
+          ))}
+        </>
+      )}
     </div>
-  ) : null
+  )
 }
 
 export default SearchResults

@@ -85,4 +85,30 @@ describe('Testing tokens search', () => {
       `<a class="domain" rel="noopener noreferrer" target="_blank" href="https://sologenic.com">sologenic.com</a>`,
     )
   })
+
+  it('renders mpts in a separate section from tokens', async () => {
+    const { container } = renderSearchResults()
+    await flushPromises()
+
+    await waitFor(() => {
+      expect(
+        container.querySelectorAll('.search-results-header').length,
+      ).toEqual(2)
+    })
+
+    const headers = container.querySelectorAll('.search-results-header')
+    expect(headers[0].outerHTML).toBe(
+      `<div class="search-results-header">tokens (1)</div>`,
+    )
+    expect(headers[1].outerHTML).toBe(
+      `<div class="search-results-header">mpts (1)</div>`,
+    )
+
+    const rows = container.querySelectorAll('.search-result-row')
+    const mptRow = rows[1]
+    expect(mptRow.getAttribute('href')).toBe(
+      '/mpt/00000001B5F762798A53D543A014CAF8B297CFF8F2F937E8',
+    )
+    expect(mptRow.querySelectorAll('.metric-chip').length).toEqual(2)
+  })
 })
