@@ -10,12 +10,7 @@ import { MPT_ROUTE } from '../../App/routes'
 import SocketContext from '../../shared/SocketContext'
 import { getMPTIssuance } from '../../../rippled/lib/rippled'
 import { parseVaultWebsite } from '../utils'
-import {
-  shortenVaultID,
-  shortenAccount,
-  getCurrencySymbol,
-  isCurrencyExoticSymbol,
-} from '../../shared/utils'
+import { getCurrencySymbol, isCurrencyExoticSymbol } from '../../shared/utils'
 import './styles.scss'
 import { useAnalytics } from '../../shared/analytics'
 import { parseAmount } from '../../shared/NumberFormattingUtils'
@@ -52,6 +47,8 @@ interface Props {
 // Vault flags from XLS-65d spec
 const VAULT_FLAGS = {
   lsfVaultPrivate: 0x00010000,
+  lsfVaultDepositBlocked: 0x00020000,
+  lsfVaultOwnerCanBlockDeposit: 0x00040000,
 }
 
 // Withdrawal policy values from XLS-65d spec
@@ -146,6 +143,11 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
 
   const isPrivate =
     flags !== undefined && (flags & VAULT_FLAGS.lsfVaultPrivate) !== 0
+  const canBlockDeposit =
+    flags !== undefined &&
+    (flags & VAULT_FLAGS.lsfVaultOwnerCanBlockDeposit) !== 0
+  const isDepositAllowed =
+    flags === undefined || (flags & VAULT_FLAGS.lsfVaultDepositBlocked) === 0
 
   const decodedData = convertHexToString(vaultDataRaw)
   const vaultWebsite = parseVaultWebsite(vaultDataRaw)
@@ -185,7 +187,7 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
                 value={
                   <CopyableText
                     text={vaultId}
-                    displayText={`${shortenVaultID(vaultId)}`}
+                    displayText={vaultId}
                     showCopyIcon
                   />
                 }
@@ -193,12 +195,7 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
               {owner && (
                 <TokenTableRow
                   label={t('owner')}
-                  value={
-                    <Account
-                      account={owner}
-                      displayText={`${shortenAccount(owner)}`}
-                    />
-                  }
+                  value={<Account account={owner} displayText={owner} />}
                 />
               )}
               <TokenTableRow
@@ -218,6 +215,25 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
                   </div>
                 }
               />
+              {canBlockDeposit && (
+                <TokenTableRow
+                  label={t('deposits_allowed')}
+                  value={
+                    <div className="private-vault-toggle">
+                      <span
+                        className={`toggle-pill ${isDepositAllowed ? 'active' : ''}`}
+                      >
+                        {t('yes')}
+                      </span>
+                      <span
+                        className={`toggle-pill ${!isDepositAllowed ? 'active' : ''}`}
+                      >
+                        {t('no')}
+                      </span>
+                    </div>
+                  }
+                />
+              )}
               {vaultCredential && (
                 <TokenTableRow
                   label={t('perm_domain_id')}
