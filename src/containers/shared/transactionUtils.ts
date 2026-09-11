@@ -16,6 +16,7 @@ export const ACCOUNT_ZERO = 'rrrrrrrrrrrrrrrrrrrrrhoLvTp'
 export const TX_FLAGS: Record<string, Record<number, string>> = {
   all: {
     0x80000000: 'tfFullyCanonicalSig',
+    0x40000000: 'tfInnerBatchTxn',
   },
   AccountSet: {
     0x00010000: 'tfRequireDestTag',
@@ -113,6 +114,14 @@ export const TX_FLAGS: Record<string, Record<number, string>> = {
   },
   VaultCreate: {
     1: 'vaultStrategyFirstComeFirstServe',
+    0x00040000: 'tfVaultOwnerCanBlockDeposit',
+  },
+  VaultDeposit: {
+    0x00010000: 'tfVaultDonate',
+  },
+  VaultSet: {
+    0x00010000: 'tfVaultDepositBlock',
+    0x00020000: 'tfVaultDepositUnblock',
   },
   XChainModifyBridge: {
     0x00010000: 'tfClearAccountCreateAmount',
