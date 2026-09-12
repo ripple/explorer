@@ -58,9 +58,11 @@ const resolveLedgerEntry = async (
     case 'Vault':
       return { type: 'vault' }
     case 'LoanBroker':
+      if (!node.VaultID) throw new Error('LoanBroker without a VaultID')
       return { type: 'loanBroker', vaultId: node.VaultID }
     case 'Loan': {
       const broker = await getLoanBroker(rippledContext, node.LoanBrokerID)
+      if (!broker?.VaultID) throw new Error('Loan broker without a VaultID')
       return { type: 'loan', vaultId: broker.VaultID }
     }
     default:
@@ -120,10 +122,10 @@ const getRoute = async (
       path = buildPath(NFT_ROUTE, { id: id.toUpperCase() })
     } else if (type === 'vault') {
       path = buildPath(VAULT_ROUTE, { id: id.toUpperCase() })
-    } else if (type === 'loanBroker' || type === 'loan') {
+    } else if ((type === 'loanBroker' || type === 'loan') && match?.vaultId) {
       // Loan brokers and loans have no page of their own: they are rendered by the
       // vault that owns them.
-      path = buildPath(VAULT_ROUTE, { id: match!.vaultId!.toUpperCase() })
+      path = buildPath(VAULT_ROUTE, { id: match.vaultId.toUpperCase() })
     } else if (type === 'ledgers') {
       path = buildPath(LEDGER_ROUTE, { identifier: id.toUpperCase() })
     }
