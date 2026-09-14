@@ -946,5 +946,16 @@
   "registered": "Registered",
   "included": "Included",
   "maintenance_banner.notice": "Scheduled maintenance: {{window}} (~{{duration}} min downtime).",
-  "maintenance_banner.countdown_prefix": "Starts in"
+  "maintenance_banner.countdown_prefix": "Starts in",
+  "mutable": "Mutable",
+  "mutable_capability_tooltip": "The issuer can still enable this capability. Once enabled, it's permanent.",
+  "mutable_field_tooltip": "The issuer can still change or remove this value.",
+  "immutable": "Immutable",
+  "immutable_capability_tooltip": "Permanently off — the issuer can never enable this capability.",
+  "immutable_field_tooltip": "Permanent — the issuer can never change or remove this value.",
+  "immutable_flags": "Immutable Flags",
+  "enabled_capability_tooltip": "Turned on. MPT capabilities are enable-only, so this can never be turned off again.",
+  "disabled_capability_tooltip": "Currently off. The adjacent pill shows whether this can still change.",
+  "capabilities": "Capabilities",
+  "fields": "Fields"
 }
