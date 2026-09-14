@@ -1,4 +1,8 @@
+import { MouseEvent } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Tooltip, useTooltip } from '../../../shared/components/Tooltip'
+
+const TOOLTIP_Y_OFFSET = 70
 
 interface Props {
   flags?: string[]
@@ -9,14 +13,12 @@ interface FlagItem {
   key: string
   label: string
   enabled: boolean
-  // The lsifMPT* flag name that permanently locks this capability (XLS-94).
-  immutableFlag?: string
+  immutableFlag: string
 }
 
 interface FieldItem {
   key: string
   label: string
-  // The lsifMPT* flag name that permanently locks this field (XLS-94).
   immutableFlag: string
 }
 
@@ -25,22 +27,20 @@ export const Settings = ({
   immutableFlags = [],
 }: Props): JSX.Element => {
   const { t } = useTranslation()
+  const { tooltip, showTooltip, hideTooltip } = useTooltip()
 
-  // Whether the lsif bit is present — the capability/field is permanently frozen.
-  const isLocked = (immutableFlag?: string): boolean =>
-    !!immutableFlag && immutableFlags.includes(immutableFlag)
+  const isLocked = (immutableFlag: string): boolean =>
+    immutableFlags.includes(immutableFlag)
 
-  // Whether the capability can still be enabled: not yet locked and not yet on.
-  // Absent immutableFlag means it is not a lockable capability (e.g. lsfMPTLocked).
-  const isCanEnable = (immutableFlag?: string, enabled = false): boolean =>
-    !!immutableFlag && !immutableFlags.includes(immutableFlag) && !enabled
+  const showPillTooltip = (e: MouseEvent<HTMLElement>, text: string) => {
+    const rect = e.currentTarget.getBoundingClientRect()
+    showTooltip('text', e, text, {
+      x: rect.left + rect.width / 2,
+      y: rect.top - TOOLTIP_Y_OFFSET,
+    })
+  }
 
   const flagItems: FlagItem[] = [
-    {
-      key: 'locked',
-      label: t('locked'),
-      enabled: flags.includes('lsfMPTLocked'),
-    },
     {
       key: 'canLock',
       label: t('can_lock'),
@@ -85,8 +85,6 @@ export const Settings = ({
     },
   ]
 
-  // Mutable fields (not capability flags): always shown. An Immutable badge
-  // appears once the issuer has permanently locked the field via ImmutableFlags.
   const fieldItems: FieldItem[] = [
     {
       key: 'metadata',
@@ -104,63 +102,101 @@ export const Settings = ({
     <div className="header-box settings-box">
       <div className="header-box-title">{t('settings')}</div>
       <div className="header-box-contents">
+        <div className="settings-section-label">{t('capabilities')}</div>
         {flagItems.map((flag) => (
           <div className="header-box-item" key={flag.key}>
             <div className="item-name">{flag.label}</div>
             <div className="flag-status-group">
-              {/* Capabilities are one-way (enable-only). Show "Can Enable" while
-                  the flag is not yet locked and not yet on, so holders know the
-                  issuer can still activate this capability. */}
-              {isCanEnable(flag.immutableFlag, flag.enabled) && (
+              {flag.enabled ? (
                 <div
-                  className="flag-status can-enable"
-                  data-testid="can-enable-badge"
-                  title={t('can_enable_flag_tooltip')}
+                  className="flag-status enabled"
+                  data-testid="enabled-badge"
+                  onMouseOver={(e) =>
+                    showPillTooltip(e, t('enabled_capability_tooltip'))
+                  }
+                  onFocus={() => {}}
+                  onMouseLeave={hideTooltip}
                 >
-                  {t('can_enable')}
+                  {t('enabled')}
                 </div>
+              ) : (
+                <>
+                  <div
+                    className="flag-status disabled"
+                    data-testid="disabled-badge"
+                    onMouseOver={(e) =>
+                      showPillTooltip(e, t('disabled_capability_tooltip'))
+                    }
+                    onFocus={() => {}}
+                    onMouseLeave={hideTooltip}
+                  >
+                    {t('disabled')}
+                  </div>
+                  {isLocked(flag.immutableFlag) ? (
+                    <div
+                      className="flag-status immutable"
+                      data-testid="immutable-badge"
+                      onMouseOver={(e) =>
+                        showPillTooltip(e, t('immutable_capability_tooltip'))
+                      }
+                      onFocus={() => {}}
+                      onMouseLeave={hideTooltip}
+                    >
+                      {t('immutable')}
+                    </div>
+                  ) : (
+                    <div
+                      className="flag-status mutable"
+                      data-testid="mutable-badge"
+                      onMouseOver={(e) =>
+                        showPillTooltip(e, t('mutable_capability_tooltip'))
+                      }
+                      onFocus={() => {}}
+                      onMouseLeave={hideTooltip}
+                    >
+                      {t('mutable')}
+                    </div>
+                  )}
+                </>
               )}
-              {/* Show "Immutable" when the issuer has permanently locked this
-                  capability via ImmutableFlags — it can never be enabled. */}
-              {isLocked(flag.immutableFlag) && !flag.enabled && (
-                <div
-                  className="flag-status immutable"
-                  data-testid="immutable-badge"
-                  title={t('immutable_flag_tooltip')}
-                >
-                  {t('immutable')}
-                </div>
-              )}
-              <div
-                className={`flag-status ${
-                  flag.enabled ? 'enabled' : 'disabled'
-                }`}
-              >
-                {flag.enabled ? t('enabled') : t('disabled')}
-              </div>
             </div>
           </div>
         ))}
+        <div className="settings-section-label">{t('fields')}</div>
         {fieldItems.map((field) => (
           <div className="header-box-item" key={field.key}>
             <div className="item-name">{field.label}</div>
             <div className="flag-status-group">
-              {/* Show "Immutable" once the issuer has permanently locked this
-                  field. No badge when still changeable — the row being visible
-                  is enough to indicate the field exists and can be updated. */}
-              {isLocked(field.immutableFlag) && (
+              {isLocked(field.immutableFlag) ? (
                 <div
                   className="flag-status immutable"
                   data-testid="immutable-badge"
-                  title={t('immutable_field_tooltip')}
+                  onMouseOver={(e) =>
+                    showPillTooltip(e, t('immutable_field_tooltip'))
+                  }
+                  onFocus={() => {}}
+                  onMouseLeave={hideTooltip}
                 >
                   {t('immutable')}
+                </div>
+              ) : (
+                <div
+                  className="flag-status mutable"
+                  data-testid="mutable-badge"
+                  onMouseOver={(e) =>
+                    showPillTooltip(e, t('mutable_field_tooltip'))
+                  }
+                  onFocus={() => {}}
+                  onMouseLeave={hideTooltip}
+                >
+                  {t('mutable')}
                 </div>
               )}
             </div>
           </div>
         ))}
       </div>
+      <Tooltip tooltip={tooltip} />
     </div>
   )
 }

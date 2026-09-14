@@ -948,9 +948,14 @@
   "maintenance_banner.notice": null,
   "maintenance_banner.countdown_prefix": null,
   "immutable_flags": null,
-  "can_enable": null,
-  "can_enable_flag_tooltip": null,
+  "mutable": null,
+  "mutable_capability_tooltip": null,
+  "mutable_field_tooltip": null,
   "immutable": null,
-  "immutable_flag_tooltip": null,
-  "immutable_field_tooltip": null
+  "immutable_capability_tooltip": null,
+  "immutable_field_tooltip": null,
+  "enabled_capability_tooltip": null,
+  "disabled_capability_tooltip": null,
+  "capabilities": null,
+  "fields": null
 }

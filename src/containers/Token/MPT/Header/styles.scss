@@ -136,9 +136,29 @@
       align-items: center;
     }
 
+    .settings-section-label {
+      padding: 10px 0 8px;
+      color: $black-0;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      @include semibold;
+
+      &:first-child {
+        padding-top: 0;
+      }
+
+      &:not(:first-child) {
+        padding-top: 14px;
+        border-top: 1px solid $black-60;
+        margin-top: 8px;
+      }
+    }
+
     .flag-status-group {
       display: flex;
       align-items: center;
+      margin-left: auto;
       gap: 6px;
     }
 
@@ -163,15 +183,15 @@
         color: $black-0;
       }
 
-      // Capability not yet locked — issuer can still enable it.
-      &.can-enable {
+      // Capability still unlockable / field still changeable.
+      &.mutable {
         min-width: 0;
         border: 1px solid $green-50;
         background: transparent;
         color: $green-50;
       }
 
-      // Capability/field permanently locked by the issuer via ImmutableFlags.
+      // Capability/field permanently frozen by the issuer via ImmutableFlags.
       &.immutable {
         min-width: 0;
         border: 1px solid $orange-50;
