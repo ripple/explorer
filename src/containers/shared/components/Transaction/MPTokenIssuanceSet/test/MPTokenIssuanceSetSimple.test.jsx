@@ -48,7 +48,7 @@ describe('MPTokenIssuanceSet', () => {
     expectSimpleRowText(container, 'mpt-fee', '0.500%')
     expectSimpleRowText(container, 'mpt-metadata', 'FOO')
     // ImmutableFlags 16 (0x10) = tifMPTCanTrade
-    expectSimpleRowText(container, 'mpt-mutable-flags', 'tifMPTCanTrade')
+    expectSimpleRowText(container, 'mpt-immutable-flags', 'tifMPTCanTrade')
     expectSimpleRowNotToExist(container, 'mpt-holder')
     unmount()
   })

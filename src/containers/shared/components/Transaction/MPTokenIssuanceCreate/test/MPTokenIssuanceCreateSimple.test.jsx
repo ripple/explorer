@@ -23,7 +23,7 @@ describe('MPTokenIssuanceCreate', () => {
       'https://ipfs.io/ipfs/QmZnjmB9Tk4xaA9E679ytrPXda3beWMLUnMB5RFj1eStLp',
     )
     expectSimpleRowText(container, 'mpt-fee', '0.010%')
-    expectSimpleRowNotToExist(container, 'mpt-mutable-flags')
+    expectSimpleRowNotToExist(container, 'mpt-immutable-flags')
     unmount()
   })
 
@@ -32,9 +32,9 @@ describe('MPTokenIssuanceCreate', () => {
 
     // ImmutableFlags 196610 = tifMPTCanLock (0x2) +
     // tifMPTMetadata (0x10000) + tifMPTTransferFee (0x20000)
-    expectSimpleRowText(container, 'mpt-mutable-flags', 'tifMPTCanLock')
-    expectSimpleRowText(container, 'mpt-mutable-flags', 'tifMPTMetadata')
-    expectSimpleRowText(container, 'mpt-mutable-flags', 'tifMPTTransferFee')
+    expectSimpleRowText(container, 'mpt-immutable-flags', 'tifMPTCanLock')
+    expectSimpleRowText(container, 'mpt-immutable-flags', 'tifMPTMetadata')
+    expectSimpleRowText(container, 'mpt-immutable-flags', 'tifMPTTransferFee')
     unmount()
   })
 })

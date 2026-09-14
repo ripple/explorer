@@ -75,7 +75,7 @@ export const Simple: TransactionSimpleComponent = ({
         <SimpleRow
           label={t('immutable_flags')}
           className="flag"
-          data-testid="mpt-mutable-flags"
+          data-testid="mpt-immutable-flags"
         >
           {flagChanges.map((flag) => (
             <div key={flag}>{flag}</div>
