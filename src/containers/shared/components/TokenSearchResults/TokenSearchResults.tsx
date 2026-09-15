@@ -77,8 +77,15 @@ const SearchResults = ({
     setCurrentSearchInput('')
   }
 
-  const iouTokens = tokens.filter((token) => token.token_type !== 'MPT')
-  const mptTokens = tokens.filter((token) => token.token_type === 'MPT')
+  const byHoldersDesc = (a: LOSToken, b: LOSToken) =>
+    (b.holders ?? 0) - (a.holders ?? 0)
+
+  const iouTokens = tokens
+    .filter((token) => token.token_type !== 'MPT')
+    .sort(byHoldersDesc)
+  const mptTokens = tokens
+    .filter((token) => token.token_type === 'MPT')
+    .sort(byHoldersDesc)
 
   if (tokens.length === 0) {
     return null
