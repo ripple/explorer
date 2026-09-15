@@ -558,8 +558,6 @@ export const shortenAccount = (addr = '') =>
 export const shortenEncryptionKey = (key = '') =>
   key ? `${key.slice(0, 6)}...${key.slice(-4)}` : key
 
-export const stripHttpProtocol = (url = '') => url.replace(/^https?:\/\//, '')
-
 export const shortenNFTTokenID = (nftTokenID = '') =>
   nftTokenID.length > 20
     ? `${nftTokenID.slice(0, 10)}...${nftTokenID.slice(-10)}`
