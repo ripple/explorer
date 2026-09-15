@@ -2,6 +2,7 @@ import { render, cleanup, waitFor } from '@testing-library/react'
 import moxios from 'moxios'
 import i18n from '../../../../../i18n/testConfig'
 import testTokens from './mock_data/tokens.json'
+import sortedTestTokens from './mock_data/tokens_sorted.json'
 import SocketContext from '../../../SocketContext'
 import SearchResults from '../TokenSearchResults'
 import MockWsClient from '../../../../test/mockWsClient'
@@ -12,17 +13,17 @@ const testQuery = 'test'
 describe('Testing tokens search', () => {
   let client
 
-  const renderSearchResults = () => {
-    const searchURL = `/api/v1/tokens/search/${testQuery}`
+  const renderSearchResults = (query = testQuery, response = testTokens) => {
+    const searchURL = `/api/v1/tokens/search/${query}`
     moxios.stubRequest(searchURL, {
       status: 200,
-      response: testTokens,
+      response,
     })
     return render(
       <QuickHarness i18n={i18n}>
         <SocketContext.Provider value={client}>
           <SearchResults
-            currentSearchValue={testQuery}
+            currentSearchValue={query}
             setCurrentSearchInput={jest.fn()}
           />
         </SocketContext.Provider>
@@ -110,5 +111,38 @@ describe('Testing tokens search', () => {
       '/mpt/00000001B5F762798A53D543A014CAF8B297CFF8F2F937E8',
     )
     expect(mptRow.querySelectorAll('.metric-chip').length).toEqual(2)
+  })
+
+  it('sorts tokens and mpts by holder count descending', async () => {
+    const { container } = renderSearchResults('sort-test', sortedTestTokens)
+    await flushPromises()
+
+    await waitFor(() => {
+      expect(
+        container.querySelectorAll('.search-results-header').length,
+      ).toEqual(2)
+    })
+
+    const headers = container.querySelectorAll('.search-results-header')
+    expect(headers[0].outerHTML).toBe(
+      `<div class="search-results-header">tokens (3)</div>`,
+    )
+    expect(headers[1].outerHTML).toBe(
+      `<div class="search-results-header">mpts (3)</div>`,
+    )
+
+    // tokens: SOLO (218547) > MID (4200) > LOW (5)
+    // mpts: Big MPT (9000) > Example MPT (10) > Small MPT (3)
+    const issuerNames = Array.from(
+      container.querySelectorAll('.issuer-name'),
+    ).map((el) => el.textContent)
+    expect(issuerNames).toEqual([
+      'Sologenic (',
+      'Mid Holder Token (',
+      'Low Holder Token (',
+      'Big MPT Issuer (',
+      'Example Issuer (',
+      'Small MPT Issuer (',
+    ])
   })
 })
