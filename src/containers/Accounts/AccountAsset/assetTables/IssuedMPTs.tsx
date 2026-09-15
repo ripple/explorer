@@ -115,7 +115,7 @@ const IssuedMPTsContent = ({ accountId, onChange }: IssuedMPTsProps) => {
             <th>{t('account_page_asset_table_column_token_id')}</th>
             <th>{t('account_page_asset_table_column_ticker')}</th>
             <th>{t('account_page_asset_table_column_price_usd')}</th>
-            <th>{t('account_page_asset_table_column_circulating_supply')}</th>
+            <th>{t('account_page_asset_table_column_supply')}</th>
             <th>
               {t('account_page_asset_table_column_confidential_balance')}{' '}
               <ConfBalanceTooltipIcon tooltipKey="confidential_balance_tooltip" />

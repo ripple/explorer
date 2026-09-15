@@ -36,10 +36,10 @@ export const GeneralOverview = ({
       <div className="header-box-contents">
         <div className="header-box-item">
           <div className="item-name">{t('token_page.issuer')}</div>
-          <div className="item-value account-link">
+          <div className="item-value account-link issuer-value">
             <Account
               account={issuer}
-              displayText={shortenAccount(issuerName) || shortenAccount(issuer)}
+              displayText={issuerName || shortenAccount(issuer)}
             />
           </div>
         </div>
