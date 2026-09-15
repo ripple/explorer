@@ -422,6 +422,7 @@
   "ticket_used": "a Ticket was used for this Transaction",
   "token": "Token",
   "tokens": "Tokens",
+  "mpts": "MPTs",
   "total_issuers": "Total Issuers",
   "total_tokens": "Total Tokens",
   "top_trading_pairs": "Top Trading Pairs",

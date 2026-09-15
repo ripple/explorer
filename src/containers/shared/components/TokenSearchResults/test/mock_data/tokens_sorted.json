@@ -1,0 +1,58 @@
+{
+  "tokens": [
+    {
+      "issuer_name": "Low Holder Token",
+      "currency": "4C4F5700000000000000000000000000000000",
+      "name": "LOW",
+      "issuer_account": "rLowHolderIssuer0000000000000000000",
+      "holders": 5,
+      "price": "0.01"
+    },
+    {
+      "issuer_name": "Sologenic",
+      "currency": "534F4C4F00000000000000000000000000000000",
+      "name": "SOLO",
+      "issuer_account": "rsoLo2S1kiGeCcn6hCUXVrCpGMWLrRrLZz",
+      "holders": 218547,
+      "price": "0.110990003788651"
+    },
+    {
+      "issuer_name": "Mid Holder Token",
+      "currency": "4D494400000000000000000000000000000000",
+      "name": "MID",
+      "issuer_account": "rMidHolderIssuer00000000000000000000",
+      "holders": 4200,
+      "price": "0.5"
+    },
+    {
+      "token_type": "MPT",
+      "issuer_name": "Small MPT Issuer",
+      "currency": "00000002B5F762798A53D543A014CAF8B297CFF8F2F937E9",
+      "mpt_issuance_id": "00000002B5F762798A53D543A014CAF8B297CFF8F2F937E9",
+      "name": "Small MPT",
+      "issuer_account": "rSmallMPTIssuer00000000000000000000",
+      "holders": 3,
+      "price": "1.0"
+    },
+    {
+      "token_type": "MPT",
+      "issuer_name": "Big MPT Issuer",
+      "currency": "00000003B5F762798A53D543A014CAF8B297CFF8F2F937EA",
+      "mpt_issuance_id": "00000003B5F762798A53D543A014CAF8B297CFF8F2F937EA",
+      "name": "Big MPT",
+      "issuer_account": "rBigMPTIssuer000000000000000000000",
+      "holders": 9000,
+      "price": "2.0"
+    },
+    {
+      "token_type": "MPT",
+      "issuer_name": "Example Issuer",
+      "currency": "00000001B5F762798A53D543A014CAF8B297CFF8F2F937E8",
+      "mpt_issuance_id": "00000001B5F762798A53D543A014CAF8B297CFF8F2F937E8",
+      "name": "Example MPT",
+      "issuer_account": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
+      "holders": 10,
+      "price": "1.5"
+    }
+  ]
+}

@@ -13,8 +13,10 @@ export interface LOSToken {
   icon?: string
   ttl?: number
   social_links?: SocialLink[]
-  trustlines: number
+  trustlines?: number
   transfer_fee?: number
+  token_type?: 'IOU' | 'MPT'
+  mpt_issuance_id?: string
   issuer_domain?: string
   issuer_name?: string
   tvl_xrp?: number
