@@ -113,22 +113,20 @@ export const MPT = () => {
     },
   )
 
-  // Circulating supply is only meaningful once holders resolve. While the fetch
-  // is pending (or hasn't started yet) show a spinner; if it failed, leave it
-  // undefined so the header renders "--" rather than the unadjusted supply.
-  const circulatingSupplyLoading =
-    holdersLoading || !(holdersData || holdersError)
-
   // Circulating supply = outstanding amount minus large (>= 20%) holders, except
   // for RWA tokens where those holders are custodians/treasuries (no exclusion).
   const isRwa = isRwaAssetClass(mptokenIssuance?.parsedMPTMetadata?.asset_class)
+
+  // RWA tokens don't subtract holder balances, so their circulating supply is
+  // computable from the issuance alone — no need to wait on (or succeed at) the
+  // holders fetch. Everything else needs the holder set.
   const circulatingSupply = useMemo(
     () =>
-      holdersData
+      isRwa || holdersData
         ? calculateMptCirculatingSupply(
             mptokenIssuance?.outstandingAmt,
             mptokenIssuance?.assetScale ?? 0,
-            holdersData.holders,
+            holdersData?.holders,
             isRwa,
           )
         : undefined,
@@ -139,6 +137,13 @@ export const MPT = () => {
       isRwa,
     ],
   )
+
+  // Only wait on holders when they're actually needed: RWA never reads them.
+  // While the fetch is pending (or hasn't started yet) show a spinner; if it
+  // failed, leave circulatingSupply undefined so the header renders "--"
+  // rather than the unadjusted supply.
+  const circulatingSupplyLoading =
+    !isRwa && (holdersLoading || !(holdersData || holdersError))
 
   // Client-side pagination: slice the holders array for the current page
   const paginatedHolders = useMemo(() => {
