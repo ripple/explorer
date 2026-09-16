@@ -72,9 +72,9 @@ describe('Settings component', () => {
     expect(queryAllEnabled(container)).toHaveLength(1)
   })
 
-  it('shows Enabled for can_confidential_amount when lsfMPTCanConfidentialAmount present', () => {
+  it('shows Enabled for can_confidential_amount when lsfMPTCanHoldConfidentialBalance present', () => {
     const { container } = renderComponent({
-      flags: ['lsfMPTCanConfidentialAmount'],
+      flags: ['lsfMPTCanHoldConfidentialBalance'],
     })
     expect(queryAllEnabled(container)).toHaveLength(1)
   })

@@ -229,6 +229,7 @@ export const Header = (props: Props) => {
             showMptId={showMPTIssuanceId}
             holdersCount={holdersCount}
             holdersLoading={holdersLoading}
+            flags={flags}
           />
           <MarketData
             maxAmt={maxAmt}

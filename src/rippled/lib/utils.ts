@@ -45,7 +45,7 @@ const MPT_ISSUANCE_FLAGS: FlagMap = {
   0x00000010: 'lsfMPTCanTrade',
   0x00000020: 'lsfMPTCanTransfer',
   0x00000040: 'lsfMPTCanClawback',
-  0x00000080: 'lsfMPTCanConfidentialAmount',
+  0x00000080: 'lsfMPTCanHoldConfidentialBalance',
 }
 // ImmutableFlags on the MPTokenIssuance ledger object (Dynamic MPT, XLS-94).
 // A set bit permanently locks the corresponding field/capability — the issuer

@@ -576,6 +576,7 @@
   "check_mpt_id": "Please check your MPT Issuance ID",
   "outstanding_amount": "Issued Amount",
   "locked": "Locked",
+  "active": "Active",
   "can_lock": "Can Lock",
   "require_auth": "Require Auth",
   "can_escrow": "Can Escrow",

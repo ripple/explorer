@@ -80,7 +80,7 @@ export const Settings = ({
     {
       key: 'canConfidentialAmount',
       label: t('can_confidential_amount'),
-      enabled: flags.includes('lsfMPTCanConfidentialAmount'),
+      enabled: flags.includes('lsfMPTCanHoldConfidentialBalance'),
       immutableFlag: 'lsifMPTCanHoldConfidentialBalance',
     },
   ]
