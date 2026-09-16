@@ -92,6 +92,7 @@ export const Header = (props: Props) => {
     confidentialOutstandingAmt,
     transferFee,
     flags,
+    immutableFlags,
     rawMPTMetadata,
     parsedMPTMetadata,
     isMPTMetadataCompliant,
@@ -228,6 +229,7 @@ export const Header = (props: Props) => {
             showMptId={showMPTIssuanceId}
             holdersCount={holdersCount}
             holdersLoading={holdersLoading}
+            flags={flags}
           />
           <MarketData
             maxAmt={maxAmt}
@@ -235,7 +237,7 @@ export const Header = (props: Props) => {
             confidentialOutstandingAmt={confidentialOutstandingAmt}
             assetScale={assetScale}
           />
-          <Settings flags={flags} />
+          <Settings flags={flags} immutableFlags={immutableFlags} />
           {(parsedMPTMetadata || rawMPTMetadata) && (
             <Metadata
               decodedMPTMetadata={(parsedMPTMetadata || rawMPTMetadata)!}
