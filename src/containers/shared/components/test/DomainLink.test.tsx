@@ -79,4 +79,18 @@ describe('DomainLink', () => {
     expect(link).toHaveTextContent('Custom Display Text')
     expect(link).toHaveAttribute('href', 'https://bithomp.com')
   })
+
+  it('sets the title attribute (full URL tooltip) when provided', () => {
+    const fullUrl = 'https://www.franklintempleton.com/about-us/our-teams'
+    render(
+      <DomainLink
+        domain={fullUrl}
+        displayDomain="franklintempleton.com"
+        title={fullUrl}
+      />,
+    )
+    const link = screen.getByRole('link')
+    expect(link).toHaveTextContent('franklintempleton.com')
+    expect(link).toHaveAttribute('title', fullUrl)
+  })
 })

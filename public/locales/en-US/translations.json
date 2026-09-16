@@ -741,7 +741,6 @@
   "account_page_asset_table_column_asset_class": "Asset Class",
   "account_page_asset_table_column_balance": "Balance",
   "account_page_asset_table_column_balance_usd": "Balance (USD)",
-  "account_page_asset_table_column_circulating_supply": "Circ Supply",
   "account_page_asset_table_column_confidential_balance": "Conf Balance",
   "account_page_asset_table_column_currency_code": "Currency Code",
   "account_page_asset_table_column_frozen": "Frozen",
