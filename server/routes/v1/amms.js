@@ -20,6 +20,10 @@ async function fetchAMMs() {
         size: 1000,
         sort_field: 'tvl_usd',
         sort_order: 'desc',
+        // Only XRP-based pools have their TVL refreshed from the ledger. Without this,
+        // token/token pools priced off illiquid IOUs dominate the tvl_usd ranking and
+        // consume the 1000-result budget.
+        xrp_only: true,
       },
       timeout: 30000,
     })
@@ -160,16 +164,22 @@ async function fetchTradingFees(amms) {
   return tradingFeeMap
 }
 
-async function fetchAggregatedStats() {
+function fetchAggregatedRollup(xrpOnly) {
   const url = `${process.env.VITE_LOS_URL}/amms/aggregated`
-  log.info(`Fetching aggregated stats from: ${url}`)
+  log.info(`Fetching aggregated stats from: ${url} (xrp_only=${!!xrpOnly})`)
 
   return axios
     .get(url, {
+      // axios omits undefined params, so the all-pools call sends nothing and LOS defaults.
+      params: {
+        xrp_only: xrpOnly || undefined,
+      },
       timeout: 30000,
     })
     .then((resp) => {
-      log.info(`Successfully fetched aggregated stats, status: ${resp.status}`)
+      log.info(
+        `Successfully fetched aggregated stats (xrp_only=${!!xrpOnly}), status: ${resp.status}`,
+      )
       return resp.data
     })
     .catch((e) => {
@@ -193,6 +203,55 @@ async function fetchAggregatedStats() {
       }
       return null
     })
+}
+
+/**
+ * Build the stat tiles from both LOS rollups, because they are deliberately mixed-scope:
+ *
+ *   - counts (# of AMMs, # of LPs) describe the whole ecosystem, so they come from the
+ *     all-pools rollup
+ *   - every value figure (TVL, volume, fees) comes from the XRP-only rollup, because those
+ *     are refreshed from the ledger only for XRP-based pools; for token/token pools they
+ *     are derived from illiquid issued-token pricing and are often wildly overstated
+ *
+ * LOS keeps the two rollups separate and internally consistent; mixing them is a
+ * presentation choice for this page, so it lives here rather than in the API.
+ */
+async function fetchAggregatedStats() {
+  const [allPools, xrpPools] = await Promise.all([
+    fetchAggregatedRollup(false),
+    fetchAggregatedRollup(true),
+  ])
+
+  if (!allPools) {
+    return null
+  }
+
+  const merged = { ...allPools }
+
+  if (xrpPools) {
+    merged.tvl_xrp = xrpPools.tvl_xrp
+    merged.tvl_usd = xrpPools.tvl_usd
+    merged.trading_volume_xrp = xrpPools.trading_volume_xrp
+    merged.trading_volume_usd = xrpPools.trading_volume_usd
+    merged.fees_collected_xrp = xrpPools.fees_collected_xrp
+    merged.fees_collected_usd = xrpPools.fees_collected_usd
+  } else {
+    // The XRP rollup does not exist until the LOS backfill has run. Omit these rather than
+    // leaving the all-pools figures in place: those are the inflated numbers this change
+    // exists to stop showing. Absent values render as "--".
+    delete merged.tvl_xrp
+    delete merged.tvl_usd
+    delete merged.trading_volume_xrp
+    delete merged.trading_volume_usd
+    delete merged.fees_collected_xrp
+    delete merged.fees_collected_usd
+    log.warn(
+      'XRP-only aggregate rollup unavailable - omitting TVL, volume and fees from stats',
+    )
+  }
+
+  return merged
 }
 
 function enrichAMMs(amms, tokenDataMap) {
@@ -423,10 +482,10 @@ const getAggregatedStats = async (req, res) => {
  * GET /api/v1/amms/historical-trends
  * Fetch historical trends for AMM data
  */
-async function fetchHistoricalTrends(ammAccountId, timeRange) {
+async function fetchHistoricalTrends(ammAccountId, timeRange, xrpOnly) {
   const url = `${process.env.VITE_LOS_URL}/amms/historical-trends`
   log.info(
-    `Fetching historical trends from: ${url} (amm_account_id=${ammAccountId}, time_range=${timeRange})`,
+    `Fetching historical trends from: ${url} (amm_account_id=${ammAccountId}, time_range=${timeRange}, xrp_only=${!!xrpOnly})`,
   )
 
   return axios
@@ -434,6 +493,8 @@ async function fetchHistoricalTrends(ammAccountId, timeRange) {
       params: {
         amm_account_id: ammAccountId,
         time_range: timeRange,
+        // axios omits undefined params, so the opted-out case sends nothing and LOS defaults.
+        xrp_only: xrpOnly || undefined,
       },
       timeout: 30000,
     })
@@ -468,14 +529,21 @@ async function fetchHistoricalTrends(ammAccountId, timeRange) {
     })
 }
 
-function getCachedTrends(ammAccountId, timeRange) {
-  const cacheKey = `${ammAccountId}:${timeRange}`
+// The xrp_only flag MUST be part of the cache key. Without it, one `aggregated:6M` entry
+// is shared between XRP-only and all-pool requests and whichever lands first wins, serving
+// the wrong series with no error.
+function trendsCacheKey(ammAccountId, timeRange, xrpOnly) {
+  return `${ammAccountId}:${timeRange}:${xrpOnly ? 'xrp' : 'all'}`
+}
+
+function getCachedTrends(ammAccountId, timeRange, xrpOnly) {
+  const cacheKey = trendsCacheKey(ammAccountId, timeRange, xrpOnly)
   return cachedHistoricalTrends.get(cacheKey) || null
 }
 
-async function cacheTrends(ammAccountId, timeRange) {
-  const cacheKey = `${ammAccountId}:${timeRange}`
-  const trends = await fetchHistoricalTrends(ammAccountId, timeRange)
+async function cacheTrends(ammAccountId, timeRange, xrpOnly) {
+  const cacheKey = trendsCacheKey(ammAccountId, timeRange, xrpOnly)
+  const trends = await fetchHistoricalTrends(ammAccountId, timeRange, xrpOnly)
 
   if (trends) {
     log.info(`Fetched historical trends from LOS for ${cacheKey}...`)
@@ -505,13 +573,15 @@ const getHistoricalTrends = async (req, res) => {
     const {
       amm_account_id: ammAccountId = 'aggregated',
       time_range: timeRange = '6M',
+      xrp_only: xrpOnlyParam,
     } = req.query
+    const xrpOnly = xrpOnlyParam === 'true' || xrpOnlyParam === true
 
     log.info(
-      `Fetching historical trends from cache: amm_account_id=${ammAccountId}, time_range=${timeRange}`,
+      `Fetching historical trends from cache: amm_account_id=${ammAccountId}, time_range=${timeRange}, xrp_only=${xrpOnly}`,
     )
 
-    const cached = getCachedTrends(ammAccountId, timeRange)
+    const cached = getCachedTrends(ammAccountId, timeRange, xrpOnly)
 
     // If cached and fresh (within REFETCH_INTERVAL), return it
     if (cached && Date.now() - cached.last_updated < REFETCH_INTERVAL) {
@@ -523,9 +593,9 @@ const getHistoricalTrends = async (req, res) => {
     }
 
     // Cache miss or stale — fetch fresh data
-    await cacheTrends(ammAccountId, timeRange)
+    await cacheTrends(ammAccountId, timeRange, xrpOnly)
 
-    const updated = getCachedTrends(ammAccountId, timeRange)
+    const updated = getCachedTrends(ammAccountId, timeRange, xrpOnly)
 
     return res.status(200).json({
       ...updated?.data,

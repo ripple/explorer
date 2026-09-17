@@ -137,4 +137,33 @@ describe('AuctionCard', () => {
       expect(screen.getByText(/53\.4K/)).toBeInTheDocument()
     })
   })
+
+  describe('when tvlUsd is suppressed for a non-XRP pool', () => {
+    // The pool page passes undefined (never 0) so these derived USD values disappear
+    // rather than rendering a convincing fake $0.00.
+    it('renders no USD subtitles', () => {
+      const { container } = renderComponent({
+        auctionSlot: defaultAuctionSlot,
+        tvlUsd: undefined,
+        lpTokenBalance: '5000000',
+        tradingFee: 500,
+      })
+
+      expect(container.querySelector('.info-card-subtitle')).toBeNull()
+      expect(container.textContent).not.toContain('$0.00')
+      expect(container.textContent).not.toContain('NaN')
+    })
+
+    it('still renders the LP token amounts', () => {
+      renderComponent({
+        auctionSlot: defaultAuctionSlot,
+        tvlUsd: undefined,
+        lpTokenBalance: '5000000',
+        tradingFee: 500,
+      })
+
+      expect(screen.getByText('price_paid')).toBeInTheDocument()
+      expect(screen.getByText('replacement_cost')).toBeInTheDocument()
+    })
+  })
 })

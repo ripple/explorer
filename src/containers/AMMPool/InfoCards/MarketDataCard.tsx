@@ -39,6 +39,12 @@ const BalanceLabel = ({
 
 interface MarketDataCardProps {
   losData?: LOSAMMPoolData
+  /**
+   * When false, the TVL / volume / fees / APR rows are hidden: those values are only
+   * refreshed from the ledger for XRP-based pools. Defaults to true so existing callers
+   * and tests are unaffected.
+   */
+  isXrpBased?: boolean
   balance1: FormattedBalance | null
   balance2: FormattedBalance | null
   lpTokenBalance: string | undefined
@@ -46,12 +52,17 @@ interface MarketDataCardProps {
 
 export const MarketDataCard: FC<MarketDataCardProps> = ({
   losData,
+  isXrpBased = true,
   balance1,
   balance2,
   lpTokenBalance,
 }) => {
   const { t } = useTranslation()
   const { showTooltip, hideTooltip } = useTooltip()
+
+  // APR is fees / TVL, so it inherits TVL's accuracy and is gated alongside it.
+  // The on-ledger balances and the liquidity-provider count below are unaffected.
+  const showMarketMetrics = !!losData && isXrpBased
 
   const renderTooltipIcon = (text: string) => (
     <HoverIcon
@@ -74,7 +85,7 @@ export const MarketDataCard: FC<MarketDataCardProps> = ({
         {t('market_data')}
       </h3>
       <div className="info-card-rows">
-        {losData && (
+        {showMarketMetrics && losData && (
           <>
             <div className="info-card-row">
               <span className="info-card-label">{t('tvl')}</span>
