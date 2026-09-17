@@ -15,6 +15,9 @@ export interface AMMPool {
   annual_percentage_return: number
   liquidity_provider_count: number
   amm_created_timestamp: string
+  // True when one side of the pair is XRP. Only these pools have TVL refreshed from the
+  // ledger. Optional so a LOS rollback that drops the field is not a type error.
+  is_xrp_based?: boolean
   // Trading fee from amm_info RPC (0-1000, where 1000 = 1%)
   trading_fee?: number
   // Token data from LOS /tokens/batch-get (server-cached)
@@ -30,6 +33,7 @@ export interface AMMRankingsResponse {
   size: number
   sort_field: string
   sort_order: string
+  xrp_only?: boolean
   count: number
   results: AMMPool[]
 }
@@ -96,6 +100,9 @@ export const fetchHistoricalTrends = async (
     params: {
       amm_account_id: 'aggregated',
       time_range: timeRange,
+      // Must match the XRP-only list and stat tiles, which the server scopes for us.
+      // Unlike those, this route is generic over amm_account_id, so the flag is threaded.
+      xrp_only: true,
     },
   })
   return response.data
