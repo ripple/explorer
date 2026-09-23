@@ -164,7 +164,7 @@ async function fetchTradingFees(amms) {
   return tradingFeeMap
 }
 
-function fetchAggregatedRollup(xrpOnly) {
+function fetchAggregate(xrpOnly) {
   const url = `${process.env.VITE_LOS_URL}/amms/aggregated`
   log.info(`Fetching aggregated stats from: ${url} (xrp_only=${!!xrpOnly})`)
 
@@ -206,21 +206,21 @@ function fetchAggregatedRollup(xrpOnly) {
 }
 
 /**
- * Build the stat tiles from both LOS rollups, because they are deliberately mixed-scope:
+ * Build the stat tiles from both LOS aggregates, because they are deliberately mixed-scope:
  *
  *   - counts (# of AMMs, # of LPs) describe the whole ecosystem, so they come from the
- *     all-pools rollup
- *   - every value figure (TVL, volume, fees) comes from the XRP-only rollup, because those
+ *     all-pools aggregate
+ *   - every value figure (TVL, volume, fees) comes from the XRP-only aggregate, because those
  *     are refreshed from the ledger only for XRP-based pools; for token/token pools they
  *     are derived from illiquid issued-token pricing and are often wildly overstated
  *
- * LOS keeps the two rollups separate and internally consistent; mixing them is a
+ * LOS keeps the two aggregates separate and internally consistent; mixing them is a
  * presentation choice for this page, so it lives here rather than in the API.
  */
 async function fetchAggregatedStats() {
   const [allPools, xrpPools] = await Promise.all([
-    fetchAggregatedRollup(false),
-    fetchAggregatedRollup(true),
+    fetchAggregate(false),
+    fetchAggregate(true),
   ])
 
   if (!allPools) {
@@ -237,9 +237,9 @@ async function fetchAggregatedStats() {
     merged.fees_collected_xrp = xrpPools.fees_collected_xrp
     merged.fees_collected_usd = xrpPools.fees_collected_usd
   } else {
-    // The XRP rollup does not exist until the LOS backfill has run. Omit these rather than
-    // leaving the all-pools figures in place: those are the inflated numbers this change
-    // exists to stop showing. Absent values render as "--".
+    // The XRP aggregate is missing - an ETL outage, or a LOS version without it. Omit these
+    // rather than leaving the all-pools figures in place: those are the inflated numbers this
+    // change exists to stop showing. Absent values render as "--".
     delete merged.tvl_xrp
     delete merged.tvl_usd
     delete merged.trading_volume_xrp
@@ -247,7 +247,7 @@ async function fetchAggregatedStats() {
     delete merged.fees_collected_xrp
     delete merged.fees_collected_usd
     log.warn(
-      'XRP-only aggregate rollup unavailable - omitting TVL, volume and fees from stats',
+      'XRP-only aggregate unavailable - omitting TVL, volume and fees from stats',
     )
   }
 
