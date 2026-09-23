@@ -82,13 +82,58 @@ async function fetchTokens() {
     })
 }
 
+// MPTs aren't tradeable on the DEX yet, so they have no price/market cap to
+// rank on or filter by. Zero-holder issuances are mostly test/abandoned
+// tokens, so only ones with at least one holder are made searchable.
+const MPT_MIN_HOLDERS = 0
+
+function mapMPT(mpt) {
+  return {
+    token_type: 'MPT',
+    mpt_issuance_id: mpt.mpt_issuance_id,
+    currency: mpt.mpt_issuance_id,
+    issuer_account: mpt.issuer,
+    issuer_name: mpt.meta?.token?.issuer_name ?? mpt.meta?.issuer?.name,
+    issuer_domain: mpt.meta?.issuer?.domain,
+    // `name` stays the short ticker for display (matches the IOU convention
+    // of a short code shown next to the currency), but the fuller product
+    // name (e.g. "Car Parts" for a token ticked "SCPO") is kept separately
+    // so it's still searchable even though it's never the display name.
+    name: mpt.meta?.token?.ticker ?? mpt.meta?.token?.name,
+    full_name: mpt.meta?.token?.name,
+    icon: mpt.meta?.token?.icon,
+    holders: mpt.metrics?.holders,
+  }
+}
+
+async function fetchMPTs() {
+  const url = `https://${process.env.XRPL_META_URL}/v2/tokens/mpt?limit=1000`
+  log.info(`Fetching MPTs from: ${url}`)
+
+  return axios
+    .get(url, { timeout: 30000 })
+    .then((resp) => {
+      const mpts = resp.data?.tokens || []
+      log.info(`Successfully fetched MPTs, count: ${mpts.length}`)
+      return mpts
+        .filter((mpt) => (mpt.metrics?.holders ?? 0) > MPT_MIN_HOLDERS)
+        .map(mapMPT)
+    })
+    .catch((e) => {
+      log.error(`Failed to fetch MPTs from ${url}:`, { message: e.message })
+      return []
+    })
+}
+
 async function cacheTokens() {
-  const losTokens = await fetchTokens()
+  const [losTokens, mpts] = await Promise.all([fetchTokens(), fetchMPTs()])
 
   if (losTokens.tokens) {
-    log.info(`Fetched ${losTokens.tokens.length} tokens from LOS...`)
+    log.info(
+      `Fetched ${losTokens.tokens.length} tokens from LOS, ${mpts.length} MPTs from XRPL Meta...`,
+    )
 
-    cachedTokenList.tokens = losTokens.tokens.sort(
+    cachedTokenList.tokens = [...losTokens.tokens, ...mpts].sort(
       (a, b) => Number(b.holders ?? 0) - Number(a.holders ?? 0),
     )
 
@@ -137,6 +182,9 @@ function queryTokens(tokenList, query) {
         ?.toLowerCase()
         .includes(sanitizedQuery)
       const nameMatch = token.name?.toLowerCase().includes(sanitizedQuery)
+      const fullNameMatch = token.full_name
+        ?.toLowerCase()
+        .includes(sanitizedQuery)
       const issuerNameMatch = token.issuer_name
         ?.toLowerCase()
         .includes(sanitizedQuery)
@@ -148,6 +196,7 @@ function queryTokens(tokenList, query) {
         currencyMatch ||
         parsedCurrencyMatch ||
         nameMatch ||
+        fullNameMatch ||
         issuerNameMatch ||
         issuerAccountStartsMatch
       )

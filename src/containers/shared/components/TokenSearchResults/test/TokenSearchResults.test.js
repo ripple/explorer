@@ -65,8 +65,9 @@ describe('Testing tokens search', () => {
 
     const searchMenu = container.querySelector('.search-results-menu')
 
+    // SOLO (218547 holders) outranks the mock MPT (10 holders), so it's first
     expect(searchMenu.querySelector('.search-results-header').outerHTML).toBe(
-      `<div class="search-results-header">tokens (1)</div>`,
+      `<div class="search-results-header">tokens (2)</div>`,
     )
     expect(searchMenu.querySelector('.currency').outerHTML).toBe(
       `<span class="currency" data-testid="currency">SOLO</span>`,
@@ -77,32 +78,30 @@ describe('Testing tokens search', () => {
     expect(searchMenu.querySelector('.issuer-address').outerHTML).toBe(
       `<div class="issuer-address truncate">rsoLo2S1kiGeCcn6hCUXVrCpGMWLrRrLZz</div>`,
     )
+    // type chip + price + holders + trustlines
     expect(
       searchMenu
         .querySelector('.search-result-row')
         .querySelectorAll('.metric-chip').length,
-    ).toEqual(3)
+    ).toEqual(4)
     expect(searchMenu.querySelector('.domain').outerHTML).toBe(
       `<a class="domain" rel="noopener noreferrer" target="_blank" href="https://sologenic.com">sologenic.com</a>`,
     )
   })
 
-  it('renders mpts in a separate section from tokens', async () => {
+  it('renders mpts together with tokens in a single list', async () => {
     const { container } = renderSearchResults()
     await flushPromises()
 
     await waitFor(() => {
       expect(
         container.querySelectorAll('.search-results-header').length,
-      ).toEqual(2)
+      ).toEqual(1)
     })
 
-    const headers = container.querySelectorAll('.search-results-header')
-    expect(headers[0].outerHTML).toBe(
-      `<div class="search-results-header">tokens (1)</div>`,
-    )
-    expect(headers[1].outerHTML).toBe(
-      `<div class="search-results-header">mpts (1)</div>`,
+    const header = container.querySelector('.search-results-header')
+    expect(header.outerHTML).toBe(
+      `<div class="search-results-header">tokens (2)</div>`,
     )
 
     const rows = container.querySelectorAll('.search-result-row')
@@ -110,39 +109,42 @@ describe('Testing tokens search', () => {
     expect(mptRow.getAttribute('href')).toBe(
       '/mpt/00000001B5F762798A53D543A014CAF8B297CFF8F2F937E8',
     )
-    expect(mptRow.querySelectorAll('.metric-chip').length).toEqual(2)
+    // type chip + price + holders (no trustlines chip, unlike IOUs)
+    expect(mptRow.querySelectorAll('.metric-chip').length).toEqual(3)
+
+    // MPTs show ticker + full name, same structure as IOUs
+    expect(mptRow.querySelector('.currency').outerHTML).toBe(
+      `<span class="currency" data-testid="currency">Example MPT</span>`,
+    )
+    expect(mptRow.querySelector('.type-chip').textContent).toBe(
+      'token_type.mpt',
+    )
   })
 
-  it('sorts tokens and mpts by holder count descending', async () => {
+  it('renders tokens in the exact order the API returns, without re-sorting client-side', async () => {
+    // Ranking (by holder count) is the backend's job (see
+    // server/routes/v1/tokens.js). This fixture is deliberately NOT
+    // pre-sorted by holders, so this test fails if the component ever
+    // re-sorts client-side and clobbers that ranking.
     const { container } = renderSearchResults('sort-test', sortedTestTokens)
     await flushPromises()
 
     await waitFor(() => {
       expect(
         container.querySelectorAll('.search-results-header').length,
-      ).toEqual(2)
+      ).toEqual(1)
     })
 
-    const headers = container.querySelectorAll('.search-results-header')
-    expect(headers[0].outerHTML).toBe(
-      `<div class="search-results-header">tokens (3)</div>`,
-    )
-    expect(headers[1].outerHTML).toBe(
-      `<div class="search-results-header">mpts (3)</div>`,
+    const header = container.querySelector('.search-results-header')
+    expect(header.outerHTML).toBe(
+      `<div class="search-results-header">tokens (12)</div>`,
     )
 
-    // tokens: SOLO (218547) > MID (4200) > LOW (5)
-    // mpts: Big MPT (9000) > Example MPT (10) > Small MPT (3)
     const issuerNames = Array.from(
       container.querySelectorAll('.issuer-name'),
     ).map((el) => el.textContent)
-    expect(issuerNames).toEqual([
-      'Sologenic (',
-      'Mid Holder Token (',
-      'Low Holder Token (',
-      'Big MPT Issuer (',
-      'Example Issuer (',
-      'Small MPT Issuer (',
-    ])
+    expect(issuerNames).toEqual(
+      sortedTestTokens.tokens.map((token) => `${token.issuer_name} (`),
+    )
   })
 })

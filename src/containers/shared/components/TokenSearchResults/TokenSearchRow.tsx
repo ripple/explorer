@@ -2,7 +2,7 @@ import { Link } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import { FC } from 'react'
 import { Amount } from '../Amount'
-import { localizeNumber } from '../../utils'
+import { localizeNumber, shortenMPTID } from '../../utils'
 import Currency from '../Currency'
 import DomainLink from '../DomainLink'
 import { LOSToken } from '../../losTypes'
@@ -23,11 +23,9 @@ const TokenLogo: FC<{ token: LOSToken }> = ({ token }) =>
     <div className="result-row-icon no-logo" />
   )
 
-const TokenName: FC<{ token: LOSToken }> = ({ token }) =>
-  token && token.name ? (
-    <div>
-      ({token.name.trim().toUpperCase().replace('(', '').replace(')', '')})
-    </div>
+const TokenName: FC<{ name?: string }> = ({ name }) =>
+  name ? (
+    <div>({name.trim().toUpperCase().replace('(', '').replace(')', '')})</div>
   ) : null
 
 const IssuerAddress: FC<{ token: LOSToken; onClick: any }> = ({
@@ -60,10 +58,20 @@ export const TokenSearchRow = ({
   xrpPrice,
 }: SearchResultRowProps): JSX.Element => {
   const { t } = useTranslation()
+  const isMPT = token.token_type === 'MPT'
+
+  // MPTs use the same ticker + full-name structure as IOUs: the ticker as
+  // the primary currency label, the fuller product name in parentheses.
+  // `full_name` is only ever set on MPTs, so this is a no-op for IOUs.
+  const displayName = token.full_name ?? token.name
 
   return (
     <Link
-      to={`/token/${token.currency}.${token.issuer_account}`}
+      to={
+        isMPT
+          ? `/mpt/${token.mpt_issuance_id}`
+          : `/token/${token.currency}.${token.issuer_account}`
+      }
       className="search-result-row"
       onClick={onClick}
     >
@@ -72,10 +80,20 @@ export const TokenSearchRow = ({
           <TokenLogo token={token} />
         </div>
         <div className="result-currency">
-          <Currency currency={token.currency} />
+          {isMPT ? (
+            <span className="currency" data-testid="currency">
+              {token.name ??
+                shortenMPTID(token.mpt_issuance_id ?? token.currency)}
+            </span>
+          ) : (
+            <Currency currency={token.currency} />
+          )}
         </div>
         <div className="result-token-name">
-          <TokenName token={token} />
+          <TokenName name={displayName} />
+        </div>
+        <div className="metric-chip type-chip">
+          {isMPT ? t('token_type.mpt') : t('token_type.iou')}
         </div>
         <div className="metric-chip">
           {token.price ? (
@@ -98,11 +116,13 @@ export const TokenSearchRow = ({
             holders: localizeNumber(token.holders),
           })}
         </div>
-        <div className="metric-chip">
-          {t('trustlines', {
-            trustlines: localizeNumber(token.trustlines),
-          })}
-        </div>
+        {!isMPT && (
+          <div className="metric-chip">
+            {t('trustlines', {
+              trustlines: localizeNumber(token.trustlines),
+            })}
+          </div>
+        )}
       </div>
       <div className="result-issuer-line">
         <div className="issuer-title">{t('issuer')}:</div>

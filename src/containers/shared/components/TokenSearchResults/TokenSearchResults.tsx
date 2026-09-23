@@ -6,7 +6,6 @@ import axios from 'axios'
 import { useQuery } from 'react-query'
 import { useAnalytics } from '../../analytics'
 import { TokenSearchRow } from './TokenSearchRow'
-import { MPTSearchRow } from './MPTSearchRow'
 import SocketContext from '../../SocketContext'
 import Log from '../../log'
 import { getAccountLines } from '../../../../rippled/lib/rippled'
@@ -77,55 +76,28 @@ const SearchResults = ({
     setCurrentSearchInput('')
   }
 
-  const byHoldersDesc = (a: LOSToken, b: LOSToken) =>
-    (b.holders ?? 0) - (a.holders ?? 0)
-
-  const iouTokens = tokens
-    .filter((token) => token.token_type !== 'MPT')
-    .sort(byHoldersDesc)
-  const mptTokens = tokens
-    .filter((token) => token.token_type === 'MPT')
-    .sort(byHoldersDesc)
-
   if (tokens.length === 0) {
     return null
   }
 
   return (
     <div className="search-results-menu">
-      {iouTokens.length > 0 && (
-        <>
-          <div className="search-results-header">
-            {t('tokens')} ({iouTokens.length})
-          </div>
+      <div className="search-results-header">
+        {t('tokens')} ({tokens.length})
+      </div>
 
-          {iouTokens.map((token) => (
-            <TokenSearchRow
-              token={token}
-              onClick={onLinkClick('token')}
-              xrpPrice={XRPUSDPrice}
-              key={`${token.currency}.${token.issuer_account}`}
-            />
-          ))}
-        </>
-      )}
-
-      {mptTokens.length > 0 && (
-        <>
-          <div className="search-results-header">
-            {t('mpts')} ({mptTokens.length})
-          </div>
-
-          {mptTokens.map((token) => (
-            <MPTSearchRow
-              token={token}
-              onClick={onLinkClick('mpt')}
-              xrpPrice={XRPUSDPrice}
-              key={token.mpt_issuance_id ?? token.currency}
-            />
-          ))}
-        </>
-      )}
+      {tokens.map((token) => (
+        <TokenSearchRow
+          token={token}
+          onClick={onLinkClick(token.token_type === 'MPT' ? 'mpt' : 'token')}
+          xrpPrice={XRPUSDPrice}
+          key={
+            token.token_type === 'MPT'
+              ? (token.mpt_issuance_id ?? token.currency)
+              : `${token.currency}.${token.issuer_account}`
+          }
+        />
+      ))}
     </div>
   )
 }

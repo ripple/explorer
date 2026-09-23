@@ -6,6 +6,7 @@ export interface LOSToken {
   currency: string
   issuer_account: string
   name?: string
+  full_name?: string
   asset_class?: string
   asset_subclass?: string
   price_change?: number
