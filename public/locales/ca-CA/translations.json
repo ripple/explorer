@@ -740,7 +740,6 @@
   "account_page_asset_table_column_asset_class": null,
   "account_page_asset_table_column_balance": null,
   "account_page_asset_table_column_balance_usd": null,
-  "account_page_asset_table_column_circulating_supply": null,
   "account_page_asset_table_column_currency_code": null,
   "account_page_asset_table_column_frozen": null,
   "account_page_asset_table_column_highest_bid": null,
