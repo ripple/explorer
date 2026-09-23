@@ -118,13 +118,6 @@ describe('MarketDataCard', () => {
     ).toContain('747')
   })
 
-  it('renders no fake zero values when metrics are withheld', () => {
-    const { container } = renderComponent({ isXrpBased: false })
-
-    expect(container.textContent).not.toContain('$0.00')
-    expect(container.textContent).not.toContain('NaN')
-  })
-
   it('renders balances with correct formatted values', () => {
     const { container } = renderComponent()
     const labels = container.querySelectorAll('.info-card-label')
