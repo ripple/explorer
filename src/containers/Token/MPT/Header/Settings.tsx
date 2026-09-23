@@ -7,6 +7,7 @@ const TOOLTIP_Y_OFFSET = 70
 interface Props {
   flags?: string[]
   immutableFlags?: string[]
+  isDynamicMPTEnabled?: boolean
 }
 
 interface FlagItem {
@@ -25,6 +26,7 @@ interface FieldItem {
 export const Settings = ({
   flags = [],
   immutableFlags = [],
+  isDynamicMPTEnabled = false,
 }: Props): JSX.Element => {
   const { t } = useTranslation()
   const { tooltip, showTooltip, hideTooltip } = useTooltip()
@@ -102,7 +104,9 @@ export const Settings = ({
     <div className="header-box settings-box">
       <div className="header-box-title">{t('settings')}</div>
       <div className="header-box-contents">
-        <div className="settings-section-label">{t('capabilities')}</div>
+        {isDynamicMPTEnabled && (
+          <div className="settings-section-label">{t('capabilities')}</div>
+        )}
         {flagItems.map((flag) => (
           <div className="header-box-item" key={flag.key}>
             <div className="item-name">{flag.label}</div>
@@ -111,11 +115,14 @@ export const Settings = ({
                 <div
                   className="flag-status enabled"
                   data-testid="enabled-badge"
-                  onMouseOver={(e) =>
-                    showPillTooltip(e, t('enabled_capability_tooltip'))
+                  onMouseOver={
+                    isDynamicMPTEnabled
+                      ? (e) =>
+                          showPillTooltip(e, t('enabled_capability_tooltip'))
+                      : undefined
                   }
                   onFocus={() => {}}
-                  onMouseLeave={hideTooltip}
+                  onMouseLeave={isDynamicMPTEnabled ? hideTooltip : undefined}
                 >
                   {t('enabled')}
                 </div>
@@ -124,20 +131,61 @@ export const Settings = ({
                   <div
                     className="flag-status disabled"
                     data-testid="disabled-badge"
-                    onMouseOver={(e) =>
-                      showPillTooltip(e, t('disabled_capability_tooltip'))
+                    onMouseOver={
+                      isDynamicMPTEnabled
+                        ? (e) =>
+                            showPillTooltip(e, t('disabled_capability_tooltip'))
+                        : undefined
                     }
                     onFocus={() => {}}
-                    onMouseLeave={hideTooltip}
+                    onMouseLeave={isDynamicMPTEnabled ? hideTooltip : undefined}
                   >
                     {t('disabled')}
                   </div>
-                  {isLocked(flag.immutableFlag) ? (
+                  {isDynamicMPTEnabled &&
+                    (isLocked(flag.immutableFlag) ? (
+                      <div
+                        className="flag-status immutable"
+                        data-testid="immutable-badge"
+                        onMouseOver={(e) =>
+                          showPillTooltip(e, t('immutable_capability_tooltip'))
+                        }
+                        onFocus={() => {}}
+                        onMouseLeave={hideTooltip}
+                      >
+                        {t('immutable')}
+                      </div>
+                    ) : (
+                      <div
+                        className="flag-status mutable"
+                        data-testid="mutable-badge"
+                        onMouseOver={(e) =>
+                          showPillTooltip(e, t('mutable_capability_tooltip'))
+                        }
+                        onFocus={() => {}}
+                        onMouseLeave={hideTooltip}
+                      >
+                        {t('mutable')}
+                      </div>
+                    ))}
+                </>
+              )}
+            </div>
+          </div>
+        ))}
+        {isDynamicMPTEnabled && (
+          <>
+            <div className="settings-section-label">{t('fields')}</div>
+            {fieldItems.map((field) => (
+              <div className="header-box-item" key={field.key}>
+                <div className="item-name">{field.label}</div>
+                <div className="flag-status-group">
+                  {isLocked(field.immutableFlag) ? (
                     <div
                       className="flag-status immutable"
                       data-testid="immutable-badge"
                       onMouseOver={(e) =>
-                        showPillTooltip(e, t('immutable_capability_tooltip'))
+                        showPillTooltip(e, t('immutable_field_tooltip'))
                       }
                       onFocus={() => {}}
                       onMouseLeave={hideTooltip}
@@ -149,7 +197,7 @@ export const Settings = ({
                       className="flag-status mutable"
                       data-testid="mutable-badge"
                       onMouseOver={(e) =>
-                        showPillTooltip(e, t('mutable_capability_tooltip'))
+                        showPillTooltip(e, t('mutable_field_tooltip'))
                       }
                       onFocus={() => {}}
                       onMouseLeave={hideTooltip}
@@ -157,44 +205,11 @@ export const Settings = ({
                       {t('mutable')}
                     </div>
                   )}
-                </>
-              )}
-            </div>
-          </div>
-        ))}
-        <div className="settings-section-label">{t('fields')}</div>
-        {fieldItems.map((field) => (
-          <div className="header-box-item" key={field.key}>
-            <div className="item-name">{field.label}</div>
-            <div className="flag-status-group">
-              {isLocked(field.immutableFlag) ? (
-                <div
-                  className="flag-status immutable"
-                  data-testid="immutable-badge"
-                  onMouseOver={(e) =>
-                    showPillTooltip(e, t('immutable_field_tooltip'))
-                  }
-                  onFocus={() => {}}
-                  onMouseLeave={hideTooltip}
-                >
-                  {t('immutable')}
                 </div>
-              ) : (
-                <div
-                  className="flag-status mutable"
-                  data-testid="mutable-badge"
-                  onMouseOver={(e) =>
-                    showPillTooltip(e, t('mutable_field_tooltip'))
-                  }
-                  onFocus={() => {}}
-                  onMouseLeave={hideTooltip}
-                >
-                  {t('mutable')}
-                </div>
-              )}
-            </div>
-          </div>
-        ))}
+              </div>
+            ))}
+          </>
+        )}
       </div>
       <Tooltip tooltip={tooltip} />
     </div>

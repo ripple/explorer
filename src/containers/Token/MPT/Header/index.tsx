@@ -37,6 +37,7 @@ interface Props {
   setError: (error: number | null) => void
   holdersCount?: number
   holdersLoading?: boolean
+  isDynamicMPTEnabled?: boolean
 }
 
 export const Header = (props: Props) => {
@@ -48,6 +49,7 @@ export const Header = (props: Props) => {
     setError,
     holdersCount,
     holdersLoading,
+    isDynamicMPTEnabled,
   } = props
   const [showURLDropdown, setShowURLDropdown] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
@@ -237,7 +239,11 @@ export const Header = (props: Props) => {
             confidentialOutstandingAmt={confidentialOutstandingAmt}
             assetScale={assetScale}
           />
-          <Settings flags={flags} immutableFlags={immutableFlags} />
+          <Settings
+            flags={flags}
+            immutableFlags={immutableFlags}
+            isDynamicMPTEnabled={!isDynamicMPTEnabled}
+          />
           {(parsedMPTMetadata || rawMPTMetadata) && (
             <Metadata
               decodedMPTMetadata={(parsedMPTMetadata || rawMPTMetadata)!}
