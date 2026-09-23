@@ -62,10 +62,6 @@ interface AMMPoolTablePickerProps {
   isDeleted?: boolean
   /**
    * When false, the USD column on the deposits and withdrawals tables is suppressed.
-   *
-   * Unlike the holders column, that figure is not derived from `tvlUsd` — LOS backfills it
-   * from Caspian's `total_value_usd`, which is populated for token/token pools too and is
-   * priced the same untrustworthy way as their TVL. Gating on `tvlUsd` alone would miss it.
    */
   isXrpBased?: boolean
 }

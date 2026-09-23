@@ -41,7 +41,7 @@ interface MarketDataCardProps {
   losData?: LOSAMMPoolData
   /**
    * When false, the TVL / volume / fees / APR rows still render but read '--': those values
-   * are only refreshed from the ledger for XRP-based pools. Keeping the rows preserves the
+   * can only be priced reliably for XRP-based pools. Keeping the rows preserves the
    * card's shape and makes the absence explicit rather than looking like a missing feature.
    * Defaults to true so existing callers and tests are unaffected.
    */

@@ -92,7 +92,7 @@ describe('MarketDataCard', () => {
   })
 
   it("shows '--' for TVL, volume, fees and APR on a non-XRP pool", () => {
-    // Those values are only refreshed from the ledger for XRP-based pools. The rows stay so
+    // Those values can only be priced reliably for XRP-based pools. The rows stay so
     // the card keeps its shape and the absence is explicit; only the figures are withheld.
     renderComponent({ isXrpBased: false })
 

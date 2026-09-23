@@ -20,7 +20,7 @@ async function fetchAMMs() {
         size: 1000,
         sort_field: 'tvl_usd',
         sort_order: 'desc',
-        // Only XRP-based pools have their TVL refreshed from the ledger. Without this,
+        // A token/token pool's TVL cannot be priced reliably, so it must not be ranked. Without this,
         // token/token pools priced off illiquid IOUs dominate the tvl_usd ranking and
         // consume the 1000-result budget.
         xrp_only: true,
@@ -211,8 +211,9 @@ function fetchAggregate(xrpOnly) {
  *   - counts (# of AMMs, # of LPs) describe the whole ecosystem, so they come from the
  *     all-pools aggregate
  *   - every value figure (TVL, volume, fees) comes from the XRP-only aggregate, because those
- *     are refreshed from the ledger only for XRP-based pools; for token/token pools they
- *     are derived from illiquid issued-token pricing and are often wildly overstated
+ *     can only be priced reliably for XRP-based pools, where one side has a market price;
+ *     for token/token pools both sides are issued tokens and the figure is often wildly
+ *     overstated
  *
  * LOS keeps the two aggregates separate and internally consistent; mixing them is a
  * presentation choice for this page, so it lives here rather than in the API.

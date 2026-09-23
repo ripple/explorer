@@ -15,8 +15,9 @@ export interface AMMPool {
   annual_percentage_return: number
   liquidity_provider_count: number
   amm_created_timestamp: string
-  // True when one side of the pair is XRP. Only these pools have TVL refreshed from the
-  // ledger. Optional so a LOS rollback that drops the field is not a type error.
+  // True when one side of the pair is XRP, which is what makes the pool's TVL priceable:
+  // that side has a market price to anchor on. Optional so a LOS rollback that drops the
+  // field is not a type error.
   is_xrp_based?: boolean
   // Trading fee from amm_info RPC (0-1000, where 1000 = 1%)
   trading_fee?: number
