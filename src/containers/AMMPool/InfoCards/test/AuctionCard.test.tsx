@@ -168,8 +168,7 @@ describe('AuctionCard', () => {
   })
 
   it('shows no USD estimate for a zero auction price on a non-XRP pool', () => {
-    // Regression: getLPTokenUSD used to shortcut `num === 0` to 0 before checking tvlUsd, so a
-    // zero-priced slot rendered "≈ $0.00" even with TVL suppressed.
+    // A zero price must not produce "≈ $0.00" when there is no TVL to value it against.
     const { container } = renderComponent({
       tvlUsd: undefined,
       auctionSlot: {
