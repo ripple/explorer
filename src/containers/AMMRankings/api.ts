@@ -101,8 +101,7 @@ export const fetchHistoricalTrends = async (
     params: {
       amm_account_id: 'aggregated',
       time_range: timeRange,
-      // Must match the XRP-only list and stat tiles, which the server scopes for us.
-      // Unlike those, this route is generic over amm_account_id, so the flag is threaded.
+      // The chart sits beside the XRP-only stat tiles and has to match them.
       xrp_only: true,
     },
   })
@@ -120,6 +119,7 @@ export const fetchAMMHistoricalTrends = async (
     params: {
       amm_account_id: ammAccountId,
       time_range: timeRange,
+      // No xrp_only: LOS ignores it when amm_account_id names a specific pool.
     },
   })
   return response.data

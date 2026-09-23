@@ -214,15 +214,10 @@ export const AMMPool = () => {
   const [asset1, asset2] = orderAssets(balance1, balance2)
   const hasData = !!ammData || !!deletedData
 
-  // A token/token pool's TVL cannot be priced reliably, so it must not be displayed: both
-  // sides are issued tokens, and a pool seeded by an issuer valuing its own freely-minted
-  // token is often overstated by orders of magnitude. An XRP pool has one side with a market
-  // price to anchor on. Both figures come from Caspian - what differs is whether an anchor
-  // exists, not where the number is sourced.
-  //
-  // The balances come from amm_info, so that check is a ledger fact and takes precedence over
-  // the flag: a pool whose LOS document lacks asset fields reports is_xrp_based: false, and
-  // trusting the flag alone would hide TVL for a genuine XRP pool.
+  // An XRP pool has one side with a market price to anchor its TVL; a token/token pool has
+  // none, so its TVL must not be displayed. Both come from Caspian - the anchor is what differs.
+  // The amm_info balances outrank the flag: a pool whose LOS document lacks asset fields
+  // reports is_xrp_based: false, and trusting the flag alone would hide a real XRP pool's TVL.
   const isXrpBased =
     balance1?.currency === 'XRP' ||
     balance2?.currency === 'XRP' ||

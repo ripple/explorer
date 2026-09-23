@@ -206,17 +206,14 @@ function fetchAggregate(xrpOnly) {
 }
 
 /**
- * Build the stat tiles from both LOS aggregates, because they are deliberately mixed-scope:
+ * Build the stat tiles from both LOS aggregates, which are deliberately mixed-scope:
+ *   - counts (# of AMMs, # of LPs) come from the all-pools aggregate - they describe the
+ *     whole ecosystem and are accurate for every pool
+ *   - values (TVL, volume, fees) come from the XRP-only aggregate - only XRP pools have a
+ *     priceable anchor, so token/token figures are often wildly overstated
  *
- *   - counts (# of AMMs, # of LPs) describe the whole ecosystem, so they come from the
- *     all-pools aggregate
- *   - every value figure (TVL, volume, fees) comes from the XRP-only aggregate, because those
- *     can only be priced reliably for XRP-based pools, where one side has a market price;
- *     for token/token pools both sides are issued tokens and the figure is often wildly
- *     overstated
- *
- * LOS keeps the two aggregates separate and internally consistent; mixing them is a
- * presentation choice for this page, so it lives here rather than in the API.
+ * Each LOS aggregate is internally consistent; mixing them is this page's presentation
+ * choice, so it lives here rather than in the API.
  */
 async function fetchAggregatedStats() {
   const [allPools, xrpPools] = await Promise.all([
