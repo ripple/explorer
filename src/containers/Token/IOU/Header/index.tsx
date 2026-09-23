@@ -76,11 +76,15 @@ export const Header = ({
     const volume24hNum = Number(tokenData.daily_volume) || 0
     const trades24hNum = Number(tokenData.daily_trades) || 0
 
-    // Format supply values
-    const formattedSupply = parseAmount(
-      holdersData?.totalSupply?.toString() || tokenData.supply || '0',
-    )
-    const formattedCircSupply = parseAmount(circSupplyNum)
+    // Format supply values; a zero supply isn't meaningful, so show "--"
+    const supplyValue =
+      holdersData?.totalSupply?.toString() || tokenData.supply || '0'
+    const formattedSupply = Number(supplyValue)
+      ? parseAmount(supplyValue)
+      : '--'
+    const formattedCircSupply = circSupplyNum
+      ? parseAmount(circSupplyNum)
+      : '--'
 
     // Calculate market cap
     let marketCap: string | null = null

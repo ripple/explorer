@@ -92,13 +92,17 @@ describe('MarketData component', () => {
     expect(values[1]).toHaveTextContent('5.0M')
   })
 
-  it('displays circulating supply of 0 for undefined amounts', () => {
+  it('shows -- instead of a formatted zero for Supply and Circ Supply', () => {
     const { container } = renderComponent({
       outstandingAmt: undefined,
       circulatingSupply: '0',
       assetScale: 0,
     })
-    expect(container).toHaveTextContent('0.00')
+    const values = container.querySelectorAll('.item-value')
+    // A zero supply is not a meaningful figure, so neither row shows "0.00".
+    expect(values[0]).toHaveTextContent('--')
+    expect(values[1]).toHaveTextContent('--')
+    expect(container).not.toHaveTextContent('0.00')
   })
 
   it('displays market cap placeholder', () => {

@@ -61,12 +61,28 @@ describe('GeneralOverview component', () => {
   it('displays transfer fee when provided', () => {
     const { container } = renderComponent({ transferFee: 1000 })
     // transferFee 1000 / 1000 = 1, formatted as percent = 1.000%
-    expect(container).toHaveTextContent('1.000%')
+    expect(transferFeeValue(container)).toBe('1.000%')
   })
 
-  it('displays -- when no transfer fee', () => {
-    const { container } = renderComponent({ transferFee: undefined })
-    expect(container).toHaveTextContent('--')
+  // The Price row is hardcoded to "--", so assertions must target the transfer
+  // fee cell specifically rather than the whole container.
+  const transferFeeValue = (container: HTMLElement) =>
+    Array.from(container.querySelectorAll('.header-box-item'))
+      .find((row) =>
+        row
+          .querySelector('.item-name')
+          ?.textContent?.includes('token_page.transfer_fee'),
+      )
+      ?.querySelector('.item-value')?.textContent
+
+  it('displays -- when the transfer fee is missing or zero', () => {
+    const { container: missing } = renderComponent({ transferFee: undefined })
+    expect(transferFeeValue(missing)).toBe('--')
+
+    // Regression: `(0 && parsePercent(...)) ?? '--'` evaluated to 0, so a zero
+    // fee rendered "0" instead of the "--" placeholder.
+    const { container: zero } = renderComponent({ transferFee: 0 })
+    expect(transferFeeValue(zero)).toBe('--')
   })
 
   it('displays asset scale', () => {

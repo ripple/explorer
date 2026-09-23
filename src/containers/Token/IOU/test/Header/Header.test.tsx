@@ -12,8 +12,12 @@ jest.mock('../../../../shared/components/Currency', () => ({
   default: ({ currency }: { currency: string }) => <div>{currency}</div>,
 }))
 
+const mockHeaderBoxesSpy = jest.fn()
 jest.mock('../../components/HeaderBoxes', () => ({
-  HeaderBoxes: () => <div>HeaderBoxes</div>,
+  HeaderBoxes: (props: any) => {
+    mockHeaderBoxesSpy(props)
+    return <div>HeaderBoxes</div>
+  },
 }))
 
 jest.mock('../../../../shared/components/Account', () => ({
@@ -374,5 +378,22 @@ describe('Header Component', () => {
       </TestWrapper>,
     )
     expect(screen.getByText('USD')).toBeInTheDocument()
+  })
+  it('shows -- instead of a formatted zero for supply and circ supply', () => {
+    mockHeaderBoxesSpy.mockClear()
+    render(
+      <TestWrapper>
+        <Header
+          currency="USD"
+          tokenData={{ ...mockTokenData, supply: '0', circ_supply: '0' }}
+          xrpUSDRate="2.50"
+          isHoldersDataLoading={false}
+          isAmmTvlLoading={false}
+        />
+      </TestWrapper>,
+    )
+    const { marketData } = mockHeaderBoxesSpy.mock.calls.slice(-1)[0][0]
+    expect(marketData.supply).toBe('--')
+    expect(marketData.circ_supply).toBe('--')
   })
 })

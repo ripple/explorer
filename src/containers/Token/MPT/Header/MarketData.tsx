@@ -23,16 +23,23 @@ export const MarketData = ({
   const { t } = useTranslation()
   const { tooltip } = useTooltip()
 
-  // Supply is the on-chain outstanding amount.
-  const formattedSupply = parseAmount(
-    convertScaledPrice(BigInt(outstandingAmt || '0'), assetScale ?? 0),
+  // Supply is the on-chain outstanding amount. A zero supply isn't a meaningful
+  // figure, so show "--" rather than "0.00".
+  const scaledOutstanding = convertScaledPrice(
+    BigInt(outstandingAmt || '0'),
+    assetScale ?? 0,
   )
+  const formattedSupply = Number(scaledOutstanding)
+    ? parseAmount(scaledOutstanding)
+    : '--'
 
-  // Circulating supply is derived from holder data. When that is unavailable
-  // (e.g. the holders request failed) show "--" rather than the unadjusted
-  // supply, which would look like a real circulating figure.
+  // Circulating supply is derived from holder data, and is undefined when that
+  // is unavailable (e.g. the holders request failed) — "--" either way, never
+  // the unadjusted supply, which would look like a real circulating figure.
   const formattedCircSupply =
-    circulatingSupply === undefined ? '--' : parseAmount(circulatingSupply)
+    circulatingSupply && Number(circulatingSupply)
+      ? parseAmount(circulatingSupply)
+      : '--'
 
   const formattedConfidentialAmt = confidentialOutstandingAmt
     ? parseAmount(
