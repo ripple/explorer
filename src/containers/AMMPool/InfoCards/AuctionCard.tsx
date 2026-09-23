@@ -91,12 +91,15 @@ export const AuctionCard: FC<AuctionCardProps> = ({
     if (lpValue == null) {
       return null
     }
+    // This must precede the zero shortcut below. Without a TVL there is no USD figure to
+    // report at all, and returning 0 renders "≈ $0.00", which reads as a measurement rather
+    // than an absence — the exact thing suppressing TVL for non-XRP pools is meant to avoid.
+    if (!lpTokenBalance || tvlUsd == null) {
+      return null
+    }
     const num = Number(lpValue)
     if (num === 0) {
       return 0
-    }
-    if (!lpTokenBalance || tvlUsd == null) {
-      return null
     }
     return (num / Number(lpTokenBalance)) * tvlUsd
   }

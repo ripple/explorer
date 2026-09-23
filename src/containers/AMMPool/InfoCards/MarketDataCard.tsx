@@ -40,9 +40,10 @@ const BalanceLabel = ({
 interface MarketDataCardProps {
   losData?: LOSAMMPoolData
   /**
-   * When false, the TVL / volume / fees / APR rows are hidden: those values are only
-   * refreshed from the ledger for XRP-based pools. Defaults to true so existing callers
-   * and tests are unaffected.
+   * When false, the TVL / volume / fees / APR rows still render but read '--': those values
+   * are only refreshed from the ledger for XRP-based pools. Keeping the rows preserves the
+   * card's shape and makes the absence explicit rather than looking like a missing feature.
+   * Defaults to true so existing callers and tests are unaffected.
    */
   isXrpBased?: boolean
   balance1: FormattedBalance | null
@@ -62,7 +63,10 @@ export const MarketDataCard: FC<MarketDataCardProps> = ({
 
   // APR is fees / TVL, so it inherits TVL's accuracy and is gated alongside it.
   // The on-ledger balances and the liquidity-provider count below are unaffected.
-  const showMarketMetrics = !!losData && isXrpBased
+  const gatedValue = <T,>(
+    value: T | null | undefined,
+    format: (v: T) => string,
+  ) => (isXrpBased && value != null ? format(value) : '--')
 
   const renderTooltipIcon = (text: string) => (
     <HoverIcon
@@ -85,14 +89,12 @@ export const MarketDataCard: FC<MarketDataCardProps> = ({
         {t('market_data')}
       </h3>
       <div className="info-card-rows">
-        {showMarketMetrics && losData && (
+        {losData && (
           <>
             <div className="info-card-row">
               <span className="info-card-label">{t('tvl')}</span>
               <span className="info-card-value">
-                {losData.tvl_usd != null
-                  ? parseCurrencyAmount(losData.tvl_usd)
-                  : '--'}
+                {gatedValue(losData.tvl_usd, parseCurrencyAmount)}
               </span>
             </div>
             <div className="info-card-row">
@@ -101,9 +103,7 @@ export const MarketDataCard: FC<MarketDataCardProps> = ({
                 {renderTooltipIcon(t('volume_24h_tooltip'))}
               </span>
               <span className="info-card-value">
-                {losData.trading_volume_usd != null
-                  ? parseCurrencyAmount(losData.trading_volume_usd)
-                  : '--'}
+                {gatedValue(losData.trading_volume_usd, parseCurrencyAmount)}
               </span>
             </div>
             <div className="info-card-row">
@@ -112,9 +112,7 @@ export const MarketDataCard: FC<MarketDataCardProps> = ({
                 {renderTooltipIcon(t('fees_24h_tooltip'))}
               </span>
               <span className="info-card-value">
-                {losData.fees_collected_usd != null
-                  ? parseCurrencyAmount(losData.fees_collected_usd)
-                  : '--'}
+                {gatedValue(losData.fees_collected_usd, parseCurrencyAmount)}
               </span>
             </div>
             <div className="info-card-row">
@@ -123,9 +121,9 @@ export const MarketDataCard: FC<MarketDataCardProps> = ({
                 {renderTooltipIcon(t('apr_24h_tooltip'))}
               </span>
               <span className="info-card-value">
-                {losData.annual_percentage_return != null
-                  ? parsePercent(losData.annual_percentage_return, 3, 0.001)
-                  : '--'}
+                {gatedValue(losData.annual_percentage_return, (v) =>
+                  parsePercent(v, 3, 0.001),
+                )}
               </span>
             </div>
           </>

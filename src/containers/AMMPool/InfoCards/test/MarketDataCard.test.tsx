@@ -61,6 +61,14 @@ const renderComponent = ({
     </I18nextProvider>,
   )
 
+/** Reads the value cell of the info-card row whose label contains `label`. */
+const getRowValue = (label: string) => {
+  const row = Array.from(document.querySelectorAll('.info-card-row')).find(
+    (r) => r.querySelector('.info-card-label')?.textContent?.includes(label),
+  )
+  return row?.querySelector('.info-card-value')?.textContent
+}
+
 describe('MarketDataCard', () => {
   it('renders Market Data title', () => {
     renderComponent()
@@ -68,14 +76,7 @@ describe('MarketDataCard', () => {
   })
 
   it('renders LOS fields with correct formatted values', () => {
-    const { container } = renderComponent()
-    const rows = container.querySelectorAll('.info-card-row')
-    const getRowValue = (label: string) => {
-      const row = Array.from(rows).find((r) =>
-        r.querySelector('.info-card-label')?.textContent?.includes(label),
-      )
-      return row?.querySelector('.info-card-value')?.textContent
-    }
+    renderComponent()
 
     expect(screen.getByText('tvl')).toBeInTheDocument()
     expect(getRowValue('tvl')).toBe('$1.2M')
@@ -90,14 +91,16 @@ describe('MarketDataCard', () => {
     expect(getRowValue('apr_24h')).toBe('0.046%')
   })
 
-  it('hides TVL, volume, fees and APR for a non-XRP pool', () => {
-    // Those values are only refreshed from the ledger for XRP-based pools.
+  it("shows '--' for TVL, volume, fees and APR on a non-XRP pool", () => {
+    // Those values are only refreshed from the ledger for XRP-based pools. The rows stay so
+    // the card keeps its shape and the absence is explicit; only the figures are withheld.
     renderComponent({ isXrpBased: false })
 
-    expect(screen.queryByText('tvl')).not.toBeInTheDocument()
-    expect(screen.queryByText('volume_24h')).not.toBeInTheDocument()
-    expect(screen.queryByText('fees_24h')).not.toBeInTheDocument()
-    expect(screen.queryByText('apr_24h')).not.toBeInTheDocument()
+    expect(screen.getByText('tvl')).toBeInTheDocument()
+    expect(getRowValue('tvl')).toBe('--')
+    expect(getRowValue('volume_24h')).toBe('--')
+    expect(getRowValue('fees_24h')).toBe('--')
+    expect(getRowValue('apr_24h')).toBe('--')
   })
 
   it('still renders balances and the LP provider count for a non-XRP pool', () => {
@@ -115,7 +118,7 @@ describe('MarketDataCard', () => {
     ).toContain('747')
   })
 
-  it('renders no fake zero values when metrics are hidden', () => {
+  it('renders no fake zero values when metrics are withheld', () => {
     const { container } = renderComponent({ isXrpBased: false })
 
     expect(container.textContent).not.toContain('$0.00')

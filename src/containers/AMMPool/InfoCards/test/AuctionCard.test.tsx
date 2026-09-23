@@ -166,4 +166,21 @@ describe('AuctionCard', () => {
       expect(screen.getByText('replacement_cost')).toBeInTheDocument()
     })
   })
+
+  it('shows no USD estimate for a zero auction price on a non-XRP pool', () => {
+    // Regression: getLPTokenUSD used to shortcut `num === 0` to 0 before checking tvlUsd, so a
+    // zero-priced slot rendered "≈ $0.00" even with TVL suppressed.
+    const { container } = renderComponent({
+      tvlUsd: undefined,
+      auctionSlot: {
+        ...defaultAuctionSlot,
+        price: { ...defaultAuctionSlot.price, value: '0' },
+      },
+      lpTokenBalance: '1000000',
+      tradingFee: 500,
+    })
+
+    expect(container.textContent).not.toContain('$0.00')
+    expect(container.textContent).not.toContain('NaN')
+  })
 })

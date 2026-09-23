@@ -246,21 +246,6 @@ export const AMMPool = () => {
             </div>
           )}
 
-          {/* Without this, the hidden TVL/volume/fees rows and the missing chart read as a
-              defect rather than a deliberate omission. Suppressed for deleted pools, whose
-              market data card is already hidden and which show their own banner above. */}
-          {!isDeleted && !isXrpBased && (
-            <div className="amm-info-banner">
-              <div className="banner-label">
-                <InfoIcon className="banner-info-icon" aria-hidden="true" />
-                {t('amm_pool_limited_data_label')}
-              </div>
-              <div className="banner-message">
-                {t('amm_pool_limited_data_text')}
-              </div>
-            </div>
-          )}
-
           <div className="amm-pool-info-cards">
             <BasicInfoCard
               ammAccountId={ammAccountId}
@@ -314,6 +299,7 @@ export const AMMPool = () => {
             lpToken={lpToken}
             tvlUsd={gatedTvlUsd}
             isDeleted={isDeleted}
+            isXrpBased={isXrpBased}
           />
         </>
       )}
