@@ -242,7 +242,7 @@ export const Header = (props: Props) => {
           <Settings
             flags={flags}
             immutableFlags={immutableFlags}
-            isDynamicMPTEnabled={!isDynamicMPTEnabled}
+            isDynamicMPTEnabled={isDynamicMPTEnabled}
           />
           {(parsedMPTMetadata || rawMPTMetadata) && (
             <Metadata
