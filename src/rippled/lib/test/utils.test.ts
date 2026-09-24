@@ -236,7 +236,9 @@ describe('rippled utils:', () => {
       expect(result.immutableFlags).not.toContain('lsifMPTCanTrade')
       expect(result.immutableFlags).not.toContain('lsifMPTCanTransfer')
       expect(result.immutableFlags).not.toContain('lsifMPTCanClawback')
-      expect(result.immutableFlags).not.toContain('lsifMPTCanHoldConfidentialBalance')
+      expect(result.immutableFlags).not.toContain(
+        'lsifMPTCanHoldConfidentialBalance',
+      )
       expect(result.immutableFlags).not.toContain('lsifMPTTransferFee')
     })
 
@@ -257,7 +259,9 @@ describe('rippled utils:', () => {
       expect(result.immutableFlags).toContain('lsifMPTCanTrade')
       expect(result.immutableFlags).toContain('lsifMPTCanTransfer')
       expect(result.immutableFlags).toContain('lsifMPTCanClawback')
-      expect(result.immutableFlags).toContain('lsifMPTCanHoldConfidentialBalance')
+      expect(result.immutableFlags).toContain(
+        'lsifMPTCanHoldConfidentialBalance',
+      )
       expect(result.immutableFlags).toContain('lsifMPTMetadata')
       expect(result.immutableFlags).toContain('lsifMPTTransferFee')
     })
