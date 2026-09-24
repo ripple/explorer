@@ -221,35 +221,21 @@ async function fetchAggregatedStats() {
     fetchAggregate(true),
   ])
 
-  if (!allPools) {
+  // Null unless both succeed, so the caller keeps its last good result rather than caching
+  // a partial one.
+  if (!allPools || !xrpPools) {
     return null
   }
 
-  const merged = { ...allPools }
-
-  if (xrpPools) {
-    merged.tvl_xrp = xrpPools.tvl_xrp
-    merged.tvl_usd = xrpPools.tvl_usd
-    merged.trading_volume_xrp = xrpPools.trading_volume_xrp
-    merged.trading_volume_usd = xrpPools.trading_volume_usd
-    merged.fees_collected_xrp = xrpPools.fees_collected_xrp
-    merged.fees_collected_usd = xrpPools.fees_collected_usd
-  } else {
-    // The XRP aggregate is missing - an ETL outage, or a LOS version without it. Omit these
-    // rather than leaving the all-pools figures in place: those are the inflated numbers this
-    // change exists to stop showing. Absent values render as "--".
-    delete merged.tvl_xrp
-    delete merged.tvl_usd
-    delete merged.trading_volume_xrp
-    delete merged.trading_volume_usd
-    delete merged.fees_collected_xrp
-    delete merged.fees_collected_usd
-    log.warn(
-      'XRP-only aggregate unavailable - omitting TVL, volume and fees from stats',
-    )
+  return {
+    ...allPools,
+    tvl_xrp: xrpPools.tvl_xrp,
+    tvl_usd: xrpPools.tvl_usd,
+    trading_volume_xrp: xrpPools.trading_volume_xrp,
+    trading_volume_usd: xrpPools.trading_volume_usd,
+    fees_collected_xrp: xrpPools.fees_collected_xrp,
+    fees_collected_usd: xrpPools.fees_collected_usd,
   }
-
-  return merged
 }
 
 function enrichAMMs(amms, tokenDataMap) {
