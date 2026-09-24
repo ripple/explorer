@@ -19,6 +19,9 @@ jest.mock('../../api', () => ({
   fetchAMMTransactions: jest.fn().mockResolvedValue({ data: [], total: 0 }),
 }))
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires, global-require
+const { fetchAMMTransactions } = require('../../api')
+
 jest.mock('../../../Token/IOU/api/holders', () =>
   jest.fn().mockResolvedValue({ holders: [], totalHolders: 0 }),
 )
@@ -48,6 +51,7 @@ interface RenderProps {
   lpToken?: { currency: string; issuer: string; value: string }
   tvlUsd?: number
   isDeleted?: boolean
+  isXrpBased?: boolean
 }
 
 const renderComponent = ({
@@ -61,6 +65,7 @@ const renderComponent = ({
   },
   tvlUsd = 1000000,
   isDeleted = false,
+  isXrpBased = true,
 }: RenderProps = {}) =>
   render(
     <QueryClientProvider client={queryClient}>
@@ -73,6 +78,7 @@ const renderComponent = ({
             lpToken={lpToken}
             tvlUsd={tvlUsd}
             isDeleted={isDeleted}
+            isXrpBased={isXrpBased}
           />
         </MemoryRouter>
       </I18nextProvider>
@@ -141,5 +147,51 @@ describe('AMMPoolTablePicker', () => {
         screen.getByText('get_account_transactions_failed'),
       ).toBeInTheDocument()
     })
+  })
+})
+
+describe('AMMPoolTablePicker deposit/withdraw USD gating', () => {
+  // LOS backfills amm.value_usd from Caspian's total_value_usd, which is populated for
+  // token/token pools as well and priced the same unreliable way as their TVL. It does not
+  // come from tvlUsd, so suppressing tvlUsd alone leaves this column showing a bad figure.
+  const RAW_DEPOSIT = {
+    hash: 'DEPOSIT_HASH',
+    ledger_index: 100,
+    timestamp: 1000000,
+    account: 'rDepositor',
+    amm: {
+      asset1: { currency: 'USD', issuer: 'rIssuerA', value: '500' },
+      asset2: { currency: 'EUR', issuer: 'rIssuerB', value: '250' },
+      lp_tokens_received: '1000',
+      value_usd: 987654,
+    },
+  }
+
+  beforeEach(() => {
+    jest.clearAllMocks()
+    queryClient.clear()
+    ;(fetchAMMTransactions as jest.Mock).mockResolvedValue({
+      results: [RAW_DEPOSIT],
+    })
+  })
+
+  it('renders the USD value for an XRP-based pool', async () => {
+    renderComponent({ tab: 'deposits', isXrpBased: true })
+
+    expect(await screen.findByText('DEPOSIT_HASH')).toBeInTheDocument()
+    expect(screen.getByText(/987/)).toBeInTheDocument()
+  })
+
+  it('suppresses the USD value for a non-XRP pool but keeps the row', async () => {
+    const { container } = renderComponent({
+      tab: 'deposits',
+      isXrpBased: false,
+    })
+
+    // The transaction itself is real and still worth browsing — only the valuation goes.
+    expect(await screen.findByText('DEPOSIT_HASH')).toBeInTheDocument()
+    expect(screen.queryByText(/987/)).not.toBeInTheDocument()
+    expect(container.textContent).not.toContain('NaN')
+    expect(container.textContent).not.toContain('$0.00')
   })
 })

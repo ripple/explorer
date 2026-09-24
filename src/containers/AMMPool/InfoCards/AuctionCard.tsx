@@ -91,12 +91,14 @@ export const AuctionCard: FC<AuctionCardProps> = ({
     if (lpValue == null) {
       return null
     }
+    // Must precede the zero shortcut: with no TVL there is no USD figure, and returning 0
+    // renders "≈ $0.00", which reads as a measurement rather than an absence.
+    if (!lpTokenBalance || tvlUsd == null) {
+      return null
+    }
     const num = Number(lpValue)
     if (num === 0) {
       return 0
-    }
-    if (!lpTokenBalance || tvlUsd == null) {
-      return null
     }
     return (num / Number(lpTokenBalance)) * tvlUsd
   }

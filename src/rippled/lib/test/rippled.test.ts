@@ -3,6 +3,7 @@ import {
   getLoanBroker,
   getMPTIssuance,
   getNegativeUNL,
+  getAccountInfo,
 } from '../rippled'
 
 const VAULT_INDEX =
@@ -224,5 +225,97 @@ describe('getNegativeUNL', () => {
     const socket = makeSocket({ error: 'entryNotFound' })
 
     await expect(getNegativeUNL(socket)).resolves.toEqual([])
+  })
+})
+
+describe('getAccountInfo', () => {
+  const AMM_ACCOUNT = 'rLjUKpwUVmz3vCTmFkXungxwzdoyrWRsFG'
+
+  const ACCOUNT_ROOT = {
+    AMMID: '2858D58ECD99108CEB105A3D9F84D293E507701878EE25612F5BF6D4A93F3B69',
+    Account: AMM_ACCOUNT,
+    Balance: '2716797990409',
+    LedgerEntryType: 'AccountRoot',
+  }
+
+  const ACCOUNT_INFO_FAILURE = {
+    error: 'internal',
+    error_message: 'Internal error.',
+  }
+
+  const makeSocketSequence = (...responses: any[]) => {
+    const send = jest.fn()
+    responses.forEach((r) => send.mockResolvedValueOnce(r))
+    return { send } as any
+  }
+
+  let warn: jest.SpyInstance
+
+  beforeEach(() => {
+    warn = jest.spyOn(console, 'warn').mockImplementation(() => {})
+  })
+
+  afterEach(() => {
+    warn.mockRestore()
+  })
+
+  it('returns account_data when account_info succeeds', async () => {
+    const socket = makeSocket({ account_data: ACCOUNT_ROOT, ledger_index: 1 })
+
+    await expect(getAccountInfo(socket, AMM_ACCOUNT)).resolves.toEqual({
+      ...ACCOUNT_ROOT,
+      ledger_index: 1,
+    })
+    expect(socket.send).toHaveBeenCalledTimes(1)
+  })
+
+  it('falls back to ledger_entry when account_info fails', async () => {
+    const socket = makeSocketSequence(ACCOUNT_INFO_FAILURE, {
+      node: ACCOUNT_ROOT,
+      ledger_index: 1,
+    })
+
+    // AMMID must survive: AccountsRouter uses it to route AMM accounts to the pool page.
+    await expect(getAccountInfo(socket, AMM_ACCOUNT)).resolves.toEqual({
+      ...ACCOUNT_ROOT,
+      ledger_index: 1,
+    })
+    expect(socket.send).toHaveBeenNthCalledWith(2, {
+      command: 'ledger_entry',
+      account_root: AMM_ACCOUNT,
+      ledger_index: 'validated',
+    })
+    expect(warn).toHaveBeenCalled()
+  })
+
+  it('reports 404 without falling back when the account does not exist', async () => {
+    const socket = makeSocket({ error: 'actNotFound' })
+
+    await expect(getAccountInfo(socket, AMM_ACCOUNT)).rejects.toMatchObject({
+      code: 404,
+    })
+    expect(socket.send).toHaveBeenCalledTimes(1)
+  })
+
+  it('reports 404 when ledger_entry finds no account', async () => {
+    const socket = makeSocketSequence(ACCOUNT_INFO_FAILURE, {
+      error: 'entryNotFound',
+      error_message: 'Entry not found.',
+    })
+
+    await expect(getAccountInfo(socket, AMM_ACCOUNT)).rejects.toMatchObject({
+      code: 404,
+    })
+  })
+
+  it('rejects when ledger_entry also fails', async () => {
+    const socket = makeSocketSequence(
+      ACCOUNT_INFO_FAILURE,
+      ACCOUNT_INFO_FAILURE,
+    )
+
+    await expect(getAccountInfo(socket, AMM_ACCOUNT)).rejects.toMatchObject({
+      code: 500,
+    })
   })
 })

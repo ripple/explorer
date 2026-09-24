@@ -214,6 +214,19 @@ export const AMMPool = () => {
   const [asset1, asset2] = orderAssets(balance1, balance2)
   const hasData = !!ammData || !!deletedData
 
+  // An XRP pool has one side with a market price to anchor its TVL; a token/token pool has
+  // none, so its TVL must not be displayed. Both come from Caspian - the anchor is what differs.
+  // The amm_info balances outrank the flag: a pool whose LOS document lacks asset fields
+  // reports is_xrp_based: false, and trusting the flag alone would hide a real XRP pool's TVL.
+  const isXrpBased =
+    balance1?.currency === 'XRP' ||
+    balance2?.currency === 'XRP' ||
+    losData?.is_xrp_based === true
+
+  // Suppress with undefined, never 0: downstream guards are `!= null`, so 0 would pass
+  // them and render a convincing fake "$0.00" instead of "--".
+  const gatedTvlUsd = isXrpBased ? losData?.tvl_usd : undefined
+
   return (
     <Page ammAccountId={ammAccountId}>
       {ammAccountId && isLoading && <Loader />}
@@ -243,6 +256,7 @@ export const AMMPool = () => {
             {!isDeleted && (
               <MarketDataCard
                 losData={losData}
+                isXrpBased={isXrpBased}
                 balance1={balance1}
                 balance2={balance2}
                 lpTokenBalance={lpToken?.value}
@@ -251,14 +265,14 @@ export const AMMPool = () => {
             {!isDeleted && (
               <AuctionCard
                 auctionSlot={auctionSlot}
-                tvlUsd={losData?.tvl_usd}
+                tvlUsd={gatedTvlUsd}
                 lpTokenBalance={lpToken?.value}
                 tradingFee={tradingFee}
               />
             )}
           </div>
 
-          {isMainnet && (
+          {isMainnet && isXrpBased && (
             <TVLVolumeChart
               data={(trendsData?.data_points || []).map(
                 (point: HistoricalDataPoint) => ({
@@ -283,8 +297,9 @@ export const AMMPool = () => {
             tab={tab}
             isMainnet={isMainnet}
             lpToken={lpToken}
-            tvlUsd={losData?.tvl_usd}
+            tvlUsd={gatedTvlUsd}
             isDeleted={isDeleted}
+            isXrpBased={isXrpBased}
           />
         </>
       )}

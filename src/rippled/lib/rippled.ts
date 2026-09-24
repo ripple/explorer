@@ -4,6 +4,9 @@ import type { ExplorerXrplClient } from '../../containers/shared/SocketContext'
 import { CTID_REGEX, HASH256_REGEX } from '../../containers/shared/utils'
 import { formatAmount } from './txSummary/formatAmount'
 import { Error, XRP_BASE, convertRippleDate } from './utils'
+import logger from './logger'
+
+const log = logger({ name: 'rippled' })
 
 const N_UNL_INDEX =
   '2E8A59AA9D3B5B186B0B9E0F62E6C02587CA74A4D778938E957B6357D364B244'
@@ -197,6 +200,32 @@ const getTransaction = async (
   return resp
 }
 
+/**
+ * Read an AccountRoot via ledger_entry, for nodes whose account_info fails on pseudo-accounts
+ * (AMM, vault). Returns the same fields, AMMID included; signer lists are unavailable here.
+ */
+const getAccountRoot = async (
+  rippledSocket: ExplorerXrplClient,
+  account: string | unknown,
+): Promise<any> => {
+  const resp = await query(rippledSocket, {
+    command: 'ledger_entry',
+    account_root: account,
+    ledger_index: 'validated',
+  })
+  if (resp.error === 'entryNotFound') {
+    throw new Error('account not found', 404)
+  }
+
+  if (resp.error_message) {
+    throw new Error(resp.error_message, 500)
+  }
+
+  return Object.assign(resp.node, {
+    ledger_index: resp.ledger_index,
+  })
+}
+
 const getAccountInfo = async (
   rippledSocket: ExplorerXrplClient,
   account: string | unknown,
@@ -214,7 +243,10 @@ const getAccountInfo = async (
   }
 
   if (resp.error_message) {
-    throw new Error(resp.error_message, 500)
+    log.warn(
+      `account_info failed for ${account} (${resp.error_message}); retrying via ledger_entry`,
+    )
+    return getAccountRoot(rippledSocket, account)
   }
 
   return Object.assign(resp.account_data, {
