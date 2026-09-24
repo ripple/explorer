@@ -188,7 +188,7 @@ describe('rippled utils:', () => {
         OutstandingAmount: '500000000000',
         TransferFee: 500,
         Sequence: 1,
-        Flags: 0x7f, // All flags
+        Flags: 0xff, // All lsf flags incl. lsfMPTCanHoldConfidentialBalance (0x80)
         MPTokenMetadata: metadataHex,
       }
 
@@ -207,6 +207,8 @@ describe('rippled utils:', () => {
       expect(result.flags).toContain('lsfMPTCanTrade')
       expect(result.flags).toContain('lsfMPTCanTransfer')
       expect(result.flags).toContain('lsfMPTCanClawback')
+      expect(result.flags).toContain('lsfMPTCanHoldConfidentialBalance')
+      expect(result.immutableFlags).toHaveLength(0)
       expect(result.rawMPTMetadata).toBe('{"t":"USD","in":"Test Issuer"}')
       expect(result.parsedMPTMetadata).toEqual({
         ticker: 'USD',
@@ -214,6 +216,54 @@ describe('rippled utils:', () => {
       })
       // isMPTMetadataCompliant is false because the test metadata doesn't meet full XLS-89 requirements
       expect(result.isMPTMetadataCompliant).toBe(false)
+    })
+
+    it('should decode ImmutableFlags into lsif* flag names', () => {
+      // 0x10006 = lsifMPTCanLock(0x2) + lsifMPTRequireAuth(0x4) + lsifMPTMetadata(0x10000)
+      const result = formatMPTIssuance({
+        Issuer: 'rMPTTestAccount123456789',
+        AssetScale: 6,
+        TransferFee: 0,
+        Sequence: 1,
+        Flags: 0,
+        ImmutableFlags: 0x00010006,
+      } as any)
+
+      expect(result.immutableFlags).toContain('lsifMPTCanLock')
+      expect(result.immutableFlags).toContain('lsifMPTRequireAuth')
+      expect(result.immutableFlags).toContain('lsifMPTMetadata')
+      expect(result.immutableFlags).not.toContain('lsifMPTCanEscrow')
+      expect(result.immutableFlags).not.toContain('lsifMPTCanTrade')
+      expect(result.immutableFlags).not.toContain('lsifMPTCanTransfer')
+      expect(result.immutableFlags).not.toContain('lsifMPTCanClawback')
+      expect(result.immutableFlags).not.toContain(
+        'lsifMPTCanHoldConfidentialBalance',
+      )
+      expect(result.immutableFlags).not.toContain('lsifMPTTransferFee')
+    })
+
+    it('should decode all ImmutableFlags when fully set', () => {
+      // 0x300fe = all 7 capability bits (0xfe) + both field bits (0x10000 | 0x20000)
+      const result = formatMPTIssuance({
+        Issuer: 'rMPTTestAccount123456789',
+        AssetScale: 6,
+        TransferFee: 0,
+        Sequence: 1,
+        Flags: 0,
+        ImmutableFlags: 0x000300fe,
+      } as any)
+
+      expect(result.immutableFlags).toContain('lsifMPTCanLock')
+      expect(result.immutableFlags).toContain('lsifMPTRequireAuth')
+      expect(result.immutableFlags).toContain('lsifMPTCanEscrow')
+      expect(result.immutableFlags).toContain('lsifMPTCanTrade')
+      expect(result.immutableFlags).toContain('lsifMPTCanTransfer')
+      expect(result.immutableFlags).toContain('lsifMPTCanClawback')
+      expect(result.immutableFlags).toContain(
+        'lsifMPTCanHoldConfidentialBalance',
+      )
+      expect(result.immutableFlags).toContain('lsifMPTMetadata')
+      expect(result.immutableFlags).toContain('lsifMPTTransferFee')
     })
   })
 })

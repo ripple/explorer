@@ -16,6 +16,7 @@ interface GeneralOverviewProps {
   showMptId: boolean
   holdersCount?: number
   holdersLoading?: boolean
+  flags?: string[]
 }
 
 export const GeneralOverview = ({
@@ -27,6 +28,7 @@ export const GeneralOverview = ({
   showMptId: showMptIssuanceId,
   holdersCount,
   holdersLoading,
+  flags = [],
 }: GeneralOverviewProps): JSX.Element => {
   const { t } = useTranslation()
 
@@ -55,6 +57,12 @@ export const GeneralOverview = ({
             ) : (
               parseIntegerAmount(holdersCount ?? 0)
             )}
+          </div>
+        </div>
+        <div className="header-box-item">
+          <div className="item-name">{t('status')}</div>
+          <div className="item-value">
+            {flags.includes('lsfMPTLocked') ? t('locked') : t('active')}
           </div>
         </div>
         <div className="header-box-item">
