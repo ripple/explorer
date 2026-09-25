@@ -5,6 +5,7 @@ import { SimpleRow } from '../SimpleRow'
 import { Amount } from '../../Amount'
 import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'
 import { Account } from '../../Account'
+import { CredentialIDs } from '../CredentialIDs'
 
 export const Simple: TransactionSimpleComponent = (
   props: TransactionSimpleProps<VaultWithdraw>,
@@ -16,6 +17,10 @@ export const Simple: TransactionSimpleComponent = (
     Amount: amount,
     Destination: destination,
   } = data.instructions
+  // CredentialIDs is not yet part of the xrpl package's VaultWithdraw type.
+  const credentialIds = (data.instructions as any).CredentialIDs as
+    | string[]
+    | undefined
   return (
     <>
       <SimpleRow
@@ -32,6 +37,9 @@ export const Simple: TransactionSimpleComponent = (
         <SimpleRow label={t('destination')} data-testid="destination">
           <Account account={destination} />
         </SimpleRow>
+      )}
+      {credentialIds && credentialIds.length > 0 && (
+        <CredentialIDs credentialIDs={credentialIds} />
       )}
     </>
   )

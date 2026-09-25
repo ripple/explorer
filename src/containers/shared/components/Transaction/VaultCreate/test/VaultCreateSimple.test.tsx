@@ -5,6 +5,7 @@ import {
 } from '../../test'
 import { Simple } from '../Simple'
 import mockVaultCreate from './mock_data/VaultCreate.json'
+import mockVaultCreateClosedEnded from './mock_data/VaultCreateClosedEnded.json'
 
 const renderComponent = createSimpleRenderFactory(Simple)
 
@@ -29,6 +30,28 @@ describe('VaultCreate: Simple', () => {
       'vaultStrategyFirstComeFirstServe',
     )
     expectSimpleRowNotToExist(container, 'domain_id')
+    // An open-ended vault omits VaultKind entirely, so no closed-ended rows.
+    expectSimpleRowNotToExist(container, 'vault_kind')
+    expectSimpleRowNotToExist(container, 'subscription_date')
+    expectSimpleRowNotToExist(container, 'redemption_date')
+
+    unmount()
+  })
+
+  it('renders a closed-ended vault', () => {
+    const { container, unmount } = renderComponent(mockVaultCreateClosedEnded)
+
+    expectSimpleRowText(container, 'vault_kind', 'closed_ended')
+    expectSimpleRowText(
+      container,
+      'subscription_date',
+      'July 28, 2025 at 3:00:00 PM UTC',
+    )
+    expectSimpleRowText(
+      container,
+      'redemption_date',
+      'July 28, 2025 at 3:05:00 PM UTC',
+    )
 
     unmount()
   })
