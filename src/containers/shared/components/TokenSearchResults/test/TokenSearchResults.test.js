@@ -109,8 +109,8 @@ describe('Testing tokens search', () => {
     expect(mptRow.getAttribute('href')).toBe(
       '/mpt/00000001B5F762798A53D543A014CAF8B297CFF8F2F937E8',
     )
-    // type chip + price + holders (no trustlines chip, unlike IOUs)
-    expect(mptRow.querySelectorAll('.metric-chip').length).toEqual(3)
+    // type chip + holders (no price or trustlines chip, unlike IOUs)
+    expect(mptRow.querySelectorAll('.metric-chip').length).toEqual(2)
 
     // MPTs show ticker + full name, same structure as IOUs
     expect(mptRow.querySelector('.currency').outerHTML).toBe(

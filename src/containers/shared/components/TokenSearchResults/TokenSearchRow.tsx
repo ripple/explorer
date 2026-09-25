@@ -95,22 +95,24 @@ export const TokenSearchRow = ({
         <div className="metric-chip type-chip">
           {isMPT ? t('token_type.mpt') : t('token_type.iou')}
         </div>
-        <div className="metric-chip">
-          {token.price ? (
-            <Amount
-              value={{
-                currency: 'USD',
-                amount: parsePrice(token.price, xrpPrice),
-              }}
-              displayIssuer={false}
-              modifier={
-                parsePrice(token.price, xrpPrice) === 0 ? '~' : undefined
-              }
-            />
-          ) : (
-            <div className="no-price">{DEFAULT_VALUE}</div>
-          )}
-        </div>
+        {!isMPT && (
+          <div className="metric-chip">
+            {token.price ? (
+              <Amount
+                value={{
+                  currency: 'USD',
+                  amount: parsePrice(token.price, xrpPrice),
+                }}
+                displayIssuer={false}
+                modifier={
+                  parsePrice(token.price, xrpPrice) === 0 ? '~' : undefined
+                }
+              />
+            ) : (
+              <div className="no-price">{DEFAULT_VALUE}</div>
+            )}
+          </div>
+        )}
         <div className="metric-chip">
           {t('holders_count', {
             holders: localizeNumber(token.holders),
