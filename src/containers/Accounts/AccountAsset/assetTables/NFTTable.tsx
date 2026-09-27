@@ -16,9 +16,9 @@ import { XRP_BASE } from '../../../shared/transactionUtils'
 import {
   localizeNumber,
   shortenAccount,
-  shortenDomain,
   shortenNFTTokenID,
 } from '../../../shared/utils'
+import { shortenDomain } from '../../../shared/domainUtils'
 import { XRP_SMALL_BALANCE_CURRENCY_OPTIONS } from '../../../shared/NumberFormattingUtils'
 import { useLanguage } from '../../../shared/hooks'
 import logger from '../../../../rippled/lib/logger'
