@@ -1,5 +1,8 @@
 import { useTranslation } from 'react-i18next'
-import { JsonView } from '../../../shared/components/JsonView'
+import {
+  JsonView,
+  NO_STRING_COLLAPSE,
+} from '../../../shared/components/JsonView'
 
 interface MetadataProps {
   decodedMPTMetadata: Record<string, unknown> | string
@@ -22,7 +25,12 @@ export const Metadata = ({
         {isString ? (
           <div className="metadata-string">{decodedMPTMetadata}</div>
         ) : (
-          <JsonView data={decodedMPTMetadata} showExpandButton showBackground />
+          <JsonView
+            data={decodedMPTMetadata}
+            showExpandButton
+            showBackground
+            collapseStringsAfterLength={NO_STRING_COLLAPSE}
+          />
         )}
       </div>
     </div>

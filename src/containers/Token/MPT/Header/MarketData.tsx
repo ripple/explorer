@@ -5,28 +5,41 @@ import { Tooltip, useTooltip } from '../../../shared/components/Tooltip'
 import { ConfBalanceTooltipIcon } from '../../../shared/components/ConfBalanceTooltipIcon'
 
 interface MarketDataProps {
-  maxAmt?: string
   outstandingAmt?: string
   confidentialOutstandingAmt?: string
   assetScale?: number
+  // Circulating supply (outstanding minus large holders), scaled decimal string.
+  circulatingSupply?: string
+  circulatingSupplyLoading?: boolean
 }
 
 export const MarketData = ({
-  maxAmt,
   outstandingAmt,
   confidentialOutstandingAmt,
   assetScale,
+  circulatingSupply,
+  circulatingSupplyLoading,
 }: MarketDataProps): JSX.Element => {
   const { t } = useTranslation()
   const { tooltip } = useTooltip()
 
-  const formattedSupply = parseAmount(
-    convertScaledPrice(BigInt(maxAmt || '0'), assetScale ?? 0),
+  // Supply is the on-chain outstanding amount. A zero supply isn't a meaningful
+  // figure, so show "--" rather than "0.00".
+  const scaledOutstanding = convertScaledPrice(
+    BigInt(outstandingAmt || '0'),
+    assetScale ?? 0,
   )
+  const formattedSupply = Number(scaledOutstanding)
+    ? parseAmount(scaledOutstanding)
+    : '--'
 
-  const formattedCircSupply = parseAmount(
-    convertScaledPrice(BigInt(outstandingAmt || '0'), assetScale ?? 0),
-  )
+  // Circulating supply is derived from holder data, and is undefined when that
+  // is unavailable (e.g. the holders request failed) — "--" either way, never
+  // the unadjusted supply, which would look like a real circulating figure.
+  const formattedCircSupply =
+    circulatingSupply && Number(circulatingSupply)
+      ? parseAmount(circulatingSupply)
+      : '--'
 
   const formattedConfidentialAmt = confidentialOutstandingAmt
     ? parseAmount(
@@ -45,7 +58,13 @@ export const MarketData = ({
         </div>
         <div className="header-box-item">
           <div className="item-name">{t('token_page.circulating_supply')}</div>
-          <div className="item-value">{formattedCircSupply}</div>
+          <div className="item-value">
+            {circulatingSupplyLoading ? (
+              <span className="loading-spinner" />
+            ) : (
+              formattedCircSupply
+            )}
+          </div>
         </div>
         {formattedConfidentialAmt && (
           <div className="header-box-item">
