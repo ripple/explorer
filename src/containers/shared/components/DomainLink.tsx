@@ -7,6 +7,7 @@ export interface Props {
   domain: string
   displayDomain?: string
   keepProtocol?: boolean
+  title?: string
 }
 
 // Matches a protocol (e.g. 'http://' or 'https://') at the start of a string.
@@ -20,6 +21,7 @@ const DomainLink = (props: Props) => {
     domain,
     displayDomain = '',
     keepProtocol = true,
+    title,
   } = props
 
   // If decode is true, decode the domain
@@ -45,6 +47,7 @@ const DomainLink = (props: Props) => {
       rel="noopener noreferrer"
       target="_blank"
       href={href}
+      title={title}
       onClick={(event) => event.stopPropagation()}
     >
       {displayDomain || domainText}

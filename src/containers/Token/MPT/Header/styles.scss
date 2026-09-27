@@ -130,6 +130,12 @@
     overflow-wrap: break-word;
   }
 
+  // Full (untruncated) issuer name should wrap within the value column
+  // rather than overflow when it is long.
+  .issuer-value {
+    overflow-wrap: anywhere;
+  }
+
   // Settings box flag status styling
   .settings-box {
     .header-box-item {

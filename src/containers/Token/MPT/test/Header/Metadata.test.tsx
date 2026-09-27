@@ -46,6 +46,17 @@ describe('Metadata component', () => {
     expect(container.querySelectorAll('.metadata-json')).toHaveLength(1)
   })
 
+  it('renders long URI strings in full without truncation', () => {
+    const longUri =
+      'https://www.franklintempleton.com/about-us/our-teams/specialist-investment-managers/digital-assets/digital-assets-technology'
+    const metadata = {
+      uris: [{ uri: longUri, category: 'website', title: 'Main' }],
+    }
+    const { container } = renderComponent({ decodedMPTMetadata: metadata })
+    // The full URI must be present (JsonView string collapsing is disabled here).
+    expect(container).toHaveTextContent(longUri)
+  })
+
   it('handles complex nested metadata', () => {
     const metadata = {
       ticker: 'TEST',
