@@ -6,6 +6,8 @@ import { QueryClientProvider } from 'react-query'
 import EnableAmendment from './mock_data/EnableAmendment.json'
 import Payment from '../../shared/components/Transaction/Payment/test/mock_data/Payment.json'
 import DelegatePayment from './mock_data/DelegatePayment.json'
+import SponsorshipTransferCreate from '../../shared/components/Transaction/SponsorshipTransfer/test/mock_data/SponsorshipTransferCreate.json'
+import SponsorshipTransferEnd from '../../shared/components/Transaction/SponsorshipTransfer/test/mock_data/SponsorshipTransferEnd.json'
 import { SimpleTab } from '../SimpleTab'
 import summarize from '../../../rippled/lib/txSummary'
 import i18n from '../../../i18n/testConfig'
@@ -78,5 +80,46 @@ describe('SimpleTab container', () => {
     )
     expectSimpleRowText(container, 'sequence', '2947132')
     expectSimpleRowText(container, 'tx-cost', '\uE9000.000001')
+  })
+
+  it('renders a Sponsor row for a co-sponsored transaction', () => {
+    const sponsoredPayment = {
+      ...Payment,
+      tx: {
+        ...Payment.tx,
+        Sponsor: 'rSponsor1111111111111111111111111',
+        SponsorFlags: 1,
+      },
+    }
+    const { container } = renderSimpleTab(sponsoredPayment)
+    expectSimpleRowText(
+      container,
+      'sponsor',
+      'rSponsor1111111111111111111111111',
+    )
+  })
+
+  it('does not render a Sponsor row for SponsorshipTransfer create/reassign, which reuses the field for its own meaning', () => {
+    const { container } = renderSimpleTab(SponsorshipTransferCreate)
+    expect(
+      container.querySelector('[data-testid="sponsor"]'),
+    ).not.toBeInTheDocument()
+  })
+
+  it('renders a Sponsor row for SponsorshipTransfer end, where the field is free for genuine co-sponsorship', () => {
+    const coSponsoredEnd = {
+      ...SponsorshipTransferEnd,
+      tx: {
+        ...SponsorshipTransferEnd.tx,
+        Sponsor: 'rSponsor1111111111111111111111111',
+        SponsorFlags: 1,
+      },
+    }
+    const { container } = renderSimpleTab(coSponsoredEnd)
+    expectSimpleRowText(
+      container,
+      'sponsor',
+      'rSponsor1111111111111111111111111',
+    )
   })
 })

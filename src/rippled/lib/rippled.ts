@@ -27,6 +27,14 @@ const formatPaychannel = (d: any) => ({
   settleDelay: d.SettleDelay,
 })
 
+const formatSponsorship = (d: any) => ({
+  owner: d.Owner,
+  sponsee: d.Sponsee,
+  feeAmount: d.FeeAmount,
+  maxFee: d.MaxFee,
+  remainingOwnerCount: d.RemainingOwnerCount,
+})
+
 const executeQuery = async (
   rippledSocket: XrplClient,
   params: any,
@@ -364,6 +372,67 @@ const getAccountBridges = async (
   }
 
   return undefined
+}
+
+// `limit` on account_objects bounds how many objects rippled examines per
+// page, not how many `type`-filtered objects are returned, so a sponsee's
+// Sponsorship objects could be missed entirely if only the first page were
+// read. Page through via `marker` until either everything has been examined
+// or a safety cap is hit.
+const SPONSORSHIP_PAGE_SIZE = 400
+const SPONSORSHIP_MAX_EXAMINED = 4000
+
+// get the sponsorship covering this account's fees/reserves, if any
+const getAccountSponsorship = async (
+  rippledSocket: ExplorerXrplClient,
+  account: string,
+  ledgerIndex: string | number = 'validated',
+): Promise<any> => {
+  const found: any[] = []
+
+  const fetchPage = async (
+    marker: any,
+    examined: number,
+  ): Promise<any[] | undefined> => {
+    const resp = await query(rippledSocket, {
+      command: 'account_objects',
+      account,
+      ledger_index: ledgerIndex,
+      type: 'sponsorship',
+      limit: SPONSORSHIP_PAGE_SIZE,
+      marker,
+    })
+    if (resp.error === 'actNotFound') {
+      throw new Error('account not found', 404)
+    }
+    if (resp.error === 'invalidParams') {
+      // thrown when the Sponsorship amendment is not activated
+      // TODO: remove this when XLS-68 is live in mainnet
+      return undefined
+    }
+    if (resp.error_message) {
+      throw new Error(resp.error_message, 500)
+    }
+
+    // A Sponsorship object is linked into both the sponsor's and sponsee's
+    // owner directories, so only keep the ones where this account is sponsored.
+    found.push(
+      ...resp.account_objects.filter((d: any) => d.Sponsee === account),
+    )
+
+    const totalExamined = examined + resp.account_objects.length
+    if (resp.marker && totalExamined < SPONSORSHIP_MAX_EXAMINED) {
+      return fetchPage(resp.marker, totalExamined)
+    }
+    return found
+  }
+
+  const result = await fetchPage(undefined, 0)
+  if (result === undefined) {
+    return undefined
+  }
+
+  return found.length ? found.map(formatSponsorship) : undefined
 }
 
 // get Token balance summary
@@ -929,6 +998,7 @@ export {
   getAccountEscrows,
   getAccountPaychannels,
   getAccountBridges,
+  getAccountSponsorship,
   getAccountNFTs,
   getAccountObjects,
   getNFTsIssuedByAccount,

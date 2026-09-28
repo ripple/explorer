@@ -11,12 +11,15 @@ import {
   XRP_BASE,
   buildFlags,
   buildMemos,
+  getSponsorScopes,
+  SPONSOR_SCOPE_LABEL_KEYS,
 } from '../../shared/transactionUtils'
 import './detailTab.scss'
 import { useLanguage } from '../../shared/hooks'
 import { HookDetails } from './HookDetails'
 import { RouteLink } from '../../shared/routing'
 import { LEDGER_ROUTE } from '../../App/routes'
+import { getOperation } from '../../shared/components/Transaction/SponsorshipTransfer/parser'
 
 export const DetailTab: FC<{ data: any }> = ({ data }) => {
   const { t } = useTranslation()
@@ -109,6 +112,42 @@ export const DetailTab: FC<{ data: any }> = ({ data }) => {
     ) : null
   }
 
+  const renderSponsor = () => {
+    // On create/reassign, SponsorshipTransfer reuses the common Sponsor
+    // field for its own "new sponsor of the target object" meaning, not for
+    // co-sponsoring this outer transaction, so it's excluded from the
+    // generic Sponsor section there. On tfSponsorshipEnd the spec requires
+    // Sponsor to be omitted for that purpose, so if it's present it can
+    // only be genuine outer co-sponsorship.
+    const isNewSponsorField =
+      data.tx.TransactionType === 'SponsorshipTransfer' &&
+      getOperation(data.tx.Flags || 0) !== 'end'
+    if (isNewSponsorField) return null
+    if (!data.tx.Sponsor) return null
+    const scopes = getSponsorScopes(data.tx.SponsorFlags)
+    return (
+      <div className="detail-section" data-testid="sponsor-section">
+        <div className="title">{t('sponsor')}</div>
+        <div>
+          <Trans
+            i18nKey="sponsor_detail"
+            components={{ Account: <Account account={data.tx.Sponsor} /> }}
+          />
+        </div>
+        {scopes.length > 0 && (
+          <div className="sponsor-scopes">
+            {scopes
+              .map((scope) => t(SPONSOR_SCOPE_LABEL_KEYS[scope]))
+              .join(', ')}
+          </div>
+        )}
+        {data.tx.SponsorSignature && (
+          <div className="sponsor-co-signed">{t('sponsor_co_signed')}</div>
+        )}
+      </div>
+    )
+  }
+
   const renderSigners = () =>
     data.tx.Signers ? (
       <div className="detail-section">
@@ -128,6 +167,7 @@ export const DetailTab: FC<{ data: any }> = ({ data }) => {
       {renderStatus()}
       <TransactionDescription data={data} />
       {renderSigners()}
+      {renderSponsor()}
       <HookDetails data={data} />
       {renderFlags()}
       {renderFee()}

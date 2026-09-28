@@ -209,6 +209,8 @@
   "transaction_type_name_SetHook": "Hookの設定",
   "transaction_type_name_SetRegularKey": "レギュラーキーの設定",
   "transaction_type_name_SignerListSet": "署名者リスト設定",
+  "transaction_type_name_SponsorshipSet": null,
+  "transaction_type_name_SponsorshipTransfer": null,
   "transaction_type_name_TicketCreate": "チケットの作成",
   "transaction_type_name_TrustSet": "トラスト設定",
   "transaction_type_name_VaultCreate": null,

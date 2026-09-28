@@ -208,6 +208,8 @@
   "transaction_type_name_SetHook": "Establir Hook",
   "transaction_type_name_SetRegularKey": "Establir Clau Regular",
   "transaction_type_name_SignerListSet": "Etablir Llista de Signantst",
+  "transaction_type_name_SponsorshipSet": null,
+  "transaction_type_name_SponsorshipTransfer": null,
   "transaction_type_name_TicketCreate": "Crear tiquet",
   "transaction_type_name_TrustSet": "Establir Confiança",
   "transaction_type_name_VaultCreate": null,

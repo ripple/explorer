@@ -38,6 +38,8 @@ import { SetFeeTransaction as SetFee } from './SetFee'
 import { SetHookTransaction as SetHook } from './SetHook'
 import { SetRegularKeyTransaction as SetRegularKey } from './SetRegularKey'
 import { SignerListSetTransaction as SignerListSet } from './SignerListSet'
+import { SponsorshipSetTransaction as SponsorshipSet } from './SponsorshipSet'
+import { SponsorshipTransferTransaction as SponsorshipTransfer } from './SponsorshipTransfer'
 import { XChainAccountCreateCommitTransaction as XChainAccountCreateCommit } from './XChainAccountCreateCommit'
 import { XChainAddAccountCreateAttestationTransaction as XChainAddAccountCreateAttestation } from './XChainAddAccountCreateAttestation'
 import { XChainAddClaimAttestationTransaction as XChainAddClaimAttestation } from './XChainAddClaimAttestation'
@@ -120,6 +122,8 @@ export const transactionTypes: { [key: string]: TransactionMapping } = {
   SetHook,
   SetRegularKey,
   SignerListSet,
+  SponsorshipSet,
+  SponsorshipTransfer,
   XChainAccountCreateCommit,
   XChainAddAccountCreateAttestation,
   XChainAddClaimAttestation,

@@ -209,6 +209,8 @@
   "transaction_type_name_SetHook": "Hook သတ်မှတ်ရန်",
   "transaction_type_name_SetRegularKey": "ပုံမှန်သော့ သတ်မှတ်ရန်",
   "transaction_type_name_SignerListSet": "လက်မှတ်ထိုးသူစာရင်း သတ်မှတ်ရန်",
+  "transaction_type_name_SponsorshipSet": null,
+  "transaction_type_name_SponsorshipTransfer": null,
   "transaction_type_name_TicketCreate": "လက်မှတ် ဖန်တီးရန်",
   "transaction_type_name_TrustSet": "ယုံကြည်မှု သတ်မှတ်ရန်",
   "transaction_type_name_VaultCreate": null,
