@@ -238,10 +238,7 @@ describe('getAccountInfo', () => {
     LedgerEntryType: 'AccountRoot',
   }
 
-  const ACCOUNT_INFO_FAILURE = {
-    error: 'internal',
-    error_message: 'Internal error.',
-  }
+  const INTERNAL_ERROR = { error: 'internal', error_message: 'Internal error.' }
 
   const makeSocketSequence = (...responses: any[]) => {
     const send = jest.fn()
@@ -269,8 +266,8 @@ describe('getAccountInfo', () => {
     expect(socket.send).toHaveBeenCalledTimes(1)
   })
 
-  it('falls back to ledger_entry when account_info fails', async () => {
-    const socket = makeSocketSequence(ACCOUNT_INFO_FAILURE, {
+  it('falls back to ledger_entry for an AMM account on an internal error', async () => {
+    const socket = makeSocketSequence(INTERNAL_ERROR, {
       node: ACCOUNT_ROOT,
       ledger_index: 1,
     })
@@ -288,34 +285,44 @@ describe('getAccountInfo', () => {
     expect(warn).toHaveBeenCalled()
   })
 
-  it('reports 404 without falling back when the account does not exist', async () => {
-    const socket = makeSocket({ error: 'actNotFound' })
+  it('keeps the original error when the fallback finds a non-AMM account', async () => {
+    // A regular account would lose its signer lists.
+    const { AMMID, ...regularAccount } = ACCOUNT_ROOT
+    const socket = makeSocketSequence(INTERNAL_ERROR, {
+      node: regularAccount,
+      ledger_index: 1,
+    })
 
     await expect(getAccountInfo(socket, AMM_ACCOUNT)).rejects.toMatchObject({
-      code: 404,
+      message: 'Internal error.',
+      code: 500,
+    })
+  })
+
+  // actNotFound must stay a 404: AccountsRouter uses it to detect deleted accounts.
+  it.each([
+    ['actNotFound', 404],
+    ['tooBusy', 500],
+  ])('does not fall back on %s', async (error, code) => {
+    const socket = makeSocket({ error, error_message: error })
+
+    await expect(getAccountInfo(socket, AMM_ACCOUNT)).rejects.toMatchObject({
+      code,
     })
     expect(socket.send).toHaveBeenCalledTimes(1)
   })
 
-  it('reports 404 when ledger_entry finds no account', async () => {
-    const socket = makeSocketSequence(ACCOUNT_INFO_FAILURE, {
-      error: 'entryNotFound',
-      error_message: 'Entry not found.',
+  it.each([
+    ['entryNotFound', 404],
+    ['internal', 500],
+  ])('maps a ledger_entry %s to %i', async (error, code) => {
+    const socket = makeSocketSequence(INTERNAL_ERROR, {
+      error,
+      error_message: error,
     })
 
     await expect(getAccountInfo(socket, AMM_ACCOUNT)).rejects.toMatchObject({
-      code: 404,
-    })
-  })
-
-  it('rejects when ledger_entry also fails', async () => {
-    const socket = makeSocketSequence(
-      ACCOUNT_INFO_FAILURE,
-      ACCOUNT_INFO_FAILURE,
-    )
-
-    await expect(getAccountInfo(socket, AMM_ACCOUNT)).rejects.toMatchObject({
-      code: 500,
+      code,
     })
   })
 })

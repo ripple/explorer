@@ -201,8 +201,8 @@ const getTransaction = async (
 }
 
 /**
- * Read an AccountRoot via ledger_entry, for nodes whose account_info fails on pseudo-accounts
- * (AMM, vault). Returns the same fields, AMMID included; signer lists are unavailable here.
+ * Read an AccountRoot via ledger_entry, for nodes whose account_info fails on AMM accounts.
+ * Returns the same fields, AMMID included; signer lists are unavailable here.
  */
 const getAccountRoot = async (
   rippledSocket: ExplorerXrplClient,
@@ -238,15 +238,24 @@ const getAccountInfo = async (
     ledger_index: 'validated',
     signer_lists: includeSignerLists,
   })
+
   if (resp.error === 'actNotFound') {
     throw new Error('account not found', 404)
   }
 
-  if (resp.error_message) {
+  if (resp.error === 'internal') {
     log.warn(
       `account_info failed for ${account} (${resp.error_message}); retrying via ledger_entry`,
     )
-    return getAccountRoot(rippledSocket, account)
+    const accountRoot = await getAccountRoot(rippledSocket, account)
+    // AMM accounts have no signer lists, so nothing is lost by returning this.
+    if (accountRoot.AMMID) {
+      return accountRoot
+    }
+  }
+
+  if (resp.error_message) {
+    throw new Error(resp.error_message, 500)
   }
 
   return Object.assign(resp.account_data, {

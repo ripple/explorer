@@ -15,11 +15,7 @@ export interface LOSAMMPoolData {
   issuer_2: string | null
   currency_2: string
   last_updated_timestamp: string
-  /**
-   * True when one side of the pair is XRP, which is what makes the pool's TVL priceable.
-   * ledger, so TVL and volume for other pools must not be displayed. Optional so the field
-   * surviving a LOS rollback is not a type error - compare explicitly, never on truthiness.
-   */
+  // True when one side of the pair is XRP, which is what makes the pool's TVL priceable
   is_xrp_based?: boolean
 }
 
