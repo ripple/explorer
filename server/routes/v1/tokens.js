@@ -2,7 +2,12 @@ const axios = require('axios')
 const log = require('../../lib/logger')({ name: 'tokens search' })
 
 const REFETCH_INTERVAL = 10 * 60 * 1000 // 10 minutes
-const cachedTokenList = { tokens: [], last_updated: null, metrics: null }
+const cachedTokenList = {
+  tokens: [],
+  searchTokens: [],
+  last_updated: null,
+  metrics: null,
+}
 
 const parseCurrency = (currency) => {
   const NON_STANDARD_CODE_LENGTH = 40
@@ -133,17 +138,26 @@ async function cacheTokens() {
       `Fetched ${losTokens.tokens.length} tokens from LOS, ${mpts.length} MPTs from XRPL Meta...`,
     )
 
-    cachedTokenList.tokens = [...losTokens.tokens, ...mpts].sort(
+    // nonstandard from XRPLMeta, check for hex codes in currencies and store parsed
+    const iouTokens = losTokens.tokens
+      .sort((a, b) => Number(b.holders ?? 0) - Number(a.holders ?? 0))
+      .map((token) => ({
+        ...token,
+        parsedCurrency: parseCurrency(token.currency),
+      }))
+    const mptTokens = mpts.map((token) => ({
+      ...token,
+      parsedCurrency: parseCurrency(token.currency),
+    }))
+
+    // The Token Ranking page (getAllTokens) shows IOUs only — MPTs aren't
+    // tradeable yet, so mixing them into ranking/metrics would be misleading.
+    cachedTokenList.tokens = iouTokens
+    cachedTokenList.searchTokens = [...iouTokens, ...mptTokens].sort(
       (a, b) => Number(b.holders ?? 0) - Number(a.holders ?? 0),
     )
 
     cachedTokenList.last_updated = Date.now()
-
-    // nonstandard from XRPLMeta, check for hex codes in currencies and store parsed
-    cachedTokenList.tokens = cachedTokenList.tokens.map((token) => ({
-      ...token,
-      parsedCurrency: parseCurrency(token.currency),
-    }))
 
     // Calculate and cache metrics
     cachedTokenList.metrics = calculateMetrics(cachedTokenList.tokens)
@@ -216,12 +230,12 @@ const getTokensSearch = async (req, res) => {
     log.info('getting tokens list for search')
     const { query } = req.params
     let timeoutLimit = 10
-    while (cachedTokenList.tokens.length === 0 && timeoutLimit > 0) {
+    while (cachedTokenList.searchTokens.length === 0 && timeoutLimit > 0) {
       // eslint-disable-next-line no-await-in-loop -- necessary here to wait for cache to be filled
       await sleep(1000)
       timeoutLimit -= 1
     }
-    const queriedTokens = await queryTokens(cachedTokenList.tokens, query)
+    const queriedTokens = await queryTokens(cachedTokenList.searchTokens, query)
     return res.status(200).json({
       result: 'success',
       updated: cachedTokenList.last_updated,

@@ -92,7 +92,7 @@ export const TokenSearchRow = ({
         <div className="result-token-name">
           <TokenName name={displayName} />
         </div>
-        <div className="metric-chip type-chip">
+        <div className={`metric-chip type-chip ${isMPT ? 'mpt' : 'iou'}`}>
           {isMPT ? t('token_type.mpt') : t('token_type.iou')}
         </div>
         {!isMPT && (
