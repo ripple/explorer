@@ -51,7 +51,7 @@ describe('Validators table', () => {
       '0.20',
     )
     expect(container.querySelector('td.base_fee').textContent.trim()).toContain(
-      '0.00001',
+      '10 drops',
     )
   })
 })
