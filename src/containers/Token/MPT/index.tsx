@@ -21,7 +21,7 @@ import { useAnalytics } from '../../shared/analytics'
 import { ErrorMessages, FormattedMPTIssuance } from '../../shared/Interfaces'
 import { Loader } from '../../shared/components/Loader'
 import SocketContext from '../../shared/SocketContext'
-import { getMPTIssuance } from '../../../rippled/lib/rippled'
+import { getMPTIssuance, getFeature } from '../../../rippled/lib/rippled'
 import { formatMPTIssuance } from '../../../rippled/lib/utils'
 import { fetchAllMPTHolders } from './api/holders'
 import { calculateMptCirculatingSupply } from './utils/circulatingSupply'
@@ -29,6 +29,10 @@ import { isRwaAssetClass } from '../shared/utils/circulatingSupply'
 import { paginationService as transfersPaginationService } from '../shared/services/transfersPagination'
 import { useCursorPaginatedQuery } from '../../shared/hooks/useCursorPaginatedQuery'
 import { PAGINATION_CONFIG, INITIAL_PAGE } from '../shared/constants'
+
+// SHA512Half of "DynamicMPT" — used to gate the two-pill Settings design
+const DYNAMIC_MPT_AMENDMENT_ID =
+  '58E92F338758479C06084E1B6BA366BAD8F75E5329A7F0EEAFFFDA51E5106B7F'
 
 const ERROR_MESSAGES: ErrorMessages = {
   default: {
@@ -63,6 +67,16 @@ export const MPT = () => {
   const { id: mptIssuanceId = '' } = useRouteParams(MPT_ROUTE)
   const [error, setError] = useState<number | null>(null)
   const rippledSocket = useContext(SocketContext)
+
+  // Check whether the DynamicMPT amendment is active on the connected network
+  const { data: isDynamicMPTEnabled } = useQuery<boolean>(
+    ['isDynamicMPTEnabled'],
+    async () => {
+      const result = await getFeature(rippledSocket, DYNAMIC_MPT_AMENDMENT_ID)
+      return result?.[DYNAMIC_MPT_AMENDMENT_ID]?.enabled === true
+    },
+    { staleTime: Infinity },
+  )
 
   // Holders pagination state
   const [holdersPage, setHoldersPage] = useState(INITIAL_PAGE)
@@ -200,6 +214,7 @@ export const MPT = () => {
             setError={setError}
             holdersCount={holdersData?.totalHolders}
             holdersLoading={holdersLoading}
+            isDynamicMPTEnabled={isDynamicMPTEnabled}
             circulatingSupply={circulatingSupply}
             circulatingSupplyLoading={circulatingSupplyLoading}
           />
