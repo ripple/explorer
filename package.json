@@ -68,7 +68,7 @@
     "@typescript-eslint/eslint-plugin": "^8.32.1",
     "@typescript-eslint/parser": "^8.32.1",
     "@xrplf/prettier-config": "^1.9.1",
-    "babel-jest": "^29.7.0",
+    "babel-jest": "^30.5.2",
     "eslint": "^8.57.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^9.1.0",
