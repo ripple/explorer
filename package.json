@@ -16,7 +16,7 @@
     "buffer": "^6.0.3",
     "bunyan": "^1.8.15",
     "classnames": "^2.5.1",
-    "compression": "^1.7.4",
+    "compression": "^1.8.2",
     "d3": "^7.9.0",
     "d3-geo": "^3.1.0",
     "d3-hexbin": "^0.2.2",
