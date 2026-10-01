@@ -27,7 +27,7 @@
     "events": "^3.3.0",
     "express": "^4.21.2",
     "i18next": "^23.9.0",
-    "i18next-browser-languagedetector": "^7.2.1",
+    "i18next-browser-languagedetector": "^8.2.1",
     "i18next-http-backend": "^3.0.2",
     "jest-environment-jsdom": "^30.3.0",
     "prop-types": "^15.8.1",
