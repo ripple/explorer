@@ -36,10 +36,10 @@ export const GeneralOverview = ({
       <div className="header-box-contents">
         <div className="header-box-item">
           <div className="item-name">{t('token_page.issuer')}</div>
-          <div className="item-value account-link">
+          <div className="item-value account-link issuer-value">
             <Account
               account={issuer}
-              displayText={shortenAccount(issuerName) || shortenAccount(issuer)}
+              displayText={issuerName || shortenAccount(issuer)}
             />
           </div>
         </div>
@@ -60,7 +60,7 @@ export const GeneralOverview = ({
         <div className="header-box-item">
           <div className="item-name">{t('token_page.transfer_fee')}</div>
           <div className="item-value">
-            {(transferFee && parsePercent(transferFee / 1000, 3)) ?? '--'}
+            {transferFee ? parsePercent(transferFee / 1000, 3) : '--'}
           </div>
         </div>
         <div className="header-box-item">
