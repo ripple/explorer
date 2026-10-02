@@ -82,6 +82,7 @@ export const TX_FLAGS: Record<string, Record<number, string>> = {
     0x00000002: 'tfOnlyXRP',
     0x00000004: 'tfTrustLine',
     0x00000008: 'tfTransferable',
+    0x00000010: 'tfMutable',
   },
   NFTokenOfferCreate: {
     0x00000001: 'tfSellNFToken',
