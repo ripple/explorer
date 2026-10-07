@@ -126,7 +126,7 @@ async function fetchMPTs() {
     })
     .catch((e) => {
       log.error(`Failed to fetch MPTs from ${url}:`, { message: e.message })
-      return []
+      return cachedTokenList.searchTokens.filter((t) => t.token_type === 'MPT')
     })
 }
 
