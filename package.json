@@ -62,7 +62,7 @@
     "@types/create-hash": "^1.2.6",
     "@types/jest": "^30.0.0",
     "@types/lodash": "^4.17.20",
-    "@types/node": "^22.14.0",
+    "@types/node": "^26.6.4",
     "@types/react": "^18.3.28",
     "@types/react-dom": "^18.3.7",
     "@typescript-eslint/eslint-plugin": "^8.32.1",
