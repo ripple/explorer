@@ -5,8 +5,8 @@ import './styles.scss'
 // To schedule a maintenance window, set these to ISO 8601 UTC timestamps.
 // Set both to null to disable the banner. The banner automatically hides
 // once `now` passes MAINTENANCE_END.
-const MAINTENANCE_START: string | null = '2026-05-15T01:00:00Z'
-const MAINTENANCE_END: string | null = '2026-05-15T01:30:00Z'
+const MAINTENANCE_START: string | null = '2026-10-08T17:30:00Z'
+const MAINTENANCE_END: string | null = '2026-10-08T20:00:00Z'
 
 interface TimeParts {
   days: number
