@@ -97,7 +97,7 @@
     "stylelint-order": "^8.1.1",
     "stylelint-prettier": "^5.0.3",
     "stylelint-scss": "^7.0.0",
-    "ts-jest": "^29.4.1",
+    "ts-jest": "^29.4.14",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3",
     "xrpl": "^4.5.0"
