@@ -81,7 +81,7 @@ If any step fails, **attempt to fix the breaking change with code modifications 
 - **Type compatibility** (e.g., a package tightening generics): Widen variable type annotations or add explicit casts.
 - **Vite build errors**: Check for removed APIs or changed plugin interfaces in updated Vite / plugin packages.
 - **React or Testing Library updates**: Update deprecated render patterns, matchers, or async utilities per the package's migration guide.
-- **Prettier bumps**: a new Prettier release can reformat existing files and fail `format:check`. Run `npm run lint` (which applies `--fix`) and keep the cosmetic-only diff.
+- **Prettier bumps**: a new Prettier release can reformat existing files and fail `format:check`. Run `npm run lint` (which applies `--fix`) and keep the cosmetic-only diff. The CI `lint` job also runs `pre-commit`, whose `.pre-commit-config.yaml` pins its own Prettier (`rbubley/mirrors-prettier`, `rev: <sha> # frozen: vX.Y.Z`). Bump that `rev` to the same version — the tag's commit SHA from `gh api repos/rbubley/mirrors-prettier/git/ref/tags/vX.Y.Z` — or the hook reformats the files back and fails CI. Check with `npx prettier --no-semi --check .`, which is what the hook runs.
 
 Only roll back and mark as Skipped if:
 

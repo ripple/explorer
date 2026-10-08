@@ -83,8 +83,7 @@ export const formatDepositWithdraw = (
 ): AMMDepositWithdrawFormatted => {
   const formatAsset = (
     raw:
-      | { currency: string; issuer?: string | null; value: string }
-      | undefined,
+      { currency: string; issuer?: string | null; value: string } | undefined,
   ) => {
     if (!raw || Number(raw.value) === 0) {
       return null
