@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { Account } from '../../shared/components/Account'
 import { CollapsibleSection } from '../../shared/components/CollapsibleSection'
 import { Loader } from '../../shared/components/Loader'
@@ -30,11 +30,11 @@ export const PermissionDelegation = ({
   const { t } = useTranslation()
   const rippledSocket = useContext(SocketContext)
 
-  const { data, isLoading } = useQuery(
-    ['accountDelegates', accountId],
-    () => getAccountObjects(rippledSocket, accountId, 'delegate'),
-    { enabled: !!accountId },
-  )
+  const { data, isLoading } = useQuery({
+    queryKey: ['accountDelegates', accountId],
+    queryFn: () => getAccountObjects(rippledSocket, accountId, 'delegate'),
+    enabled: !!accountId,
+  })
 
   const delegates: DelegateObject[] = data?.account_objects ?? []
 

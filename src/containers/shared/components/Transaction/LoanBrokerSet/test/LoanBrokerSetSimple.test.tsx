@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { createSimpleRenderFactory, expectSimpleRowText } from '../../test'
 import i18n from '../../../../../../i18n/testConfigEnglish'
 import { Simple } from '../Simple'
@@ -6,8 +6,8 @@ import LoanBrokerSet from './mock_data/LoanBrokerSet.json'
 import LoanBrokerSetZeroDebt from './mock_data/LoanBrokerSetZeroDebt.json'
 import LoanBrokerSetPartialUpdate from './mock_data/LoanBrokerSetPartialUpdate.json'
 
-jest.mock('react-query', () => ({
-  ...jest.requireActual('react-query'),
+jest.mock('@tanstack/react-query', () => ({
+  ...jest.requireActual('@tanstack/react-query'),
   useQuery: jest.fn(),
 }))
 

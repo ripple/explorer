@@ -1,7 +1,7 @@
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { useContext } from 'react'
 import { CURRENCY_OPTIONS, XRP_BASE } from '../transactionUtils'
-import { useLanguage } from '../hooks'
+import { useLanguage, useOnQueryError } from '../hooks'
 import { localizeNumber, convertScaledPrice } from '../utils'
 import { parseAmount } from '../NumberFormattingUtils'
 import Currency from './Currency'
@@ -74,20 +74,19 @@ export const Amount = ({
   const mptID = isMPT ? (value as ExplorerAmount).currency : null
 
   // fetch MPTIssuance only if isMPT is true
-  const { data: mptIssuanceData } =
-    useQuery<FormattedMPTIssuance>(
-      ['getMPTIssuanceScale', mptID],
-      async () => {
+  const { data: mptIssuanceData, error: mptIssuanceError } =
+    useQuery<FormattedMPTIssuance>({
+      queryKey: ['getMPTIssuanceScale', mptID],
+      queryFn: async () => {
         const info = await getMPTIssuance(rippledSocket, mptID)
         return formatMPTIssuance(info.node)
       },
-      {
-        onError: (e: any) => {
-          trackException(`mptIssuance ${mptID} --- ${JSON.stringify(e)}`)
-        },
-        enabled: isMPT,
-      },
-    ) || {}
+      enabled: isMPT,
+    }) || {}
+
+  useOnQueryError(mptIssuanceError, (e) => {
+    trackException(`mptIssuance ${mptID} --- ${JSON.stringify(e)}`)
+  })
 
   // Handle custom display override (e.g. confidential amounts)
   if (displayOverride != null) {

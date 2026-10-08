@@ -1,6 +1,6 @@
 import { Route, useLocation, Routes, Navigate } from 'react-router'
 import { Helmet, HelmetProvider } from 'react-helmet-async'
-import { QueryClientProvider } from 'react-query'
+import { QueryClientProvider } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import Footer from '../Footer'
 import './app.scss'

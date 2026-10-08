@@ -1,7 +1,7 @@
 import { useContext, useEffect } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { useTranslation } from 'react-i18next'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import NoMatch from '../NoMatch'
 import { Loader } from '../shared/components/Loader'
 import SocketContext from '../shared/SocketContext'
@@ -66,21 +66,25 @@ export const Ledger = () => {
     data: ledgerData,
     error,
     isLoading,
-  } = useQuery(['ledger', identifier], () => {
-    if (
-      !DECIMAL_REGEX.test(identifier.toString()) &&
-      !HASH256_REGEX.test(identifier.toString())
-    ) {
-      return Promise.reject(BAD_REQUEST)
-    }
+  } = useQuery({
+    queryKey: ['ledger', identifier],
 
-    return getLedger(identifier, rippledSocket).catch(
-      (transactionRequestError) => {
-        const status = transactionRequestError.code
-        trackException(`ledger ${identifier} --- ${JSON.stringify(error)}`)
-        return Promise.reject(status)
-      },
-    )
+    queryFn: () => {
+      if (
+        !DECIMAL_REGEX.test(identifier.toString()) &&
+        !HASH256_REGEX.test(identifier.toString())
+      ) {
+        return Promise.reject(BAD_REQUEST)
+      }
+
+      return getLedger(identifier, rippledSocket).catch(
+        (transactionRequestError) => {
+          const status = transactionRequestError.code
+          trackException(`ledger ${identifier} --- ${JSON.stringify(error)}`)
+          return Promise.reject(status)
+        },
+      )
+    },
   })
 
   useEffect(() => {

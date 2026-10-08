@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { FC } from 'react'
 import axios from 'axios'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 
 import { ValidatorSupplemented } from '../shared/vhsTypes'
 import { SimpleRow } from '../shared/components/Transaction/SimpleRow'
@@ -31,18 +31,18 @@ export const VotingTab: FC<{
       ? validatorData.amendments.map((amendment) => amendment.id)
       : [],
   )
-  const { data, isLoading } = useQuery<Array<{ id: string; name: string }>>(
-    ['fetchNetworkVotingData', network],
-    async () => fetchNetworkVote(network),
-    {
-      refetchInterval: (returnedData, _) =>
-        returnedData == null
-          ? FETCH_INTERVAL_ERROR_MILLIS
-          : FETCH_INTERVAL_VHS_MILLIS,
-      refetchOnMount: true,
-      enabled: !!network,
-    },
-  )
+  const { data, isLoading } = useQuery<Array<{ id: string; name: string }>>({
+    queryKey: ['fetchNetworkVotingData', network],
+    queryFn: async () => fetchNetworkVote(network),
+
+    refetchInterval: (query) =>
+      query.state.data == null
+        ? FETCH_INTERVAL_ERROR_MILLIS
+        : FETCH_INTERVAL_VHS_MILLIS,
+
+    refetchOnMount: true,
+    enabled: !!network,
+  })
 
   function fetchNetworkVote(networkID: string | undefined) {
     const url = `${process.env.VITE_DATA_URL}/amendments/vote/${networkID}`

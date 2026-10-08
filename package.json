@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "@rollup/plugin-inject": "^5.0.5",
+    "@tanstack/react-query": "^5.104.1",
     "@vitejs/plugin-react": "^5.1.1",
     "@xrplf/isomorphic": "^1.0.0-beta.1",
     "assert": "^2.1.0",
@@ -36,7 +37,6 @@
     "react-error-boundary": "^6.1.6",
     "react-helmet-async": "^3.0.0",
     "react-i18next": "15.4.1",
-    "react-query": "^3.39.3",
     "react-router": "^7.18.0",
     "react18-json-view": "^0.2.8",
     "recharts": "^2.15.3",

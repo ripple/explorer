@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useInfiniteQuery } from 'react-query'
+import { useInfiniteQuery } from '@tanstack/react-query'
 
 import { TransactionTable } from '../../shared/components/TransactionTable/TransactionTable'
 import { useAnalytics } from '../../shared/analytics'
@@ -28,9 +28,9 @@ export const AccountTransactionTable = ({
     isFetching: loading,
     fetchNextPage,
     hasNextPage,
-  } = useInfiniteQuery<any, Error>(
-    ['fetchTransactions', accountId],
-    ({ pageParam = '' }) =>
+  } = useInfiniteQuery({
+    queryKey: ['fetchTransactions', accountId],
+    queryFn: ({ pageParam }) =>
       getAccountTransactions(
         accountId,
         undefined,
@@ -43,10 +43,9 @@ export const AccountTransactionTable = ({
 
         throw new Error('get_account_transactions_failed')
       }),
-    {
-      getNextPageParam: (lastPage) => lastPage.marker,
-    },
-  )
+    initialPageParam: '',
+    getNextPageParam: (lastPage) => lastPage.marker,
+  })
 
   const transactions =
     data?.pages?.reduce(

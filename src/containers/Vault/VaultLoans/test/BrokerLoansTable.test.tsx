@@ -16,7 +16,7 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter as Router } from 'react-router'
-import { QueryClientProvider, QueryClient } from 'react-query'
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
 import i18n from '../../../../i18n/testConfigEnglish'
 import SocketContext from '../../../shared/SocketContext'
 import { BrokerLoansTable } from '../BrokerLoansTable'
@@ -50,7 +50,7 @@ const createTestQueryClient = () =>
       queries: {
         retry: false,
         staleTime: 0,
-        cacheTime: 0,
+        gcTime: 0,
       },
     },
   })

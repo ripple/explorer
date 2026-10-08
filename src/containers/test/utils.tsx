@@ -1,7 +1,7 @@
 import { isValidElement, FC, PropsWithChildren } from 'react'
 import { Helmet, HelmetProvider } from 'react-helmet-async'
 import { I18nextProvider } from 'react-i18next'
-import { QueryClientProvider } from 'react-query'
+import { QueryClientProvider } from '@tanstack/react-query'
 import { MemoryRouter, Routes, Route } from 'react-router'
 import type i18n from '../../i18n/testConfig'
 import { testQueryClient } from './QueryClient'

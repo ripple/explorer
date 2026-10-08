@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter } from 'react-router'
-import { QueryClientProvider } from 'react-query'
+import { QueryClientProvider } from '@tanstack/react-query'
 import { TransactionTable } from '../TransactionTable'
 import i18n from '../../../../../i18n/testConfig'
 import mockTx from './mockTransactions.json'

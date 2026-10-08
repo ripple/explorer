@@ -1,6 +1,6 @@
 import { FC, PropsWithChildren, useState, useContext, useEffect } from 'react'
 import { Helmet } from 'react-helmet-async'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { Header } from './Header'
 import { TablePicker } from './TablePicker'
 import NoMatch from '../../NoMatch'

@@ -1,7 +1,7 @@
 import { render, fireEvent, waitFor } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter } from 'react-router'
-import { useQuery, QueryClientProvider } from 'react-query'
+import { useQuery, QueryClientProvider } from '@tanstack/react-query'
 import { NFTHeader } from '../NFTHeader'
 import i18n from '../../../../i18n/testConfig'
 import { queryClient } from '../../../shared/QueryClient'
@@ -24,8 +24,8 @@ const data = {
   ],
 }
 
-jest.mock('react-query', () => ({
-  ...jest.requireActual('react-query'),
+jest.mock('@tanstack/react-query', () => ({
+  ...jest.requireActual('@tanstack/react-query'),
   useQuery: jest.fn(),
 }))
 const setError = jest.fn()

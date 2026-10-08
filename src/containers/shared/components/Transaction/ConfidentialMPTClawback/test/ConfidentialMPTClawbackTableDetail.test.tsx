@@ -1,10 +1,10 @@
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { createTableDetailRenderFactory } from '../../test'
 import { TableDetail } from '../TableDetail'
 import transaction from './mock_data/ConfidentialMPTClawback.json'
 
-jest.mock('react-query', () => ({
-  ...jest.requireActual('react-query'),
+jest.mock('@tanstack/react-query', () => ({
+  ...jest.requireActual('@tanstack/react-query'),
   useQuery: jest.fn(),
 }))
 

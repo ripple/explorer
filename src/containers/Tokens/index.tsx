@@ -1,9 +1,10 @@
 import axios from 'axios'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { FC, useCallback, useMemo, useState, useEffect } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 import Log from '../shared/log'
+import { useOnQueryError } from '../shared/hooks'
 import { TokensTable } from './TokensTable'
 import { parseCurrencyAmount } from '../shared/NumberFormattingUtils'
 import './tokens.scss'
@@ -88,17 +89,16 @@ export const Tokens = () => {
 
   const filterCategories: CategoryKey[] = ['stablecoin', 'wrapped']
 
-  const { data: tokensData } = useQuery<TokensData>(
-    ['fetchTokens'],
-    () => fetchTokens(),
-    {
-      refetchInterval: 60 * 1000,
-      onError: (error) => {
-        Log.error(error)
-        trackException(`tokens fetch --- ${JSON.stringify(error)}`)
-      },
-    },
-  )
+  const { data: tokensData, error: tokensError } = useQuery<TokensData>({
+    queryKey: ['fetchTokens'],
+    queryFn: () => fetchTokens(),
+    refetchInterval: 60 * 1000,
+  })
+
+  useOnQueryError(tokensError, (error) => {
+    Log.error(error)
+    trackException(`tokens fetch --- ${JSON.stringify(error)}`)
+  })
 
   const filteredTokens = useMemo(() => {
     if (!tokensData || !tokensData.tokens) return []

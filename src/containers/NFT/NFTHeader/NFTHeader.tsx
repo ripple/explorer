@@ -1,6 +1,6 @@
 import { useEffect, useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { Loader } from '../../shared/components/Loader'
 import './styles.scss'
 import SocketContext from '../../shared/SocketContext'
@@ -13,7 +13,7 @@ import { Settings } from './Settings'
 import { Account } from '../../shared/components/Account'
 import { getOldestNFTTransaction } from '../../../rippled/NFTTransactions'
 import { useAnalytics } from '../../shared/analytics'
-import { useLanguage } from '../../shared/hooks'
+import { useLanguage, useOnQueryError } from '../../shared/hooks'
 import { NFTFormattedInfo, AccountFormattedInfo } from '../../shared/Interfaces'
 
 const TIME_ZONE = 'UTC'
@@ -41,19 +41,22 @@ export const NFTHeader = (props: Props) => {
   const { trackException } = useAnalytics()
   const [tooltip, setTooltip] = useState<TooltipInstance | undefined>(undefined)
 
-  const { data, isFetching: loading } = useQuery<NFTFormattedInfo>(
-    ['getNFTInfo', tokenId],
-    async () => {
+  const {
+    data,
+    error: nftInfoError,
+    isFetching: loading,
+  } = useQuery<NFTFormattedInfo>({
+    queryKey: ['getNFTInfo', tokenId],
+    queryFn: async () => {
       const info = await getNFTInfo(rippledSocket, tokenId)
       return formatNFTInfo(info)
     },
-    {
-      onError: (e: any) => {
-        trackException(`NFT ${tokenId} --- ${JSON.stringify(e)}`)
-        setError(e.code)
-      },
-    },
-  )
+  })
+
+  useOnQueryError(nftInfoError, (e) => {
+    trackException(`NFT ${tokenId} --- ${JSON.stringify(e)}`)
+    setError(e.code)
+  })
 
   useEffect(() => {
     if (!HASH256_REGEX.test(tokenId)) {
@@ -62,23 +65,23 @@ export const NFTHeader = (props: Props) => {
   }, [setError, tokenId])
 
   // fetch the oldest NFT transaction to get its minted data
-  const { data: firstTransaction } = useQuery(
-    ['getFirstTransaction', tokenId],
-    () => getOldestNFTTransaction(rippledSocket, tokenId),
-    {
-      enabled: !!data,
-    },
-  )
+  const { data: firstTransaction } = useQuery({
+    queryKey: ['getFirstTransaction', tokenId],
+    queryFn: () => getOldestNFTTransaction(rippledSocket, tokenId),
+    enabled: !!data,
+  })
 
   // fetch account from issuer to get the domain
-  const { data: accountData } = useQuery<AccountFormattedInfo>(
-    ['getAccountInfo'],
-    async () => {
+  const { data: accountData } = useQuery<AccountFormattedInfo>({
+    queryKey: ['getAccountInfo'],
+
+    queryFn: async () => {
       const info = await getAccountInfo(rippledSocket, data?.issuer)
       return formatAccountInfo(info, {})
     },
-    { enabled: !!data },
-  )
+
+    enabled: !!data,
+  })
 
   const mintedDate =
     firstTransaction?.transaction?.type === 'NFTokenMint'

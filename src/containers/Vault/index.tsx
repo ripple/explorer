@@ -1,7 +1,7 @@
 import { FC, PropsWithChildren, useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import { Helmet } from 'react-helmet-async'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import NoMatch from '../NoMatch'
 import { VaultHeader } from './VaultHeader'
@@ -15,6 +15,7 @@ import SocketContext from '../shared/SocketContext'
 import { getVault, getMPTIssuance } from '../../rippled/lib/rippled'
 import { useAnalytics } from '../shared/analytics'
 import { useTokenToUSDRate } from '../shared/hooks/useTokenToUSDRate'
+import { useOnQueryError } from '../shared/hooks'
 import { parseMPTokenMetadata } from '../shared/mptUtils'
 import {
   NOT_FOUND,
@@ -65,19 +66,22 @@ export const Vault = () => {
   const rippledSocket = useContext(SocketContext)
   const { tooltip } = useTooltip()
 
-  const { data: vaultData, isFetching: loading } = useQuery(
-    ['getVault', vaultId],
-    async () => getVault(rippledSocket, vaultId),
-    {
-      enabled: !!vaultId,
-      onError: (e: any) => {
-        trackException(
-          `Error fetching Vault data for vault ID ${vaultId} --- ${JSON.stringify(e)}`,
-        )
-        setError(e.code)
-      },
-    },
-  )
+  const {
+    data: vaultData,
+    error: vaultError,
+    isFetching: loading,
+  } = useQuery({
+    queryKey: ['getVault', vaultId],
+    queryFn: async () => getVault(rippledSocket, vaultId),
+    enabled: !!vaultId,
+  })
+
+  useOnQueryError(vaultError, (e) => {
+    trackException(
+      `Error fetching Vault data for vault ID ${vaultId} --- ${JSON.stringify(e)}`,
+    )
+    setError(e.code)
+  })
 
   // Check if USD conversion is available for this token
   // Must be called before any early returns to satisfy React hooks rules
@@ -86,22 +90,23 @@ export const Vault = () => {
 
   // Fetch MPT issuance data to extract ticker from metadata
   const mptIssuanceId = vaultData?.Asset?.mpt_issuance_id
-  const { data: assetMptIssuanceData } = useQuery(
-    ['getVaultAssetMPTIssuance', mptIssuanceId],
-    async () => {
-      if (!mptIssuanceId) return null
-      const resp = await getMPTIssuance(rippledSocket, mptIssuanceId)
-      return resp?.node
-    },
+  const { data: assetMptIssuanceData, error: assetMptIssuanceError } = useQuery(
     {
-      enabled: !!mptIssuanceId,
-      onError: (e: any) => {
-        trackException(
-          `Error fetching MPT Issuance data for vault asset MPT ID ${mptIssuanceId} --- ${JSON.stringify(e)}`,
-        )
+      queryKey: ['getVaultAssetMPTIssuance', mptIssuanceId],
+      queryFn: async () => {
+        if (!mptIssuanceId) return null
+        const resp = await getMPTIssuance(rippledSocket, mptIssuanceId)
+        return resp?.node ?? null
       },
+      enabled: !!mptIssuanceId,
     },
   )
+
+  useOnQueryError(assetMptIssuanceError, (e) => {
+    trackException(
+      `Error fetching MPT Issuance data for vault asset MPT ID ${mptIssuanceId} --- ${JSON.stringify(e)}`,
+    )
+  })
 
   const mptTicker = parseMPTokenMetadata(assetMptIssuanceData?.MPTokenMetadata)
     ?.ticker as string | undefined

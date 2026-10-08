@@ -1,7 +1,7 @@
 import { useContext } from 'react'
 import axios from 'axios'
 import { useTranslation } from 'react-i18next'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { Map } from './Map'
 import { NodesTable } from './NodesTable'
 import Log from '../shared/log'
@@ -28,11 +28,15 @@ export const Nodes = () => {
   const { t } = useTranslation()
   const network = useContext(NetworkContext)
 
-  const { data } = useQuery(['fetchNodesData'], async () => fetchData(), {
-    refetchInterval: (returnedData, _) =>
-      returnedData == null
+  const { data } = useQuery({
+    queryKey: ['fetchNodesData'],
+    queryFn: async () => fetchData(),
+
+    refetchInterval: (query) =>
+      query.state.data == null
         ? FETCH_INTERVAL_ERROR_MILLIS
         : FETCH_INTERVAL_NODES_MILLIS,
+
     enabled: !!network,
   })
 

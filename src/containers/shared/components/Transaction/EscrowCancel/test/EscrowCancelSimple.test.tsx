@@ -1,12 +1,12 @@
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { createSimpleRenderFactory } from '../../test/createWrapperFactory'
 import { Simple } from '../Simple'
 import mockEscrowCancel from './mock_data/EscrowCancel.json'
 
 const renderComponent = createSimpleRenderFactory(Simple)
 
-jest.mock('react-query', () => ({
-  ...jest.requireActual('react-query'),
+jest.mock('@tanstack/react-query', () => ({
+  ...jest.requireActual('@tanstack/react-query'),
   useQuery: jest.fn(),
 }))
 

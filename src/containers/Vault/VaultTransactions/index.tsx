@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useInfiniteQuery } from 'react-query'
+import { useInfiniteQuery } from '@tanstack/react-query'
 import SocketContext from '../../shared/SocketContext'
 import { getAccountTransactions } from '../../../rippled'
 import { TransactionTable } from '../../shared/components/TransactionTable/TransactionTable'
@@ -22,9 +22,9 @@ export const VaultTransactions = ({ accountId }: Props) => {
     isFetching: loading,
     fetchNextPage,
     hasNextPage,
-  } = useInfiniteQuery<any, Error>(
-    ['fetchVaultTransactions', accountId],
-    ({ pageParam = '' }) =>
+  } = useInfiniteQuery({
+    queryKey: ['fetchVaultTransactions', accountId],
+    queryFn: ({ pageParam }) =>
       getAccountTransactions(
         accountId,
         undefined,
@@ -36,11 +36,10 @@ export const VaultTransactions = ({ accountId }: Props) => {
         trackException(`${errorLocation} --- ${JSON.stringify(errorResponse)}`)
         throw new Error('get_vault_transactions_failed')
       }),
-    {
-      getNextPageParam: (lastPage) => lastPage.marker,
-      enabled: !!accountId,
-    },
-  )
+    initialPageParam: '',
+    getNextPageParam: (lastPage) => lastPage.marker,
+    enabled: !!accountId,
+  })
 
   const transactions =
     data?.pages?.reduce(

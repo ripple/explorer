@@ -1,10 +1,11 @@
 import { FC, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useQuery } from 'react-query'
+import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { Loader } from '../shared/components/Loader'
 import { Tooltip, useTooltip } from '../shared/components/Tooltip'
 import { TVLVolumeChart } from '../shared/components/TVLVolumeChart'
 import { useAnalytics } from '../shared/analytics'
+import { useOnQueryError } from '../shared/hooks'
 import Log from '../shared/log'
 import { AMMRankingsTable } from './AMMRankingsTable'
 import { GeneralInfoCard } from './GeneralInfoCard'
@@ -34,46 +35,51 @@ export const AMMRankings: FC = () => {
     trackScreenLoaded()
   }, [trackScreenLoaded])
 
-  const { data: ammRankingsData, isLoading: isLoadingRankings } = useQuery(
-    ['ammRankings', sortField, sortOrder],
-    () => fetchAMMRankings(sortField, sortOrder),
-    {
-      refetchInterval: REFETCH_INTERVAL,
-      onError: (error) => {
-        Log.error(error)
-        trackException(`AMM rankings fetch --- ${JSON.stringify(error)}`)
-      },
-    },
-  )
+  const {
+    data: ammRankingsData,
+    error: rankingsError,
+    isLoading: isLoadingRankings,
+  } = useQuery({
+    queryKey: ['ammRankings', sortField, sortOrder],
+    queryFn: () => fetchAMMRankings(sortField, sortOrder),
+    refetchInterval: REFETCH_INTERVAL,
+  })
 
-  const { data: aggregatedStats, isLoading: isLoadingStats } = useQuery(
-    ['ammAggregatedStats'],
-    () => fetchAggregatedStats(),
-    {
-      refetchInterval: REFETCH_INTERVAL,
-      onError: (error) => {
-        Log.error(error)
-        trackException(
-          `AMM aggregated stats fetch --- ${JSON.stringify(error)}`,
-        )
-      },
-    },
-  )
+  useOnQueryError(rankingsError, (error) => {
+    Log.error(error)
+    trackException(`AMM rankings fetch --- ${JSON.stringify(error)}`)
+  })
 
-  const { data: historicalData, isLoading: isLoadingHistory } = useQuery(
-    ['ammHistoricalTrends', timeRange],
-    () => fetchHistoricalTrends(timeRange),
-    {
-      refetchInterval: REFETCH_INTERVAL,
-      keepPreviousData: true,
-      onError: (error) => {
-        Log.error(error)
-        trackException(
-          `AMM historical trends fetch --- ${JSON.stringify(error)}`,
-        )
-      },
-    },
-  )
+  const {
+    data: aggregatedStats,
+    error: statsError,
+    isLoading: isLoadingStats,
+  } = useQuery({
+    queryKey: ['ammAggregatedStats'],
+    queryFn: () => fetchAggregatedStats(),
+    refetchInterval: REFETCH_INTERVAL,
+  })
+
+  useOnQueryError(statsError, (error) => {
+    Log.error(error)
+    trackException(`AMM aggregated stats fetch --- ${JSON.stringify(error)}`)
+  })
+
+  const {
+    data: historicalData,
+    error: historyError,
+    isLoading: isLoadingHistory,
+  } = useQuery({
+    queryKey: ['ammHistoricalTrends', timeRange],
+    queryFn: () => fetchHistoricalTrends(timeRange),
+    refetchInterval: REFETCH_INTERVAL,
+    placeholderData: keepPreviousData,
+  })
+
+  useOnQueryError(historyError, (error) => {
+    Log.error(error)
+    trackException(`AMM historical trends fetch --- ${JSON.stringify(error)}`)
+  })
 
   // Only show full-page loader on initial load.
   // Subsequent refetches (e.g. time range changes) should not unmount the chart,

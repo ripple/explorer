@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { geoPath, geoNaturalEarth1 } from 'd3-geo'
 import { scaleLinear } from 'd3-scale'
 import { hexbin } from 'd3-hexbin'
@@ -26,14 +26,17 @@ export const Map = ({ locations = undefined }: MapProps) => {
   } | null>(null)
   const { t } = useTranslation()
   const { width: propsWidth } = useWindowSize()
-  const { data: countries } = useQuery('countries', () =>
-    axios
-      .get('/countries.json')
-      .then(
-        (response) =>
-          feature(response.data, response.data.objects.countries).features,
-      ),
-  )
+  const { data: countries } = useQuery({
+    queryKey: ['countries'],
+
+    queryFn: () =>
+      axios
+        .get('/countries.json')
+        .then(
+          (response) =>
+            feature(response.data, response.data.objects.countries).features,
+        ),
+  })
 
   const getProjection = (width, height) =>
     geoNaturalEarth1()

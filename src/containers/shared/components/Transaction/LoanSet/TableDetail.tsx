@@ -1,6 +1,6 @@
 import { useTranslation, Trans } from 'react-i18next'
 import { useContext } from 'react'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { TransactionTableDetailProps } from '../types'
 import { Amount } from '../../Amount'
 import { Account } from '../../Account'
@@ -28,11 +28,11 @@ export const TableDetail = ({ instructions }: TransactionTableDetailProps) => {
   } = instructions
 
   // Fetch Vault asset information from LoanBroker
-  const { data: vaultAsset } = useQuery(
-    ['vaultAssetFromLoanBroker', loanBrokerID],
-    () => getVaultAssetFromLoanBroker(rippledSocket, loanBrokerID),
-    { enabled: !!loanBrokerID && !!rippledSocket },
-  )
+  const { data: vaultAsset } = useQuery({
+    queryKey: ['vaultAssetFromLoanBroker', loanBrokerID],
+    queryFn: () => getVaultAssetFromLoanBroker(rippledSocket, loanBrokerID),
+    enabled: !!loanBrokerID && !!rippledSocket,
+  })
 
   // Format amounts with correct currency
   const principalRequested =

@@ -1,6 +1,6 @@
 import { useState, useContext } from 'react'
 import axios from 'axios'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import BarChartVersion from './BarChartVersion'
 import {
@@ -150,34 +150,35 @@ export const UpgradeStatus = () => {
   const [nodeAggregation, setNodeAggregation] = useState<NodeAggregation>({})
   const network = useContext(NetworkContext)
 
-  useQuery(
-    ['fetchUpgradeStatusData'],
-    () => {
+  useQuery({
+    queryKey: ['fetchUpgradeStatusData'],
+
+    queryFn: () => {
       fetchData()
     },
-    {
-      refetchInterval: (returnedData, _) =>
-        returnedData == null
-          ? FETCH_INTERVAL_ERROR_MILLIS
-          : FETCH_INTERVAL_MILLIS,
-      refetchOnMount: true,
-      enabled: process.env.VITE_ENVIRONMENT !== 'custom' || !!network,
-    },
-  )
 
-  const { data: stableVersion } = useQuery(
-    ['stableVersion'],
-    () => fetchStableVersion(),
-    {
-      placeholderData: null,
-      retryDelay: (returnedData, _) =>
-        returnedData == null
-          ? FETCH_INTERVAL_ERROR_MILLIS
-          : FETCH_INTERVAL_MILLIS,
-      refetchOnMount: true,
-      enabled: process.env.VITE_ENVIRONMENT !== 'custom' || !!network,
-    },
-  )
+    refetchInterval: (query) =>
+      query.state.data == null
+        ? FETCH_INTERVAL_ERROR_MILLIS
+        : FETCH_INTERVAL_MILLIS,
+
+    refetchOnMount: true,
+    enabled: process.env.VITE_ENVIRONMENT !== 'custom' || !!network,
+  })
+
+  const { data: stableVersion } = useQuery({
+    queryKey: ['stableVersion'],
+    queryFn: () => fetchStableVersion(),
+    placeholderData: null,
+
+    retryDelay: (returnedData, _) =>
+      returnedData == null
+        ? FETCH_INTERVAL_ERROR_MILLIS
+        : FETCH_INTERVAL_MILLIS,
+
+    refetchOnMount: true,
+    enabled: process.env.VITE_ENVIRONMENT !== 'custom' || !!network,
+  })
 
   const fetchData = () => {
     axios

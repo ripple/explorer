@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { useContext } from 'react'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { TransactionSimpleComponent, TransactionSimpleProps } from '../types'
 import { SimpleRow } from '../SimpleRow'
 import { Amount } from '../../Amount'
@@ -38,11 +38,11 @@ export const Simple: TransactionSimpleComponent = ({
   } = data.instructions
 
   // Fetch Vault asset information from LoanBroker
-  const { data: vaultAsset } = useQuery(
-    ['vaultAssetFromLoanBroker', loanBrokerID],
-    () => getVaultAssetFromLoanBroker(rippledSocket, loanBrokerID),
-    { enabled: !!loanBrokerID && !!rippledSocket },
-  )
+  const { data: vaultAsset } = useQuery({
+    queryKey: ['vaultAssetFromLoanBroker', loanBrokerID],
+    queryFn: () => getVaultAssetFromLoanBroker(rippledSocket, loanBrokerID),
+    enabled: !!loanBrokerID && !!rippledSocket,
+  })
 
   // Format amounts with correct currency
   const principalRequested =

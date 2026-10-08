@@ -1,6 +1,6 @@
 import { FC, useState, useCallback, useContext } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useQuery, useInfiniteQuery } from 'react-query'
+import { useQuery, useInfiniteQuery } from '@tanstack/react-query'
 import { Tabs } from '../../shared/components/Tabs'
 import { TransactionTable } from '../../shared/components/TransactionTable/TransactionTable'
 import SocketContext from '../../shared/SocketContext'
@@ -87,9 +87,9 @@ export const AMMPoolTablePicker: FC<AMMPoolTablePickerProps> = ({
     isFetching: txLoading,
     fetchNextPage: txFetchNextPage,
     hasNextPage: txHasNextPage,
-  } = useInfiniteQuery<any, Error>(
-    ['fetchTransactions', ammAccountId],
-    ({ pageParam = '' }) =>
+  } = useInfiniteQuery({
+    queryKey: ['fetchTransactions', ammAccountId],
+    queryFn: ({ pageParam }) =>
       getAccountTransactions(
         ammAccountId,
         undefined,
@@ -102,8 +102,9 @@ export const AMMPoolTablePicker: FC<AMMPoolTablePickerProps> = ({
         )
         throw new Error('get_account_transactions_failed')
       }),
-    { getNextPageParam: (lastPage) => lastPage.marker },
-  )
+    initialPageParam: '',
+    getNextPageParam: (lastPage) => lastPage.marker,
+  })
   const allTransactions =
     txData?.pages?.reduce(
       (acc: any[], page: any) =>
@@ -145,17 +146,19 @@ export const AMMPoolTablePicker: FC<AMMPoolTablePickerProps> = ({
   // Holders
   const holdersPageSize = 20
   const [holdersPage, setHoldersPage] = useState(1)
-  const { data: holdersData, isLoading: holdersLoading } = useQuery(
-    ['ammHolders', lpToken?.currency, lpToken?.issuer, holdersPage],
-    () =>
+  const { data: holdersData, isLoading: holdersLoading } = useQuery({
+    queryKey: ['ammHolders', lpToken?.currency, lpToken?.issuer, holdersPage],
+
+    queryFn: () =>
       getTokenHolders(
         lpToken!.currency,
         lpToken!.issuer,
         holdersPageSize,
         (holdersPage - 1) * holdersPageSize,
       ),
-    { enabled: isMainnet && !!lpToken?.currency },
-  )
+
+    enabled: isMainnet && !!lpToken?.currency,
+  })
 
   // Calculate USD value for each holder based on their LP token share of TVL
   const holdersFormatted: XRPLHolder[] = (holdersData?.holders || []).map(

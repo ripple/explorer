@@ -1,6 +1,6 @@
 import { useContext, useEffect } from 'react'
 import { Helmet } from 'react-helmet-async'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { isValidClassicAddress, isValidXAddress } from 'ripple-address-codec'
 import { AccountTransactionTable } from './AccountTransactionTable'
 import './styles.scss'
@@ -22,9 +22,10 @@ export const Accounts = () => {
   const { id: accountId = '' } = useRouteParams(ACCOUNT_ROUTE)
   const rippledSocket = useContext(SocketContext)
 
-  const { data: account, isLoading } = useQuery(
-    ['accountState', accountId],
-    () => {
+  const { data: account, isLoading } = useQuery({
+    queryKey: ['accountState', accountId],
+
+    queryFn: () => {
       if (!isValidClassicAddress(accountId) && !isValidXAddress(accountId)) {
         return Promise.reject(BAD_REQUEST)
       }
@@ -37,7 +38,7 @@ export const Accounts = () => {
         return Promise.reject(status)
       })
     },
-  )
+  })
 
   useEffect(() => {
     trackScreenLoaded()

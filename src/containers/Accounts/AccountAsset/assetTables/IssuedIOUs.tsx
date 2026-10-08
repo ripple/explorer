@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { useEffect, useContext, useMemo } from 'react'
 import Currency from '../../../shared/components/Currency'
 import { Loader } from '../../../shared/components/Loader'
@@ -143,9 +143,11 @@ export const IssuedIOUs = ({
   const { t } = useTranslation()
   const rippledSocket = useContext(SocketContext)
 
-  const issuedIOUsQuery = useQuery(['issuedIOUs', accountId], () =>
-    fetchAccountIssuedIOUs(rippledSocket, accountId, account),
-  )
+  const issuedIOUsQuery = useQuery({
+    queryKey: ['issuedIOUs', accountId],
+
+    queryFn: () => fetchAccountIssuedIOUs(rippledSocket, accountId, account),
+  })
 
   // Sort by USD price
   const sortedIOUs = useMemo(() => {

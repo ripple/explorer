@@ -1,12 +1,12 @@
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter } from 'react-router'
 import { cleanup, render, screen } from '@testing-library/react'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { Amount } from '../Amount'
 import i18n from '../../../../i18n/testConfig'
 
-jest.mock('react-query', () => ({
-  ...jest.requireActual('react-query'),
+jest.mock('@tanstack/react-query', () => ({
+  ...jest.requireActual('@tanstack/react-query'),
   useQuery: jest.fn(),
 }))
 

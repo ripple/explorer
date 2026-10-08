@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { useEffect, useContext, useState, useCallback, useMemo } from 'react'
 import Currency, {
   LP_TOKEN_IDENTIFIER,
@@ -190,9 +190,11 @@ export const HeldIOUs = ({ accountId, onChange }: HeldIOUsProps) => {
   )
   const [lpTokenCheckComplete, setLpTokenCheckComplete] = useState(false)
 
-  const heldIOUsQuery = useQuery(['heldIOUs', accountId], () =>
-    fetchAccountHeldIOUs(rippledSocket, accountId),
-  )
+  const heldIOUsQuery = useQuery({
+    queryKey: ['heldIOUs', accountId],
+
+    queryFn: () => fetchAccountHeldIOUs(rippledSocket, accountId),
+  })
 
   // Filter out ALL '03' tokens initially, then add back confirmed non-LP tokens
   const sortedIOUs = useMemo(() => {

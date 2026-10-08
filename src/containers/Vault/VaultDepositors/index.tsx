@@ -1,11 +1,12 @@
 import { useContext, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import SocketContext from '../../shared/SocketContext'
 import { useAnalytics } from '../../shared/analytics'
 import { Loader } from '../../shared/components/Loader'
 import { HoldersTable } from '../../shared/components/HoldersTable/HoldersTable'
 import { useTokenToUSDRate } from '../../shared/hooks/useTokenToUSDRate'
+import { useOnQueryError } from '../../shared/hooks'
 import { fetchAllVaultDepositors } from './api/depositors'
 import './styles.scss'
 
@@ -41,15 +42,16 @@ export const VaultDepositors = ({
     data,
     isFetching: loading,
     error,
-  } = useQuery(
-    [
+  } = useQuery({
+    queryKey: [
       'getVaultDepositors',
       shareMptId,
       totalSupply,
       assetsTotal,
       tokenToUsdRate,
     ],
-    async () =>
+
+    queryFn: async () =>
       fetchAllVaultDepositors(
         rippledSocket,
         shareMptId,
@@ -57,15 +59,15 @@ export const VaultDepositors = ({
         assetsTotal,
         tokenToUsdRate,
       ),
-    {
-      enabled: !!shareMptId,
-      onError: (e: any) => {
-        trackException(
-          `Error fetching Vault depositors ${shareMptId} --- ${JSON.stringify(e)}`,
-        )
-      },
-    },
-  )
+
+    enabled: !!shareMptId,
+  })
+
+  useOnQueryError(error, (e) => {
+    trackException(
+      `Error fetching Vault depositors ${shareMptId} --- ${JSON.stringify(e)}`,
+    )
+  })
 
   // Client-side pagination
   const paginatedDepositors = useMemo(() => {

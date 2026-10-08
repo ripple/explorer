@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import { BrowserRouter as Router } from 'react-router'
 import { I18nextProvider } from 'react-i18next'
-import { QueryClientProvider } from 'react-query'
+import { QueryClientProvider } from '@tanstack/react-query'
 import Transaction from './mock_data/EscrowCreate.json'
 import FailedTransaction from '../../shared/components/Transaction/SignerListSet/test/mock_data/SignerListSet.json'
 import HookPayment from './mock_data/HookPayment.json'

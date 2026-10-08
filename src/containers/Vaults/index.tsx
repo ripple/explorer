@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Helmet } from 'react-helmet-async'
-import { useQuery } from 'react-query'
+import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import Log from '../shared/log'
 import { VaultsTable } from './VaultsTable'
 import { parseCurrencyAmount } from '../shared/NumberFormattingUtils'
@@ -12,6 +12,7 @@ import { Tooltip, useTooltip } from '../shared/components/Tooltip'
 import HoverIcon from '../shared/images/hover.svg'
 import { useAnalytics } from '../shared/analytics'
 import { useXRPToUSDRate } from '../shared/hooks/useXRPToUSDRate'
+import { useOnQueryError } from '../shared/hooks'
 import type { VaultData } from './types'
 import {
   fetchVaultsList,
@@ -48,36 +49,42 @@ export const Vaults = () => {
   }, [trackScreenLoaded])
 
   // Fetch aggregate stats once on mount
-  const { data: metrics } = useQuery(
-    ['vaultsAggregateStats'],
-    fetchVaultsAggregateStats,
-    {
-      onError: (error) => {
-        Log.error(error)
-        trackException(`vaults stats fetch --- ${JSON.stringify(error)}`)
-      },
-    },
-  )
+  const { data: metrics, error: metricsError } = useQuery({
+    queryKey: ['vaultsAggregateStats'],
+    queryFn: fetchVaultsAggregateStats,
+  })
+
+  useOnQueryError(metricsError, (error) => {
+    Log.error(error)
+    trackException(`vaults stats fetch --- ${JSON.stringify(error)}`)
+  })
 
   // Fetch and periodically refresh asset prices from xrplmeta
-  const { data: assetPricesData } = useQuery(
-    ['vaultAssetPrices'],
-    fetchVaultAssetPrices,
-    {
-      refetchInterval: PRICE_REFETCH_INTERVAL,
-      onError: (error) => Log.error(error),
-    },
-  )
+  const { data: assetPricesData, error: assetPricesError } = useQuery({
+    queryKey: ['vaultAssetPrices'],
+    queryFn: fetchVaultAssetPrices,
+    refetchInterval: PRICE_REFETCH_INTERVAL,
+  })
+
+  useOnQueryError(assetPricesError, (error) => Log.error(error))
   const assetPrices = assetPricesData?.prices ?? {}
 
   // Fetch vaults list whenever params change
   const {
     data: vaultsResponse,
+    error: vaultsError,
     isLoading: tableLoading,
     refetch: refetchVaults,
-  } = useQuery(
-    ['vaultsList', page, sortField, sortOrder, filterField, debouncedSearch],
-    () =>
+  } = useQuery({
+    queryKey: [
+      'vaultsList',
+      page,
+      sortField,
+      sortOrder,
+      filterField,
+      debouncedSearch,
+    ],
+    queryFn: () =>
       fetchVaultsList({
         page,
         size: PAGE_SIZE,
@@ -86,14 +93,13 @@ export const Vaults = () => {
         assetType: filterField,
         searchQuery: debouncedSearch,
       }),
-    {
-      keepPreviousData: true,
-      onError: (error) => {
-        Log.error(error)
-        trackException(`vaults list fetch --- ${JSON.stringify(error)}`)
-      },
-    },
-  )
+    placeholderData: keepPreviousData,
+  })
+
+  useOnQueryError(vaultsError, (error) => {
+    Log.error(error)
+    trackException(`vaults list fetch --- ${JSON.stringify(error)}`)
+  })
 
   // Debounce search input
   useEffect(() => {

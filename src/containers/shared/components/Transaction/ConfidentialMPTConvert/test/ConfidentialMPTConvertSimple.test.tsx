@@ -1,10 +1,10 @@
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { createSimpleRenderFactory, expectSimpleRowText } from '../../test'
 import { Simple } from '../Simple'
 import transaction from './mock_data/ConfidentialMPTConvert.json'
 
-jest.mock('react-query', () => ({
-  ...jest.requireActual('react-query'),
+jest.mock('@tanstack/react-query', () => ({
+  ...jest.requireActual('@tanstack/react-query'),
   useQuery: jest.fn(),
 }))
 

@@ -1,8 +1,9 @@
-import { useContext, useState } from 'react'
-import { useQuery } from 'react-query'
+import { useContext } from 'react'
+import { useQuery } from '@tanstack/react-query'
 import SocketContext from '../SocketContext'
 import { getAccountLines } from '../../../rippled/lib/rippled'
 import Log from '../log'
+import { useOnQueryError } from './useOnQueryError'
 
 const FETCH_INTERVAL_MILLIS = 5 * 1000 // 1 minute
 const XRP_USD_ORACLE_ACCOUNT = 'rXUMMaPpZqPutoRszR29jtC8amWq3APkx'
@@ -25,22 +26,20 @@ export function useXRPToUSDRate(): number {
   const isMainnet = process.env.VITE_ENVIRONMENT === 'mainnet'
 
   const rippledSocket = useContext(SocketContext)
-  const [lastRate, setLastRate] = useState<number>(0.0)
+  // On a failed refetch the query keeps its last successful `data`, so the
+  // last known rate is still returned.
+  const { data, error } = useQuery({
+    queryKey: ['XRPToUSDRate'],
+    queryFn: () => fetchXRPToUSDRate(rippledSocket),
+    enabled: isMainnet,
+    refetchInterval: FETCH_INTERVAL_MILLIS,
+  })
 
-  const { data } = useQuery(
-    ['XRPToUSDRate'],
-    () => fetchXRPToUSDRate(rippledSocket),
-    {
-      enabled: isMainnet,
-      refetchInterval: FETCH_INTERVAL_MILLIS,
-      onSuccess: (rate: number) => setLastRate(rate), // store the last successfully fetched rate
-      onError: (error) => Log.error(error), // do nothing, last rate stays
-    },
-  )
+  useOnQueryError(error, (e) => Log.error(e))
 
   if (!isMainnet) {
     return 1.5 // This is chosen randomly for non-mainnet environments
   }
 
-  return data ?? lastRate
+  return data ?? 0.0
 }

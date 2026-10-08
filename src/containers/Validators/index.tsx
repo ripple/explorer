@@ -1,7 +1,7 @@
 import { useContext, useEffect } from 'react'
 import axios from 'axios'
 import { useTranslation } from 'react-i18next'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { useWindowSize } from 'usehooks-ts'
 import { Helmet } from 'react-helmet-async'
 import NoMatch from '../NoMatch'
@@ -54,27 +54,25 @@ export const Validator = () => {
     data,
     error,
     isFetching: dataIsLoading,
-  } = useQuery<ValidatorSupplemented, keyof typeof ERROR_MESSAGES | null>(
-    ['fetchValidatorData', identifier],
-    async () => fetchValidatorData(),
-    {
-      refetchInterval: (returnedData, _) =>
-        returnedData == null
-          ? FETCH_INTERVAL_ERROR_MILLIS
-          : FETCH_INTERVAL_VHS_MILLIS,
-      refetchOnMount: true,
-      enabled: !!network,
-    },
-  )
+  } = useQuery<ValidatorSupplemented, keyof typeof ERROR_MESSAGES | null>({
+    queryKey: ['fetchValidatorData', identifier],
+    queryFn: async () => fetchValidatorData(),
 
-  const { data: reports, isFetching: reportIsLoading } = useQuery(
-    ['fetchValidatorReport', identifier],
-    async () => fetchValidatorReport(),
-    {
-      refetchInterval: FETCH_INTERVAL_VHS_MILLIS,
-      refetchOnMount: true,
-    },
-  )
+    refetchInterval: (query) =>
+      query.state.data == null
+        ? FETCH_INTERVAL_ERROR_MILLIS
+        : FETCH_INTERVAL_VHS_MILLIS,
+
+    refetchOnMount: true,
+    enabled: !!network,
+  })
+
+  const { data: reports, isFetching: reportIsLoading } = useQuery({
+    queryKey: ['fetchValidatorReport', identifier],
+    queryFn: async () => fetchValidatorReport(),
+    refetchInterval: FETCH_INTERVAL_VHS_MILLIS,
+    refetchOnMount: true,
+  })
 
   useEffect(() => {
     trackScreenLoaded({ validator: identifier })

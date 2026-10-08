@@ -3,7 +3,7 @@ import './css/style.scss'
 import { useContext, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Helmet } from 'react-helmet-async'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { getServerState } from '../../rippled/lib/rippled'
 import { ValidatorsTable } from './ValidatorsTable'
 import {
@@ -75,12 +75,17 @@ export const ValidatorsData = () => {
 
   const { tab = 'uptime' } = useRouteParams(VALIDATORS_ROUTE)
 
-  useQuery(['fetchFeeSettingsData'], () => fetchFeeSettingsData(), {
-    refetchInterval: (returnedData, _) =>
-      returnedData == null
+  useQuery({
+    queryKey: ['fetchFeeSettingsData'],
+    queryFn: () => fetchFeeSettingsData(),
+
+    refetchInterval: (query) =>
+      query.state.data == null
         ? FETCH_INTERVAL_ERROR_MILLIS
         : FETCH_INTERVAL_FEE_SETTINGS_MILLIS,
+
     refetchOnMount: true,
+
     enabled:
       (process.env.VITE_ENVIRONMENT !== 'custom' || !!network) &&
       tab === 'voting',

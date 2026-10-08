@@ -1,7 +1,7 @@
 import { useContext } from 'react'
 import axios from 'axios'
 import { useTranslation } from 'react-i18next'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { useWindowSize } from 'usehooks-ts'
 import { useRouteParams } from '../shared/routing'
 import { AMENDMENT_ROUTE } from '../App/routes'
@@ -47,28 +47,26 @@ export const Amendment = () => {
     data,
     error,
     isLoading: isAmendmentLoading,
-  } = useQuery<AmendmentData, keyof typeof ERROR_MESSAGES | null>(
-    ['fetchAmendmentData', identifier, network],
-    async () => fetchAmendmentData(),
-    {
-      refetchInterval: (_) => FETCH_INTERVAL_VHS_MILLIS,
-      refetchOnMount: true,
-      enabled: !!network,
-    },
-  )
+  } = useQuery<AmendmentData, keyof typeof ERROR_MESSAGES | null>({
+    queryKey: ['fetchAmendmentData', identifier, network],
+    queryFn: async () => fetchAmendmentData(),
+    refetchInterval: FETCH_INTERVAL_VHS_MILLIS,
+    refetchOnMount: true,
+    enabled: !!network,
+  })
 
-  const { data: validators, isLoading: isValidatorsLoading } = useQuery(
-    ['fetchValidatorsData'],
-    () => fetchValidatorsData(),
-    {
-      refetchInterval: (returnedData, _) =>
-        returnedData == null
-          ? FETCH_INTERVAL_ERROR_MILLIS
-          : FETCH_INTERVAL_VHS_MILLIS,
-      refetchOnMount: true,
-      enabled: process.env.VITE_ENVIRONMENT !== 'custom' || !!network,
-    },
-  )
+  const { data: validators, isLoading: isValidatorsLoading } = useQuery({
+    queryKey: ['fetchValidatorsData'],
+    queryFn: () => fetchValidatorsData(),
+
+    refetchInterval: (query) =>
+      query.state.data == null
+        ? FETCH_INTERVAL_ERROR_MILLIS
+        : FETCH_INTERVAL_VHS_MILLIS,
+
+    refetchOnMount: true,
+    enabled: process.env.VITE_ENVIRONMENT !== 'custom' || !!network,
+  })
 
   const fetchAmendmentData = async (): Promise<AmendmentData> => {
     const url = `${process.env.VITE_DATA_URL}/amendment/vote/${network}/${identifier}`

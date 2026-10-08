@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import Log from '../shared/log'
 import NetworkContext from '../shared/NetworkContext'
 import {
@@ -15,18 +15,18 @@ export const Amendments = () => {
   const network = useContext(NetworkContext)
   const { t } = useTranslation()
 
-  const { data } = useQuery(
-    ['fetchNetworkAmendmentsData'],
-    async () => fetchData(),
-    {
-      refetchInterval: (returnedData, _) =>
-        returnedData == null
-          ? FETCH_INTERVAL_ERROR_MILLIS
-          : FETCH_INTERVAL_VHS_MILLIS,
-      refetchOnMount: true,
-      enabled: !!network,
-    },
-  )
+  const { data } = useQuery({
+    queryKey: ['fetchNetworkAmendmentsData'],
+    queryFn: async () => fetchData(),
+
+    refetchInterval: (query) =>
+      query.state.data == null
+        ? FETCH_INTERVAL_ERROR_MILLIS
+        : FETCH_INTERVAL_VHS_MILLIS,
+
+    refetchOnMount: true,
+    enabled: !!network,
+  })
 
   const fetchData = async () =>
     axios

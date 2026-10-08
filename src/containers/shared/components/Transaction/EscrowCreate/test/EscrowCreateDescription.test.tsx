@@ -1,11 +1,11 @@
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import i18n from '../../../../../../i18n/testConfigEnglish'
 import mockEscrowCreateTests from './mock_data/EscrowCreate.json'
 import { Description } from '../Description'
 import { createDescriptionRenderFactory } from '../../test'
 
-jest.mock('react-query', () => ({
-  ...jest.requireActual('react-query'),
+jest.mock('@tanstack/react-query', () => ({
+  ...jest.requireActual('@tanstack/react-query'),
   useQuery: jest.fn(),
 }))
 

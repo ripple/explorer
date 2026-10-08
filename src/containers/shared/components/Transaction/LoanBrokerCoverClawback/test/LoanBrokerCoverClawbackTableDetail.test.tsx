@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import i18n from '../../../../../../i18n/testConfigEnglish'
 import { createTableDetailRenderFactory } from '../../test'
 import { TableDetail } from '../TableDetail'
@@ -7,8 +7,8 @@ import LoanBrokerCoverClawbackZeroAmount from './mock_data/LoanBrokerCoverClawba
 import LoanBrokerCoverClawbackNoAmount from './mock_data/LoanBrokerCoverClawbackNoAmount.json'
 import LoanBrokerCoverClawbackMPT from './mock_data/LoanBrokerCoverClawbackMPT.json'
 
-jest.mock('react-query', () => ({
-  ...jest.requireActual('react-query'),
+jest.mock('@tanstack/react-query', () => ({
+  ...jest.requireActual('@tanstack/react-query'),
   useQuery: jest.fn(),
 }))
 

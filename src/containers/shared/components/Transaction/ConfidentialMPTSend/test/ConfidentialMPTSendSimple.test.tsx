@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import {
   createSimpleRenderFactory,
   expectSimpleRowLabel,
@@ -9,8 +9,8 @@ import { Simple } from '../Simple'
 import transaction from './mock_data/ConfidentialMPTSend.json'
 import transactionWithCredentialIDs from './mock_data/ConfidentialMPTSendWithCredentialIDs.json'
 
-jest.mock('react-query', () => ({
-  ...jest.requireActual('react-query'),
+jest.mock('@tanstack/react-query', () => ({
+  ...jest.requireActual('@tanstack/react-query'),
   useQuery: jest.fn(),
 }))
 

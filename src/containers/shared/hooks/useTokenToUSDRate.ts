@@ -1,6 +1,7 @@
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { useXRPToUSDRate } from './useXRPToUSDRate'
 import Log from '../log'
+import { useOnQueryError } from './useOnQueryError'
 
 const FETCH_INTERVAL_MILLIS = 60 * 1000 // 1 minute
 
@@ -62,18 +63,18 @@ export function useTokenToUSDRate(
 
   const {
     data: priceInXRP,
+    error,
     isLoading,
     isFetched,
-  } = useQuery(
-    ['tokenPriceInXRP', currency, issuer],
-    () => fetchTokenPriceInXRP(currency!, issuer!),
-    {
-      enabled: shouldFetch,
-      refetchInterval: FETCH_INTERVAL_MILLIS,
-      staleTime: FETCH_INTERVAL_MILLIS,
-      onError: (error) => Log.error(error),
-    },
-  )
+  } = useQuery({
+    queryKey: ['tokenPriceInXRP', currency, issuer],
+    queryFn: () => fetchTokenPriceInXRP(currency!, issuer!),
+    enabled: shouldFetch,
+    refetchInterval: FETCH_INTERVAL_MILLIS,
+    staleTime: FETCH_INTERVAL_MILLIS,
+  })
+
+  useOnQueryError(error, (e) => Log.error(e))
 
   // XRP: use direct XRP to USD rate
   if (currency === 'XRP') {

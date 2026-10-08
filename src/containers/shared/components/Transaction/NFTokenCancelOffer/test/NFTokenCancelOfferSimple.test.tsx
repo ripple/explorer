@@ -1,7 +1,7 @@
 import { BrowserRouter as Router } from 'react-router'
 import { render } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
-import { QueryClientProvider } from 'react-query'
+import { QueryClientProvider } from '@tanstack/react-query'
 import { Simple as NFTokenCancelOffer } from '../Simple'
 import transaction from './mock_data/NFTokenCancelOffer.json'
 import summarizeTransaction from '../../../../../../rippled/lib/txSummary'

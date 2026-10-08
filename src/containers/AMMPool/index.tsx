@@ -2,11 +2,12 @@ import { FC, PropsWithChildren, useContext, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router'
 import { Helmet } from 'react-helmet-async'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import NoMatch from '../NoMatch'
 import { Loader } from '../shared/components/Loader'
 import SocketContext from '../shared/SocketContext'
 import { useAnalytics } from '../shared/analytics'
+import { useOnQueryError } from '../shared/hooks'
 import { getAMMInfoByAMMAccount } from '../../rippled/lib/rippled'
 import { NOT_FOUND, BAD_REQUEST } from '../shared/utils'
 import { ErrorMessage } from '../shared/Interfaces'
@@ -101,34 +102,40 @@ export const AMMPool = () => {
   const { tooltip } = useTooltip()
 
   // Fetch on-ledger AMM data from Clio (balances, auction slot, trading fee)
-  const { data: ammInfo, isFetching: ammInfoLoading } = useQuery(
-    ['ammInfo', ammAccountId],
-    async () => getAMMInfoByAMMAccount(rippledSocket, ammAccountId),
-    {
-      enabled: !!ammAccountId,
-      retry: false,
-      onError: (e: any) => {
-        trackException(
-          `Error fetching AMM info for ${ammAccountId} --- ${JSON.stringify(e)}`,
-        )
-        // Don't set error yet — we'll try deleted detection
-      },
-    },
-  )
+  const {
+    data: ammInfo,
+    error: ammInfoError,
+    isFetching: ammInfoLoading,
+  } = useQuery({
+    queryKey: ['ammInfo', ammAccountId],
+    queryFn: async () => getAMMInfoByAMMAccount(rippledSocket, ammAccountId),
+    enabled: !!ammAccountId,
+    retry: false,
+  })
+
+  useOnQueryError(ammInfoError, (e) => {
+    trackException(
+      `Error fetching AMM info for ${ammAccountId} --- ${JSON.stringify(e)}`,
+    )
+    // Don't set error yet — we'll try deleted detection
+  })
 
   // If amm_info failed, try to detect a deleted AMM pool
   const ammInfoFailed = !ammInfoLoading && !ammInfo && !!ammAccountId
-  const { data: deletedData, isFetching: deletedLoading } = useQuery(
-    ['ammDeleted', ammAccountId],
-    () => getDeletedAMMData(rippledSocket, ammAccountId),
-    {
-      enabled: ammInfoFailed,
-      onError: () => {
-        // Both amm_info and deletion detection failed
-        setError(NOT_FOUND)
-      },
-    },
-  )
+  const {
+    data: deletedData,
+    error: deletedError,
+    isFetching: deletedLoading,
+  } = useQuery({
+    queryKey: ['ammDeleted', ammAccountId],
+    queryFn: () => getDeletedAMMData(rippledSocket, ammAccountId),
+    enabled: ammInfoFailed,
+  })
+
+  useOnQueryError(deletedError, () => {
+    // Both amm_info and deletion detection failed
+    setError(NOT_FOUND)
+  })
 
   // If amm_info failed, deletion check finished, and it's not a deleted pool → show error
   useEffect(() => {
@@ -141,33 +148,33 @@ export const AMMPool = () => {
   const isLoading = ammInfoLoading || (ammInfoFailed && deletedLoading)
 
   // Fetch LOS market data (mainnet only)
-  const { data: losData } = useQuery(
-    ['ammLosData', ammAccountId],
-    () => fetchAMMPoolData(ammAccountId),
-    {
-      enabled: !!ammAccountId && isMainnet,
-      onError: (e: any) => {
-        trackException(
-          `Error fetching AMM LOS data for ${ammAccountId} --- ${JSON.stringify(e)}`,
-        )
-      },
-    },
-  )
+  const { data: losData, error: losError } = useQuery({
+    queryKey: ['ammLosData', ammAccountId],
+    queryFn: () => fetchAMMPoolData(ammAccountId),
+    enabled: !!ammAccountId && isMainnet,
+  })
+
+  useOnQueryError(losError, (e) => {
+    trackException(
+      `Error fetching AMM LOS data for ${ammAccountId} --- ${JSON.stringify(e)}`,
+    )
+  })
 
   // Fetch first transaction to get Created On timestamp
-  const { data: createdTimestamp } = useQuery(
-    ['ammCreatedOn', ammAccountId],
-    () => fetchAMMCreatedTimestamp(rippledSocket, ammAccountId),
-    { enabled: !!ammAccountId },
-  )
+  const { data: createdTimestamp } = useQuery({
+    queryKey: ['ammCreatedOn', ammAccountId],
+    queryFn: () => fetchAMMCreatedTimestamp(rippledSocket, ammAccountId),
+    enabled: !!ammAccountId,
+  })
 
   // Fetch data per time range from the API (each range may include different latest data)
   const [chartTimeRange, setChartTimeRange] = useState('6M')
-  const { data: trendsData, isLoading: trendsLoading } = useQuery(
-    ['ammHistoricalTrends', ammAccountId, chartTimeRange],
-    () => fetchAMMHistoricalTrends(ammAccountId, chartTimeRange),
-    { enabled: !!ammAccountId, staleTime: 5 * 60 * 1000 },
-  )
+  const { data: trendsData, isLoading: trendsLoading } = useQuery({
+    queryKey: ['ammHistoricalTrends', ammAccountId, chartTimeRange],
+    queryFn: () => fetchAMMHistoricalTrends(ammAccountId, chartTimeRange),
+    enabled: !!ammAccountId,
+    staleTime: 5 * 60 * 1000,
+  })
 
   useEffect(() => {
     trackScreenLoaded({ account_id: ammAccountId })

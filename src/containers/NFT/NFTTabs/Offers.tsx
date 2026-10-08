@@ -1,10 +1,11 @@
 import { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useInfiniteQuery } from 'react-query'
+import { useInfiniteQuery } from '@tanstack/react-query'
 import { Loader } from '../../shared/components/Loader'
 import './styles.scss'
 import NoInfo from '../../shared/images/no_info.svg'
 import { useAnalytics } from '../../shared/analytics'
+import { useOnQueryError } from '../../shared/hooks'
 import SocketContext from '../../shared/SocketContext'
 import { Amount } from '../../shared/components/Amount'
 import '../../shared/components/TransactionTable/styles.scss' // Reuse load-more-btn
@@ -32,20 +33,21 @@ export const Offers = (props: Props) => {
 
   const {
     data,
+    error,
     isFetching: loading,
     fetchNextPage,
     hasNextPage,
-  } = useInfiniteQuery(
-    [offerType, tokenId],
-    ({ pageParam = '' }) =>
+  } = useInfiniteQuery({
+    queryKey: [offerType, tokenId],
+    queryFn: ({ pageParam }) =>
       fetchOffers(rippledSocket, tokenId, undefined, pageParam),
-    {
-      getNextPageParam: (lastPage) => lastPage.marker,
-      onError: (_e: any) => {
-        trackException(`Cannot find ${offerType} for NFT ${tokenId}`)
-      },
-    },
-  )
+    initialPageParam: '',
+    getNextPageParam: (lastPage) => lastPage.marker,
+  })
+
+  useOnQueryError(error, () => {
+    trackException(`Cannot find ${offerType} for NFT ${tokenId}`)
+  })
 
   const renderLoadMoreButton = () =>
     hasNextPage && <LoadMoreButton onClick={() => fetchNextPage()} />

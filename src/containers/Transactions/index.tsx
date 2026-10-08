@@ -1,7 +1,7 @@
 import { useContext, useEffect } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { useTranslation } from 'react-i18next'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { useWindowSize } from 'usehooks-ts'
 import NoMatch from '../NoMatch'
 import { Loader } from '../shared/components/Loader'
@@ -53,9 +53,10 @@ export const Transaction = () => {
   const { t } = useTranslation()
   const rippledSocket = useContext(SocketContext)
   const { trackException, trackScreenLoaded } = useAnalytics()
-  const { isLoading, data, error, isError } = useQuery(
-    ['transaction', identifier],
-    () => {
+  const { isLoading, data, error, isError } = useQuery({
+    queryKey: ['transaction', identifier],
+
+    queryFn: () => {
       if (identifier === '') {
         return undefined
       }
@@ -76,7 +77,7 @@ export const Transaction = () => {
 
       return Promise.reject(BAD_REQUEST)
     },
-  )
+  })
   const { width } = useWindowSize()
 
   useEffect(() => {

@@ -1,6 +1,6 @@
 import { Trans, useTranslation } from 'react-i18next'
 import { useContext } from 'react'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { TransactionTableDetailProps } from '../types'
 import SocketContext from '../../../SocketContext'
 import { getBatchTxStatus } from './utils'
@@ -14,13 +14,11 @@ export const TableDetail = ({
   const { batchTransactions } = tx
   const rippledSocket = useContext(SocketContext)
 
-  const { data: updatedBatchTransactions = [] } = useQuery(
-    ['batchTxStatus', batchTransactions],
-    () => getBatchTxStatus(rippledSocket, batchTransactions),
-    {
-      enabled: !!batchTransactions.length && !!rippledSocket,
-    },
-  )
+  const { data: updatedBatchTransactions = [] } = useQuery({
+    queryKey: ['batchTxStatus', batchTransactions],
+    queryFn: () => getBatchTxStatus(rippledSocket, batchTransactions),
+    enabled: !!batchTransactions.length && !!rippledSocket,
+  })
 
   function renderTxList() {
     const successfulTxs = updatedBatchTransactions.filter(

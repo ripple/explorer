@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import mockEscrowFinish from './mock_data/EscrowFinish.json'
 import { Description } from '../Description'
 import i18n from '../../../../../../i18n/testConfigEnglish'
@@ -6,8 +6,8 @@ import { createDescriptionRenderFactory } from '../../test'
 
 const renderComponent = createDescriptionRenderFactory(Description, i18n)
 
-jest.mock('react-query', () => ({
-  ...jest.requireActual('react-query'),
+jest.mock('@tanstack/react-query', () => ({
+  ...jest.requireActual('@tanstack/react-query'),
   useQuery: jest.fn(),
 }))
 

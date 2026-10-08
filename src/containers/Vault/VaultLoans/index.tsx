@@ -1,9 +1,10 @@
 import { useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useQuery, useQueries } from 'react-query'
+import { useQuery, useQueries } from '@tanstack/react-query'
 import SocketContext from '../../shared/SocketContext'
 import { getAccountObjects } from '../../../rippled/lib/rippled'
 import { useAnalytics } from '../../shared/analytics'
+import { useOnQueryError } from '../../shared/hooks'
 import { Loader } from '../../shared/components/Loader'
 import { BrokerTabs } from './BrokerTabs'
 import { BrokerDetails } from './BrokerDetails'
@@ -51,11 +52,14 @@ export const VaultLoans = ({
   const rippledSocket = useContext(SocketContext)
   const [selectedBrokerIndex, setSelectedBrokerIndex] = useState(0)
 
-  const { data: loanBrokers, isFetching: loading } = useQuery<
-    LoanBrokerData[] | undefined
-  >(
-    ['getVaultLoanBrokers', vaultPseudoAccount],
-    async () => {
+  const {
+    data: loanBrokers,
+    error: loanBrokersError,
+    isFetching: loading,
+  } = useQuery<LoanBrokerData[] | undefined>({
+    queryKey: ['getVaultLoanBrokers', vaultPseudoAccount],
+
+    queryFn: async () => {
       const allBrokers: LoanBrokerData[] = []
       let marker: string | undefined
 
@@ -81,22 +85,23 @@ export const VaultLoans = ({
 
       return allBrokers
     },
-    {
-      enabled: !!vaultPseudoAccount,
-      onError: (e: any) => {
-        trackException(
-          `Error fetching Loan Brokers for account ${vaultPseudoAccount} --- ${JSON.stringify(e)}`,
-        )
-      },
-    },
-  )
+
+    enabled: !!vaultPseudoAccount,
+  })
+
+  useOnQueryError(loanBrokersError, (e) => {
+    trackException(
+      `Error fetching Loan Brokers for account ${vaultPseudoAccount} --- ${JSON.stringify(e)}`,
+    )
+  })
 
   // Fetch loans for each broker - must be called before any early returns
   // This data is shared with BrokerDetails to avoid duplicate API calls
   // Paginates through all results using marker
-  const brokerLoansQueries = useQueries(
-    (loanBrokers ?? []).map((broker) => ({
+  const brokerLoansQueries = useQueries({
+    queries: (loanBrokers ?? []).map((broker) => ({
       queryKey: ['getBrokerLoans', broker.Account, broker.index],
+
       queryFn: async () => {
         const allLoans: any[] = []
         let marker: string | undefined
@@ -121,11 +126,15 @@ export const VaultLoans = ({
           marker = resp.marker
         } while (marker)
 
-        return { brokerId: broker.index, loans: allLoans }
+        return {
+          brokerId: broker.index,
+          loans: allLoans,
+        }
       },
+
       enabled: !!broker.Account && !!broker.index,
     })),
-  )
+  })
 
   // Build maps of broker ID to loans and loan counts
   const brokerLoansMap: Record<string, any[]> = {}

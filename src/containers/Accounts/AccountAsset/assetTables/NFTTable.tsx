@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { useEffect, useMemo, useContext, useState, useCallback } from 'react'
 import { Account } from '../../../shared/components/Account'
 import { PaginatedTable } from '../../../shared/components/PaginatedTable'
@@ -59,9 +59,11 @@ export const NFTTable = ({
   const [isLoadingOffers, setIsLoadingOffers] = useState(false)
 
   // Fetch and show basic NFT data first
-  const nftsQuery = useQuery([queryKey, accountId], () =>
-    fetchNFTs(accountId, rippledSocket),
-  )
+  const nftsQuery = useQuery({
+    queryKey: [queryKey, accountId],
+
+    queryFn: () => fetchNFTs(accountId, rippledSocket),
+  })
 
   const basicNFTs = useMemo(() => nftsQuery.data ?? [], [nftsQuery.data])
 

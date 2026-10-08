@@ -1,5 +1,5 @@
 import { useContext, useEffect, useMemo, useState } from 'react'
-import { useInfiniteQuery } from 'react-query'
+import { useInfiniteQuery } from '@tanstack/react-query'
 
 import { useAnalytics } from '../../../shared/analytics'
 import SocketContext from '../../../shared/SocketContext'
@@ -45,9 +45,9 @@ export function useAccountTransactions({
     isFetching: isLoading,
     fetchNextPage,
     hasNextPage,
-  } = useInfiniteQuery<any, Error>(
-    ['fetchTransactions', account, tokenId],
-    ({ pageParam = '' }) =>
+  } = useInfiniteQuery({
+    queryKey: ['fetchTransactions', account, tokenId],
+    queryFn: ({ pageParam }) =>
       getAccountTransactions(
         account,
         tokenId,
@@ -59,10 +59,9 @@ export function useAccountTransactions({
         trackException(`${errorLocation} --- ${JSON.stringify(errorResponse)}`)
         throw new Error('get_account_transactions_failed')
       }),
-    {
-      getNextPageParam: (lastPage) => lastPage.marker,
-    },
-  )
+    initialPageParam: '',
+    getNextPageParam: (lastPage) => lastPage.marker,
+  })
 
   // Check if the last fetched page returned 0 matching transactions
   const lastPageTransactionCount = useMemo(() => {

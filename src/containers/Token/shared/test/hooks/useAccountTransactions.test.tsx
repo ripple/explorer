@@ -1,5 +1,5 @@
 import { renderHook, waitFor } from '@testing-library/react'
-import { QueryClient, QueryClientProvider } from 'react-query'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { useAccountTransactions } from '../../hooks/useAccountTransactions'
 import SocketContext from '../../../../shared/SocketContext'
 import * as rippled from '../../../../../rippled'

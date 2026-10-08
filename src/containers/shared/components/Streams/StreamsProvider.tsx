@@ -10,7 +10,7 @@ import {
 import axios from 'axios'
 import type { LedgerStream, ValidationStream } from 'xrpl'
 import { AnyJson } from 'xrpl-client'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import SocketContext from '../../SocketContext'
 import { getLedger } from '../../../../rippled/lib/rippled'
 import { convertRippleDate } from '../../../../rippled/lib/convertRippleDate'
@@ -75,18 +75,21 @@ export const StreamsProvider: FC<PropsWithChildren> = ({ children }) => {
   // metrics
   const [runningMetrics, setRunningMetrics] = useState<RunningMetrics>({})
   const [loadFee, setLoadFee] = useState<string>()
-  const { data: quorum, refetch: refetchQuorum } = useQuery(
-    'quorum',
-    () => fetchQuorum(socket),
-    { enabled: socket.getState().online },
-  )
-  const { data: nUnl, refetch: refetchNUnl } = useQuery<string[]>(
-    'nUnl',
-    () => fetchNegativeUNL(socket),
-    { enabled: socket.getState().online },
-  )
+  const { data: quorum, refetch: refetchQuorum } = useQuery({
+    queryKey: ['quorum'],
+    queryFn: () => fetchQuorum(socket),
+    enabled: socket.getState().online,
+  })
+  const { data: nUnl, refetch: refetchNUnl } = useQuery<string[]>({
+    queryKey: ['nUnl'],
+    queryFn: () => fetchNegativeUNL(socket),
+    enabled: socket.getState().online,
+  })
   const { data: serverRunningMetrics, refetch: refetchServerRunningMetrics } =
-    useQuery<string[]>('runningMetrics', () => fetchMetrics())
+    useQuery<string[]>({
+      queryKey: ['runningMetrics'],
+      queryFn: () => fetchMetrics(),
+    })
 
   function addLedger(index: number | string) {
     // Only add new ledgers that are newer than the last one added.

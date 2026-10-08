@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { useInfiniteQuery } from 'react-query'
+import { useInfiniteQuery } from '@tanstack/react-query'
 import './styles.scss'
 import SocketContext from '../../shared/SocketContext'
 import { getNFTTransactions } from '../../../rippled/NFTTransactions'
@@ -18,14 +18,13 @@ export const Transactions = (props: Props) => {
     isFetching: loading,
     fetchNextPage,
     hasNextPage,
-  } = useInfiniteQuery(
-    ['fetchTransactions', tokenId],
-    ({ pageParam = '' }) =>
+  } = useInfiniteQuery({
+    queryKey: ['fetchTransactions', tokenId],
+    queryFn: ({ pageParam }) =>
       getNFTTransactions(rippledSocket, tokenId, undefined, pageParam),
-    {
-      getNextPageParam: (lastPage) => lastPage.marker,
-    },
-  )
+    initialPageParam: '',
+    getNextPageParam: (lastPage) => lastPage.marker,
+  })
 
   const renderListContents = () => {
     const flatData = data?.pages?.map((page: any) => page.transactions).flat()

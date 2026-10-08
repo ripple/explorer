@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { useContext } from 'react'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { TransactionSimpleComponent, TransactionSimpleProps } from '../types'
 import { SimpleRow } from '../SimpleRow'
 import { Amount } from '../../Amount'
@@ -26,13 +26,11 @@ export const Simple: TransactionSimpleComponent = ({
   } = data.instructions
 
   // Fetch Vault asset information to format DebtMaximum correctly
-  const { data: vaultAsset } = useQuery(
-    ['vaultAsset', vaultID],
-    () => getVaultAsset(rippledSocket, vaultID),
-    {
-      enabled: !!vaultID && !!rippledSocket,
-    },
-  )
+  const { data: vaultAsset } = useQuery({
+    queryKey: ['vaultAsset', vaultID],
+    queryFn: () => getVaultAsset(rippledSocket, vaultID),
+    enabled: !!vaultID && !!rippledSocket,
+  })
 
   // Format DebtMaximum with correct currency
   const debtMaximum =

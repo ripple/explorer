@@ -1,5 +1,5 @@
 import { FC, PropsWithChildren, useContext } from 'react'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import { VHSValidatorsContext } from './VHSValidatorsContext'
 import { ValidatorResponse } from '../../vhsTypes'
@@ -11,22 +11,23 @@ import { FETCH_INTERVAL_ERROR_MILLIS, FETCH_INTERVAL_MILLIS } from '../../utils'
 export const VHSValidatorsProvider: FC<PropsWithChildren> = ({ children }) => {
   const network = useContext(NetworkContext)
 
-  const { data: value } = useQuery<VHSValidatorsHookResult>(
-    ['fetchValidatorsData'],
-    () => fetchVHSData(),
-    {
-      refetchInterval: (returnedData, _) =>
-        returnedData == null
-          ? FETCH_INTERVAL_ERROR_MILLIS
-          : FETCH_INTERVAL_MILLIS,
-      refetchOnMount: true,
-      enabled: process.env.VITE_ENVIRONMENT !== 'custom' || !!network,
-      initialData: {
-        unl: undefined,
-        validators: undefined,
-      },
+  const { data: value } = useQuery<VHSValidatorsHookResult>({
+    queryKey: ['fetchValidatorsData'],
+    queryFn: () => fetchVHSData(),
+
+    refetchInterval: (query) =>
+      query.state.data == null
+        ? FETCH_INTERVAL_ERROR_MILLIS
+        : FETCH_INTERVAL_MILLIS,
+
+    refetchOnMount: true,
+    enabled: process.env.VITE_ENVIRONMENT !== 'custom' || !!network,
+
+    initialData: {
+      unl: undefined,
+      validators: undefined,
     },
-  )
+  })
 
   function fetchVHSData(): Promise<VHSValidatorsHookResult> {
     const url = `${process.env.VITE_DATA_URL}/validators/${network}`

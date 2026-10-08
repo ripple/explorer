@@ -1,13 +1,13 @@
 import { render } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter } from 'react-router'
-import { useInfiniteQuery, QueryClientProvider } from 'react-query'
+import { useInfiniteQuery, QueryClientProvider } from '@tanstack/react-query'
 import { Transactions } from '../Transactions'
 import i18n from '../../../../i18n/testConfig'
 import { queryClient } from '../../../shared/QueryClient'
 
-jest.mock('react-query', () => ({
-  ...jest.requireActual('react-query'),
+jest.mock('@tanstack/react-query', () => ({
+  ...jest.requireActual('@tanstack/react-query'),
   useInfiniteQuery: jest.fn(),
 }))
 

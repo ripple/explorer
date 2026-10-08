@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { useEffect, useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import { RouteLink } from '../../../shared/routing'
@@ -129,9 +129,11 @@ const HeldMPTsContent = ({ accountId, onChange }: HeldMPTsProps) => {
   const rippledSocket = useContext(SocketContext)
   const { tooltip } = useTooltip()
 
-  const heldMPTsQuery = useQuery(['heldMPTs', accountId], () =>
-    fetchAccountHeldMPTs(accountId, rippledSocket),
-  )
+  const heldMPTsQuery = useQuery({
+    queryKey: ['heldMPTs', accountId],
+
+    queryFn: () => fetchAccountHeldMPTs(accountId, rippledSocket),
+  })
   // TODO: When MPT Dex is live, sort MPTs based on USD balances
   const rows = heldMPTsQuery.data ?? []
 

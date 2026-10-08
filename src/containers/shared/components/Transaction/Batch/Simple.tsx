@@ -1,6 +1,6 @@
 import { Trans, useTranslation } from 'react-i18next'
 import { useContext } from 'react'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { TransactionSimpleComponent, TransactionSimpleProps } from '../types'
 import { SimpleRow } from '../SimpleRow'
 import { SimpleGroup } from '../SimpleGroup'
@@ -18,13 +18,11 @@ export const Simple: TransactionSimpleComponent = ({
   const rippledSocket = useContext(SocketContext)
   const { batchTransactions } = data.instructions
 
-  const { data: updatedBatchTransactions = [] } = useQuery(
-    ['batchTxStatus', batchTransactions],
-    () => getBatchTxStatus(rippledSocket, batchTransactions),
-    {
-      enabled: !!batchTransactions.length && !!rippledSocket,
-    },
-  )
+  const { data: updatedBatchTransactions = [] } = useQuery({
+    queryKey: ['batchTxStatus', batchTransactions],
+    queryFn: () => getBatchTxStatus(rippledSocket, batchTransactions),
+    enabled: !!batchTransactions.length && !!rippledSocket,
+  })
 
   const renderFailedStatus = (status) => {
     if (status === 'not validated') {

@@ -7,7 +7,7 @@ import {
 } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
 import { MemoryRouter as Router } from 'react-router'
-import { QueryClientProvider } from 'react-query'
+import { QueryClientProvider } from '@tanstack/react-query'
 import i18n from '../../../../i18n/testConfigEnglish'
 import SocketContext from '../../../shared/SocketContext'
 import { PermissionDelegation } from '../index'

@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { Account } from '../../shared/components/Account'
 import SocketContext from '../../shared/SocketContext'
 import { useLanguage } from '../../shared/hooks'
@@ -68,9 +68,10 @@ export const LoanRow = ({
   const { rate: tokenToUsdRate } = useTokenToUSDRate(asset)
   const [expanded, setExpanded] = useState(false)
 
-  const { data: originalPrincipal, isLoading: isPrincipalLoading } = useQuery(
-    ['originalPrincipal', loan.index],
-    async () => {
+  const { data: originalPrincipal, isLoading: isPrincipalLoading } = useQuery({
+    queryKey: ['originalPrincipal', loan.index],
+
+    queryFn: async () => {
       if (!loan.PreviousTxnLgrSeq) return loan.PrincipalOutstanding ?? null
 
       let lastSuccessful: any = null
@@ -100,11 +101,10 @@ export const LoanRow = ({
         null
       )
     },
-    {
-      staleTime: Infinity,
-      enabled: !!rippledSocket,
-    },
-  )
+
+    staleTime: Infinity,
+    enabled: !!rippledSocket,
+  })
 
   const { status, colorClass } = formatLoanStatus(
     loan.Flags,

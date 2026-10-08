@@ -3,11 +3,12 @@ import './styles.scss'
 
 import { useTranslation } from 'react-i18next'
 import axios from 'axios'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { useAnalytics } from '../../analytics'
 import { TokenSearchRow } from './TokenSearchRow'
 import SocketContext from '../../SocketContext'
 import Log from '../../log'
+import { useOnQueryError } from '../../hooks'
 import { getAccountLines } from '../../../../rippled/lib/rippled'
 import {
   FETCH_INTERVAL_XRP_USD_ORACLE_MILLIS,
@@ -28,28 +29,22 @@ const SearchResults = ({
   const { t } = useTranslation()
   const rippledSocket = useContext(SocketContext)
 
-  const { data: XRPUSDPrice = 0.0 } = useQuery(
-    ['fetchXRPToUSDRate'],
-    () => fetchXRPToUSDRate(),
-    {
-      refetchInterval: FETCH_INTERVAL_XRP_USD_ORACLE_MILLIS,
-      onError: (error) => {
-        Log.error(error)
-        return 0.0
-      },
-    },
-  )
+  const { data: XRPUSDPrice = 0.0, error: xrpUsdError } = useQuery<number>({
+    queryKey: ['fetchXRPToUSDRate'],
+    queryFn: () => fetchXRPToUSDRate(),
+    refetchInterval: FETCH_INTERVAL_XRP_USD_ORACLE_MILLIS,
+  })
 
-  const { data: tokens = [] } = useQuery<LOSToken[]>(
-    ['fetchTokens', currentSearchValue],
-    () => fetchTokens(),
-    {
-      enabled: !!currentSearchValue,
-      staleTime: 0,
-      keepPreviousData: false,
-      onError: (error) => Log.error(error),
-    },
-  )
+  useOnQueryError(xrpUsdError, (error) => Log.error(error))
+
+  const { data: tokens = [], error: tokensError } = useQuery<LOSToken[]>({
+    queryKey: ['fetchTokens', currentSearchValue],
+    queryFn: () => fetchTokens(),
+    enabled: !!currentSearchValue,
+    staleTime: 0,
+  })
+
+  useOnQueryError(tokensError, (error) => Log.error(error))
 
   const fetchXRPToUSDRate = () =>
     getAccountLines(rippledSocket, ORACLE_ACCOUNT, 1).then(
@@ -63,7 +58,7 @@ const SearchResults = ({
 
     return axios
       .get(`/api/v1/tokens/search/${currentSearchValue}`)
-      .then((response) => response.data.tokens)
+      .then((response) => response.data.tokens ?? [])
   }
 
   const onLinkClick = () => {

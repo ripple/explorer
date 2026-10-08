@@ -2,8 +2,8 @@ import { queryClient } from '../shared/QueryClient'
 
 queryClient.setDefaultOptions({
   queries: {
-    ...queryClient.defaultQueryOptions(),
-    cacheTime: 0,
+    ...queryClient.getDefaultOptions().queries,
+    gcTime: 0,
   },
 })
 

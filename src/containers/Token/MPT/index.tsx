@@ -7,7 +7,7 @@ import {
   useState,
 } from 'react'
 import { Helmet } from 'react-helmet-async'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { useRouteParams } from '../../shared/routing'
 import { MPT_ROUTE } from '../../App/routes'
 import { Header } from './Header'
@@ -28,6 +28,7 @@ import { calculateMptCirculatingSupply } from './utils/circulatingSupply'
 import { isRwaAssetClass } from '../shared/utils/circulatingSupply'
 import { paginationService as transfersPaginationService } from '../shared/services/transfersPagination'
 import { useCursorPaginatedQuery } from '../../shared/hooks/useCursorPaginatedQuery'
+import { useOnQueryError } from '../../shared/hooks'
 import { PAGINATION_CONFIG, INITIAL_PAGE } from '../shared/constants'
 
 const ERROR_MESSAGES: ErrorMessages = {
@@ -69,23 +70,23 @@ export const MPT = () => {
   const holdersPageSize = PAGINATION_CONFIG.HOLDERS_PAGE_SIZE
 
   // Fetch MPT issuance data
-  const { data: mptokenIssuance, isFetching: mptLoading } =
-    useQuery<FormattedMPTIssuance>(
-      ['getMPTIssuance', mptIssuanceId],
-      async () => {
-        const info = await getMPTIssuance(rippledSocket, mptIssuanceId)
-        return formatMPTIssuance(info.node)
-      },
-      {
-        enabled: !!mptIssuanceId,
-        onError: (e: any) => {
-          trackException(
-            `mptIssuance ${mptIssuanceId} --- ${JSON.stringify(e)}`,
-          )
-          setError(e.code || NOT_FOUND)
-        },
-      },
-    )
+  const {
+    data: mptokenIssuance,
+    error: mptError,
+    isFetching: mptLoading,
+  } = useQuery<FormattedMPTIssuance>({
+    queryKey: ['getMPTIssuance', mptIssuanceId],
+    queryFn: async () => {
+      const info = await getMPTIssuance(rippledSocket, mptIssuanceId)
+      return formatMPTIssuance(info.node)
+    },
+    enabled: !!mptIssuanceId,
+  })
+
+  useOnQueryError(mptError, (e) => {
+    trackException(`mptIssuance ${mptIssuanceId} --- ${JSON.stringify(e)}`)
+    setError(e.code || NOT_FOUND)
+  })
 
   // Fetch ALL holders data at once using mpt_holders Clio method.
   // Holder percentages/balances are derived from the outstanding amount and
@@ -94,24 +95,24 @@ export const MPT = () => {
     data: holdersData,
     isFetching: holdersLoading,
     isError: holdersError,
-  } = useQuery(
-    [
+  } = useQuery({
+    queryKey: [
       'getMPTHolders',
       mptIssuanceId,
       mptokenIssuance?.outstandingAmt,
       mptokenIssuance?.assetScale,
     ],
-    async () =>
+
+    queryFn: async () =>
       fetchAllMPTHolders(
         rippledSocket,
         mptIssuanceId,
         mptokenIssuance?.outstandingAmt || '0',
         mptokenIssuance?.assetScale ?? 0,
       ),
-    {
-      enabled: !!mptokenIssuance?.issuer,
-    },
-  )
+
+    enabled: !!mptokenIssuance?.issuer,
+  })
 
   // Circulating supply = outstanding amount minus large (>= 20%) holders, except
   // for RWA tokens where those holders are custodians/treasuries (no exclusion).

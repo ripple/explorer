@@ -1,10 +1,11 @@
 import { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { TokenTableRow } from '../../shared/components/TokenTableRow'
 import { Account } from '../../shared/components/Account'
 import { CopyableText } from '../../shared/components/CopyableText/CopyableText'
 import { useTokenToUSDRate } from '../../shared/hooks/useTokenToUSDRate'
+import { useOnQueryError } from '../../shared/hooks'
 import { RouteLink } from '../../shared/routing'
 import { MPT_ROUTE } from '../../App/routes'
 import SocketContext from '../../shared/SocketContext'
@@ -94,22 +95,22 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
     return tokenToUsdRate > 0 ? String(numAmount * tokenToUsdRate) : undefined
   }
 
-  const { data: vaultAssetMptIssuanceData } = useQuery(
-    ['getVaultAssetMPTIssuance', asset?.mpt_issuance_id],
-    async () => {
-      if (!asset?.mpt_issuance_id) return null
-      const resp = await getMPTIssuance(rippledSocket, asset?.mpt_issuance_id)
-      return resp?.node
-    },
-    {
-      enabled: !!asset?.mpt_issuance_id,
-      onError: (e: any) => {
-        trackException(
-          `Error fetching MPT Issuance data for the Vault Asset MPT ID ${asset?.mpt_issuance_id} --- ${JSON.stringify(e)}`,
-        )
+  const { data: vaultAssetMptIssuanceData, error: vaultAssetMptIssuanceError } =
+    useQuery({
+      queryKey: ['getVaultAssetMPTIssuance', asset?.mpt_issuance_id],
+      queryFn: async () => {
+        if (!asset?.mpt_issuance_id) return null
+        const resp = await getMPTIssuance(rippledSocket, asset?.mpt_issuance_id)
+        return resp?.node ?? null
       },
-    },
-  )
+      enabled: !!asset?.mpt_issuance_id,
+    })
+
+  useOnQueryError(vaultAssetMptIssuanceError, (e) => {
+    trackException(
+      `Error fetching MPT Issuance data for the Vault Asset MPT ID ${asset?.mpt_issuance_id} --- ${JSON.stringify(e)}`,
+    )
+  })
 
   const parsedAssetMptMetadata = parseMPTokenMetadata(
     vaultAssetMptIssuanceData?.MPTokenMetadata,
@@ -125,22 +126,21 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
         )
 
   // Fetch MPTokenIssuance to get the DomainID (vault credential)
-  const { data: mptIssuanceData } = useQuery(
-    ['getVaultShareMPTIssuance', vaultShareMptId],
-    async () => {
+  const { data: mptIssuanceData, error: mptIssuanceError } = useQuery({
+    queryKey: ['getVaultShareMPTIssuance', vaultShareMptId],
+    queryFn: async () => {
       if (!vaultShareMptId) return null
       const resp = await getMPTIssuance(rippledSocket, vaultShareMptId)
-      return resp?.node
+      return resp?.node ?? null
     },
-    {
-      enabled: !!vaultShareMptId,
-      onError: (e: any) => {
-        trackException(
-          `Error fetching MPT Issuance data for MPT ID ${vaultShareMptId} --- ${JSON.stringify(e)}`,
-        )
-      },
-    },
-  )
+    enabled: !!vaultShareMptId,
+  })
+
+  useOnQueryError(mptIssuanceError, (e) => {
+    trackException(
+      `Error fetching MPT Issuance data for MPT ID ${vaultShareMptId} --- ${JSON.stringify(e)}`,
+    )
+  })
 
   const vaultCredential = mptIssuanceData?.DomainID
 

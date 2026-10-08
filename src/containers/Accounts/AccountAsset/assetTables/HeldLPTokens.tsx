@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { useEffect, useContext, useMemo } from 'react'
 import { Loader } from '../../../shared/components/Loader'
 import SocketContext from '../../../shared/SocketContext'
@@ -138,9 +138,11 @@ export const HeldLPTokens = ({
   const { t } = useTranslation()
   const rippledSocket = useContext(SocketContext)
 
-  const heldLPTokensQuery = useQuery(['heldLPTokens', accountId], () =>
-    fetchAccountHeldLPTokens(rippledSocket, accountId),
-  )
+  const heldLPTokensQuery = useQuery({
+    queryKey: ['heldLPTokens', accountId],
+
+    queryFn: () => fetchAccountHeldLPTokens(rippledSocket, accountId),
+  })
 
   const lpTokenData = useMemo(
     () => heldLPTokensQuery.data ?? [],

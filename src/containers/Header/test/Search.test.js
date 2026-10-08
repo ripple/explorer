@@ -8,7 +8,7 @@ import {
 } from 'react-router'
 import { HelmetProvider } from 'react-helmet-async'
 import moxios from 'moxios'
-import { QueryClientProvider } from 'react-query'
+import { QueryClientProvider } from '@tanstack/react-query'
 import i18n from '../../../i18n/testConfig'
 import { Search } from '../Search'
 import SearchResult from '../../SearchResult'

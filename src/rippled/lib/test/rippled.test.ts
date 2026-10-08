@@ -10,7 +10,9 @@ const VAULT_INDEX =
   'EF98FDBA404CBEB4F746DA1026B859E260BBB459D111268F6A26BBC7C4811A04'
 
 const makeSocket = (response: any) =>
-  ({ send: jest.fn().mockResolvedValue(response) }) as any
+  ({
+    send: jest.fn().mockResolvedValue(response),
+  }) as any
 
 describe('getVault', () => {
   it('queries ledger_entry with the supplied vault id', async () => {

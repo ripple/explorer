@@ -1,5 +1,5 @@
 import { renderHook, waitFor } from '@testing-library/react'
-import { QueryClient, QueryClientProvider } from 'react-query'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { useXRPToUSDRate } from '../useXRPToUSDRate'
 import SocketContext from '../../SocketContext'
 import * as rippled from '../../../../rippled/lib/rippled'
@@ -64,7 +64,9 @@ describe('useXRPToUSDRate', () => {
     await waitFor(() => expect(result.current).toBe(2.1))
 
     // Force useQuery to refetch
-    queryClient.invalidateQueries('XRPToUSDRate')
+    queryClient.invalidateQueries({
+      queryKey: ['XRPToUSDRate'],
+    })
 
     await waitFor(() => {
       expect(result.current).toBe(2.1)

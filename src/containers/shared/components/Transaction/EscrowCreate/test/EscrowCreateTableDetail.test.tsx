@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { createTableDetailRenderFactory } from '../../test'
 import { TableDetail } from '../TableDetail'
 import i18n from '../../../../../../i18n/testConfigEnglish'
@@ -6,8 +6,8 @@ import mockEscrowCreate from './mock_data/EscrowCreate.json'
 
 const renderComponent = createTableDetailRenderFactory(TableDetail, i18n)
 
-jest.mock('react-query', () => ({
-  ...jest.requireActual('react-query'),
+jest.mock('@tanstack/react-query', () => ({
+  ...jest.requireActual('@tanstack/react-query'),
   useQuery: jest.fn(),
 }))
 

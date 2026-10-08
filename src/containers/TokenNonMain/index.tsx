@@ -2,7 +2,7 @@ import { FC, PropsWithChildren, useContext, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { Helmet } from 'react-helmet-async'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { TokenHeader } from './TokenHeader'
 import { TokenTransactionTable } from './TokenTransactionTable'
 import NoMatch from '../NoMatch'
