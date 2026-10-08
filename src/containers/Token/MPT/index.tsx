@@ -70,7 +70,7 @@ export const MPT = () => {
 
   // Check whether the DynamicMPT amendment is active on the connected network
   const { data: isDynamicMPTEnabled } = useQuery<boolean>(
-    ['isDynamicMPTEnabled'],
+    ['isDynamicMPTEnabled', rippledSocket],
     async () => {
       const result = await getFeature(rippledSocket, DYNAMIC_MPT_AMENDMENT_ID)
       return result?.[DYNAMIC_MPT_AMENDMENT_ID]?.enabled === true

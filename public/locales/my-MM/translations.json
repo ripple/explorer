@@ -576,6 +576,7 @@
   "check_mpt_id": "ကျေးဇူးပြု၍ သင့် MPT ထုတ်ဝေမှု ID ကို စစ်ဆေးပါ",
   "outstanding_amount": "ထုတ်ပေးထားသော ပမာဏ",
   "locked": "သော့ခတ်ထား",
+  "active": null,
   "can_lock": "သော့ခတ်နိုင်",
   "require_auth": "ခွင့်ပြုချက် လိုအပ်",
   "can_escrow": "Escrow လုပ်နိုင်",

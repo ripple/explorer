@@ -576,6 +576,7 @@
   "check_mpt_id": "Por favor, verifica tu ID de Emisión MPT",
   "outstanding_amount": "Cantidad Emitida",
   "locked": "Bloqueado",
+  "active": null,
   "can_lock": "Se Puede Bloquear",
   "require_auth": "Requiere Autenticación",
   "can_escrow": "Puede Hacer Escrow",
