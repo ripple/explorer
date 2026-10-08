@@ -1,13 +1,29 @@
 const axios = require('axios')
 const log = require('../../lib/logger')({ name: 'vaults' })
+const LRUCache = require('../../lib/lruCache')
 
 const PRICE_REFETCH_INTERVAL = 5 * 60 * 1000 // 5 minutes
 const VAULTS_REFETCH_INTERVAL = 2 * 60 * 1000 // 2 minutes
 const AGG_STATS_REFETCH_INTERVAL = 10 * 60 * 1000 // 10 minutes
+const MAX_CACHED_VAULT_QUERIES = 200
+
+// Query param bounds. Allowed values mirror what src/containers/Vaults/api.ts sends.
+const MAX_PAGE = 1000
+const MAX_PAGE_SIZE = 100
+const MAX_NAME_LIKE_LENGTH = 64
+const SORT_BY_VALUES = [
+  'assets_total',
+  'outstanding_loans',
+  'average_interest_rate',
+  'utilization_ratio',
+]
+const SORT_ORDER_VALUES = ['asc', 'desc']
+const ASSET_TYPE_VALUES = ['all', 'xrp', 'stablecoins']
 
 const cachedPrices = { prices: {}, lastUpdated: null }
 const cachedAggStats = { data: null, lastUpdated: null }
-const cachedVaults = new Map() // key: query string, value: { data, lastUpdated }
+// key: validated query string, value: { data, lastUpdated }
+const cachedVaults = new LRUCache(MAX_CACHED_VAULT_QUERIES)
 
 async function fetchAssetPrices() {
   try {
@@ -104,6 +120,45 @@ const getVaultAssetPrices = async (_req, res) => {
   }
 }
 
+const isIntInRange = (value, min, max) =>
+  /^\d+$/.test(value) && Number(value) >= min && Number(value) <= max
+
+/**
+ * Returns an error message for the first invalid param, or null if all are valid.
+ * Unset params are allowed - LOS applies its own defaults.
+ */
+function validateVaultsQuery({
+  page,
+  size,
+  sortBy,
+  sortOrder,
+  assetType,
+  nameLike,
+}) {
+  if (page !== undefined && !isIntInRange(page, 1, MAX_PAGE)) {
+    return `page must be an integer between 1 and ${MAX_PAGE}`
+  }
+  if (size !== undefined && !isIntInRange(size, 1, MAX_PAGE_SIZE)) {
+    return `size must be an integer between 1 and ${MAX_PAGE_SIZE}`
+  }
+  if (sortBy !== undefined && !SORT_BY_VALUES.includes(sortBy)) {
+    return `sort_by must be one of: ${SORT_BY_VALUES.join(', ')}`
+  }
+  if (sortOrder !== undefined && !SORT_ORDER_VALUES.includes(sortOrder)) {
+    return `sort_order must be one of: ${SORT_ORDER_VALUES.join(', ')}`
+  }
+  if (assetType !== undefined && !ASSET_TYPE_VALUES.includes(assetType)) {
+    return `asset_type must be one of: ${ASSET_TYPE_VALUES.join(', ')}`
+  }
+  if (
+    nameLike !== undefined &&
+    (typeof nameLike !== 'string' || nameLike.length > MAX_NAME_LIKE_LENGTH)
+  ) {
+    return `name_like must be at most ${MAX_NAME_LIKE_LENGTH} characters`
+  }
+  return null
+}
+
 const getVaults = async (req, res) => {
   try {
     const {
@@ -114,6 +169,18 @@ const getVaults = async (req, res) => {
       asset_type: assetType,
       name_like: nameLike,
     } = req.query
+
+    const validationError = validateVaultsQuery({
+      page,
+      size,
+      sortBy,
+      sortOrder,
+      assetType,
+      nameLike,
+    })
+    if (validationError) {
+      return res.status(400).json({ message: validationError })
+    }
 
     const params = new URLSearchParams()
     if (page) params.set('page', page)
