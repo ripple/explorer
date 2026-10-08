@@ -115,6 +115,20 @@
   }
 }
 
+// Mirrors the category pill colors used on the token detail page, so
+// IOU/MPT chips read consistently across the app.
+.type-chip {
+  &.mpt {
+    border-color: $mpt;
+    color: $mpt;
+  }
+
+  &.iou {
+    border-color: $white;
+    color: $white;
+  }
+}
+
 .issuer-link {
   display: inline-flex !important;
   overflow: hidden;

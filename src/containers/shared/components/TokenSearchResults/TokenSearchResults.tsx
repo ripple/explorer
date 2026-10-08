@@ -66,9 +66,9 @@ const SearchResults = ({
       .then((response) => response.data.tokens)
   }
 
-  const onLinkClick = () => {
+  const onLinkClick = (searchCategory: 'token' | 'mpt') => () => {
     analytics.track('token_search_click', {
-      search_category: 'token',
+      search_category: searchCategory,
       search_term: currentSearchValue,
     })
 
@@ -76,7 +76,11 @@ const SearchResults = ({
     setCurrentSearchInput('')
   }
 
-  return tokens.length > 0 ? (
+  if (tokens.length === 0) {
+    return null
+  }
+
+  return (
     <div className="search-results-menu">
       <div className="search-results-header">
         {t('tokens')} ({tokens.length})
@@ -85,13 +89,17 @@ const SearchResults = ({
       {tokens.map((token) => (
         <TokenSearchRow
           token={token}
-          onClick={onLinkClick}
+          onClick={onLinkClick(token.token_type === 'MPT' ? 'mpt' : 'token')}
           xrpPrice={XRPUSDPrice}
-          key={`${token.currency}.${token.issuer_account}`}
+          key={
+            token.token_type === 'MPT'
+              ? (token.mpt_issuance_id ?? token.currency)
+              : `${token.currency}.${token.issuer_account}`
+          }
         />
       ))}
     </div>
-  ) : null
+  )
 }
 
 export default SearchResults
