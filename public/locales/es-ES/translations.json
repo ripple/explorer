@@ -576,6 +576,7 @@
   "check_mpt_id": "Por favor, verifica tu ID de Emisión MPT",
   "outstanding_amount": "Cantidad Emitida",
   "locked": "Bloqueado",
+  "active": null,
   "can_lock": "Se Puede Bloquear",
   "require_auth": "Requiere Autenticación",
   "can_escrow": "Puede Hacer Escrow",
@@ -945,5 +946,16 @@
   "registered": null,
   "included": null,
   "maintenance_banner.notice": null,
-  "maintenance_banner.countdown_prefix": null
+  "maintenance_banner.countdown_prefix": null,
+  "immutable_flags": null,
+  "mutable": null,
+  "mutable_capability_tooltip": null,
+  "mutable_field_tooltip": null,
+  "immutable": null,
+  "immutable_capability_tooltip": null,
+  "immutable_field_tooltip": null,
+  "enabled_capability_tooltip": null,
+  "disabled_capability_tooltip": null,
+  "capabilities": null,
+  "fields": null
 }

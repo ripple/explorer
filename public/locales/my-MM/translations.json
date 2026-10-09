@@ -576,6 +576,7 @@
   "check_mpt_id": "ကျေးဇူးပြု၍ သင့် MPT ထုတ်ဝေမှု ID ကို စစ်ဆေးပါ",
   "outstanding_amount": "ထုတ်ပေးထားသော ပမာဏ",
   "locked": "သော့ခတ်ထား",
+  "active": null,
   "can_lock": "သော့ခတ်နိုင်",
   "require_auth": "ခွင့်ပြုချက် လိုအပ်",
   "can_escrow": "Escrow လုပ်နိုင်",
@@ -945,5 +946,16 @@
   "registered": null,
   "included": null,
   "maintenance_banner.notice": null,
-  "maintenance_banner.countdown_prefix": null
+  "maintenance_banner.countdown_prefix": null,
+  "immutable_flags": null,
+  "mutable": null,
+  "mutable_capability_tooltip": null,
+  "mutable_field_tooltip": null,
+  "immutable": null,
+  "immutable_capability_tooltip": null,
+  "immutable_field_tooltip": null,
+  "enabled_capability_tooltip": null,
+  "disabled_capability_tooltip": null,
+  "capabilities": null,
+  "fields": null
 }

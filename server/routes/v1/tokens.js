@@ -2,7 +2,12 @@ const axios = require('axios')
 const log = require('../../lib/logger')({ name: 'tokens search' })
 
 const REFETCH_INTERVAL = 10 * 60 * 1000 // 10 minutes
-const cachedTokenList = { tokens: [], last_updated: null, metrics: null }
+const cachedTokenList = {
+  tokens: [],
+  searchTokens: [],
+  last_updated: null,
+  metrics: null,
+}
 
 const parseCurrency = (currency) => {
   const NON_STANDARD_CODE_LENGTH = 40
@@ -82,23 +87,77 @@ async function fetchTokens() {
     })
 }
 
+// MPTs aren't tradeable on the DEX yet, so they have no price/market cap to
+// rank on or filter by. Zero-holder issuances are mostly test/abandoned
+// tokens, so only ones with at least one holder are made searchable.
+const MPT_MIN_HOLDERS = 0
+
+function mapMPT(mpt) {
+  return {
+    token_type: 'MPT',
+    mpt_issuance_id: mpt.mpt_issuance_id,
+    currency: mpt.mpt_issuance_id,
+    issuer_account: mpt.issuer,
+    issuer_name: mpt.meta?.token?.issuer_name ?? mpt.meta?.issuer?.name,
+    issuer_domain: mpt.meta?.issuer?.domain,
+    // `name` stays the short ticker for display (matches the IOU convention
+    // of a short code shown next to the currency), but the fuller product
+    // name (e.g. "Car Parts" for a token ticked "SCPO") is kept separately
+    // so it's still searchable even though it's never the display name.
+    name: mpt.meta?.token?.ticker ?? mpt.meta?.token?.name,
+    full_name: mpt.meta?.token?.name,
+    icon: mpt.meta?.token?.icon,
+    holders: mpt.metrics?.holders,
+  }
+}
+
+async function fetchMPTs() {
+  const url = `https://${process.env.XRPL_META_URL}/v2/tokens/mpt?limit=1000`
+  log.info(`Fetching MPTs from: ${url}`)
+
+  return axios
+    .get(url, { timeout: 30000 })
+    .then((resp) => {
+      const mpts = resp.data?.tokens || []
+      log.info(`Successfully fetched MPTs, count: ${mpts.length}`)
+      return mpts
+        .filter((mpt) => (mpt.metrics?.holders ?? 0) > MPT_MIN_HOLDERS)
+        .map(mapMPT)
+    })
+    .catch((e) => {
+      log.error(`Failed to fetch MPTs from ${url}:`, { message: e.message })
+      return cachedTokenList.searchTokens.filter((t) => t.token_type === 'MPT')
+    })
+}
+
 async function cacheTokens() {
-  const losTokens = await fetchTokens()
+  const [losTokens, mpts] = await Promise.all([fetchTokens(), fetchMPTs()])
 
   if (losTokens.tokens) {
-    log.info(`Fetched ${losTokens.tokens.length} tokens from LOS...`)
+    log.info(
+      `Fetched ${losTokens.tokens.length} tokens from LOS, ${mpts.length} MPTs from XRPL Meta...`,
+    )
 
-    cachedTokenList.tokens = losTokens.tokens.sort(
+    // nonstandard from XRPLMeta, check for hex codes in currencies and store parsed
+    const iouTokens = losTokens.tokens
+      .sort((a, b) => Number(b.holders ?? 0) - Number(a.holders ?? 0))
+      .map((token) => ({
+        ...token,
+        parsedCurrency: parseCurrency(token.currency),
+      }))
+    const mptTokens = mpts.map((token) => ({
+      ...token,
+      parsedCurrency: parseCurrency(token.currency),
+    }))
+
+    // The Token Ranking page (getAllTokens) shows IOUs only — MPTs aren't
+    // tradeable yet, so mixing them into ranking/metrics would be misleading.
+    cachedTokenList.tokens = iouTokens
+    cachedTokenList.searchTokens = [...iouTokens, ...mptTokens].sort(
       (a, b) => Number(b.holders ?? 0) - Number(a.holders ?? 0),
     )
 
     cachedTokenList.last_updated = Date.now()
-
-    // nonstandard from XRPLMeta, check for hex codes in currencies and store parsed
-    cachedTokenList.tokens = cachedTokenList.tokens.map((token) => ({
-      ...token,
-      parsedCurrency: parseCurrency(token.currency),
-    }))
 
     // Calculate and cache metrics
     cachedTokenList.metrics = calculateMetrics(cachedTokenList.tokens)
@@ -137,6 +196,9 @@ function queryTokens(tokenList, query) {
         ?.toLowerCase()
         .includes(sanitizedQuery)
       const nameMatch = token.name?.toLowerCase().includes(sanitizedQuery)
+      const fullNameMatch = token.full_name
+        ?.toLowerCase()
+        .includes(sanitizedQuery)
       const issuerNameMatch = token.issuer_name
         ?.toLowerCase()
         .includes(sanitizedQuery)
@@ -148,6 +210,7 @@ function queryTokens(tokenList, query) {
         currencyMatch ||
         parsedCurrencyMatch ||
         nameMatch ||
+        fullNameMatch ||
         issuerNameMatch ||
         issuerAccountStartsMatch
       )
@@ -162,14 +225,14 @@ function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms))
 }
 
-// Wait up to ~10s for the token cache to be filled. Returns immediately off mainnet,
-// where startCaching() never runs and the cache stays empty.
-async function waitForTokenCache() {
+// Wait up to ~10s for cachedTokenList[listKey] to be filled. Returns immediately off
+// mainnet, where startCaching() never runs and the cache stays empty.
+async function waitForTokenCache(listKey) {
   if (process.env.VITE_ENVIRONMENT !== 'mainnet') {
     return
   }
   let timeoutLimit = 10
-  while (cachedTokenList.tokens.length === 0 && timeoutLimit > 0) {
+  while (cachedTokenList[listKey].length === 0 && timeoutLimit > 0) {
     // eslint-disable-next-line no-await-in-loop -- necessary here to wait for cache to be filled
     await sleep(1000)
     timeoutLimit -= 1
@@ -180,8 +243,8 @@ const getTokensSearch = async (req, res) => {
   try {
     log.info('getting tokens list for search')
     const { query } = req.params
-    await waitForTokenCache()
-    const queriedTokens = await queryTokens(cachedTokenList.tokens, query)
+    await waitForTokenCache('searchTokens')
+    const queriedTokens = await queryTokens(cachedTokenList.searchTokens, query)
     return res.status(200).json({
       result: 'success',
       updated: cachedTokenList.last_updated,
@@ -196,7 +259,7 @@ const getTokensSearch = async (req, res) => {
 const getAllTokens = async (req, res) => {
   try {
     log.info('getting tokens list for search')
-    await waitForTokenCache()
+    await waitForTokenCache('tokens')
 
     if (cachedTokenList.tokens.length === 0) {
       res.set('Retry-After', '60')

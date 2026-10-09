@@ -38,6 +38,7 @@ interface Props {
   setError: (error: number | null) => void
   holdersCount?: number
   holdersLoading?: boolean
+  isDynamicMPTEnabled?: boolean
   circulatingSupply?: string
   circulatingSupplyLoading?: boolean
 }
@@ -51,6 +52,7 @@ export const Header = (props: Props) => {
     setError,
     holdersCount,
     holdersLoading,
+    isDynamicMPTEnabled,
     circulatingSupply,
     circulatingSupplyLoading,
   } = props
@@ -96,6 +98,7 @@ export const Header = (props: Props) => {
     confidentialOutstandingAmt,
     transferFee,
     flags,
+    immutableFlags,
     rawMPTMetadata,
     parsedMPTMetadata,
     isMPTMetadataCompliant,
@@ -223,6 +226,7 @@ export const Header = (props: Props) => {
             showMptId={showMPTIssuanceId}
             holdersCount={holdersCount}
             holdersLoading={holdersLoading}
+            flags={flags}
           />
           <MarketData
             outstandingAmt={outstandingAmt}
@@ -231,7 +235,11 @@ export const Header = (props: Props) => {
             circulatingSupply={circulatingSupply}
             circulatingSupplyLoading={circulatingSupplyLoading}
           />
-          <Settings flags={flags} />
+          <Settings
+            flags={flags}
+            immutableFlags={immutableFlags}
+            isDynamicMPTEnabled={isDynamicMPTEnabled}
+          />
           {(parsedMPTMetadata || rawMPTMetadata) && (
             <Metadata
               decodedMPTMetadata={(parsedMPTMetadata || rawMPTMetadata)!}

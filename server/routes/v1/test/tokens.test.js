@@ -32,6 +32,21 @@ const TOKENS = [
   },
 ]
 
+const MPTS = [
+  {
+    mpt_issuance_id: '00000001A407AF5856CCF3C42619DAA925813FC955C72983',
+    issuer: 'rMptIssuer',
+    meta: { token: { ticker: 'SCPO', name: 'Car Parts' } },
+    metrics: { holders: 3 },
+  },
+]
+
+// Answers the LOS IOU request and the XRPL Meta MPT request separately
+const bySource =
+  ({ iou, mpt }) =>
+  (url) =>
+    url.startsWith('https://los.test') ? iou() : mpt()
+
 describe('tokens routes', () => {
   let axios
 
@@ -41,6 +56,7 @@ describe('tokens routes', () => {
     jest.resetModules()
     process.env.VITE_ENVIRONMENT = environment
     process.env.VITE_LOS_URL = 'https://los.test'
+    process.env.XRPL_META_URL = 'meta.test'
     axios = require('axios')
     return {
       init: (mockGet) => {
@@ -92,10 +108,14 @@ describe('tokens routes', () => {
   })
 
   describe('on mainnet', () => {
-    it('returns the cached token list once it is loaded', async () => {
-      const routes = loadTokens('mainnet').init(() =>
+    const loadedSources = bySource({
+      iou: () =>
         Promise.resolve({ data: { tokens: TOKENS.map((t) => ({ ...t })) } }),
-      )
+      mpt: () => Promise.resolve({ data: { tokens: MPTS } }),
+    })
+
+    it('returns the cached token list once it is loaded', async () => {
+      const routes = loadTokens('mainnet').init(loadedSources)
       // let the initial background fetch settle
       await jest.advanceTimersByTimeAsync(0)
 
@@ -104,7 +124,7 @@ describe('tokens routes', () => {
 
       expect(res.status).toHaveBeenCalledWith(200)
       const body = res.json.mock.calls[0][0]
-      // sorted by holders, descending
+      // IOUs only, sorted by holders, descending
       expect(body.tokens.map((t) => t.currency)).toEqual(['FOO', 'USD'])
       expect(body.metrics).toEqual({
         count: 2,
@@ -150,9 +170,7 @@ describe('tokens routes', () => {
     })
 
     it('getTokensSearch filters the cached token list', async () => {
-      const routes = loadTokens('mainnet').init(() =>
-        Promise.resolve({ data: { tokens: TOKENS.map((t) => ({ ...t })) } }),
-      )
+      const routes = loadTokens('mainnet').init(loadedSources)
       await jest.advanceTimersByTimeAsync(0)
 
       const res = mockResponse()
@@ -161,6 +179,38 @@ describe('tokens routes', () => {
       expect(res.status).toHaveBeenCalledWith(200)
       const body = res.json.mock.calls[0][0]
       expect(body.tokens.map((t) => t.currency)).toEqual(['USD'])
+    })
+
+    it('getTokensSearch includes MPTs', async () => {
+      const routes = loadTokens('mainnet').init(loadedSources)
+      await jest.advanceTimersByTimeAsync(0)
+
+      const res = mockResponse()
+      await routes.getTokensSearch({ params: { query: 'car parts' } }, res)
+
+      const body = res.json.mock.calls[0][0]
+      expect(body.tokens).toHaveLength(1)
+      expect(body.tokens[0]).toMatchObject({
+        token_type: 'MPT',
+        mpt_issuance_id: MPTS[0].mpt_issuance_id,
+        name: 'SCPO',
+      })
+    })
+
+    it('getTokensSearch gives up after about 10 seconds with an empty result', async () => {
+      const routes = loadTokens('mainnet').init(() =>
+        Promise.reject(new Error('unavailable')),
+      )
+
+      const res = mockResponse()
+      const pending = routes.getTokensSearch({ params: { query: 'usd' } }, res)
+      await jest.advanceTimersByTimeAsync(9000)
+      expect(res.json).not.toHaveBeenCalled()
+
+      await jest.advanceTimersByTimeAsync(1000)
+      await pending
+      expect(res.status).toHaveBeenCalledWith(200)
+      expect(res.json.mock.calls[0][0].tokens).toEqual([])
     })
   })
 })
