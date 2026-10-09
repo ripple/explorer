@@ -4,23 +4,44 @@ import { SimpleRow } from '../SimpleRow'
 import { TransactionSimpleComponent, TransactionSimpleProps } from '../types'
 import { Account } from '../../Account'
 import { MPTokenLink } from '../../MPTokenLink'
-import { shortenEncryptionKey } from '../../../utils'
-
-interface MPTokenIssuanceSetExtended extends MPTokenIssuanceSet {
-  IssuerEncryptionKey?: string
-  AuditorEncryptionKey?: string
-}
+import {
+  isValidJsonString,
+  localizeNumber,
+  shortenEncryptionKey,
+} from '../../../utils'
+import { useLanguage } from '../../../hooks'
+import { JsonView } from '../../JsonView'
+import {
+  buildFlags,
+  convertHexToString,
+} from '../../../../../rippled/lib/utils'
+import { MPT_IMMUTABLE_FLAGS } from '../../../transactionUtils'
 
 export const Simple: TransactionSimpleComponent = ({
   data,
-}: TransactionSimpleProps<MPTokenIssuanceSetExtended>) => {
+}: TransactionSimpleProps<MPTokenIssuanceSet>) => {
   const {
     MPTokenIssuanceID,
     Holder,
+    MPTokenMetadata,
+    TransferFee,
+    ImmutableFlags,
     IssuerEncryptionKey,
     AuditorEncryptionKey,
   } = data.instructions
   const { t } = useTranslation()
+  const language = useLanguage()
+
+  const metadata = MPTokenMetadata
+    ? convertHexToString(MPTokenMetadata)
+    : undefined
+  const formattedFee =
+    TransferFee != null
+      ? `${localizeNumber((TransferFee / 1000).toPrecision(5), language, {
+          minimumFractionDigits: 3,
+        })}%`
+      : undefined
+  const flagChanges = buildFlags(ImmutableFlags, MPT_IMMUTABLE_FLAGS)
 
   return (
     <>
@@ -30,6 +51,35 @@ export const Simple: TransactionSimpleComponent = ({
       {Holder && (
         <SimpleRow label={t('mpt_holder')} data-testid="mpt-holder">
           <Account account={Holder} />
+        </SimpleRow>
+      )}
+      {TransferFee != null && (
+        <SimpleRow label={t('transfer_fee')} data-testid="mpt-fee">
+          {formattedFee}
+        </SimpleRow>
+      )}
+      {metadata && (
+        <SimpleRow
+          label={t('metadata')}
+          className="dt"
+          data-testid="mpt-metadata"
+        >
+          {isValidJsonString(metadata) ? (
+            <JsonView data={JSON.parse(metadata)} />
+          ) : (
+            metadata
+          )}
+        </SimpleRow>
+      )}
+      {flagChanges.length > 0 && (
+        <SimpleRow
+          label={t('immutable_flags')}
+          className="flag"
+          data-testid="mpt-immutable-flags"
+        >
+          {flagChanges.map((flag) => (
+            <div key={flag}>{flag}</div>
+          ))}
         </SimpleRow>
       )}
       {IssuerEncryptionKey && (
