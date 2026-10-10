@@ -15,7 +15,7 @@ import {
   truncateId,
 } from './utils'
 import ExpandIcon from '../../shared/images/down_arrow.svg'
-import { getCurrencySymbol } from '../../shared/utils'
+import { getCurrencySymbol, convertScaledPrice } from '../../shared/utils'
 
 export interface LoanData {
   index: string
@@ -52,6 +52,7 @@ interface Props {
   currency: string
   displayCurrency: string
   asset?: AssetInfo
+  assetScale?: number
   isCurrencySpecialSymbol?: boolean
 }
 
@@ -60,6 +61,7 @@ export const LoanRow = ({
   currency,
   displayCurrency,
   asset,
+  assetScale,
   isCurrencySpecialSymbol = false,
 }: Props) => {
   const { t } = useTranslation()
@@ -112,7 +114,14 @@ export const LoanRow = ({
   )
 
   const formatAmount = (amount: string | number): string => {
-    const num = typeof amount === 'string' ? Number(amount) : amount
+    const raw = String(amount)
+    let normalized = raw
+    if (asset?.currency === 'XRP') {
+      normalized = convertScaledPrice(BigInt(raw), 6)
+    } else if (asset?.mpt_issuance_id) {
+      normalized = convertScaledPrice(BigInt(raw), assetScale ?? 0)
+    }
+    const num = Number(normalized)
     if (Number.isNaN(num)) return String(amount)
 
     // Convert to USD if needed
@@ -132,7 +141,14 @@ export const LoanRow = ({
   const formatFee = (fee: string | number): string => {
     // this method is used with fields which have a soeDEFAULT configuration. If they are not specified, display 0.
     if (!fee) return '0'
-    const num = typeof fee === 'string' ? Number(fee) : fee
+    const raw = String(fee)
+    let normalized = raw
+    if (asset?.currency === 'XRP') {
+      normalized = convertScaledPrice(BigInt(raw), 6)
+    } else if (asset?.mpt_issuance_id) {
+      normalized = convertScaledPrice(BigInt(raw), assetScale ?? 0)
+    }
+    const num = Number(normalized)
     if (Number.isNaN(num)) return String(fee)
     if (num === 0) return '0'
 
