@@ -37,7 +37,19 @@
     flex: 1;
 
     .token-table {
+      width: 100%;
       margin-top: 0;
+      table-layout: fixed;
+
+      // Values like Vault ID and Owner are long identifiers; let them use the
+      // full remaining width of the row instead of the shared table's fixed
+      // 230px column, wrapping only if the viewport is too narrow to fit
+      // them on one line.
+      .col2 {
+        display: block;
+        width: auto;
+        max-width: 100%;
+      }
     }
   }
 }

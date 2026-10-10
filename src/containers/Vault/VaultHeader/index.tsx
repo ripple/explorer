@@ -11,10 +11,9 @@ import SocketContext from '../../shared/SocketContext'
 import { getMPTIssuance } from '../../../rippled/lib/rippled'
 import { parseVaultWebsite } from '../utils'
 import {
-  shortenVaultID,
-  shortenAccount,
   getCurrencySymbol,
   isCurrencyExoticSymbol,
+  localizeDate,
 } from '../../shared/utils'
 import './styles.scss'
 import { useAnalytics } from '../../shared/analytics'
@@ -23,6 +22,10 @@ import { convertHexToString } from '../../../rippled/lib/utils'
 import { Metadata } from '../../Token/MPT/Header/Metadata'
 import Currency from '../../shared/components/Currency'
 import { parseMPTokenMetadata } from '../../shared/mptUtils'
+import { VAULT_KINDS } from '../../shared/vaultUtils'
+import { convertRippleDate } from '../../../rippled/lib/convertRippleDate'
+import { DATE_OPTIONS } from '../../shared/transactionUtils'
+import { useLanguage } from '../../shared/hooks'
 
 interface VaultData {
   Owner?: string
@@ -41,6 +44,9 @@ interface VaultData {
   WithdrawalPolicy?: number
   Data?: string
   ShareMPTID?: string
+  VaultKind?: number
+  SubscriptionDate?: number
+  RedemptionDate?: number
 }
 
 interface Props {
@@ -52,6 +58,8 @@ interface Props {
 // Vault flags from XLS-65d spec
 const VAULT_FLAGS = {
   lsfVaultPrivate: 0x00010000,
+  lsfVaultDepositBlocked: 0x00020000,
+  lsfVaultOwnerCanBlockDeposit: 0x00040000,
 }
 
 // Withdrawal policy values from XLS-65d spec
@@ -61,6 +69,7 @@ const WITHDRAWAL_POLICIES: { [key: number]: string } = {
 
 export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
   const { t } = useTranslation()
+  const language = useLanguage()
   const { trackException } = useAnalytics()
   const rippledSocket = useContext(SocketContext)
   const { rate: tokenToUsdRate } = useTokenToUSDRate(
@@ -80,6 +89,9 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
     WithdrawalPolicy: withdrawalPolicy,
     Data: vaultDataRaw,
     ShareMPTID: vaultShareMptId,
+    VaultKind: vaultKind,
+    SubscriptionDate: subscriptionDate,
+    RedemptionDate: redemptionDate,
   } = data
 
   // Converts amount to USD if displayCurrency is 'USD', otherwise returns as-is
@@ -146,6 +158,11 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
 
   const isPrivate =
     flags !== undefined && (flags & VAULT_FLAGS.lsfVaultPrivate) !== 0
+  const canBlockDeposit =
+    flags !== undefined &&
+    (flags & VAULT_FLAGS.lsfVaultOwnerCanBlockDeposit) !== 0
+  const isDepositAllowed =
+    flags === undefined || (flags & VAULT_FLAGS.lsfVaultDepositBlocked) === 0
 
   const decodedData = convertHexToString(vaultDataRaw)
   const vaultWebsite = parseVaultWebsite(vaultDataRaw)
@@ -157,6 +174,19 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
     // Use type assertion for dynamic translation keys
     return t(policyKey as 'first_come_first_served')
   }
+
+  const getVaultKindText = () => {
+    if (vaultKind === undefined) return '-'
+    const kindKey = VAULT_KINDS[vaultKind]
+    if (!kindKey) return String(vaultKind)
+    // Use type assertion for dynamic translation keys
+    return t(kindKey as 'open_ended')
+  }
+
+  const formatVaultDate = (date: number) =>
+    `${localizeDate(new Date(convertRippleDate(date)), language, DATE_OPTIONS)} ${
+      DATE_OPTIONS.timeZone
+    }`
 
   const renderMPTSharesLink = () => {
     if (!vaultShareMptId) return '-'
@@ -185,7 +215,7 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
                 value={
                   <CopyableText
                     text={vaultId}
-                    displayText={`${shortenVaultID(vaultId)}`}
+                    displayText={vaultId}
                     showCopyIcon
                   />
                 }
@@ -193,12 +223,7 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
               {owner && (
                 <TokenTableRow
                   label={t('owner')}
-                  value={
-                    <Account
-                      account={owner}
-                      displayText={`${shortenAccount(owner)}`}
-                    />
-                  }
+                  value={<Account account={owner} displayText={owner} />}
                 />
               )}
               <TokenTableRow
@@ -218,6 +243,25 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
                   </div>
                 }
               />
+              {canBlockDeposit && (
+                <TokenTableRow
+                  label={t('deposits_allowed')}
+                  value={
+                    <div className="private-vault-toggle">
+                      <span
+                        className={`toggle-pill ${isDepositAllowed ? 'active' : ''}`}
+                      >
+                        {t('yes')}
+                      </span>
+                      <span
+                        className={`toggle-pill ${!isDepositAllowed ? 'active' : ''}`}
+                      >
+                        {t('no')}
+                      </span>
+                    </div>
+                  }
+                />
+              )}
               {vaultCredential && (
                 <TokenTableRow
                   label={t('perm_domain_id')}
@@ -262,6 +306,24 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
                 label={t('withdrawal_policy')}
                 value={getWithdrawalPolicyText()}
               />
+              {vaultKind !== undefined && (
+                <TokenTableRow
+                  label={t('vault_kind')}
+                  value={getVaultKindText()}
+                />
+              )}
+              {subscriptionDate !== undefined && (
+                <TokenTableRow
+                  label={t('subscription_date')}
+                  value={formatVaultDate(subscriptionDate)}
+                />
+              )}
+              {redemptionDate !== undefined && (
+                <TokenTableRow
+                  label={t('redemption_date')}
+                  value={formatVaultDate(redemptionDate)}
+                />
+              )}
             </tbody>
           </table>
         </div>
