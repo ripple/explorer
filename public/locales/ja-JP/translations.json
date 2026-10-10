@@ -392,6 +392,7 @@
   "missed_validations": "バリデーション失敗数:{{count}}",
   "incomplete": null,
   "base_fee": "基本手数料",
+  "drops": null,
   "account_reserve": "アカウント準備金",
   "object_reserve": "オブジェクト準備金",
   "vote": "投票",
