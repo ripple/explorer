@@ -225,16 +225,25 @@ function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms))
 }
 
+// Wait up to ~10s for cachedTokenList[listKey] to be filled. Returns immediately off
+// mainnet, where startCaching() never runs and the cache stays empty.
+async function waitForTokenCache(listKey) {
+  if (process.env.VITE_ENVIRONMENT !== 'mainnet') {
+    return
+  }
+  let timeoutLimit = 10
+  while (cachedTokenList[listKey].length === 0 && timeoutLimit > 0) {
+    // eslint-disable-next-line no-await-in-loop -- necessary here to wait for cache to be filled
+    await sleep(1000)
+    timeoutLimit -= 1
+  }
+}
+
 const getTokensSearch = async (req, res) => {
   try {
     log.info('getting tokens list for search')
     const { query } = req.params
-    let timeoutLimit = 10
-    while (cachedTokenList.searchTokens.length === 0 && timeoutLimit > 0) {
-      // eslint-disable-next-line no-await-in-loop -- necessary here to wait for cache to be filled
-      await sleep(1000)
-      timeoutLimit -= 1
-    }
+    await waitForTokenCache('searchTokens')
     const queriedTokens = await queryTokens(cachedTokenList.searchTokens, query)
     return res.status(200).json({
       result: 'success',
@@ -250,9 +259,11 @@ const getTokensSearch = async (req, res) => {
 const getAllTokens = async (req, res) => {
   try {
     log.info('getting tokens list for search')
-    while (cachedTokenList.tokens.length === 0) {
-      // eslint-disable-next-line no-await-in-loop -- necessary here to wait for cache to be filled
-      await sleep(1000)
+    await waitForTokenCache('tokens')
+
+    if (cachedTokenList.tokens.length === 0) {
+      res.set('Retry-After', '60')
+      return res.status(503).json({ message: 'Token list is not available' })
     }
 
     log.info(cachedTokenList.tokens.length)

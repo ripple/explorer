@@ -1,14 +1,21 @@
 const axios = require('axios')
 const log = require('../../lib/logger')({ name: 'amms' })
 const rippled = require('../../lib/rippled')
+const LRUCache = require('../../lib/lruCache')
 
 const REFETCH_INTERVAL = 10 * 60 * 1000 // 10 minutes
 const LOS_TOKEN_API_BATCH_SIZE = 100
 const AMM_INFO_CONCURRENCY = 2 // Max concurrent amm_info RPC calls
 const AMM_INFO_DELAY_MS = 200 // Delay between each amm_info RPC call per worker
+const MAX_CACHED_TRENDS = 500
+// Mirrors TIME_RANGES in src/containers/shared/components/TVLVolumeChart
+const TIME_RANGE_VALUES = ['1W', '1M', '6M', '1Y', '5Y']
+// Format check only (no checksum) - enough to keep the cache key bounded.
+const CLASSIC_ADDRESS_REGEX = /^r[1-9A-HJ-NP-Za-km-z]{24,34}$/
 const cachedAMMsList = { results: [], last_updated: null }
 const cachedAggregatedStats = { data: null, last_updated: null }
-const cachedHistoricalTrends = new Map() // key: `${amm_account_id}:${time_range}` -> { data, last_updated }
+// key: `${amm_account_id}:${time_range}:${xrp|all}` -> { data, last_updated }
+const cachedHistoricalTrends = new LRUCache(MAX_CACHED_TRENDS)
 
 async function fetchAMMs() {
   const url = `${process.env.VITE_LOS_URL}/amms`
@@ -560,6 +567,23 @@ const getHistoricalTrends = async (req, res) => {
       xrp_only: xrpOnlyParam,
     } = req.query
     const xrpOnly = xrpOnlyParam === 'true' || xrpOnlyParam === true
+
+    if (
+      ammAccountId !== 'aggregated' &&
+      !(
+        typeof ammAccountId === 'string' &&
+        CLASSIC_ADDRESS_REGEX.test(ammAccountId)
+      )
+    ) {
+      return res.status(400).json({
+        message: 'amm_account_id must be "aggregated" or a classic address',
+      })
+    }
+    if (!TIME_RANGE_VALUES.includes(timeRange)) {
+      return res.status(400).json({
+        message: `time_range must be one of: ${TIME_RANGE_VALUES.join(', ')}`,
+      })
+    }
 
     log.info(
       `Fetching historical trends from cache: amm_account_id=${ammAccountId}, time_range=${timeRange}, xrp_only=${xrpOnly}`,
