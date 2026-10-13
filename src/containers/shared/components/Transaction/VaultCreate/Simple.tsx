@@ -29,11 +29,9 @@ export const Simple: TransactionSimpleComponent = (
   // xrpl package's VaultCreate type.
   const vaultKind = (data.instructions as any).VaultKind as number | undefined
   const subscriptionDate = (data.instructions as any).SubscriptionDate as
-    | number
-    | undefined
+    number | undefined
   const redemptionDate = (data.instructions as any).RedemptionDate as
-    | number
-    | undefined
+    number | undefined
   const formatVaultDate = (date: number) =>
     `${localizeDate(new Date(convertRippleDate(date)), language, DATE_OPTIONS)} ${
       DATE_OPTIONS.timeZone
