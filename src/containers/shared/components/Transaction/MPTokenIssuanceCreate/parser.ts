@@ -1,19 +1,27 @@
 import type { MPTokenIssuanceCreate } from 'xrpl'
 import { MPTokenIssuanceCreateInstructions } from './types'
 import { TransactionParser } from '../types'
-import { convertHexToString } from '../../../../../rippled/lib/utils'
+import {
+  buildFlags,
+  convertHexToString,
+} from '../../../../../rippled/lib/utils'
+import { MPT_IMMUTABLE_FLAGS } from '../../../transactionUtils'
 
 export const parser: TransactionParser<
   MPTokenIssuanceCreate,
   MPTokenIssuanceCreateInstructions
-> = (tx, meta) => ({
-  issuanceID: meta.mpt_issuance_id,
-  metadata: tx.MPTokenMetadata
-    ? convertHexToString(tx.MPTokenMetadata)
-    : undefined,
-  transferFee: tx.TransferFee,
-  assetScale: tx.AssetScale,
-  maxAmount: tx.MaximumAmount
-    ? BigInt(tx.MaximumAmount).toString(10)
-    : undefined,
-})
+> = (tx, meta) => {
+  const immutableFlags = buildFlags(tx.ImmutableFlags, MPT_IMMUTABLE_FLAGS)
+  return {
+    issuanceID: meta.mpt_issuance_id,
+    metadata: tx.MPTokenMetadata
+      ? convertHexToString(tx.MPTokenMetadata)
+      : undefined,
+    transferFee: tx.TransferFee,
+    assetScale: tx.AssetScale,
+    maxAmount: tx.MaximumAmount
+      ? BigInt(tx.MaximumAmount).toString(10)
+      : undefined,
+    immutableFlags: immutableFlags.length ? immutableFlags : undefined,
+  }
+}

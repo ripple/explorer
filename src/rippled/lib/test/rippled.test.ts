@@ -3,6 +3,7 @@ import {
   getLoanBroker,
   getMPTIssuance,
   getNegativeUNL,
+  getAccountInfo,
 } from '../rippled'
 
 const VAULT_INDEX =
@@ -224,5 +225,104 @@ describe('getNegativeUNL', () => {
     const socket = makeSocket({ error: 'entryNotFound' })
 
     await expect(getNegativeUNL(socket)).resolves.toEqual([])
+  })
+})
+
+describe('getAccountInfo', () => {
+  const AMM_ACCOUNT = 'rLjUKpwUVmz3vCTmFkXungxwzdoyrWRsFG'
+
+  const ACCOUNT_ROOT = {
+    AMMID: '2858D58ECD99108CEB105A3D9F84D293E507701878EE25612F5BF6D4A93F3B69',
+    Account: AMM_ACCOUNT,
+    Balance: '2716797990409',
+    LedgerEntryType: 'AccountRoot',
+  }
+
+  const INTERNAL_ERROR = { error: 'internal', error_message: 'Internal error.' }
+
+  const makeSocketSequence = (...responses: any[]) => {
+    const send = jest.fn()
+    responses.forEach((r) => send.mockResolvedValueOnce(r))
+    return { send } as any
+  }
+
+  let warn: jest.SpyInstance
+
+  beforeEach(() => {
+    warn = jest.spyOn(console, 'warn').mockImplementation(() => {})
+  })
+
+  afterEach(() => {
+    warn.mockRestore()
+  })
+
+  it('returns account_data when account_info succeeds', async () => {
+    const socket = makeSocket({ account_data: ACCOUNT_ROOT, ledger_index: 1 })
+
+    await expect(getAccountInfo(socket, AMM_ACCOUNT)).resolves.toEqual({
+      ...ACCOUNT_ROOT,
+      ledger_index: 1,
+    })
+    expect(socket.send).toHaveBeenCalledTimes(1)
+  })
+
+  it('falls back to ledger_entry for an AMM account on an internal error', async () => {
+    const socket = makeSocketSequence(INTERNAL_ERROR, {
+      node: ACCOUNT_ROOT,
+      ledger_index: 1,
+    })
+
+    // AMMID must survive: AccountsRouter uses it to route AMM accounts to the pool page.
+    await expect(getAccountInfo(socket, AMM_ACCOUNT)).resolves.toEqual({
+      ...ACCOUNT_ROOT,
+      ledger_index: 1,
+    })
+    expect(socket.send).toHaveBeenNthCalledWith(2, {
+      command: 'ledger_entry',
+      account_root: AMM_ACCOUNT,
+      ledger_index: 'validated',
+    })
+    expect(warn).toHaveBeenCalled()
+  })
+
+  it('keeps the original error when the fallback finds a non-AMM account', async () => {
+    // A regular account would lose its signer lists.
+    const { AMMID, ...regularAccount } = ACCOUNT_ROOT
+    const socket = makeSocketSequence(INTERNAL_ERROR, {
+      node: regularAccount,
+      ledger_index: 1,
+    })
+
+    await expect(getAccountInfo(socket, AMM_ACCOUNT)).rejects.toMatchObject({
+      message: 'Internal error.',
+      code: 500,
+    })
+  })
+
+  // actNotFound must stay a 404: AccountsRouter uses it to detect deleted accounts.
+  it.each([
+    ['actNotFound', 404],
+    ['tooBusy', 500],
+  ])('does not fall back on %s', async (error, code) => {
+    const socket = makeSocket({ error, error_message: error })
+
+    await expect(getAccountInfo(socket, AMM_ACCOUNT)).rejects.toMatchObject({
+      code,
+    })
+    expect(socket.send).toHaveBeenCalledTimes(1)
+  })
+
+  it.each([
+    ['entryNotFound', 404],
+    ['internal', 500],
+  ])('maps a ledger_entry %s to %i', async (error, code) => {
+    const socket = makeSocketSequence(INTERNAL_ERROR, {
+      error,
+      error_message: error,
+    })
+
+    await expect(getAccountInfo(socket, AMM_ACCOUNT)).rejects.toMatchObject({
+      code,
+    })
   })
 })

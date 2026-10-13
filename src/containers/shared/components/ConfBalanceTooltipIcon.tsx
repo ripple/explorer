@@ -5,8 +5,7 @@ import HoverIcon from '../images/hover.svg'
 const TOOLTIP_Y_OFFSET = 60
 
 type ConfBalanceTooltipKey =
-  | 'confidential_balance_tooltip'
-  | 'confidential_balance_row_tooltip'
+  'confidential_balance_tooltip' | 'confidential_balance_row_tooltip'
 
 interface ConfBalanceTooltipIconProps {
   tooltipKey: ConfBalanceTooltipKey

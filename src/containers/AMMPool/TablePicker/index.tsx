@@ -60,6 +60,10 @@ interface AMMPoolTablePickerProps {
   lpToken?: { currency: string; issuer: string; value: string }
   tvlUsd?: number
   isDeleted?: boolean
+  /**
+   * When false, the USD column on the deposits and withdrawals tables is suppressed.
+   */
+  isXrpBased?: boolean
 }
 
 export const AMMPoolTablePicker: FC<AMMPoolTablePickerProps> = ({
@@ -69,6 +73,7 @@ export const AMMPoolTablePicker: FC<AMMPoolTablePickerProps> = ({
   lpToken,
   tvlUsd,
   isDeleted = false,
+  isXrpBased = true,
 }) => {
   const { t } = useTranslation()
   const { trackException } = useAnalytics()
@@ -170,6 +175,14 @@ export const AMMPoolTablePicker: FC<AMMPoolTablePickerProps> = ({
     },
   )
 
+  // Suppressed with null rather than 0: AMMDepositWithdrawTable guards with `!= null` and
+  // renders '--', whereas 0 would render a convincing fake $0.00.
+  const gateValueUsd = useCallback(
+    (items: AMMDepositWithdrawFormatted[]) =>
+      isXrpBased ? items : items.map((tx) => ({ ...tx, valueUsd: null })),
+    [isXrpBased],
+  )
+
   const handleTabChange = useCallback((tabId: string) => {
     setActiveTab(tabId)
   }, [])
@@ -225,7 +238,7 @@ export const AMMPoolTablePicker: FC<AMMPoolTablePickerProps> = ({
 
       {activeTab === 'deposits' && isMainnet && (
         <AMMDepositWithdrawTable
-          transactions={deposits.data?.items || []}
+          transactions={gateValueUsd(deposits.data?.items || [])}
           isLoading={deposits.isLoading}
           totalItems={deposits.data?.totalItems || 0}
           currentPage={deposits.page}
@@ -238,7 +251,7 @@ export const AMMPoolTablePicker: FC<AMMPoolTablePickerProps> = ({
 
       {activeTab === 'withdrawals' && isMainnet && (
         <AMMDepositWithdrawTable
-          transactions={withdrawals.data?.items || []}
+          transactions={gateValueUsd(withdrawals.data?.items || [])}
           isLoading={withdrawals.isLoading}
           totalItems={withdrawals.data?.totalItems || 0}
           currentPage={withdrawals.page}

@@ -1,14 +1,21 @@
 const axios = require('axios')
 const log = require('../../lib/logger')({ name: 'amms' })
 const rippled = require('../../lib/rippled')
+const LRUCache = require('../../lib/lruCache')
 
 const REFETCH_INTERVAL = 10 * 60 * 1000 // 10 minutes
 const LOS_TOKEN_API_BATCH_SIZE = 100
 const AMM_INFO_CONCURRENCY = 2 // Max concurrent amm_info RPC calls
 const AMM_INFO_DELAY_MS = 200 // Delay between each amm_info RPC call per worker
+const MAX_CACHED_TRENDS = 500
+// Mirrors TIME_RANGES in src/containers/shared/components/TVLVolumeChart
+const TIME_RANGE_VALUES = ['1W', '1M', '6M', '1Y', '5Y']
+// Format check only (no checksum) - enough to keep the cache key bounded.
+const CLASSIC_ADDRESS_REGEX = /^r[1-9A-HJ-NP-Za-km-z]{24,34}$/
 const cachedAMMsList = { results: [], last_updated: null }
 const cachedAggregatedStats = { data: null, last_updated: null }
-const cachedHistoricalTrends = new Map() // key: `${amm_account_id}:${time_range}` -> { data, last_updated }
+// key: `${amm_account_id}:${time_range}:${xrp|all}` -> { data, last_updated }
+const cachedHistoricalTrends = new LRUCache(MAX_CACHED_TRENDS)
 
 async function fetchAMMs() {
   const url = `${process.env.VITE_LOS_URL}/amms`
@@ -20,6 +27,10 @@ async function fetchAMMs() {
         size: 1000,
         sort_field: 'tvl_usd',
         sort_order: 'desc',
+        // A token/token pool's TVL cannot be priced reliably, so it must not be ranked. Without this,
+        // token/token pools priced off illiquid IOUs dominate the tvl_usd ranking and
+        // consume the 1000-result budget.
+        xrp_only: true,
       },
       timeout: 30000,
     })
@@ -160,16 +171,22 @@ async function fetchTradingFees(amms) {
   return tradingFeeMap
 }
 
-async function fetchAggregatedStats() {
+function fetchAggregate(xrpOnly) {
   const url = `${process.env.VITE_LOS_URL}/amms/aggregated`
-  log.info(`Fetching aggregated stats from: ${url}`)
+  log.info(`Fetching aggregated stats from: ${url} (xrp_only=${!!xrpOnly})`)
 
   return axios
     .get(url, {
+      // axios omits undefined params, so the all-pools call sends nothing and LOS defaults.
+      params: {
+        xrp_only: xrpOnly || undefined,
+      },
       timeout: 30000,
     })
     .then((resp) => {
-      log.info(`Successfully fetched aggregated stats, status: ${resp.status}`)
+      log.info(
+        `Successfully fetched aggregated stats (xrp_only=${!!xrpOnly}), status: ${resp.status}`,
+      )
       return resp.data
     })
     .catch((e) => {
@@ -193,6 +210,39 @@ async function fetchAggregatedStats() {
       }
       return null
     })
+}
+
+/**
+ * Build the stat tiles from both LOS aggregates, which are deliberately mixed-scope:
+ *   - counts (# of AMMs, # of LPs) come from the all-pools aggregate - they describe the
+ *     whole ecosystem and are accurate for every pool
+ *   - values (TVL, volume, fees) come from the XRP-only aggregate - only XRP pools have a
+ *     priceable anchor, so token/token figures are often wildly overstated
+ *
+ * Each LOS aggregate is internally consistent; mixing them is this page's presentation
+ * choice, so it lives here rather than in the API.
+ */
+async function fetchAggregatedStats() {
+  const [allPools, xrpPools] = await Promise.all([
+    fetchAggregate(false),
+    fetchAggregate(true),
+  ])
+
+  // Null unless both succeed, so the caller keeps its last good result rather than caching
+  // a partial one.
+  if (!allPools || !xrpPools) {
+    return null
+  }
+
+  return {
+    ...allPools,
+    tvl_xrp: xrpPools.tvl_xrp,
+    tvl_usd: xrpPools.tvl_usd,
+    trading_volume_xrp: xrpPools.trading_volume_xrp,
+    trading_volume_usd: xrpPools.trading_volume_usd,
+    fees_collected_xrp: xrpPools.fees_collected_xrp,
+    fees_collected_usd: xrpPools.fees_collected_usd,
+  }
 }
 
 function enrichAMMs(amms, tokenDataMap) {
@@ -423,10 +473,10 @@ const getAggregatedStats = async (req, res) => {
  * GET /api/v1/amms/historical-trends
  * Fetch historical trends for AMM data
  */
-async function fetchHistoricalTrends(ammAccountId, timeRange) {
+async function fetchHistoricalTrends(ammAccountId, timeRange, xrpOnly) {
   const url = `${process.env.VITE_LOS_URL}/amms/historical-trends`
   log.info(
-    `Fetching historical trends from: ${url} (amm_account_id=${ammAccountId}, time_range=${timeRange})`,
+    `Fetching historical trends from: ${url} (amm_account_id=${ammAccountId}, time_range=${timeRange}, xrp_only=${!!xrpOnly})`,
   )
 
   return axios
@@ -434,6 +484,8 @@ async function fetchHistoricalTrends(ammAccountId, timeRange) {
       params: {
         amm_account_id: ammAccountId,
         time_range: timeRange,
+        // axios omits undefined params, so the opted-out case sends nothing and LOS defaults.
+        xrp_only: xrpOnly || undefined,
       },
       timeout: 30000,
     })
@@ -468,14 +520,21 @@ async function fetchHistoricalTrends(ammAccountId, timeRange) {
     })
 }
 
-function getCachedTrends(ammAccountId, timeRange) {
-  const cacheKey = `${ammAccountId}:${timeRange}`
+// The xrp_only flag MUST be part of the cache key. Without it, one `aggregated:6M` entry
+// is shared between XRP-only and all-pool requests and whichever lands first wins, serving
+// the wrong series with no error.
+function trendsCacheKey(ammAccountId, timeRange, xrpOnly) {
+  return `${ammAccountId}:${timeRange}:${xrpOnly ? 'xrp' : 'all'}`
+}
+
+function getCachedTrends(ammAccountId, timeRange, xrpOnly) {
+  const cacheKey = trendsCacheKey(ammAccountId, timeRange, xrpOnly)
   return cachedHistoricalTrends.get(cacheKey) || null
 }
 
-async function cacheTrends(ammAccountId, timeRange) {
-  const cacheKey = `${ammAccountId}:${timeRange}`
-  const trends = await fetchHistoricalTrends(ammAccountId, timeRange)
+async function cacheTrends(ammAccountId, timeRange, xrpOnly) {
+  const cacheKey = trendsCacheKey(ammAccountId, timeRange, xrpOnly)
+  const trends = await fetchHistoricalTrends(ammAccountId, timeRange, xrpOnly)
 
   if (trends) {
     log.info(`Fetched historical trends from LOS for ${cacheKey}...`)
@@ -505,13 +564,32 @@ const getHistoricalTrends = async (req, res) => {
     const {
       amm_account_id: ammAccountId = 'aggregated',
       time_range: timeRange = '6M',
+      xrp_only: xrpOnlyParam,
     } = req.query
+    const xrpOnly = xrpOnlyParam === 'true' || xrpOnlyParam === true
+
+    if (
+      ammAccountId !== 'aggregated' &&
+      !(
+        typeof ammAccountId === 'string' &&
+        CLASSIC_ADDRESS_REGEX.test(ammAccountId)
+      )
+    ) {
+      return res.status(400).json({
+        message: 'amm_account_id must be "aggregated" or a classic address',
+      })
+    }
+    if (!TIME_RANGE_VALUES.includes(timeRange)) {
+      return res.status(400).json({
+        message: `time_range must be one of: ${TIME_RANGE_VALUES.join(', ')}`,
+      })
+    }
 
     log.info(
-      `Fetching historical trends from cache: amm_account_id=${ammAccountId}, time_range=${timeRange}`,
+      `Fetching historical trends from cache: amm_account_id=${ammAccountId}, time_range=${timeRange}, xrp_only=${xrpOnly}`,
     )
 
-    const cached = getCachedTrends(ammAccountId, timeRange)
+    const cached = getCachedTrends(ammAccountId, timeRange, xrpOnly)
 
     // If cached and fresh (within REFETCH_INTERVAL), return it
     if (cached && Date.now() - cached.last_updated < REFETCH_INTERVAL) {
@@ -523,9 +601,9 @@ const getHistoricalTrends = async (req, res) => {
     }
 
     // Cache miss or stale — fetch fresh data
-    await cacheTrends(ammAccountId, timeRange)
+    await cacheTrends(ammAccountId, timeRange, xrpOnly)
 
-    const updated = getCachedTrends(ammAccountId, timeRange)
+    const updated = getCachedTrends(ammAccountId, timeRange, xrpOnly)
 
     return res.status(200).json({
       ...updated?.data,
