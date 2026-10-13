@@ -6,6 +6,7 @@ import { QuickHarness } from '../../test/utils'
 import { AMM_POOL_ROUTE } from '../../App/routes'
 import * as rippled from '../../../rippled/lib/rippled'
 import * as ammUtils from '../utils'
+import * as api from '../api'
 
 jest.mock('../../../rippled/lib/rippled')
 jest.mock('../utils')
@@ -80,6 +81,7 @@ describe('AMMPool Page', () => {
       expect(screen.getByText('basic_info')).toBeInTheDocument()
       expect(screen.getByText('auction')).toBeInTheDocument()
       expect(screen.getByTestId('table-picker')).toBeInTheDocument()
+      expect(screen.getByTestId('tvl-volume-chart')).toBeInTheDocument()
     })
   })
 
@@ -163,6 +165,68 @@ describe('AMMPool Page', () => {
 
     await waitFor(() => {
       expect(document.querySelector('.amm-pool-header')).not.toBeInTheDocument()
+    })
+  })
+
+  // isXrpBased decides whether TVL-derived figures and the chart are shown at all. It reads
+  // the ledger first and only then LOS's flag, so these cover both clauses and their order.
+  describe('isXrpBased resolution', () => {
+    const tokenTokenAmmInfo = {
+      amm: {
+        ...mockAmmInfoResponse.amm,
+        amount: {
+          currency: '524C555344000000000000000000000000000000',
+          issuer: 'rMxCKbEDwqr76QuheSUMdEGf4B9xJ8m5De',
+          value: '1000',
+        },
+        amount2: {
+          currency: '5553444300000000000000000000000000000000',
+          issuer: 'rcEGREd8NmkKRE8GE424sksyt1tJVFZwu',
+          value: '2000',
+        },
+      },
+    }
+
+    it('hides the TVL/volume chart for a token/token pool', async () => {
+      mockGetAMMInfo.mockResolvedValue(tokenTokenAmmInfo)
+
+      renderComponent()
+
+      await waitFor(() => {
+        expect(screen.getByText('basic_info')).toBeInTheDocument()
+      })
+      expect(screen.queryByTestId('tvl-volume-chart')).not.toBeInTheDocument()
+    })
+
+    it('trusts the ledger over a false is_xrp_based flag', async () => {
+      // A pool whose LOS document lacks asset fields reports is_xrp_based: false. The XRP
+      // balance from amm_info is authoritative, so the chart must still render — trusting the
+      // flag alone would hide TVL for a genuine XRP pool.
+      mockGetAMMInfo.mockResolvedValue(mockAmmInfoResponse)
+      ;(api.fetchAMMPoolData as jest.Mock).mockResolvedValue({
+        tvl_usd: 1000,
+        is_xrp_based: false,
+      })
+
+      renderComponent()
+
+      await waitFor(() => {
+        expect(screen.getByTestId('tvl-volume-chart')).toBeInTheDocument()
+      })
+    })
+
+    it('falls back to is_xrp_based when neither balance is XRP', async () => {
+      mockGetAMMInfo.mockResolvedValue(tokenTokenAmmInfo)
+      ;(api.fetchAMMPoolData as jest.Mock).mockResolvedValue({
+        tvl_usd: 1000,
+        is_xrp_based: true,
+      })
+
+      renderComponent()
+
+      await waitFor(() => {
+        expect(screen.getByTestId('tvl-volume-chart')).toBeInTheDocument()
+      })
     })
   })
 })

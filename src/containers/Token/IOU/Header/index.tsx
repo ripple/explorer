@@ -18,7 +18,11 @@ import {
   parsePercent,
   parsePrice,
 } from '../../../shared/NumberFormattingUtils'
-import { shortenDomain, stripHttpProtocol } from '../../../shared/utils'
+import {
+  getRegistrableDomain,
+  shortenDomainFromLeft,
+} from '../../../shared/domainUtils'
+import { calculateIouCirculatingSupply } from '../../shared/utils/circulatingSupply'
 
 interface HeaderProps {
   currency: string
@@ -28,27 +32,6 @@ interface HeaderProps {
   isHoldersDataLoading: boolean
   ammTvlData?: { tvl: number; account: string }
   isAmmTvlLoading: boolean
-}
-
-const calculateCirculatingSupply = (
-  tokenData: LOSToken,
-  holdersData: TokenHoldersData | undefined,
-): number => {
-  if (tokenData.circ_supply) {
-    return Number(tokenData.circ_supply)
-  }
-  let circSupply = Number(tokenData.supply) || holdersData?.totalSupply || 0
-
-  // For stablecoins, don't subtract large percentage holders from circulating supply
-  if (tokenData.asset_subclass !== 'stablecoin' && holdersData) {
-    holdersData.holders.forEach((holder) => {
-      if (holder.percent >= 20) {
-        circSupply -= holder.balance
-      }
-    })
-  }
-
-  return circSupply
 }
 
 export const Header = ({
@@ -61,7 +44,7 @@ export const Header = ({
   isAmmTvlLoading,
 }: HeaderProps) => {
   const { t } = useTranslation()
-  const circSupply = calculateCirculatingSupply(tokenData, holdersData)
+  const circSupply = calculateIouCirculatingSupply(tokenData, holdersData)
   const xrpRate = Number(xrpUSDRate) || 0
 
   // Memoized formatted overview data
@@ -93,11 +76,15 @@ export const Header = ({
     const volume24hNum = Number(tokenData.daily_volume) || 0
     const trades24hNum = Number(tokenData.daily_trades) || 0
 
-    // Format supply values
-    const formattedSupply = parseAmount(
-      holdersData?.totalSupply?.toString() || tokenData.supply || '0',
-    )
-    const formattedCircSupply = parseAmount(circSupplyNum)
+    // Format supply values; a zero supply isn't meaningful, so show "--"
+    const supplyValue =
+      holdersData?.totalSupply?.toString() || tokenData.supply || '0'
+    const formattedSupply = Number(supplyValue)
+      ? parseAmount(supplyValue)
+      : '--'
+    const formattedCircSupply = circSupplyNum
+      ? parseAmount(circSupplyNum)
+      : '--'
 
     // Calculate market cap
     let marketCap: string | null = null
@@ -178,11 +165,10 @@ export const Header = ({
               <DomainLink
                 className="domain-link"
                 domain={tokenData.issuer_domain}
-                displayDomain={shortenDomain(
-                  stripHttpProtocol(tokenData.issuer_domain),
-                  12,
-                  7,
+                displayDomain={shortenDomainFromLeft(
+                  getRegistrableDomain(tokenData.issuer_domain),
                 )}
+                title={tokenData.issuer_domain}
               />
             </div>
           </div>

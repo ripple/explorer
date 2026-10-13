@@ -8,6 +8,7 @@ import { LOSAMMPoolData, FormattedBalance } from '../../types'
 
 interface RenderProps {
   losData?: LOSAMMPoolData
+  isXrpBased?: boolean
   balance1?: FormattedBalance | null
   balance2?: FormattedBalance | null
   lpTokenBalance?: string
@@ -39,6 +40,7 @@ const defaultBalance2: FormattedBalance = { currency: 'XRP', amount: 50000 }
 
 const renderComponent = ({
   losData = defaultLosData,
+  isXrpBased = true,
   balance1 = defaultBalance1,
   balance2 = defaultBalance2,
   lpTokenBalance = '1000000',
@@ -49,6 +51,7 @@ const renderComponent = ({
         <TooltipProvider>
           <MarketDataCard
             losData={losData}
+            isXrpBased={isXrpBased}
             balance1={balance1}
             balance2={balance2}
             lpTokenBalance={lpTokenBalance}
@@ -58,6 +61,14 @@ const renderComponent = ({
     </I18nextProvider>,
   )
 
+/** Reads the value cell of the info-card row whose label contains `label`. */
+const getRowValue = (label: string) => {
+  const row = Array.from(document.querySelectorAll('.info-card-row')).find(
+    (r) => r.querySelector('.info-card-label')?.textContent?.includes(label),
+  )
+  return row?.querySelector('.info-card-value')?.textContent
+}
+
 describe('MarketDataCard', () => {
   it('renders Market Data title', () => {
     renderComponent()
@@ -65,14 +76,7 @@ describe('MarketDataCard', () => {
   })
 
   it('renders LOS fields with correct formatted values', () => {
-    const { container } = renderComponent()
-    const rows = container.querySelectorAll('.info-card-row')
-    const getRowValue = (label: string) => {
-      const row = Array.from(rows).find((r) =>
-        r.querySelector('.info-card-label')?.textContent?.includes(label),
-      )
-      return row?.querySelector('.info-card-value')?.textContent
-    }
+    renderComponent()
 
     expect(screen.getByText('tvl')).toBeInTheDocument()
     expect(getRowValue('tvl')).toBe('$1.2M')
@@ -85,6 +89,33 @@ describe('MarketDataCard', () => {
 
     expect(screen.getByText('apr_24h')).toBeInTheDocument()
     expect(getRowValue('apr_24h')).toBe('0.046%')
+  })
+
+  it("shows '--' for TVL, volume, fees and APR on a non-XRP pool", () => {
+    // Those values can only be priced reliably for XRP-based pools. The rows stay so
+    // the card keeps its shape and the absence is explicit; only the figures are withheld.
+    renderComponent({ isXrpBased: false })
+
+    expect(screen.getByText('tvl')).toBeInTheDocument()
+    expect(getRowValue('tvl')).toBe('--')
+    expect(getRowValue('volume_24h')).toBe('--')
+    expect(getRowValue('fees_24h')).toBe('--')
+    expect(getRowValue('apr_24h')).toBe('--')
+  })
+
+  it('still renders balances and the LP provider count for a non-XRP pool', () => {
+    // These come from amm_info / are counts, so they stay trustworthy.
+    const { container } = renderComponent({ isXrpBased: false })
+
+    const balanceLabels = Array.from(
+      container.querySelectorAll('.info-card-label'),
+    ).filter((l) => l.textContent?.includes('BALANCE'))
+    expect(balanceLabels.length).toBe(2)
+
+    expect(screen.getByText('lp_tokens')).toBeInTheDocument()
+    expect(
+      container.querySelector('.info-card-subtitle')?.textContent,
+    ).toContain('747')
   })
 
   it('renders balances with correct formatted values', () => {

@@ -32,12 +32,12 @@ app.use(files)
 app.use('/api/v1', routes)
 
 if (process.env.NODE_ENV === 'production') {
-  app.get('*', (_req, res) => {
+  app.get('/{*splat}', (_req, res) => {
     res.sendFile(path.join(__dirname, '/../build/index.html'))
   })
 }
 
-app.use('*', (req, res) => {
+app.use((req, res) => {
   log.error('not found:', req.originalUrl)
   res.status(404).send({ error: 'route not found' })
 })
