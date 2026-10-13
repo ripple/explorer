@@ -461,7 +461,9 @@ const getAccountSponsorship = async (
       ...resp.account_objects.filter((d: any) => d.Sponsee === account),
     )
 
-    const totalExamined = examined + resp.account_objects.length
+    // `limit` bounds objects examined, not returned, so the filtered page
+    // length would undercount (often to zero) and defeat the cap.
+    const totalExamined = examined + SPONSORSHIP_PAGE_SIZE
     if (resp.marker && totalExamined < SPONSORSHIP_MAX_EXAMINED) {
       return fetchPage(resp.marker, totalExamined)
     }

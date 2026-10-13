@@ -324,6 +324,22 @@ describe('getAccountSponsorship', () => {
     })
   })
 
+  it('stops paging once the examined-object cap is reached', async () => {
+    // Pages of filtered results can be empty while rippled still examines a
+    // full page of objects, so the cap must count the page size, not the
+    // number of Sponsorship objects returned.
+    const socket = {
+      send: jest
+        .fn()
+        .mockResolvedValue({ account_objects: [], marker: 'next' }),
+    } as any
+
+    await expect(
+      getAccountSponsorship(socket, ACCOUNT),
+    ).resolves.toBeUndefined()
+    expect(socket.send).toHaveBeenCalledTimes(10) // 4000 / 400
+  })
+
   it('ignores Sponsorship objects where this account is the sponsor, not the sponsee', async () => {
     const socket = makeSocket({
       account_objects: [
