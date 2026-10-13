@@ -1442,4 +1442,102 @@ describe('VaultHeader Component', () => {
       expect(tvlRow).toHaveTextContent('Total Value Locked (TVL)$2.00M USD')
     })
   })
+
+  describe('Closed-Ended Vault Fields', () => {
+    it('omits the kind and date rows for a vault with no VaultKind', () => {
+      const vaultData = {
+        Owner: 'rTestOwner',
+        Asset: { currency: 'XRP' },
+      }
+
+      render(
+        <TestWrapper>
+          <VaultHeader
+            data={vaultData}
+            vaultId="ABC123"
+            displayCurrency="XRP"
+          />
+        </TestWrapper>,
+      )
+
+      expect(screen.queryByText('Vault Kind')).not.toBeInTheDocument()
+      expect(screen.queryByText('Subscription Date')).not.toBeInTheDocument()
+      expect(screen.queryByText('Redemption Date')).not.toBeInTheDocument()
+    })
+
+    it('displays Open Ended for VaultKind 0 without dates', () => {
+      const vaultData = {
+        Owner: 'rTestOwner',
+        Asset: { currency: 'XRP' },
+        VaultKind: 0,
+      }
+
+      render(
+        <TestWrapper>
+          <VaultHeader
+            data={vaultData}
+            vaultId="ABC123"
+            displayCurrency="XRP"
+          />
+        </TestWrapper>,
+      )
+
+      expect(screen.getByText('Vault Kind').closest('tr')).toHaveTextContent(
+        'Vault KindOpen Ended',
+      )
+      expect(screen.queryByText('Subscription Date')).not.toBeInTheDocument()
+    })
+
+    it('displays Closed Ended with formatted subscription and redemption dates', () => {
+      const vaultData = {
+        Owner: 'rTestOwner',
+        Asset: { currency: 'XRP' },
+        VaultKind: 1,
+        SubscriptionDate: 807030000,
+        RedemptionDate: 807030300,
+      }
+
+      render(
+        <TestWrapper>
+          <VaultHeader
+            data={vaultData}
+            vaultId="ABC123"
+            displayCurrency="XRP"
+          />
+        </TestWrapper>,
+      )
+
+      expect(screen.getByText('Vault Kind').closest('tr')).toHaveTextContent(
+        'Vault KindClosed Ended',
+      )
+      expect(
+        screen.getByText('Subscription Date').closest('tr'),
+      ).toHaveTextContent('Subscription DateJuly 28, 2025 at 3:00:00 PM UTC')
+      expect(
+        screen.getByText('Redemption Date').closest('tr'),
+      ).toHaveTextContent('Redemption DateJuly 28, 2025 at 3:05:00 PM UTC')
+    })
+
+    it('falls back to the raw value for an unknown VaultKind', () => {
+      const vaultData = {
+        Owner: 'rTestOwner',
+        Asset: { currency: 'XRP' },
+        VaultKind: 7,
+      }
+
+      render(
+        <TestWrapper>
+          <VaultHeader
+            data={vaultData}
+            vaultId="ABC123"
+            displayCurrency="XRP"
+          />
+        </TestWrapper>,
+      )
+
+      expect(screen.getByText('Vault Kind').closest('tr')).toHaveTextContent(
+        'Vault Kind7',
+      )
+    })
+  })
 })

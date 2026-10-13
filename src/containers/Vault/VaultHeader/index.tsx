@@ -10,7 +10,11 @@ import { MPT_ROUTE } from '../../App/routes'
 import SocketContext from '../../shared/SocketContext'
 import { getMPTIssuance } from '../../../rippled/lib/rippled'
 import { parseVaultWebsite } from '../utils'
-import { getCurrencySymbol, isCurrencyExoticSymbol } from '../../shared/utils'
+import {
+  getCurrencySymbol,
+  isCurrencyExoticSymbol,
+  localizeDate,
+} from '../../shared/utils'
 import './styles.scss'
 import { useAnalytics } from '../../shared/analytics'
 import { parseAmount } from '../../shared/NumberFormattingUtils'
@@ -18,6 +22,10 @@ import { convertHexToString } from '../../../rippled/lib/utils'
 import { Metadata } from '../../Token/MPT/Header/Metadata'
 import Currency from '../../shared/components/Currency'
 import { parseMPTokenMetadata } from '../../shared/mptUtils'
+import { VAULT_KINDS } from '../../shared/vaultUtils'
+import { convertRippleDate } from '../../../rippled/lib/convertRippleDate'
+import { DATE_OPTIONS } from '../../shared/transactionUtils'
+import { useLanguage } from '../../shared/hooks'
 
 interface VaultData {
   Owner?: string
@@ -36,6 +44,9 @@ interface VaultData {
   WithdrawalPolicy?: number
   Data?: string
   ShareMPTID?: string
+  VaultKind?: number
+  SubscriptionDate?: number
+  RedemptionDate?: number
 }
 
 interface Props {
@@ -58,6 +69,7 @@ const WITHDRAWAL_POLICIES: { [key: number]: string } = {
 
 export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
   const { t } = useTranslation()
+  const language = useLanguage()
   const { trackException } = useAnalytics()
   const rippledSocket = useContext(SocketContext)
   const { rate: tokenToUsdRate } = useTokenToUSDRate(
@@ -77,6 +89,9 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
     WithdrawalPolicy: withdrawalPolicy,
     Data: vaultDataRaw,
     ShareMPTID: vaultShareMptId,
+    VaultKind: vaultKind,
+    SubscriptionDate: subscriptionDate,
+    RedemptionDate: redemptionDate,
   } = data
 
   // Converts amount to USD if displayCurrency is 'USD', otherwise returns as-is
@@ -159,6 +174,19 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
     // Use type assertion for dynamic translation keys
     return t(policyKey as 'first_come_first_served')
   }
+
+  const getVaultKindText = () => {
+    if (vaultKind === undefined) return '-'
+    const kindKey = VAULT_KINDS[vaultKind]
+    if (!kindKey) return String(vaultKind)
+    // Use type assertion for dynamic translation keys
+    return t(kindKey as 'open_ended')
+  }
+
+  const formatVaultDate = (date: number) =>
+    `${localizeDate(new Date(convertRippleDate(date)), language, DATE_OPTIONS)} ${
+      DATE_OPTIONS.timeZone
+    }`
 
   const renderMPTSharesLink = () => {
     if (!vaultShareMptId) return '-'
@@ -278,6 +306,24 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
                 label={t('withdrawal_policy')}
                 value={getWithdrawalPolicyText()}
               />
+              {vaultKind !== undefined && (
+                <TokenTableRow
+                  label={t('vault_kind')}
+                  value={getVaultKindText()}
+                />
+              )}
+              {subscriptionDate !== undefined && (
+                <TokenTableRow
+                  label={t('subscription_date')}
+                  value={formatVaultDate(subscriptionDate)}
+                />
+              )}
+              {redemptionDate !== undefined && (
+                <TokenTableRow
+                  label={t('redemption_date')}
+                  value={formatVaultDate(redemptionDate)}
+                />
+              )}
             </tbody>
           </table>
         </div>
