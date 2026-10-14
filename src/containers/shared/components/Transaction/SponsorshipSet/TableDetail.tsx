@@ -44,7 +44,13 @@ export const TableDetail = ({ instructions }: TransactionTableDetailProps) => {
       {!isDelete && maxFee && (
         <div>
           <span className="label">{t('max_fee')}</span>
-          <Amount value={maxFee} />
+          {maxFee.amount === 0 ? (
+            // MaxFee: "0" removes the per-transaction cap (XLS-68 §9.5), it
+            // doesn't mean no fee is allowed.
+            <span>{t('max_fee_removed')}</span>
+          ) : (
+            <Amount value={maxFee} />
+          )}
         </div>
       )}
       {!isDelete && remainingOwnerCountDelta !== undefined && (

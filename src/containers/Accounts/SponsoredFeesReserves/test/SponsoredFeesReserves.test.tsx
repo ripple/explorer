@@ -1,19 +1,41 @@
-import { render, screen, fireEvent } from '@testing-library/react'
+import {
+  render,
+  screen,
+  cleanup,
+  waitFor,
+  fireEvent,
+} from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter as Router } from 'react-router'
+import { QueryClientProvider } from 'react-query'
 import i18n from '../../../../i18n/testConfigEnglish'
+import SocketContext from '../../../shared/SocketContext'
+import { queryClient } from '../../../shared/QueryClient'
 import { SponsoredFeesReserves } from '../index'
+import { getAccountSponsorship } from '../../../../rippled/lib/rippled'
 import type { AccountState } from '../../../../rippled/accountState'
+import Mock = jest.Mock
 
+jest.mock('../../../../rippled/lib/rippled')
 jest.mock('../../../shared/components/Account', () => ({
   Account: ({ account }: { account: string }) => (
     <span data-testid="account-component">{account}</span>
   ),
 }))
 
+const mockedGetAccountSponsorship = getAccountSponsorship as Mock
+
+const mockSocket = {} as any
+
 const TestWrapper = ({ children }: { children: React.ReactNode }) => (
   <I18nextProvider i18n={i18n}>
-    <Router>{children}</Router>
+    <Router>
+      <SocketContext.Provider value={mockSocket}>
+        <QueryClientProvider client={queryClient}>
+          {children}
+        </QueryClientProvider>
+      </SocketContext.Provider>
+    </Router>
   </I18nextProvider>
 )
 
@@ -30,7 +52,15 @@ const openSection = () => {
 }
 
 describe('SponsoredFeesReserves Component', () => {
-  it('renders the title and starts collapsed', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+    queryClient.clear()
+    mockedGetAccountSponsorship.mockResolvedValue(undefined)
+  })
+
+  afterEach(cleanup)
+
+  it('renders the title and starts collapsed', async () => {
     render(
       <TestWrapper>
         <SponsoredFeesReserves account={baseAccount} />
@@ -39,9 +69,10 @@ describe('SponsoredFeesReserves Component', () => {
 
     expect(screen.getByText('Sponsored Fees & Reserves')).toBeInTheDocument()
     expect(screen.queryByText('No Sponsors')).not.toBeInTheDocument()
+    await waitFor(() => expect(mockedGetAccountSponsorship).toHaveBeenCalled())
   })
 
-  it('shows "No Sponsors" when the account has no sponsorship', () => {
+  it('shows "No Sponsors" when the account has no sponsorship', async () => {
     render(
       <TestWrapper>
         <SponsoredFeesReserves account={baseAccount} />
@@ -50,12 +81,14 @@ describe('SponsoredFeesReserves Component', () => {
 
     openSection()
 
-    expect(screen.getByText('No Sponsors')).toBeInTheDocument()
+    await waitFor(() =>
+      expect(screen.getByText('No Sponsors')).toBeInTheDocument(),
+    )
     expect(screen.queryByText('Transaction Fees')).not.toBeInTheDocument()
     expect(screen.queryByText('Base Reserve')).not.toBeInTheDocument()
   })
 
-  it('renders only the Base Reserve row when only the reserve is sponsored', () => {
+  it('renders only the Base Reserve row when only the reserve is sponsored', async () => {
     const account: AccountState = {
       ...baseAccount,
       info: {
@@ -72,79 +105,105 @@ describe('SponsoredFeesReserves Component', () => {
 
     openSection()
 
-    expect(screen.getByText('Base Reserve')).toBeInTheDocument()
+    await waitFor(() =>
+      expect(screen.getByText('Base Reserve')).toBeInTheDocument(),
+    )
     expect(screen.queryByText('Transaction Fees')).not.toBeInTheDocument()
     expect(screen.getByTestId('account-component')).toHaveTextContent(
       'rBaseReserveSponsor11111111111111',
     )
   })
 
-  it('renders only the Transaction Fees row when only fees are sponsored', () => {
-    const account: AccountState = {
-      ...baseAccount,
-      sponsorship: [
-        {
-          owner: 'rFeeSponsor2222222222222222222222',
-          sponsee: baseAccount.account,
-          feeAmount: '1000000',
-        },
-      ],
-    }
+  it('renders only the Transaction Fees row when only fees are sponsored', async () => {
+    mockedGetAccountSponsorship.mockResolvedValue([
+      {
+        owner: 'rFeeSponsor2222222222222222222222',
+        sponsee: baseAccount.account,
+        feeAmount: '1000000',
+      },
+    ])
 
     render(
       <TestWrapper>
-        <SponsoredFeesReserves account={account} />
+        <SponsoredFeesReserves account={baseAccount} />
       </TestWrapper>,
     )
 
     openSection()
 
-    expect(screen.getByText('Transaction Fees')).toBeInTheDocument()
+    await waitFor(() =>
+      expect(screen.getByText('Transaction Fees')).toBeInTheDocument(),
+    )
     expect(screen.queryByText('Base Reserve')).not.toBeInTheDocument()
     expect(screen.getByTestId('account-component')).toHaveTextContent(
       'rFeeSponsor2222222222222222222222',
     )
   })
 
-  it('omits the Transaction Fees row when the sponsorship has no fee budget', () => {
-    const account: AccountState = {
-      ...baseAccount,
-      sponsorship: [
-        {
-          owner: 'rFeeSponsor2222222222222222222222',
-          sponsee: baseAccount.account,
-          feeAmount: '0',
-        },
-      ],
-    }
+  it('omits the Transaction Fees row when the sponsorship has no fee budget', async () => {
+    mockedGetAccountSponsorship.mockResolvedValue([
+      {
+        owner: 'rFeeSponsor2222222222222222222222',
+        sponsee: baseAccount.account,
+        feeAmount: '0',
+      },
+    ])
 
     render(
       <TestWrapper>
-        <SponsoredFeesReserves account={account} />
+        <SponsoredFeesReserves account={baseAccount} />
       </TestWrapper>,
     )
 
     openSection()
 
-    expect(screen.getByText('No Sponsors')).toBeInTheDocument()
+    await waitFor(() =>
+      expect(screen.getByText('No Sponsors')).toBeInTheDocument(),
+    )
     expect(screen.queryByText('Transaction Fees')).not.toBeInTheDocument()
   })
 
-  it('renders both rows when both fees and reserve are sponsored', () => {
+  it('renders a Reserve row when the sponsorship has only a reserve budget', async () => {
+    mockedGetAccountSponsorship.mockResolvedValue([
+      {
+        owner: 'rReserveSponsor44444444444444444',
+        sponsee: baseAccount.account,
+        feeAmount: '0',
+        remainingOwnerCount: 5,
+      },
+    ])
+
+    render(
+      <TestWrapper>
+        <SponsoredFeesReserves account={baseAccount} />
+      </TestWrapper>,
+    )
+
+    openSection()
+
+    await waitFor(() => expect(screen.getByText('Reserve')).toBeInTheDocument())
+    expect(screen.queryByText('No Sponsors')).not.toBeInTheDocument()
+    expect(screen.queryByText('Transaction Fees')).not.toBeInTheDocument()
+    expect(screen.getByTestId('account-component')).toHaveTextContent(
+      'rReserveSponsor44444444444444444',
+    )
+  })
+
+  it('renders both rows when both fees and reserve are sponsored', async () => {
     const account: AccountState = {
       ...baseAccount,
       info: {
         ...baseAccount.info,
         sponsor: 'rBaseReserveSponsor11111111111111',
       },
-      sponsorship: [
-        {
-          owner: 'rFeeSponsor2222222222222222222222',
-          sponsee: baseAccount.account,
-          feeAmount: '1000000',
-        },
-      ],
     }
+    mockedGetAccountSponsorship.mockResolvedValue([
+      {
+        owner: 'rFeeSponsor2222222222222222222222',
+        sponsee: baseAccount.account,
+        feeAmount: '1000000',
+      },
+    ])
 
     render(
       <TestWrapper>
@@ -154,37 +213,38 @@ describe('SponsoredFeesReserves Component', () => {
 
     openSection()
 
-    expect(screen.getByText('Transaction Fees')).toBeInTheDocument()
+    await waitFor(() =>
+      expect(screen.getByText('Transaction Fees')).toBeInTheDocument(),
+    )
     expect(screen.getByText('Base Reserve')).toBeInTheDocument()
     expect(screen.getAllByTestId('account-component')).toHaveLength(2)
   })
 
-  it('renders one Transaction Fees row per sponsor when there are multiple fee sponsors', () => {
-    const account: AccountState = {
-      ...baseAccount,
-      sponsorship: [
-        {
-          owner: 'rFeeSponsor2222222222222222222222',
-          sponsee: baseAccount.account,
-          feeAmount: '1000000',
-        },
-        {
-          owner: 'rFeeSponsor3333333333333333333333',
-          sponsee: baseAccount.account,
-          feeAmount: '2000000',
-        },
-      ],
-    }
+  it('renders one Transaction Fees row per sponsor when there are multiple fee sponsors', async () => {
+    mockedGetAccountSponsorship.mockResolvedValue([
+      {
+        owner: 'rFeeSponsor2222222222222222222222',
+        sponsee: baseAccount.account,
+        feeAmount: '1000000',
+      },
+      {
+        owner: 'rFeeSponsor3333333333333333333333',
+        sponsee: baseAccount.account,
+        feeAmount: '2000000',
+      },
+    ])
 
     render(
       <TestWrapper>
-        <SponsoredFeesReserves account={account} />
+        <SponsoredFeesReserves account={baseAccount} />
       </TestWrapper>,
     )
 
     openSection()
 
-    expect(screen.getAllByText('Transaction Fees')).toHaveLength(2)
+    await waitFor(() =>
+      expect(screen.getAllByText('Transaction Fees')).toHaveLength(2),
+    )
     expect(screen.getAllByTestId('account-component')).toHaveLength(2)
     expect(screen.getAllByTestId('account-component')[0]).toHaveTextContent(
       'rFeeSponsor2222222222222222222222',

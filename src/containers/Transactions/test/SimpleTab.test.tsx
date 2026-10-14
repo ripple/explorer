@@ -106,6 +106,22 @@ describe('SimpleTab container', () => {
     ).not.toBeInTheDocument()
   })
 
+  it('renders a Sponsor row for SponsorshipTransfer create/reassign when SponsorFlags also sponsors the fee', () => {
+    const feeSponsoredTransfer = {
+      ...SponsorshipTransferCreate,
+      tx: {
+        ...SponsorshipTransferCreate.tx,
+        SponsorFlags: 3,
+      },
+    }
+    const { container } = renderSimpleTab(feeSponsoredTransfer)
+    expectSimpleRowText(
+      container,
+      'sponsor',
+      'rBaseReserveSponsor1111111111111',
+    )
+  })
+
   it('renders a Sponsor row for SponsorshipTransfer end, where the field is free for genuine co-sponsorship', () => {
     const coSponsoredEnd = {
       ...SponsorshipTransferEnd,

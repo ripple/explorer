@@ -3,6 +3,7 @@ import { TableDetail } from '../TableDetail'
 import i18n from '../../../../../../i18n/testConfigEnglish'
 import SponsorshipSet from './mock_data/SponsorshipSet.json'
 import SponsorshipSetDelete from './mock_data/SponsorshipSetDelete.json'
+import SponsorshipSetMaxFeeRemoved from './mock_data/SponsorshipSetMaxFeeRemoved.json'
 
 const renderComponent = createTableDetailRenderFactory(TableDetail, i18n)
 
@@ -37,6 +38,16 @@ describe('SponsorshipSetTableDetail', () => {
     ).toHaveTextContent('Sponsorship Deleted')
     expect(container.querySelector('.sponsorship-set')).not.toHaveTextContent(
       'Fee Amount Change',
+    )
+
+    unmount()
+  })
+
+  it('shows "Removed" when MaxFee is set to 0', () => {
+    const { container, unmount } = renderComponent(SponsorshipSetMaxFeeRemoved)
+
+    expect(container.querySelector('.sponsorship-set')).toHaveTextContent(
+      'Max FeeRemoved',
     )
 
     unmount()

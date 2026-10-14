@@ -31,7 +31,10 @@ export const getSponsorScopes = (
 
 export const SPONSOR_SCOPE_LABEL_KEYS = {
   fee: 'account_page_sponsored_scope_transaction_fees',
-  reserve: 'account_page_sponsored_scope_base_reserve',
+  // `spfSponsorReserve` covers the reserve for any object or account the
+  // transaction creates (XLS-68 §8.1.1), not just the account's own base
+  // reserve, so this can't reuse the base-reserve label.
+  reserve: 'account_page_sponsored_scope_reserve',
 } as const
 
 export const TX_FLAGS: Record<string, Record<number, string>> = {

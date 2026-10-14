@@ -118,13 +118,16 @@ export const DetailTab: FC<{ data: any }> = ({ data }) => {
     // co-sponsoring this outer transaction, so it's excluded from the
     // generic Sponsor section there. On tfSponsorshipEnd the spec requires
     // Sponsor to be omitted for that purpose, so if it's present it can
-    // only be genuine outer co-sponsorship.
+    // only be genuine outer co-sponsorship. SponsorFlags may still include
+    // spfSponsorFee on create/reassign though, meaning the new sponsor also
+    // pays this transaction's fee, so that case is kept visible.
+    const scopes = getSponsorScopes(data.tx.SponsorFlags)
     const isNewSponsorField =
       data.tx.TransactionType === 'SponsorshipTransfer' &&
-      getOperation(data.tx.Flags || 0) !== 'end'
+      getOperation(data.tx.Flags || 0) !== 'end' &&
+      !scopes.includes('fee')
     if (isNewSponsorField) return null
     if (!data.tx.Sponsor) return null
-    const scopes = getSponsorScopes(data.tx.SponsorFlags)
     return (
       <div className="detail-section" data-testid="sponsor-section">
         <div className="title">{t('sponsor')}</div>

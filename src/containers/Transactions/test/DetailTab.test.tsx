@@ -174,6 +174,23 @@ describe('DetailTab container', () => {
     ).not.toBeInTheDocument()
   })
 
+  it('renders a Sponsor section for SponsorshipTransfer when SponsorFlags also sponsors the fee', () => {
+    // SponsorFlags can combine spfSponsorReserve (required on create/reassign)
+    // with spfSponsorFee, which outer transaction fee sponsorship should
+    // still surface even though Sponsor also carries its own-object meaning.
+    const feeSponsoredTransfer = {
+      ...SponsorshipTransferCreate,
+      tx: {
+        ...SponsorshipTransferCreate.tx,
+        SponsorFlags: 3,
+      },
+    }
+    const { container } = renderDetailTab(feeSponsoredTransfer)
+    const section = container.querySelector('[data-testid="sponsor-section"]')
+    expect(section).toBeInTheDocument()
+    expect(section).toHaveTextContent('Transaction Fees')
+  })
+
   it('renders flags', () => {
     const { container } = renderDetailTab(TrustSet)
     const expectedFlags = new Set([

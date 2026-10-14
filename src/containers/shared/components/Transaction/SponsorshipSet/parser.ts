@@ -28,6 +28,9 @@ export function parser(tx: SponsorshipSet) {
   return {
     sponsor,
     sponsee,
+    // If CounterpartySponsor is set, the sponsee submitted this transaction
+    // (XLS-68 §9.4 failure condition 6), not the sponsor.
+    isDeleteBySponsee: Boolean(tx.CounterpartySponsor),
     isDelete: Boolean(flags & TF_DELETE_OBJECT),
     feeAmountDelta: getSignedDelta(tx.FeeAmountDelta),
     maxFee: tx.MaxFee !== undefined ? formatAmount(tx.MaxFee) : undefined,

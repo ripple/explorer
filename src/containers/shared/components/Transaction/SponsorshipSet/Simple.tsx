@@ -42,7 +42,13 @@ export const Simple: TransactionSimpleComponent = ({
       )}
       {!isDelete && maxFee && (
         <SimpleRow label={t('max_fee')} data-testid="max-fee">
-          <Amount value={maxFee} />
+          {maxFee.amount === 0 ? (
+            // MaxFee: "0" removes the per-transaction cap (XLS-68 §9.5), it
+            // doesn't mean no fee is allowed.
+            t('max_fee_removed')
+          ) : (
+            <Amount value={maxFee} />
+          )}
         </SimpleRow>
       )}
       {!isDelete && remainingOwnerCountDelta !== undefined && (

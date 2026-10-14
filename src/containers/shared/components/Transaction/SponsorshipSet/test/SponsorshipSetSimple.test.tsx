@@ -3,6 +3,7 @@ import { Simple } from '../Simple'
 import i18n from '../../../../../../i18n/testConfigEnglish'
 import SponsorshipSet from './mock_data/SponsorshipSet.json'
 import SponsorshipSetDelete from './mock_data/SponsorshipSetDelete.json'
+import SponsorshipSetMaxFeeRemoved from './mock_data/SponsorshipSetMaxFeeRemoved.json'
 
 const renderComponent = createSimpleRenderFactory(Simple, i18n)
 
@@ -33,6 +34,14 @@ describe('SponsorshipSet: Simple', () => {
     expect(
       container.querySelector('[data-testid="fee-amount-delta"]'),
     ).not.toBeInTheDocument()
+    unmount()
+  })
+
+  it('shows "Removed" when MaxFee is set to 0', () => {
+    // MaxFee: "0" removes the per-transaction cap; it isn't a fee of zero.
+    const { container, unmount } = renderComponent(SponsorshipSetMaxFeeRemoved)
+
+    expectSimpleRowText(container, 'max-fee', 'Removed')
     unmount()
   })
 })
