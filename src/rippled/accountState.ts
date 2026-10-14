@@ -43,6 +43,7 @@ export interface AccountState {
     emailHash?: string
     flags: string[]
     nftMinter?: string
+    sponsor?: string
   }
   xAddress?: {
     classicAddress: string
@@ -87,6 +88,10 @@ async function getAccountState(
 
   return getAccountInfo(rippledSocket, classicAddress)
     .then((info) =>
+      // Sponsorship is fetched separately by SponsoredFeesReserves via its
+      // own useQuery, not here: `account_objects` pages through up to 10
+      // requests to find it, and folding that into this Promise.all would
+      // make the whole account page fail on a single sponsorship timeout.
       Promise.all([
         getAccountPaychannels(rippledSocket, classicAddress, info.ledger_index),
         getServerInfo(rippledSocket),

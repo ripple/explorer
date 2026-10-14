@@ -93,6 +93,72 @@ describe('rippled utils:', () => {
         ['lsfDefaultRipple', 'lsfAllowTrustLineLocking'].sort(),
       )
     })
+
+    it('computes the plain reserve when there is no sponsorship', () => {
+      const result = formatAccountInfo(
+        { ...accountInfoData, OwnerCount: 3 },
+        serverInfoValidatedLedger,
+      )
+
+      // base(1) + inc(0.2) * ownerCount(3)
+      expect(result.reserve).toBeCloseTo(1.6)
+    })
+
+    it('excludes the base reserve for a sponsored account', () => {
+      const result = formatAccountInfo(
+        {
+          ...accountInfoData,
+          OwnerCount: 3,
+          Sponsor: 'rBaseReserveSponsor11111111111111',
+        },
+        serverInfoValidatedLedger,
+      )
+
+      // no base + inc(0.2) * ownerCount(3)
+      expect(result.reserve).toBeCloseTo(0.6)
+    })
+
+    it('excludes sponsored objects from the owner-count reserve', () => {
+      const result = formatAccountInfo(
+        {
+          ...accountInfoData,
+          OwnerCount: 5,
+          SponsoredOwnerCount: 2,
+        },
+        serverInfoValidatedLedger,
+      )
+
+      // base(1) + inc(0.2) * (ownerCount(5) - sponsoredOwnerCount(2))
+      expect(result.reserve).toBeCloseTo(1.6)
+    })
+
+    it('includes objects this account sponsors for others', () => {
+      const result = formatAccountInfo(
+        {
+          ...accountInfoData,
+          OwnerCount: 1,
+          SponsoringOwnerCount: 4,
+        },
+        serverInfoValidatedLedger,
+      )
+
+      // base(1) + inc(0.2) * (ownerCount(1) + sponsoringOwnerCount(4))
+      expect(result.reserve).toBeCloseTo(2)
+    })
+
+    it('adds one base reserve per account this account sponsors', () => {
+      const result = formatAccountInfo(
+        {
+          ...accountInfoData,
+          OwnerCount: 0,
+          SponsoringAccountCount: 2,
+        },
+        serverInfoValidatedLedger,
+      )
+
+      // base(1) + inc(0.2) * ownerCount(0) + base(1) * sponsoringAccountCount(2)
+      expect(result.reserve).toBeCloseTo(3)
+    })
   })
 
   describe('formatTransferFee', () => {
