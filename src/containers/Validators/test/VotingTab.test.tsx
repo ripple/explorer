@@ -67,7 +67,7 @@ describe('VotingTab container', () => {
 
     // Render fees voting correctly
     const cells = container.querySelectorAll('.metrics .cell')
-    expect(cells[0].innerHTML).toContain('0.00001')
+    expect(cells[0].innerHTML).toContain('10 drops')
     expect(cells[1].innerHTML).toContain('10.00')
     expect(cells[2].innerHTML).toContain('2.00')
 
