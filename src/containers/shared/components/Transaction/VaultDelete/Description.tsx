@@ -8,9 +8,7 @@ export const Description = ({
   data,
 }: TransactionDescriptionProps<VaultDelete>) => {
   const { tx } = data
-  const { Account: account, VaultID: vaultId } = tx
-  // MemoData is not yet part of the xrpl package's VaultDelete type
-  const memoData = (tx as any).MemoData as string | undefined
+  const { Account: account, VaultID: vaultId, MemoData: memoData } = tx
   return (
     <>
       <Trans

@@ -9,9 +9,7 @@ export const Simple: TransactionSimpleComponent = (
 ) => {
   const { t } = useTranslation()
   const { data } = props
-  const { VaultID: vaultId } = data.instructions
-  // MemoData is not yet part of the xrpl package's VaultDelete type
-  const memoData = (data.instructions as any).MemoData as string | undefined
+  const { VaultID: vaultId, MemoData: memoData } = data.instructions
   return (
     <>
       <SimpleRow

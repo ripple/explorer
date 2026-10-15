@@ -24,14 +24,10 @@ export const Simple: TransactionSimpleComponent = (
     MPTokenMetadata,
     WithdrawalPolicy,
     DomainID,
+    VaultKind: vaultKind,
+    SubscriptionDate: subscriptionDate,
+    RedemptionDate: redemptionDate,
   } = data.instructions
-  // VaultKind, SubscriptionDate and RedemptionDate are not yet part of the
-  // xrpl package's VaultCreate type.
-  const vaultKind = (data.instructions as any).VaultKind as number | undefined
-  const subscriptionDate = (data.instructions as any).SubscriptionDate as
-    number | undefined
-  const redemptionDate = (data.instructions as any).RedemptionDate as
-    number | undefined
   const formatVaultDate = (date: number) =>
     `${localizeDate(new Date(convertRippleDate(date)), language, DATE_OPTIONS)} ${
       DATE_OPTIONS.timeZone

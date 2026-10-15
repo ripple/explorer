@@ -16,10 +16,8 @@ export const Simple: TransactionSimpleComponent = (
     VaultID: vaultId,
     Amount: amount,
     Destination: destination,
+    CredentialIDs: credentialIds,
   } = data.instructions
-  // CredentialIDs is not yet part of the xrpl package's VaultWithdraw type.
-  const credentialIds = (data.instructions as any).CredentialIDs as
-    string[] | undefined
   return (
     <>
       <SimpleRow
