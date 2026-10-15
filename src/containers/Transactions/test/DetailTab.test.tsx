@@ -7,6 +7,7 @@ import FailedTransaction from '../../shared/components/Transaction/SignerListSet
 import HookPayment from './mock_data/HookPayment.json'
 import EmittedPayment from './mock_data/EmittedPayment.json'
 import TrustSet from './mock_data/TrustSet.json'
+import SponsorshipTransferCreate from '../../shared/components/Transaction/SponsorshipTransfer/test/mock_data/SponsorshipTransferCreate.json'
 import { DetailTab } from '../DetailTab'
 import i18n from '../../../i18n/testConfigEnglish'
 import { convertHexToString } from '../../../rippled/lib/utils'
@@ -149,6 +150,45 @@ describe('DetailTab container', () => {
       `Returned the code 0x8000000000000001 with string ""`,
     )
     expect(detailLines?.[3]).toHaveTextContent('Emitted 0 transactions')
+  })
+
+  it('renders a Sponsor section for a co-sponsored transaction', () => {
+    const sponsoredTransaction = {
+      ...Transaction,
+      tx: {
+        ...Transaction.tx,
+        Sponsor: 'rSponsor1111111111111111111111111',
+        SponsorFlags: 1,
+      },
+    }
+    const { container } = renderDetailTab(sponsoredTransaction)
+    expect(
+      container.querySelector('[data-testid="sponsor-section"]'),
+    ).toBeInTheDocument()
+  })
+
+  it('does not render a Sponsor section for SponsorshipTransfer, which reuses the field for its own meaning', () => {
+    const { container } = renderDetailTab(SponsorshipTransferCreate)
+    expect(
+      container.querySelector('[data-testid="sponsor-section"]'),
+    ).not.toBeInTheDocument()
+  })
+
+  it('renders a Sponsor section for SponsorshipTransfer when SponsorFlags also sponsors the fee', () => {
+    // SponsorFlags can combine spfSponsorReserve (required on create/reassign)
+    // with spfSponsorFee, which outer transaction fee sponsorship should
+    // still surface even though Sponsor also carries its own-object meaning.
+    const feeSponsoredTransfer = {
+      ...SponsorshipTransferCreate,
+      tx: {
+        ...SponsorshipTransferCreate.tx,
+        SponsorFlags: 3,
+      },
+    }
+    const { container } = renderDetailTab(feeSponsoredTransfer)
+    const section = container.querySelector('[data-testid="sponsor-section"]')
+    expect(section).toBeInTheDocument()
+    expect(section).toHaveTextContent('Transaction Fees')
   })
 
   it('renders flags', () => {

@@ -140,6 +140,10 @@ interface AccountInfo {
   PreviousTxnID: string
   PreviousTxnLgrSeq: number
   NFTokenMinter?: string
+  Sponsor?: string
+  SponsoredOwnerCount?: number
+  SponsoringOwnerCount?: number
+  SponsoringAccountCount?: number
 }
 
 interface ServerInfoValidated {
@@ -162,6 +166,7 @@ interface FormattedAccountInfo {
   previousTxn: string
   previousLedger: number
   nftMinter?: string
+  sponsor?: string
 }
 
 const formatAccountInfo = (
@@ -174,8 +179,17 @@ const formatAccountInfo = (
   ownerCount: info.OwnerCount,
   reserve:
     serverInfoValidated.reserve_base_xrp && serverInfoValidated.reserve_inc_xrp
-      ? serverInfoValidated.reserve_base_xrp +
-        info.OwnerCount * serverInfoValidated.reserve_inc_xrp
+      ? // XLS-68 Sponsored Fees and Reserves §6.2: a sponsored account owes no
+        // base reserve, owned-object reserve excludes sponsored objects and
+        // includes objects this account sponsors for others, and sponsoring
+        // other accounts' base reserve adds one base reserve each.
+        (info.Sponsor ? 0 : serverInfoValidated.reserve_base_xrp) +
+        serverInfoValidated.reserve_inc_xrp *
+          (info.OwnerCount -
+            (info.SponsoredOwnerCount ?? 0) +
+            (info.SponsoringOwnerCount ?? 0)) +
+        serverInfoValidated.reserve_base_xrp *
+          (info.SponsoringAccountCount ?? 0)
       : undefined,
   tick: info.TickSize,
   rate: formatTransferFee(info.TransferRate, 'IOU'),
@@ -186,6 +200,7 @@ const formatAccountInfo = (
   previousTxn: info.PreviousTxnID,
   previousLedger: info.PreviousTxnLgrSeq,
   nftMinter: info.NFTokenMinter,
+  sponsor: info.Sponsor,
 })
 
 const formatTransaction = (tx: any): any => {
