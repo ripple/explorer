@@ -98,7 +98,8 @@ describe('Search component', () => {
 
     // mock APIs to test hash disambiguation
     const mockAPI = jest.spyOn(rippled, 'getTransaction')
-    const mockGetVault = jest.spyOn(rippled, 'getVault')
+    const mockGetLedgerEntry = jest.spyOn(rippled, 'getLedgerEntry')
+    const mockGetLoanBroker = jest.spyOn(rippled, 'getLoanBroker')
     const mockGetLedger = jest.spyOn(rippled, 'getLedger')
     const mockGetNFTInfo = jest.spyOn(rippled, 'getNFTInfo')
 
@@ -159,7 +160,7 @@ describe('Search component', () => {
 
     // Returns a response upon a valid nft_id, redirect to NFT
     mockAPI.mockRejectedValue(new Error('Tx not found'))
-    mockGetVault.mockRejectedValue(new Error('not found'))
+    mockGetLedgerEntry.mockRejectedValue(new Error('not found'))
     mockGetLedger.mockRejectedValue(new Error('not found'))
     mockGetNFTInfo.mockResolvedValue({ nft_id: nftoken })
     await testValue(nftoken, `/nft/${nftoken}`)
@@ -180,14 +181,61 @@ describe('Search component', () => {
 
     // Mock the API to simulate circumstances where the ledger-object is a vault and not a transaction
     mockAPI.mockRejectedValue()
-    mockGetVault.mockResolvedValue()
+    mockGetLedgerEntry.mockResolvedValue({ node: { LedgerEntryType: 'Vault' } })
     await testValue(vaultID, `/vault/${vaultID}`)
+
+    // A loan broker has no page of its own: it resolves to the vault that owns it
+    const loanBrokerID =
+      '055FDE074EC86E62F94F32D296898DA8A9D2586262AD1B912CA6066377D0BE9F'
+    mockGetLedgerEntry.mockResolvedValue({
+      node: { LedgerEntryType: 'LoanBroker', VaultID: vaultID },
+    })
+    await testValue(loanBrokerID, `/vault/${vaultID}`)
+
+    // A loan resolves through its broker to the same vault, and the broker it asks for is the one
+    // named on the loan rather than whatever the mock happens to return.
+    const loanID =
+      'A7920C443CA7AD71803F7F8E230FC7E1B53FC560EF10DD5EA59DE9D621F54165'
+    mockGetLedgerEntry.mockResolvedValue({
+      node: { LedgerEntryType: 'Loan', LoanBrokerID: loanBrokerID },
+    })
+    mockGetLoanBroker.mockImplementation((_ctx, id) =>
+      id === loanBrokerID
+        ? Promise.resolve({ VaultID: vaultID })
+        : Promise.reject(new Error(`unexpected broker id ${id}`)),
+    )
+    await testValue(loanID, `/vault/${vaultID}`)
+    expect(mockGetLoanBroker).toHaveBeenCalledWith(
+      expect.anything(),
+      loanBrokerID,
+    )
+
+    // A ledger object this search does not route to still falls through to not found, which is the
+    // behaviour #1320 introduced after a PermissionedDomain id was landing on a vault page.
+    mockGetNFTInfo.mockRejectedValue(new Error('not found'))
+    const permissionedDomainIndex =
+      'BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB'
+    mockGetLedgerEntry.mockResolvedValue({
+      node: { LedgerEntryType: 'PermissionedDomain' },
+    })
+    await testValue(
+      permissionedDomainIndex,
+      `/search/${permissionedDomainIndex}`,
+    )
+
+    // A loan broker whose VaultID is missing must not produce a broken route either
+    const brokerWithoutVault =
+      'CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC'
+    mockGetLedgerEntry.mockResolvedValue({
+      node: { LedgerEntryType: 'LoanBroker' },
+    })
+    await testValue(brokerWithoutVault, `/search/${brokerWithoutVault}`)
 
     // Ledger hash found: tx fails, vault fails, ledger succeeds
     const ledgerHash =
       'A1B2C3D4E5F6A1B2C3D4E5F6A1B2C3D4E5F6A1B2C3D4E5F6A1B2C3D4E5F6A1B2'
     mockAPI.mockRejectedValue(new Error('not found'))
-    mockGetVault.mockRejectedValue(new Error('not found'))
+    mockGetLedgerEntry.mockRejectedValue(new Error('not found'))
     mockGetLedger.mockResolvedValue({ ledger_index: 100 })
     await testValue(ledgerHash, `/ledgers/${ledgerHash}`)
 
@@ -195,7 +243,7 @@ describe('Search component', () => {
     const unknownHash =
       'FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF'
     mockAPI.mockRejectedValue(new Error('not found'))
-    mockGetVault.mockRejectedValue(new Error('not found'))
+    mockGetLedgerEntry.mockRejectedValue(new Error('not found'))
     mockGetLedger.mockRejectedValue(new Error('not found'))
     mockGetNFTInfo.mockRejectedValue(new Error('not found'))
     await testValue(unknownHash, `/search/${unknownHash}`)
@@ -223,7 +271,9 @@ describe('Search component', () => {
     jest
       .spyOn(rippled, 'getTransaction')
       .mockRejectedValue(new Error('not found'))
-    jest.spyOn(rippled, 'getVault').mockRejectedValue(new Error('not found'))
+    jest
+      .spyOn(rippled, 'getLedgerEntry')
+      .mockRejectedValue(new Error('not found'))
     jest.spyOn(rippled, 'getLedger').mockRejectedValue(new Error('not found'))
     jest.spyOn(rippled, 'getNFTInfo').mockRejectedValue(new Error('not found'))
 
