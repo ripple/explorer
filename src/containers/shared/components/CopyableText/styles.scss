@@ -35,10 +35,13 @@
 
 .copyable-text-with-icon {
   display: inline-flex;
+  min-width: 0;
+  max-width: 100%;
   align-items: center;
 
   .copyable-text-value {
     color: $white;
+    overflow-wrap: anywhere;
   }
 
   .copy-icon-button {
