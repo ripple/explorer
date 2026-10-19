@@ -58,8 +58,6 @@ interface Props {
 // Vault flags from XLS-65d spec
 const VAULT_FLAGS = {
   lsfVaultPrivate: 0x00010000,
-  lsfVaultDepositBlocked: 0x00020000,
-  lsfVaultOwnerCanBlockDeposit: 0x00040000,
 }
 
 // Withdrawal policy values from XLS-65d spec
@@ -158,11 +156,6 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
 
   const isPrivate =
     flags !== undefined && (flags & VAULT_FLAGS.lsfVaultPrivate) !== 0
-  const canBlockDeposit =
-    flags !== undefined &&
-    (flags & VAULT_FLAGS.lsfVaultOwnerCanBlockDeposit) !== 0
-  const isDepositAllowed =
-    flags === undefined || (flags & VAULT_FLAGS.lsfVaultDepositBlocked) === 0
 
   const decodedData = convertHexToString(vaultDataRaw)
   const vaultWebsite = parseVaultWebsite(vaultDataRaw)
@@ -243,25 +236,6 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
                   </div>
                 }
               />
-              {canBlockDeposit && (
-                <TokenTableRow
-                  label={t('deposits_allowed')}
-                  value={
-                    <div className="private-vault-toggle">
-                      <span
-                        className={`toggle-pill ${isDepositAllowed ? 'active' : ''}`}
-                      >
-                        {t('yes')}
-                      </span>
-                      <span
-                        className={`toggle-pill ${!isDepositAllowed ? 'active' : ''}`}
-                      >
-                        {t('no')}
-                      </span>
-                    </div>
-                  }
-                />
-              )}
               {vaultCredential && (
                 <TokenTableRow
                   label={t('perm_domain_id')}
