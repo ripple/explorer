@@ -35,6 +35,7 @@ export const CredentialIDs = ({
         <SimpleRow
           key={id}
           label={index === 0 ? t('credential_ids') : ''}
+          className="credential-id"
           data-testid={`credential-id-${index}`}
         >
           {id}
