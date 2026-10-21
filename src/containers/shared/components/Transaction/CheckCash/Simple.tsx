@@ -3,7 +3,9 @@ import { Amount } from '../../Amount'
 import { SimpleRow } from '../SimpleRow'
 import { TransactionSimpleComponent, TransactionSimpleProps } from '../types'
 import { parser } from './parser'
-import { shortenCheckID } from '../../../utils'
+import { shortenCheckID, shortenTxHash } from '../../../utils'
+import { RouteLink } from '../../../routing'
+import { TRANSACTION_ROUTE } from '../../../../App/routes'
 import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'
 
 export const Simple: TransactionSimpleComponent = (
@@ -16,6 +18,7 @@ export const Simple: TransactionSimpleComponent = (
     Amount: amount,
     DeliverMin: deliverMin,
     delivered,
+    checkTx,
   } = data.instructions
 
   return (
@@ -38,6 +41,21 @@ export const Simple: TransactionSimpleComponent = (
       <SimpleRow label={t('check_id')} data-testid="check-id">
         {shortenCheckID(checkID)}
       </SimpleRow>
+      {checkTx && (
+        <SimpleRow
+          label={t('check_transaction')}
+          className="tx"
+          data-testid="check-tx"
+        >
+          <RouteLink
+            className="hash"
+            to={TRANSACTION_ROUTE}
+            params={{ identifier: checkTx }}
+          >
+            {shortenTxHash(checkTx)}
+          </RouteLink>
+        </SimpleRow>
+      )}
     </>
   )
 }

@@ -1002,5 +1002,6 @@
   "fields": null,
   "check_id": null,
   "deliver_min": null,
-  "invoice_id": null
+  "invoice_id": null,
+  "check_transaction": null
 }

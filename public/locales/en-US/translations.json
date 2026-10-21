@@ -1003,5 +1003,6 @@
   "fields": "Fields",
   "check_id": "Check ID",
   "deliver_min": "Deliver Min",
-  "invoice_id": "Invoice ID"
+  "invoice_id": "Invoice ID",
+  "check_transaction": "Check Txn"
 }

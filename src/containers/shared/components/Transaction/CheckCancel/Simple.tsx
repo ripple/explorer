@@ -1,19 +1,38 @@
 import { useTranslation } from 'react-i18next'
-import type { CheckCancel } from 'xrpl'
 import { SimpleRow } from '../SimpleRow'
 import { TransactionSimpleComponent, TransactionSimpleProps } from '../types'
-import { shortenCheckID } from '../../../utils'
+import { parser } from './parser'
+import { shortenCheckID, shortenTxHash } from '../../../utils'
+import { RouteLink } from '../../../routing'
+import { TRANSACTION_ROUTE } from '../../../../App/routes'
 
 export const Simple: TransactionSimpleComponent = (
-  props: TransactionSimpleProps<CheckCancel>,
+  props: TransactionSimpleProps<ReturnType<typeof parser>>,
 ) => {
   const { t } = useTranslation()
   const { data } = props
-  const { CheckID: checkID } = data.instructions
+  const { CheckID: checkID, checkTx } = data.instructions
 
   return (
-    <SimpleRow label={t('check_id')} data-testid="check-id">
-      {shortenCheckID(checkID)}
-    </SimpleRow>
+    <>
+      <SimpleRow label={t('check_id')} data-testid="check-id">
+        {shortenCheckID(checkID)}
+      </SimpleRow>
+      {checkTx && (
+        <SimpleRow
+          label={t('check_transaction')}
+          className="tx"
+          data-testid="check-tx"
+        >
+          <RouteLink
+            className="hash"
+            to={TRANSACTION_ROUTE}
+            params={{ identifier: checkTx }}
+          >
+            {shortenTxHash(checkTx)}
+          </RouteLink>
+        </SimpleRow>
+      )}
+    </>
   )
 }
