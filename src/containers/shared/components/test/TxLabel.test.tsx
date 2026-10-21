@@ -24,6 +24,21 @@ describe('TxLabel', () => {
     expect(screen.getByText('Offer Cancel')).toBeInTheDocument()
   })
 
+  it.each(['CheckCreate', 'CheckCash', 'CheckCancel'])(
+    'renders %s as a payment',
+    (type) => {
+      const { container } = renderTxLabel(type)
+      expect(
+        container.querySelector('.tx-category-PAYMENT'),
+      ).toBeInTheDocument()
+    },
+  )
+
+  it('renders Batch in its own category', () => {
+    const { container } = renderTxLabel('Batch')
+    expect(container.querySelector('.tx-category-BATCH')).toBeInTheDocument()
+  })
+
   it('renders with type that is not defined', () => {
     const { container } = renderTxLabel('WooCreate')
     expect(container.querySelector('.tx-category-OTHER')).toBeInTheDocument()

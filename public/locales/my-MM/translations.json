@@ -63,6 +63,7 @@
   "transaction_category_PAYMENT": "ငွေပေးချေမှု",
   "transaction_category_PSEUDO": "Pseudo-Tx",
   "transaction_category_XCHAIN": "XChain",
+  "transaction_category_BATCH": "Batch",
   "transaction_category_OTHER": null,
   "transaction_legend_toggle_hide": "ရှင်းလင်းချက် ဖျောက်ရန်",
   "transaction_legend_toggle_show": "ရှင်းလင်းချက် ပြရန်",
@@ -999,5 +1000,8 @@
   "enabled_capability_tooltip": null,
   "disabled_capability_tooltip": null,
   "capabilities": null,
-  "fields": null
+  "fields": null,
+  "check_id": null,
+  "deliver_min": null,
+  "invoice_id": null
 }
