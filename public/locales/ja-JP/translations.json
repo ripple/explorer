@@ -63,6 +63,7 @@
   "transaction_category_PAYMENT": "支払い",
   "transaction_category_PSEUDO": "擬似Tx",
   "transaction_category_XCHAIN": null,
+  "transaction_category_BATCH": null,
   "transaction_category_OTHER": null,
   "transaction_legend_toggle_hide": "凡例を閉じる",
   "transaction_legend_toggle_show": "凡例を開く",
@@ -999,5 +1000,9 @@
   "enabled_capability_tooltip": null,
   "disabled_capability_tooltip": null,
   "capabilities": null,
-  "fields": null
+  "fields": null,
+  "check_id": null,
+  "deliver_min": null,
+  "invoice_id": null,
+  "check_transaction": null
 }
