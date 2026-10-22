@@ -36,6 +36,7 @@ const NFT_FLAGS: FlagMap = {
   0x00000001: 'lsfBurnable',
   0x00000002: 'lsfOnlyXRP',
   0x00000008: 'lsfTransferable',
+  0x00000010: 'lsfMutable',
 }
 const MPT_ISSUANCE_FLAGS: FlagMap = {
   0x00000001: 'lsfMPTLocked',
