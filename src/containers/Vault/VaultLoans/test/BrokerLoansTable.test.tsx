@@ -1041,7 +1041,13 @@ describe('BrokerLoansTable Component', () => {
     })
 
     it('display a XRP-denominated Loan in XRP currency', () => {
-      const loans = [createMockLoan()]
+      // XRP-denominated loan amounts on the ledger are in drops (1 XRP = 1,000,000 drops)
+      const loans = [
+        createMockLoan({
+          PrincipalOutstanding: '10000000000', // 10K XRP
+          TotalValueOutstanding: '10500000000', // 10.5K XRP
+        }),
+      ]
 
       // This should not throw - currency defaults to XRP because XRP is the asset of the Vault.
       const { container } = render(
@@ -1067,7 +1073,13 @@ describe('BrokerLoansTable Component', () => {
     })
 
     it(`display a XRP-denominated Loan in USD currency`, () => {
-      const loans = [createMockLoan()]
+      // XRP-denominated loan amounts on the ledger are in drops (1 XRP = 1,000,000 drops)
+      const loans = [
+        createMockLoan({
+          PrincipalOutstanding: '10000000000', // 10K XRP * 1.5 USD = $15K
+          TotalValueOutstanding: '10500000000', // 10.5K XRP * 1.5 USD = $15.75K
+        }),
+      ]
 
       // This should not throw - currency defaults to XRP because XRP is the asset of the Vault.
       const { container } = render(

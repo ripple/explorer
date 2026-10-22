@@ -758,11 +758,12 @@ describe('VaultLoans Component', () => {
     })
 
     it('displays total debt and maximum debt metrics', async () => {
+      // XRP debt amounts on the ledger are in drops (1 XRP = 1,000,000 drops)
       const broker = createMockBroker({
         index: 'BROKER_123',
         VaultID: 'TEST_VAULT_ID',
-        DebtTotal: '50000',
-        DebtMaximum: '1000000',
+        DebtTotal: '50000000000', // 50K XRP
+        DebtMaximum: '1000000000000', // 1M XRP
       })
 
       mockedGetAccountObjects
@@ -799,11 +800,12 @@ describe('VaultLoans Component', () => {
     })
 
     it(`display BrokerDetails card: XRP-denominated Loan in USD Currency`, async () => {
+      // XRP debt amounts on the ledger are in drops (1 XRP = 1,000,000 drops)
       const broker = createMockBroker({
         index: 'BROKER_123',
         VaultID: 'TEST_VAULT_ID',
-        DebtTotal: '50000',
-        DebtMaximum: '1000000',
+        DebtTotal: '50000000000', // 50K XRP * 1.5 USD = $75K
+        DebtMaximum: '1000000000000', // 1M XRP * 1.5 USD = $1.5M
       })
 
       mockedGetAccountObjects
