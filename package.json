@@ -50,6 +50,7 @@
     "vite-plugin-html": "^3.2.2",
     "vite-plugin-svgr": "^5.2.0",
     "vite-tsconfig-paths": "^5.1.4",
+    "xrpl": "^5.3.0",
     "xrpl-client": "^2.4.0"
   },
   "devDependencies": {
@@ -99,8 +100,7 @@
     "stylelint-scss": "^7.3.0",
     "ts-jest": "^29.4.14",
     "ts-node": "^10.9.2",
-    "typescript": "^5.9.3",
-    "xrpl": "^5.3.0"
+    "typescript": "^5.9.3"
   },
   "resolutions": {
     "jest-environment-jsdom": "29.3.1",
