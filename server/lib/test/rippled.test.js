@@ -19,6 +19,7 @@ jest.mock('xrpl', () => {
     const client = new EventEmitter()
     Object.assign(client, {
       url,
+      connected: true,
       requests: [],
       disconnectCalls: 0,
       onRequest: () => Promise.resolve({ result: {} }),
@@ -27,7 +28,7 @@ jest.mock('xrpl', () => {
         client.disconnectCalls += 1
         return Promise.resolve()
       },
-      isConnected: () => true,
+      isConnected: () => client.connected,
       request: (request) => {
         client.requests.push(request)
         return client.onRequest(request)
@@ -50,6 +51,11 @@ jest.mock('../logger', () => () => ({
 jest.mock('../streams', () => ({ handleLedger: jest.fn() }))
 
 const SUBSCRIBE = { command: 'subscribe', streams: ['ledger'] }
+const AMM_INFO = {
+  command: 'amm_info',
+  amm_account: 'rAMM',
+  ledger_index: 'validated',
+}
 const ledgerClosed = (index) => ({ type: 'ledgerClosed', ledger_index: index })
 const flushPromises = () =>
   new Promise(jest.requireActual('timers').setImmediate)
@@ -183,6 +189,39 @@ describe('rippled', () => {
     await expect(rippled.getLedger({ ledger_hash: 'ABC' })).rejects.toThrow(
       'URL: wss://a.example.com:51233 - Not connected',
     )
+  })
+
+  it('waits for the connection before sending a request', async () => {
+    const { rippled } = loadRippled()
+    const [client] = mockClients
+    client.connected = false
+    client.onRequest = () =>
+      Promise.resolve({ result: { amm: { trading_fee: 220 } } })
+
+    const pending = rippled.getAMMInfo('rAMM')
+    await flushPromises()
+    expect(client.requests).not.toContainEqual(AMM_INFO)
+
+    client.connected = true
+    client.emit('connected')
+    await expect(pending).resolves.toEqual({ amm: { trading_fee: 220 } })
+    expect(client.requests).toContainEqual(AMM_INFO)
+  })
+
+  it('sends the request anyway if the connection does not open within 10s', async () => {
+    const { rippled } = loadRippled()
+    const [client] = mockClients
+    client.connected = false
+    const listeners = client.listenerCount('connected')
+
+    const pending = rippled.getAMMInfo('rAMM')
+    await flushPromises()
+    expect(client.listenerCount('connected')).toBe(listeners + 1)
+
+    jest.advanceTimersByTime(10_000)
+    await expect(pending).resolves.toEqual({})
+    expect(client.requests).toEqual([AMM_INFO])
+    expect(client.listenerCount('connected')).toBe(listeners)
   })
 
   it('does not connect when no host is configured', async () => {

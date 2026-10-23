@@ -27,6 +27,8 @@ const URL_HEALTH = `https://${P2P_URL_BASE}:${process.env.VITE_RIPPLED_PEER_PORT
 // unsynced node, or a failed initial connect).
 const LEDGER_TIMEOUT = 60 * 1000
 const WATCHDOG_INTERVAL = 10 * 1000
+// how long a request waits for the socket to connect before it is sent anyway
+const CONNECT_WAIT = 10 * 1000
 
 let client
 let endpointIndex = 0
@@ -121,10 +123,30 @@ if (RIPPLEDS.length > 0) {
   }, 60_000) // Log rippled client state every 60 seconds
 }
 
+// xrpl.js rejects requests while the socket is (re)connecting, unlike
+// xrpl-client which queued them, so wait for the connection first
+const waitForConnection = (rippledClient) =>
+  new Promise((resolve) => {
+    let timer
+    const onConnected = () => {
+      clearTimeout(timer)
+      resolve()
+    }
+    timer = setTimeout(() => {
+      rippledClient.off('connected', onConnected)
+      resolve()
+    }, CONNECT_WAIT)
+    rippledClient.once('connected', onConnected)
+  })
+
 // generic RPC query
 const query = async (request) => {
   if (!client) {
     throw new Error('No rippled host configured')
+  }
+
+  if (!client.isConnected()) {
+    await waitForConnection(client)
   }
 
   try {
