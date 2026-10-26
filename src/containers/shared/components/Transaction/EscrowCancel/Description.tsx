@@ -1,6 +1,6 @@
 import { useTranslation, Trans } from 'react-i18next'
 import type { EscrowCancel } from 'xrpl'
-import { findNode } from '../../../transactionUtils'
+import { findNode, getSponsorScopes } from '../../../transactionUtils'
 import { Account } from '../../Account'
 import {
   TransactionDescriptionComponent,
@@ -45,8 +45,10 @@ const Description: TransactionDescriptionComponent = (
               <b>
                 <Amount
                   value={formatAmount(
-                    deleted.FinalFields.Amount -
-                      parseInt(data.tx.Fee || '0', 10),
+                    getSponsorScopes(data.tx.SponsorFlags).includes('fee')
+                      ? deleted.FinalFields.Amount
+                      : deleted.FinalFields.Amount -
+                        parseInt(data.tx.Fee || '0', 10),
                   )}
                 />
               </b>{' '}
