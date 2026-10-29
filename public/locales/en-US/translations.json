@@ -839,7 +839,6 @@
   "check_vault_id": "Please check the vault ID",
   "get_vault_failed": "Unable to load vault information at this time. Please try again later.",
   "private_vault": "Private Vault",
-  "deposits_allowed": "Deposits Allowed",
   "perm_domain_id": "Permissioned Domain ID",
   "total_value_locked": "Total Value Locked (TVL)",
   "shares": "Shares",
