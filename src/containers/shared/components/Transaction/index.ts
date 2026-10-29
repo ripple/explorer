@@ -8,6 +8,9 @@ import { AMMVote } from './AMMVote'
 import { AccountDeleteTransaction as AccountDelete } from './AccountDelete'
 import { AccountSetTransaction as AccountSet } from './AccountSet'
 import { BatchTransaction as Batch } from './Batch'
+import { CheckCancelTransaction as CheckCancel } from './CheckCancel'
+import { CheckCashTransaction as CheckCash } from './CheckCash'
+import { CheckCreateTransaction as CheckCreate } from './CheckCreate'
 import { CredentialAcceptTransaction as CredentialAccept } from './CredentialAccept'
 import { CredentialCreateTransaction as CredentialCreate } from './CredentialCreate'
 import { CredentialDeleteTransaction as CredentialDelete } from './CredentialDelete'
@@ -86,6 +89,9 @@ export const transactionTypes: { [key: string]: TransactionMapping } = {
   AccountDelete,
   AccountSet,
   Batch,
+  CheckCancel,
+  CheckCash,
+  CheckCreate,
   Clawback,
   ConfidentialMPTConvert,
   ConfidentialMPTMergeInbox,

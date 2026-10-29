@@ -9,6 +9,7 @@ export enum TransactionCategory {
   NFT = 'NFT',
   XCHAIN = 'XCHAIN',
   MPT = 'MPT',
+  BATCH = 'BATCH',
   PSEUDO = 'PSEUDO',
   OTHER = 'OTHER',
 }

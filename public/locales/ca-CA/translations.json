@@ -62,6 +62,7 @@
   "transaction_category_NFT": "NFT",
   "transaction_category_PAYMENT": "Pagament",
   "transaction_category_PSUEDO": "Pseudo-Tx",
+  "transaction_category_BATCH": null,
   "transaction_category_OTHER": null,
   "transaction_legend_toggle_hide": "Amaga la llegenda",
   "transaction_legend_toggle_show": "Mostra la llegenda",
@@ -1005,5 +1006,9 @@
   "enabled_capability_tooltip": null,
   "disabled_capability_tooltip": null,
   "capabilities": null,
-  "fields": null
+  "fields": null,
+  "check_id": null,
+  "deliver_min": null,
+  "invoice_id": null,
+  "check_transaction": null
 }

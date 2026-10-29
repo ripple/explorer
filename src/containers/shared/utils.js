@@ -583,6 +583,11 @@ export const shortenLoanBrokerID = (loanBrokerID = '') =>
 export const shortenLoanID = (loanID = '') =>
   loanID.length > 12 ? `${loanID.slice(0, 6)}...${loanID.slice(-6)}` : loanID
 
+export const shortenCheckID = (checkID = '') =>
+  checkID.length > 12
+    ? `${checkID.slice(0, 6)}...${checkID.slice(-6)}`
+    : checkID
+
 /**
  * Converts URLs to HTTP/HTTPS format, handling IPFS URLs and plain domains
  * @param {string} url - The URL to convert (can be ipfs://, https://, http://, or plain domain)

@@ -63,6 +63,7 @@
   "transaction_category_PAYMENT": "결제",
   "transaction_category_PSEUDO": "유사 트랜잭션",
   "transaction_category_XCHAIN": null,
+  "transaction_category_BATCH": null,
   "transaction_category_OTHER": null,
   "transaction_legend_toggle_hide": "범례 숨기기",
   "transaction_legend_toggle_show": "범례 보이기",
@@ -1006,5 +1007,9 @@
   "enabled_capability_tooltip": null,
   "disabled_capability_tooltip": null,
   "capabilities": null,
-  "fields": null
+  "fields": null,
+  "check_id": null,
+  "deliver_min": null,
+  "invoice_id": null,
+  "check_transaction": null
 }
