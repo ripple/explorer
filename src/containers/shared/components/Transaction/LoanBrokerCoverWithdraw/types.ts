@@ -6,4 +6,5 @@ export interface LoanBrokerCoverWithdraw extends TransactionCommonFields {
   LoanBrokerID: string
   Amount: Amount
   Destination?: string
+  CredentialIDs?: string[]
 }
