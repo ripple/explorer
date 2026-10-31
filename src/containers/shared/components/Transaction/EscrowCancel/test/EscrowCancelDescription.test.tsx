@@ -39,6 +39,19 @@ describe('EscrowCancelDescription', () => {
     unmount()
   })
 
+  it('skips fee subtraction when SponsorFlags has fee scope', () => {
+    const { container, unmount } = renderComponent(
+      getTestByName('EscrowCancel having XRP escrowed with sponsor-paid fee'),
+    )
+    expect(
+      container.querySelector('[data-testid="amount-line"]'),
+    ).toHaveTextContent(
+      `The escrowed amount of \uE900135.79 XRP was returned to rpmqbo5FWoydTL2Ufh5YdtzmRjbeLyxt56 (\uE900135.79 XRP after transaction cost)`,
+    )
+
+    unmount()
+  })
+
   it('test IOU amount', () => {
     const { container, unmount } = renderComponent(
       getTestByName('EscrowCancel having IOU escrowed'),
