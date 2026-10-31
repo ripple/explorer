@@ -49,7 +49,7 @@ const Description: TransactionDescriptionComponent = (
                     getSponsorScopes(data.tx.SponsorFlags).includes('fee')
                       ? deleted.FinalFields.Amount
                       : deleted.FinalFields.Amount -
-                        parseInt(data.tx.Fee || '0', 10),
+                          parseInt(data.tx.Fee || '0', 10),
                   )}
                 />
               </b>{' '}
