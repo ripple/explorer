@@ -40,6 +40,7 @@ export const SPONSOR_SCOPE_LABEL_KEYS = {
 export const TX_FLAGS: Record<string, Record<number, string>> = {
   all: {
     0x80000000: 'tfFullyCanonicalSig',
+    0x40000000: 'tfInnerBatchTxn',
   },
   AccountSet: {
     0x00010000: 'tfRequireDestTag',

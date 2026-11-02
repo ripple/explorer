@@ -153,7 +153,7 @@ describe('VaultHeader Component', () => {
       ).toBeInTheDocument()
     })
 
-    it('displays the vault ID with truncation', () => {
+    it('displays the full vault ID, not a truncated form', () => {
       const vaultId = 'ABC123DEF456GHI789JKL012'
       const vaultData = {
         Owner: 'rTestOwner123',
@@ -170,14 +170,12 @@ describe('VaultHeader Component', () => {
         </TestWrapper>,
       )
 
-      // Vault ID should be truncated for display: first 8 chars + "..." + last 6 chars
-      // This makes long IDs more readable while still being identifiable
       const vaultIdLabel = screen.getByText('Vault ID')
       expect(vaultIdLabel).toBeInTheDocument()
 
-      // Verify the truncated format: ABC123DE...KL012 (8 chars + ... + 6 chars)
-      const expectedTruncated = `${vaultId.substring(0, 8)}...${vaultId.substring(vaultId.length - 6)}`
-      expect(screen.getByText(expectedTruncated)).toBeInTheDocument()
+      // The full ID should be shown in the details table; there's plenty of
+      // width available and the value wraps rather than being truncated
+      expect(screen.getByText(vaultId)).toBeInTheDocument()
     })
 
     it('displays the owner as a clickable account link', () => {
@@ -200,11 +198,8 @@ describe('VaultHeader Component', () => {
       // Owner label should be present
       expect(screen.getByText('Owner')).toBeInTheDocument()
 
-      // Owner value should display the exact account address as link text
-      // The Account component displays the full address for short accounts
-      const ownerLink = screen.getByRole('link', {
-        name: `${owner.slice(0, 7)}...${owner.slice(-5)}`,
-      })
+      // Owner value should display the full, untruncated account address as link text
+      const ownerLink = screen.getByRole('link', { name: owner })
       expect(ownerLink.getAttribute('href')).toBe(`/accounts/${owner}`)
     })
   })
@@ -1367,6 +1362,104 @@ describe('VaultHeader Component', () => {
 
       const tvlRow = screen.getByText('Total Value Locked (TVL)').closest('tr')
       expect(tvlRow).toHaveTextContent('Total Value Locked (TVL)$2.00M USD')
+    })
+  })
+
+  describe('Closed-Ended Vault Fields', () => {
+    it('omits the kind and date rows for a vault with no VaultKind', () => {
+      const vaultData = {
+        Owner: 'rTestOwner',
+        Asset: { currency: 'XRP' },
+      }
+
+      render(
+        <TestWrapper>
+          <VaultHeader
+            data={vaultData}
+            vaultId="ABC123"
+            displayCurrency="XRP"
+          />
+        </TestWrapper>,
+      )
+
+      expect(screen.queryByText('Vault Kind')).not.toBeInTheDocument()
+      expect(screen.queryByText('Subscription Date')).not.toBeInTheDocument()
+      expect(screen.queryByText('Redemption Date')).not.toBeInTheDocument()
+    })
+
+    it('displays Open Ended for VaultKind 0 without dates', () => {
+      const vaultData = {
+        Owner: 'rTestOwner',
+        Asset: { currency: 'XRP' },
+        VaultKind: 0,
+      }
+
+      render(
+        <TestWrapper>
+          <VaultHeader
+            data={vaultData}
+            vaultId="ABC123"
+            displayCurrency="XRP"
+          />
+        </TestWrapper>,
+      )
+
+      expect(screen.getByText('Vault Kind').closest('tr')).toHaveTextContent(
+        'Vault KindOpen Ended',
+      )
+      expect(screen.queryByText('Subscription Date')).not.toBeInTheDocument()
+    })
+
+    it('displays Closed Ended with formatted subscription and redemption dates', () => {
+      const vaultData = {
+        Owner: 'rTestOwner',
+        Asset: { currency: 'XRP' },
+        VaultKind: 1,
+        SubscriptionDate: 807030000,
+        RedemptionDate: 807030300,
+      }
+
+      render(
+        <TestWrapper>
+          <VaultHeader
+            data={vaultData}
+            vaultId="ABC123"
+            displayCurrency="XRP"
+          />
+        </TestWrapper>,
+      )
+
+      expect(screen.getByText('Vault Kind').closest('tr')).toHaveTextContent(
+        'Vault KindClosed Ended',
+      )
+      expect(
+        screen.getByText('Subscription Date').closest('tr'),
+      ).toHaveTextContent('Subscription DateJuly 28, 2025 at 3:00:00 PM UTC')
+      expect(
+        screen.getByText('Redemption Date').closest('tr'),
+      ).toHaveTextContent('Redemption DateJuly 28, 2025 at 3:05:00 PM UTC')
+    })
+
+    it('falls back to the raw value for an unknown VaultKind', () => {
+      const vaultData = {
+        Owner: 'rTestOwner',
+        Asset: { currency: 'XRP' },
+        VaultKind: 7,
+      }
+
+      render(
+        <TestWrapper>
+          <VaultHeader
+            data={vaultData}
+            vaultId="ABC123"
+            displayCurrency="XRP"
+          />
+        </TestWrapper>,
+      )
+
+      expect(screen.getByText('Vault Kind').closest('tr')).toHaveTextContent(
+        'Vault Kind7',
+      )
     })
   })
 })

@@ -11,6 +11,9 @@ describe('VaultDelete: Description', () => {
     expect(container).toHaveTextContent(
       'rLR12AgChXxLoQsuLCizNCgh5pt5jPheo1 deleted a vault with ID 2AA88C4CA646645E35E38B8D51CD2CA50BDE14A3F3FFE3838F2C8DCE95C2BABD',
     )
+    expect(container).toHaveTextContent(
+      'It sets the Vault deletion MemoData to vault closed voluntarily',
+    )
     unmount()
   })
 })

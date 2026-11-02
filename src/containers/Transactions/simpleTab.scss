@@ -114,7 +114,9 @@ $subdued-color: $black-40;
         &.condition,
         &.fulfillment,
         &.tx,
-        &.channel {
+        &.channel,
+        &.vault-id,
+        &.credential-id {
           width: calc(100% - 120px);
           color: $subdued-color;
           font-size: 14px;

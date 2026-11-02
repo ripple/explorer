@@ -13,7 +13,11 @@ export const Simple: TransactionSimpleComponent = (
   const { VaultID, Data, AssetsMaximum, DomainID } = data.instructions
   return (
     <>
-      <SimpleRow label={t('vault_id')} data-testid="vault_id">
+      <SimpleRow
+        label={t('vault_id')}
+        className="vault-id"
+        data-testid="vault_id"
+      >
         {VaultID}
       </SimpleRow>
       {AssetsMaximum && (
