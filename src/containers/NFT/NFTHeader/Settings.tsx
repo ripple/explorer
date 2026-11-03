@@ -14,6 +14,7 @@ export const Settings = ({ flags }: Props) => {
   const transferable = flags.includes('lsfTransferable')
     ? 'enabled'
     : 'disabled'
+  const mutable = flags.includes('lsfMutable') ? 'enabled' : 'disabled'
 
   return (
     <table className="token-table">
@@ -21,6 +22,7 @@ export const Settings = ({ flags }: Props) => {
         <TokenTableRow label={t('burnable')} value={burnable} />
         <TokenTableRow label={t('only_xrp')} value={onlyXRP} />
         <TokenTableRow label={t('transferable')} value={transferable} />
+        <TokenTableRow label={t('mutable')} value={mutable} />
       </tbody>
     </table>
   )
