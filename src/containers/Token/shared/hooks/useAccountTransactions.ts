@@ -102,6 +102,8 @@ export function useAccountTransactions({
     canAutoFetch &&
     (fetchUntilEnd || (lastPageWasEmpty && hasRemainingAttempts))
 
+  // Re-run per loaded page: shouldAutoFetch can stay true across a fetch
+  const pageCount = data?.pages.length ?? 0
   useEffect(() => {
     if (!shouldAutoFetch) {
       return undefined
@@ -113,7 +115,7 @@ export function useAccountTransactions({
     }, AUTO_FETCH_DELAY_MS)
 
     return () => clearTimeout(timer)
-  }, [shouldAutoFetch, fetchNextPage])
+  }, [shouldAutoFetch, fetchNextPage, pageCount])
 
   // Keep loading true while auto-fetch is pending to prevent UI flickering
   // between "Load More" button and loading spinner
