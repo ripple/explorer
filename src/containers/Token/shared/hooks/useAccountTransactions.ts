@@ -1,4 +1,4 @@
-import { useContext, useEffect, useMemo, useState } from 'react'
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { useInfiniteQuery } from 'react-query'
 
 import { useAnalytics } from '../../../shared/analytics'
@@ -23,8 +23,8 @@ interface UseAccountTransactionsOptions {
   /** Token identifier: currency code for IOU, MPT issuance ID for MPT */
   tokenId: string
   limit?: number
-  /** Auto-fetch every page until the history ends, not just empty ones */
-  fetchUntilEnd?: boolean
+  /** Auto-fetch, uncapped, until this many matches load; "Load more" adds as many again */
+  minResults?: number
   /** Query the P2P (Clio) server, which keeps full history, when configured */
   useP2PSocket?: boolean
   /** Number of times to retry a failed page fetch */
@@ -37,14 +37,14 @@ interface UseAccountTransactionsOptions {
  * Transactions are filtered client-side after fetching from rippled.
  * If a fetched page contains no matching transactions but more pages exist,
  * automatically fetches additional pages (up to MAX_AUTO_FETCH_ATTEMPTS)
- * to find matching transactions. With fetchUntilEnd, it keeps fetching
- * until there is no next page.
+ * to find matching transactions. With minResults, it keeps fetching until
+ * that many matches are loaded or there is no next page.
  */
 export function useAccountTransactions({
   account,
   tokenId,
   limit,
-  fetchUntilEnd = false,
+  minResults = 0,
   useP2PSocket = false,
   retry = 0,
 }: UseAccountTransactionsOptions) {
@@ -91,16 +91,32 @@ export function useAccountTransactions({
     return pages[pages.length - 1]?.transactions?.length || 0
   }, [data])
 
+  const loadedCount = useMemo(
+    () =>
+      data?.pages.reduce(
+        (count, page) => count + (page.transactions?.length || 0),
+        0,
+      ) ?? 0,
+    [data],
+  )
+  const [targetCount, setTargetCount] = useState(minResults)
+  // The hook stays mounted when navigating between tokens
+  useEffect(() => {
+    setTargetCount(minResults)
+  }, [account, tokenId, minResults])
+
   const lastPageWasEmpty = lastPageTransactionCount === 0
   // Don't auto-fetch after a failure, or a failing page is re-requested forever
   const canAutoFetch = hasNextPage === true && !isLoading && !error
   const [autoFetchAttempts, setAutoFetchAttempts] = useState(0)
   const hasRemainingAttempts = autoFetchAttempts < MAX_AUTO_FETCH_ATTEMPTS
-  // Auto-fetch if the last page returned no matching transactions, or every
-  // page when fetchUntilEnd is set
+  // Auto-fetch if the last page returned no matching transactions, or until
+  // minResults matches are loaded when set
   const shouldAutoFetch =
     canAutoFetch &&
-    (fetchUntilEnd || (lastPageWasEmpty && hasRemainingAttempts))
+    (minResults
+      ? loadedCount < targetCount
+      : lastPageWasEmpty && hasRemainingAttempts)
 
   // Re-run per loaded page: shouldAutoFetch can stay true across a fetch
   const pageCount = data?.pages.length ?? 0
@@ -121,11 +137,17 @@ export function useAccountTransactions({
   // between "Load More" button and loading spinner
   const loading = isLoading || shouldAutoFetch
 
+  // With minResults, "Load more" raises the target so empty pages are skipped
+  const loadMore = useCallback(() => {
+    setTargetCount(loadedCount + minResults)
+    return fetchNextPage()
+  }, [loadedCount, minResults, fetchNextPage])
+
   return {
     data,
     error,
     loading,
-    fetchNextPage,
+    fetchNextPage: minResults ? loadMore : fetchNextPage,
     hasNextPage: hasNextPage ?? false,
   }
 }

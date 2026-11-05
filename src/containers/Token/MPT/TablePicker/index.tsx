@@ -54,8 +54,9 @@ export const TablePicker = ({
       account: issuer,
       tokenId: mptIssuanceId,
       limit: 50,
-      // Scan back to the issuance's creation so older transactions show up
-      fetchUntilEnd: true,
+      // Skip non-matching pages until a screenful is found or the issuance's
+      // creation is reached, so older transactions show up
+      minResults: 20,
       useP2PSocket: true,
       retry: 2,
     })
