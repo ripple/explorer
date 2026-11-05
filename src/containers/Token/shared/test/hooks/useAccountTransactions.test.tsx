@@ -265,6 +265,55 @@ describe('useAccountTransactions', () => {
       expect(result.current.hasNextPage).toBe(false)
     })
 
+    it('stops after 50 pages per round, and load more gets 50 more', async () => {
+      mockPages([], 200)
+      const { result } = renderMPTHook()
+
+      await advanceThroughPages(50)
+      await waitFor(() => expect(result.current.loading).toBe(false))
+      jest.advanceTimersByTime(1000)
+      expect(mockedGetAccountTransactions).toHaveBeenCalledTimes(50)
+      expect(result.current.hasNextPage).toBe(true)
+
+      act(() => {
+        result.current.fetchNextPage()
+      })
+      await advanceThroughPages(100)
+      await waitFor(() => expect(result.current.loading).toBe(false))
+      jest.advanceTimersByTime(1000)
+      expect(mockedGetAccountTransactions).toHaveBeenCalledTimes(100)
+    })
+
+    it('resets the page budget when the token changes', async () => {
+      mockPages([], 200)
+      const { result, rerender } = renderHook(
+        ({ tokenId }) =>
+          useAccountTransactions({
+            account: 'rAccount123',
+            tokenId,
+            minResults: 4,
+          }),
+        { wrapper: createWrapper(), initialProps: { tokenId: 'MPT1' } },
+      )
+
+      // Start a second round on MPT1, so its round starts at page 50
+      await advanceThroughPages(50)
+      await waitFor(() => expect(result.current.loading).toBe(false))
+      act(() => {
+        result.current.fetchNextPage()
+      })
+      await advanceThroughPages(60)
+      rerender({ tokenId: 'MPT2' })
+      await advanceThroughPages(110)
+
+      // MPT2 gets a full round of 50 and then settles; a stale round start
+      // would leave it reporting loading with no fetch scheduled
+      await waitFor(() => expect(result.current.loading).toBe(false))
+      jest.advanceTimersByTime(1000)
+      expect(mockedGetAccountTransactions).toHaveBeenCalledTimes(110)
+      expect(result.current.hasNextPage).toBe(true)
+    })
+
     it('keeps auto-fetching when loading state stays set across pages', async () => {
       // Real timers: a fetch's state and data can land in one render here,
       // which stalled the scan before the effect re-ran per page

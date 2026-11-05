@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react'
+import { render, waitFor } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter as Router } from 'react-router'
 import { QueryClientProvider } from 'react-query'
@@ -167,5 +167,44 @@ describe('MPT TablePicker container', () => {
     expect(
       container.querySelectorAll('.token-transaction-table-container'),
     ).toHaveLength(1)
+  })
+
+  describe('empty transactions message', () => {
+    beforeEach(() => {
+      jest.useFakeTimers()
+    })
+
+    afterEach(() => {
+      jest.useRealTimers()
+    })
+
+    it('asks to load more when the page budget runs out with history left', async () => {
+      const { container } = renderComponent(async () => ({
+        transactions: [],
+        marker: 'more',
+      }))
+
+      await waitFor(
+        () =>
+          expect(
+            container.querySelector('.empty-transactions-message'),
+          ).toHaveTextContent('get_account_transactions_try'),
+        { timeout: 20000 },
+      )
+      expect(getAccountTransactions).toHaveBeenCalledTimes(50)
+    })
+
+    it('reports no transactions at the end of history', async () => {
+      const { container } = renderComponent(async () => ({
+        transactions: [],
+        marker: undefined,
+      }))
+
+      await waitFor(() =>
+        expect(
+          container.querySelector('.empty-transactions-message'),
+        ).toHaveTextContent('no_transactions_message'),
+      )
+    })
   })
 })

@@ -18,12 +18,18 @@ const MAX_AUTO_FETCH_ATTEMPTS = 10
  */
 const AUTO_FETCH_DELAY_MS = 200
 
+/**
+ * Maximum pages auto-fetched per round (initial load or "Load more") with
+ * minResults, so a long run of non-matching history can't scan unbounded.
+ */
+const MAX_PAGES_PER_ROUND = 50
+
 interface UseAccountTransactionsOptions {
   account: string
   /** Token identifier: currency code for IOU, MPT issuance ID for MPT */
   tokenId: string
   limit?: number
-  /** Auto-fetch, uncapped, until this many matches load; "Load more" adds as many again */
+  /** Auto-fetch until this many matches load (or the page budget runs out); "Load more" adds as many again */
   minResults?: number
   /** Query the P2P (Clio) server, which keeps full history, when configured */
   useP2PSocket?: boolean
@@ -38,7 +44,8 @@ interface UseAccountTransactionsOptions {
  * If a fetched page contains no matching transactions but more pages exist,
  * automatically fetches additional pages (up to MAX_AUTO_FETCH_ATTEMPTS)
  * to find matching transactions. With minResults, it keeps fetching until
- * that many matches are loaded or there is no next page.
+ * that many matches are loaded, there is no next page, or
+ * MAX_PAGES_PER_ROUND pages have been fetched this round.
  */
 export function useAccountTransactions({
   account,
@@ -99,11 +106,16 @@ export function useAccountTransactions({
       ) ?? 0,
     [data],
   )
+  const pageCount = data?.pages.length ?? 0
   const [targetCount, setTargetCount] = useState(minResults)
+  // Pages loaded when the current round started
+  const [roundStartPage, setRoundStartPage] = useState(0)
   // The hook stays mounted when navigating between tokens
   useEffect(() => {
     setTargetCount(minResults)
+    setRoundStartPage(0)
   }, [account, tokenId, minResults])
+  const hasRoundBudget = pageCount - roundStartPage < MAX_PAGES_PER_ROUND
 
   const lastPageWasEmpty = lastPageTransactionCount === 0
   // Don't auto-fetch after a failure, or a failing page is re-requested forever
@@ -115,11 +127,10 @@ export function useAccountTransactions({
   const shouldAutoFetch =
     canAutoFetch &&
     (minResults
-      ? loadedCount < targetCount
+      ? loadedCount < targetCount && hasRoundBudget
       : lastPageWasEmpty && hasRemainingAttempts)
 
   // Re-run per loaded page: shouldAutoFetch can stay true across a fetch
-  const pageCount = data?.pages.length ?? 0
   useEffect(() => {
     if (!shouldAutoFetch) {
       return undefined
@@ -137,11 +148,13 @@ export function useAccountTransactions({
   // between "Load More" button and loading spinner
   const loading = isLoading || shouldAutoFetch
 
-  // With minResults, "Load more" raises the target so empty pages are skipped
+  // With minResults, "Load more" starts a new round: it raises the target so
+  // empty pages are skipped, and gets a fresh page budget
   const loadMore = useCallback(() => {
     setTargetCount(loadedCount + minResults)
+    setRoundStartPage(pageCount)
     return fetchNextPage()
-  }, [loadedCount, minResults, fetchNextPage])
+  }, [loadedCount, minResults, pageCount, fetchNextPage])
 
   return {
     data,
