@@ -54,6 +54,10 @@ export const TablePicker = ({
       account: issuer,
       tokenId: mptIssuanceId,
       limit: 50,
+      // Scan back to the issuance's creation so older transactions show up
+      fetchUntilEnd: true,
+      useP2PSocket: true,
+      retry: 2,
     })
 
   const [tablePickerState, setTablePickerState] = useState<

@@ -114,4 +114,83 @@ describe('accountTransactions', () => {
     expect(result.transactions[0].hash).toBe('tx3')
     expect(result.transactions[1].hash).toBe('tx4')
   })
+
+  describe('MPT creation', () => {
+    const mptIssuanceId = '00000001ABC123DEF456'
+    const createTx = (id: string) => ({
+      hash: 'create',
+      type: 'MPTokenIssuanceCreate',
+      meta: { TransactionResult: 'tesSUCCESS', mpt_issuance_id: id },
+    })
+
+    it("stops paging at the MPT's creation", async () => {
+      mockGetAccountTxs.mockResolvedValue({
+        transactions: [createTx(mptIssuanceId)],
+        marker: '12345.1',
+      })
+
+      const result = await getAccountTransactions(
+        validAccount,
+        mptIssuanceId,
+        undefined,
+        20,
+        mockSocket,
+      )
+
+      expect(result.transactions).toHaveLength(1)
+      expect(result.marker).toBeUndefined()
+    })
+
+    it('matches the creation regardless of ID case', async () => {
+      mockGetAccountTxs.mockResolvedValue({
+        transactions: [createTx(mptIssuanceId)],
+        marker: '12345.1',
+      })
+
+      const result = await getAccountTransactions(
+        validAccount,
+        mptIssuanceId.toLowerCase(),
+        undefined,
+        20,
+        mockSocket,
+      )
+
+      expect(result.marker).toBeUndefined()
+    })
+
+    it("keeps paging past another MPT's creation", async () => {
+      mockGetAccountTxs.mockResolvedValue({
+        transactions: [createTx('00000002FFFFFFFFFFFF')],
+        marker: '12345.1',
+      })
+
+      const result = await getAccountTransactions(
+        validAccount,
+        mptIssuanceId,
+        undefined,
+        20,
+        mockSocket,
+      )
+
+      expect(result.transactions).toHaveLength(0)
+      expect(result.marker).toBe('12345.1')
+    })
+
+    it('keeps paging when no token filter is applied', async () => {
+      mockGetAccountTxs.mockResolvedValue({
+        transactions: [createTx(mptIssuanceId)],
+        marker: '12345.1',
+      })
+
+      const result = await getAccountTransactions(
+        validAccount,
+        undefined,
+        undefined,
+        20,
+        mockSocket,
+      )
+
+      expect(result.marker).toBe('12345.1')
+    })
+  })
 })

@@ -69,6 +69,13 @@ const getAccountTransactions = async (
       limit,
       marker,
     )
+    // Nothing older than an MPT's creation can reference it, so stop paging there
+    const reachedMPTCreation =
+      !!currency &&
+      data.transactions.some(
+        (tx: any) =>
+          tx.meta?.mpt_issuance_id?.toUpperCase() === currency.toUpperCase(),
+      )
     const transactions = data.transactions
       .map((tx: any) => {
         const txn = formatTransaction(tx)
@@ -89,7 +96,7 @@ const getAccountTransactions = async (
       })
     return {
       transactions,
-      marker: data.marker,
+      marker: reachedMPTCreation ? undefined : data.marker,
     }
   } catch (error: any) {
     log.error(error.toString())

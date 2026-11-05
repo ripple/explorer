@@ -2,7 +2,9 @@ import { useContext, useEffect, useMemo, useState } from 'react'
 import { useInfiniteQuery } from 'react-query'
 
 import { useAnalytics } from '../../../shared/analytics'
-import SocketContext from '../../../shared/SocketContext'
+import SocketContext, {
+  ExplorerXrplClient,
+} from '../../../shared/SocketContext'
 import { getAccountTransactions } from '../../../../rippled'
 
 /**
@@ -21,6 +23,12 @@ interface UseAccountTransactionsOptions {
   /** Token identifier: currency code for IOU, MPT issuance ID for MPT */
   tokenId: string
   limit?: number
+  /** Auto-fetch every page until the history ends, not just empty ones */
+  fetchUntilEnd?: boolean
+  /** Query the P2P (Clio) server, which keeps full history, when configured */
+  useP2PSocket?: boolean
+  /** Number of times to retry a failed page fetch */
+  retry?: number
 }
 
 /**
@@ -29,15 +37,23 @@ interface UseAccountTransactionsOptions {
  * Transactions are filtered client-side after fetching from rippled.
  * If a fetched page contains no matching transactions but more pages exist,
  * automatically fetches additional pages (up to MAX_AUTO_FETCH_ATTEMPTS)
- * to find matching transactions.
+ * to find matching transactions. With fetchUntilEnd, it keeps fetching
+ * until there is no next page.
  */
 export function useAccountTransactions({
   account,
   tokenId,
   limit,
+  fetchUntilEnd = false,
+  useP2PSocket = false,
+  retry = 0,
 }: UseAccountTransactionsOptions) {
   const { trackException } = useAnalytics()
   const rippledSocket = useContext(SocketContext)
+  // getAccountTransactions only sends a plain account_tx, so the P2P client works
+  const querySocket = useP2PSocket
+    ? ((rippledSocket?.p2pSocket ?? rippledSocket) as ExplorerXrplClient)
+    : rippledSocket
 
   const {
     data,
@@ -53,7 +69,7 @@ export function useAccountTransactions({
         tokenId,
         pageParam,
         limit,
-        rippledSocket,
+        querySocket,
       ).catch((errorResponse: Error) => {
         const errorLocation = `transactions ${account}.${tokenId} at ${pageParam}`
         trackException(`${errorLocation} --- ${JSON.stringify(errorResponse)}`)
@@ -61,6 +77,7 @@ export function useAccountTransactions({
       }),
     {
       getNextPageParam: (lastPage) => lastPage.marker,
+      retry,
     },
   )
 
@@ -75,12 +92,15 @@ export function useAccountTransactions({
   }, [data])
 
   const lastPageWasEmpty = lastPageTransactionCount === 0
-  const canAutoFetch = hasNextPage === true && !isLoading
+  // Don't auto-fetch after a failure, or a failing page is re-requested forever
+  const canAutoFetch = hasNextPage === true && !isLoading && !error
   const [autoFetchAttempts, setAutoFetchAttempts] = useState(0)
   const hasRemainingAttempts = autoFetchAttempts < MAX_AUTO_FETCH_ATTEMPTS
-  // Auto-fetch if the last page returned no matching transactions
+  // Auto-fetch if the last page returned no matching transactions, or every
+  // page when fetchUntilEnd is set
   const shouldAutoFetch =
-    lastPageWasEmpty && canAutoFetch && hasRemainingAttempts
+    canAutoFetch &&
+    (fetchUntilEnd || (lastPageWasEmpty && hasRemainingAttempts))
 
   useEffect(() => {
     if (!shouldAutoFetch) {

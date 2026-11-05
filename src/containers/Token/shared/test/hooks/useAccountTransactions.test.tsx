@@ -154,4 +154,166 @@ describe('useAccountTransactions', () => {
       { hash: 'tx1' },
     ])
   })
+
+  it('auto-fetches every page until the end when fetchUntilEnd is set', async () => {
+    // Matches on pages 0 and 12, empty pages in between: more than the cap of 10
+    mockedGetAccountTransactions.mockImplementation(
+      async (_account: string, _tokenId: string, marker: string) => {
+        const page = marker ? Number(marker) : 0
+        return {
+          transactions:
+            page === 0 || page === 12 ? [{ hash: `tx${page}` }] : [],
+          marker: page < 12 ? String(page + 1) : undefined,
+        }
+      },
+    )
+
+    const { result } = renderHook(
+      () =>
+        useAccountTransactions({
+          account: 'rAccount123',
+          tokenId: 'MPT',
+          fetchUntilEnd: true,
+        }),
+      { wrapper: createWrapper() },
+    )
+
+    for (let page = 1; page <= 13; page += 1) {
+      // eslint-disable-next-line no-await-in-loop
+      await waitFor(() =>
+        expect(mockedGetAccountTransactions).toHaveBeenCalledTimes(page),
+      )
+      jest.advanceTimersByTime(200)
+    }
+
+    await waitFor(() => expect(result.current.loading).toBe(false))
+    expect(mockedGetAccountTransactions).toHaveBeenCalledTimes(13)
+    expect(result.current.hasNextPage).toBe(false)
+    expect(
+      result.current.data?.pages.flatMap((page: any) => page.transactions),
+    ).toEqual([{ hash: 'tx0' }, { hash: 'tx12' }])
+  })
+
+  it('stops auto-fetching at the attempt cap by default', async () => {
+    mockedGetAccountTransactions.mockImplementation(
+      async (_account: string, _tokenId: string, marker: string) => ({
+        transactions: [],
+        marker: String((marker ? Number(marker) : 0) + 1),
+      }),
+    )
+
+    const { result } = renderHook(
+      () =>
+        useAccountTransactions({
+          account: 'rAccount123',
+          tokenId: 'USD',
+        }),
+      { wrapper: createWrapper() },
+    )
+
+    for (let page = 1; page <= 11; page += 1) {
+      // eslint-disable-next-line no-await-in-loop
+      await waitFor(() =>
+        expect(mockedGetAccountTransactions).toHaveBeenCalledTimes(page),
+      )
+      jest.advanceTimersByTime(200)
+    }
+
+    await waitFor(() => expect(result.current.loading).toBe(false))
+    jest.advanceTimersByTime(1000)
+    expect(mockedGetAccountTransactions).toHaveBeenCalledTimes(11)
+    expect(result.current.hasNextPage).toBe(true)
+  })
+
+  it('stops auto-fetching after a page fails', async () => {
+    jest.useRealTimers()
+    mockedGetAccountTransactions
+      .mockResolvedValueOnce({ transactions: [], marker: 'page-2-marker' })
+      .mockRejectedValue(new Error('slowDown'))
+
+    const { result } = renderHook(
+      () =>
+        useAccountTransactions({
+          account: 'rAccount123',
+          tokenId: 'MPT',
+          fetchUntilEnd: true,
+        }),
+      { wrapper: createWrapper() },
+    )
+
+    await waitFor(() => expect(result.current.error).not.toBeNull())
+    await new Promise((resolve) => {
+      setTimeout(resolve, 1000)
+    })
+    expect(mockedGetAccountTransactions).toHaveBeenCalledTimes(2)
+    expect(result.current.loading).toBe(false)
+  })
+
+  it('retries a failed page when retry is set', async () => {
+    jest.useRealTimers()
+    mockedGetAccountTransactions
+      .mockRejectedValueOnce(new Error('slowDown'))
+      .mockResolvedValueOnce({ transactions: [{ hash: 'tx1' }] })
+
+    const { result } = renderHook(
+      () =>
+        useAccountTransactions({
+          account: 'rAccount123',
+          tokenId: 'MPT',
+          retry: 1,
+        }),
+      { wrapper: createWrapper() },
+    )
+
+    await waitFor(
+      () =>
+        expect(result.current.data?.pages[0].transactions).toEqual([
+          { hash: 'tx1' },
+        ]),
+      { timeout: 3000 },
+    )
+    expect(mockedGetAccountTransactions).toHaveBeenCalledTimes(2)
+    expect(result.current.error).toBeNull()
+  })
+
+  it('queries the P2P socket when useP2PSocket is set', async () => {
+    const p2pSocket = { name: 'p2p' }
+    const socket = { name: 'main', p2pSocket }
+    mockedGetAccountTransactions.mockResolvedValue({ transactions: [] })
+
+    renderHook(
+      () =>
+        useAccountTransactions({
+          account: 'rAccount123',
+          tokenId: 'MPT',
+          useP2PSocket: true,
+        }),
+      { wrapper: createWrapper(socket) },
+    )
+
+    await waitFor(() =>
+      expect(mockedGetAccountTransactions).toHaveBeenCalledTimes(1),
+    )
+    expect(mockedGetAccountTransactions.mock.calls[0][4]).toBe(p2pSocket)
+  })
+
+  it('falls back to the main socket when no P2P socket is configured', async () => {
+    const socket = { name: 'main', p2pSocket: undefined }
+    mockedGetAccountTransactions.mockResolvedValue({ transactions: [] })
+
+    renderHook(
+      () =>
+        useAccountTransactions({
+          account: 'rAccount123',
+          tokenId: 'MPT',
+          useP2PSocket: true,
+        }),
+      { wrapper: createWrapper(socket) },
+    )
+
+    await waitFor(() =>
+      expect(mockedGetAccountTransactions).toHaveBeenCalledTimes(1),
+    )
+    expect(mockedGetAccountTransactions.mock.calls[0][4]).toBe(socket)
+  })
 })
