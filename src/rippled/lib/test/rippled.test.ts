@@ -5,6 +5,7 @@ import {
   getNegativeUNL,
   getAccountSponsorship,
   getAccountInfo,
+  getAccountTransactions,
 } from '../rippled'
 
 const VAULT_INDEX =
@@ -479,5 +480,40 @@ describe('getAccountInfo', () => {
     await expect(getAccountInfo(socket, AMM_ACCOUNT)).rejects.toMatchObject({
       code,
     })
+  })
+})
+
+describe('getAccountTransactions', () => {
+  const ACCOUNT = 'rMgkHzJ6UpnhxmemPxVMi8ob63kY57JH4h'
+  const response = { transactions: [] }
+
+  it('queries the main socket by default', async () => {
+    const p2pSocket = makeSocket(response)
+    const socket = { ...makeSocket(response), p2pSocket }
+
+    await getAccountTransactions(socket, ACCOUNT)
+
+    expect(socket.send).toHaveBeenCalledTimes(1)
+    expect(p2pSocket.send).not.toHaveBeenCalled()
+  })
+
+  it('queries the P2P socket when useP2P is set', async () => {
+    const p2pSocket = makeSocket(response)
+    const socket = { ...makeSocket(response), p2pSocket }
+
+    await getAccountTransactions(socket, ACCOUNT, 50, '', true)
+
+    expect(p2pSocket.send).toHaveBeenCalledWith(
+      expect.objectContaining({ command: 'account_tx', account: ACCOUNT }),
+    )
+    expect(socket.send).not.toHaveBeenCalled()
+  })
+
+  it('falls back to the main socket when no P2P socket is configured', async () => {
+    const socket = makeSocket(response)
+
+    await getAccountTransactions(socket, ACCOUNT, 50, '', true)
+
+    expect(socket.send).toHaveBeenCalledTimes(1)
   })
 })

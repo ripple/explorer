@@ -314,6 +314,46 @@ describe('useAccountTransactions', () => {
       expect(result.current.hasNextPage).toBe(true)
     })
 
+    it('waits for load more when remounting onto a round left unfinished', async () => {
+      // Every page has 2 matches, so a round of minResults=4 is 2 pages
+      mockPages([...Array(30).keys()], 30)
+      const queryClient = new QueryClient({
+        defaultOptions: { queries: { refetchOnMount: false, retry: false } },
+      })
+      const wrapper = createWrapper({}, queryClient)
+      const renderMPT = () =>
+        renderHook(
+          () =>
+            useAccountTransactions({
+              account: 'rAccount123',
+              tokenId: 'MPT',
+              minResults: 4,
+            }),
+          { wrapper },
+        )
+
+      // Leave after the first page, with 2 of the 4 matches loaded
+      const first = renderMPT()
+      await waitFor(() =>
+        expect(first.result.current.data?.pages).toHaveLength(1),
+      )
+      first.unmount()
+
+      const { result } = renderMPT()
+      jest.advanceTimersByTime(1000)
+      await waitFor(() => expect(result.current.loading).toBe(false))
+      expect(mockedGetAccountTransactions).toHaveBeenCalledTimes(1)
+      expect(result.current.hasNextPage).toBe(true)
+
+      act(() => {
+        result.current.fetchNextPage()
+      })
+      await advanceThroughPages(3)
+      await waitFor(() => expect(result.current.loading).toBe(false))
+      // "Load more" fetches the next 4 matches: 2 more pages
+      expect(mockedGetAccountTransactions).toHaveBeenCalledTimes(3)
+    })
+
     it('keeps auto-fetching when loading state stays set across pages', async () => {
       // Real timers: a fetch's state and data can land in one render here,
       // which stalled the scan before the effect re-ran per page
@@ -405,44 +445,25 @@ describe('useAccountTransactions', () => {
     expect(result.current.error).toBeNull()
   })
 
-  it('queries the P2P socket when useP2PSocket is set', async () => {
-    const p2pSocket = { name: 'p2p' }
-    const socket = { name: 'main', p2pSocket }
-    mockedGetAccountTransactions.mockResolvedValue({ transactions: [] })
+  it.each([true, false])(
+    'passes useP2PSocket=%s through to getAccountTransactions',
+    async (useP2PSocket) => {
+      mockedGetAccountTransactions.mockResolvedValue({ transactions: [] })
 
-    renderHook(
-      () =>
-        useAccountTransactions({
-          account: 'rAccount123',
-          tokenId: 'MPT',
-          useP2PSocket: true,
-        }),
-      { wrapper: createWrapper(socket) },
-    )
+      renderHook(
+        () =>
+          useAccountTransactions({
+            account: 'rAccount123',
+            tokenId: 'MPT',
+            useP2PSocket,
+          }),
+        { wrapper: createWrapper() },
+      )
 
-    await waitFor(() =>
-      expect(mockedGetAccountTransactions).toHaveBeenCalledTimes(1),
-    )
-    expect(mockedGetAccountTransactions.mock.calls[0][4]).toBe(p2pSocket)
-  })
-
-  it('falls back to the main socket when no P2P socket is configured', async () => {
-    const socket = { name: 'main', p2pSocket: undefined }
-    mockedGetAccountTransactions.mockResolvedValue({ transactions: [] })
-
-    renderHook(
-      () =>
-        useAccountTransactions({
-          account: 'rAccount123',
-          tokenId: 'MPT',
-          useP2PSocket: true,
-        }),
-      { wrapper: createWrapper(socket) },
-    )
-
-    await waitFor(() =>
-      expect(mockedGetAccountTransactions).toHaveBeenCalledTimes(1),
-    )
-    expect(mockedGetAccountTransactions.mock.calls[0][4]).toBe(socket)
-  })
+      await waitFor(() =>
+        expect(mockedGetAccountTransactions).toHaveBeenCalledTimes(1),
+      )
+      expect(mockedGetAccountTransactions.mock.calls[0][5]).toBe(useP2PSocket)
+    },
+  )
 })

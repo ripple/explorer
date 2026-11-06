@@ -23,6 +23,7 @@ const getAccountTransactions = async (
   marker: any,
   limit: number | undefined,
   rippledSocket: ExplorerXrplClient,
+  useP2P: boolean = false,
 ): Promise<AccountTransactionsResult> => {
   // TODO: Retrieve txs for untagged X-address only?
 
@@ -68,6 +69,7 @@ const getAccountTransactions = async (
       classicAddress,
       limit,
       marker,
+      useP2P,
     )
     // Nothing older than an MPT's creation can reference it, so stop paging there
     const reachedMPTCreation =

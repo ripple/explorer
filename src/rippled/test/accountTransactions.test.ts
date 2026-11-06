@@ -193,4 +193,28 @@ describe('accountTransactions', () => {
       expect(result.marker).toBe('12345.1')
     })
   })
+
+  it.each([true, false])(
+    'passes useP2P=%s to the account_tx request',
+    async (useP2P) => {
+      mockGetAccountTxs.mockResolvedValue({ transactions: [] })
+
+      await getAccountTransactions(
+        validAccount,
+        undefined,
+        '12345.1',
+        50,
+        mockSocket,
+        useP2P,
+      )
+
+      expect(mockGetAccountTxs).toHaveBeenCalledWith(
+        mockSocket,
+        validAccount,
+        50,
+        '12345.1',
+        useP2P,
+      )
+    },
+  )
 })

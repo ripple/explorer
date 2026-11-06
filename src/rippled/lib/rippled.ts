@@ -504,11 +504,13 @@ const getAccountTransactions = async (
   account: string,
   limit: number = 20,
   marker: string = '',
+  // The P2P (Clio) server keeps full history; the main one may not
+  useP2P: boolean = false,
 ): Promise<any> => {
   const markerComponents = marker.split('.')
   const ledger = parseInt(markerComponents[0], 10)
   const seq = parseInt(markerComponents[1], 10)
-  const resp = await query(rippledSocket, {
+  const resp = await (useP2P ? queryP2P : query)(rippledSocket, {
     command: 'account_tx',
     account,
     limit,

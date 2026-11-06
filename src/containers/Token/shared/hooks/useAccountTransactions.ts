@@ -2,9 +2,7 @@ import { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { useInfiniteQuery } from 'react-query'
 
 import { useAnalytics } from '../../../shared/analytics'
-import SocketContext, {
-  ExplorerXrplClient,
-} from '../../../shared/SocketContext'
+import SocketContext from '../../../shared/SocketContext'
 import { getAccountTransactions } from '../../../../rippled'
 
 /**
@@ -57,10 +55,6 @@ export function useAccountTransactions({
 }: UseAccountTransactionsOptions) {
   const { trackException } = useAnalytics()
   const rippledSocket = useContext(SocketContext)
-  // getAccountTransactions only sends a plain account_tx, so the P2P client works
-  const querySocket = useP2PSocket
-    ? ((rippledSocket?.p2pSocket ?? rippledSocket) as ExplorerXrplClient)
-    : rippledSocket
 
   const {
     data,
@@ -76,7 +70,8 @@ export function useAccountTransactions({
         tokenId,
         pageParam,
         limit,
-        querySocket,
+        rippledSocket,
+        useP2PSocket,
       ).catch((errorResponse: Error) => {
         const errorLocation = `transactions ${account}.${tokenId} at ${pageParam}`
         trackException(`${errorLocation} --- ${JSON.stringify(errorResponse)}`)
@@ -107,13 +102,17 @@ export function useAccountTransactions({
     [data],
   )
   const pageCount = data?.pages.length ?? 0
-  const [targetCount, setTargetCount] = useState(minResults)
+  // Already-cached pages count as a finished round, so showing them again
+  // (e.g. going back to an MPT) waits for "Load more" instead of fetching
+  const initialTarget = pageCount > 0 ? loadedCount : minResults
+  const [targetCount, setTargetCount] = useState(initialTarget)
   // Pages loaded when the current round started
   const [roundStartPage, setRoundStartPage] = useState(0)
   // The hook stays mounted when navigating between tokens
   useEffect(() => {
-    setTargetCount(minResults)
+    setTargetCount(initialTarget)
     setRoundStartPage(0)
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- only when the token changes, not as pages load
   }, [account, tokenId, minResults])
   const hasRoundBudget = pageCount - roundStartPage < MAX_PAGES_PER_ROUND
 
