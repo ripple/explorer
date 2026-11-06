@@ -171,6 +171,8 @@ const getLedgerEntry = async (
 const getTransaction = async (
   rippledSocket: ExplorerXrplClient,
   txId: string,
+  // The P2P (Clio) server keeps full history; the main one may not
+  useP2P: boolean = false,
 ): Promise<any> => {
   const params: any = {
     command: 'tx',
@@ -183,7 +185,7 @@ const getTransaction = async (
     throw new Error(`${txId} not a ctid or hash`, 404)
   }
 
-  const resp = await query(rippledSocket, params)
+  const resp = await (useP2P ? queryP2P : query)(rippledSocket, params)
   if (resp.error === 'txnNotFound') {
     throw new Error('transaction not found', 404)
   }

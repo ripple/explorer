@@ -35,7 +35,8 @@ const withParentBatches = async (
     await Promise.all(
       parentIds.map(async (id): Promise<[string, any]> => [
         id,
-        await getTransaction(rippledSocket, id).catch(() => undefined),
+        // Same Clio host as the inner rows: the main host may lack old history
+        await getTransaction(rippledSocket, id, true).catch(() => undefined),
       ]),
     ),
   )

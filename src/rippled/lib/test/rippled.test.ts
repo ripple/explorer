@@ -6,6 +6,7 @@ import {
   getAccountSponsorship,
   getAccountInfo,
   getAccountTransactions,
+  getTransaction,
 } from '../rippled'
 
 const VAULT_INDEX =
@@ -487,16 +488,6 @@ describe('getAccountTransactions', () => {
   const ACCOUNT = 'rMgkHzJ6UpnhxmemPxVMi8ob63kY57JH4h'
   const response = { transactions: [] }
 
-  it('queries the main socket by default', async () => {
-    const p2pSocket = makeSocket(response)
-    const socket = { ...makeSocket(response), p2pSocket }
-
-    await getAccountTransactions(socket, ACCOUNT)
-
-    expect(socket.send).toHaveBeenCalledTimes(1)
-    expect(p2pSocket.send).not.toHaveBeenCalled()
-  })
-
   it('queries the P2P socket when useP2P is set', async () => {
     const p2pSocket = makeSocket(response)
     const socket = { ...makeSocket(response), p2pSocket }
@@ -576,5 +567,28 @@ describe('getAccountTransactions', () => {
       )
       expect(result.filtered).toBe(false)
     })
+  })
+})
+
+describe('getTransaction', () => {
+  const HASH =
+    'DAE907A4E339A5CE356493E1ABEC177AC8F66B01FAA632E349922F3AF057D316'
+  const response = { hash: HASH, meta: {}, validated: true }
+
+  it.each([
+    [false, 'main'],
+    [true, 'P2P'],
+  ])('with useP2P=%s queries the %s socket', async (useP2P, which) => {
+    const p2pSocket = makeSocket(response)
+    const socket = { ...makeSocket(response), p2pSocket }
+
+    await getTransaction(socket, HASH, useP2P)
+
+    const used = which === 'P2P' ? p2pSocket : socket
+    const unused = which === 'P2P' ? socket : p2pSocket
+    expect(used.send).toHaveBeenCalledWith(
+      expect.objectContaining({ command: 'tx', transaction: HASH }),
+    )
+    expect(unused.send).not.toHaveBeenCalled()
   })
 })

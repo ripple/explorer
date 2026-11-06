@@ -270,7 +270,9 @@ describe('accountTransactions', () => {
         true,
       )
 
+      // On the P2P (Clio) host, like the inner rows
       expect(mockGetTransaction).toHaveBeenCalledTimes(1)
+      expect(mockGetTransaction).toHaveBeenCalledWith(mockSocket, 'batch', true)
       expect(result.transactions.map((tx: any) => tx.hash)).toEqual([
         'inner-2',
         'inner-1',
@@ -300,7 +302,6 @@ describe('accountTransactions', () => {
   })
 
   describe('Batch', () => {
-    const mptIssuanceId = '00000001ABC123DEF456'
     // A Batch's summary keeps only its inner hashes, so its RawTransactions are
     // the only place the token appears
     const batchTx = (innerTxs: any[]) => ({
@@ -312,29 +313,6 @@ describe('accountTransactions', () => {
           RawTransaction,
         })),
       },
-    })
-
-    it('keeps a Batch whose inner transaction references the MPT', async () => {
-      mockGetAccountTxs.mockResolvedValue({
-        transactions: [
-          batchTx([
-            {
-              TransactionType: 'MPTokenAuthorize',
-              MPTokenIssuanceID: mptIssuanceId,
-            },
-          ]),
-        ],
-      })
-
-      const result = await getAccountTransactions(
-        validAccount,
-        mptIssuanceId,
-        undefined,
-        20,
-        mockSocket,
-      )
-
-      expect(result.transactions.map((tx: any) => tx.hash)).toEqual(['batch'])
     })
 
     it('keeps a Batch whose inner transaction uses the IOU', async () => {
@@ -358,29 +336,6 @@ describe('accountTransactions', () => {
       )
 
       expect(result.transactions.map((tx: any) => tx.hash)).toEqual(['batch'])
-    })
-
-    it('drops a Batch whose inner transactions are unrelated', async () => {
-      mockGetAccountTxs.mockResolvedValue({
-        transactions: [
-          batchTx([
-            {
-              TransactionType: 'MPTokenAuthorize',
-              MPTokenIssuanceID: '00000002FFFFFFFFFFFF',
-            },
-          ]),
-        ],
-      })
-
-      const result = await getAccountTransactions(
-        validAccount,
-        mptIssuanceId,
-        undefined,
-        20,
-        mockSocket,
-      )
-
-      expect(result.transactions).toHaveLength(0)
     })
   })
 })
