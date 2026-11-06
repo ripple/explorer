@@ -171,6 +171,8 @@ const getLedgerEntry = async (
 const getTransaction = async (
   rippledSocket: ExplorerXrplClient,
   txId: string,
+  // The P2P (Clio) server keeps full history; the main one may not
+  useP2P: boolean = false,
 ): Promise<any> => {
   const params: any = {
     command: 'tx',
@@ -183,7 +185,7 @@ const getTransaction = async (
     throw new Error(`${txId} not a ctid or hash`, 404)
   }
 
-  const resp = await query(rippledSocket, params)
+  const resp = await (useP2P ? queryP2P : query)(rippledSocket, params)
   if (resp.error === 'txnNotFound') {
     throw new Error('transaction not found', 404)
   }
@@ -504,11 +506,17 @@ const getAccountTransactions = async (
   account: string,
   limit: number = 20,
   marker: string = '',
+  // The P2P (Clio) server keeps full history; the main one may not
+  useP2P: boolean = false,
+  // Clio filters by MPT server-side; rippled ignores the field
+  mptIssuanceId: string | undefined = undefined,
 ): Promise<any> => {
   const markerComponents = marker.split('.')
   const ledger = parseInt(markerComponents[0], 10)
   const seq = parseInt(markerComponents[1], 10)
-  const resp = await query(rippledSocket, {
+  // Only the configured P2P host is known to be Clio
+  const filtered = useP2P && !!mptIssuanceId && !!rippledSocket.p2pSocket
+  const resp = await (useP2P ? queryP2P : query)(rippledSocket, {
     command: 'account_tx',
     account,
     limit,
@@ -520,6 +528,7 @@ const getAccountTransactions = async (
           seq,
         }
       : undefined,
+    mpt_issuance_id: filtered ? mptIssuanceId : undefined,
   })
   if (resp.error === 'actNotFound') {
     throw new Error('account not found', 404)
@@ -533,6 +542,7 @@ const getAccountTransactions = async (
     marker: resp.marker
       ? `${resp.marker.ledger}.${resp.marker.seq}`
       : undefined,
+    filtered,
   }
 }
 

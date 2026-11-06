@@ -1,0 +1,72 @@
+{
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rMgkHzJ6UpnhxmemPxVMi8ob63kY57JH4h",
+            "Balance": "189999448",
+            "Flags": 0,
+            "OwnerCount": 10,
+            "Sequence": 21737342
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "A744447F4F454C7768DCE1D15C88C9CB84F4ADF79E577B7D4E335F0BC75D214F",
+          "PreviousFields": {
+            "Balance": "189999496",
+            "Sequence": 21737341
+          },
+          "PreviousTxnID": "108AD32044DB9FF4776AE573CE70A95D30853E56D44227A98B5256114DBB8620",
+          "PreviousTxnLgrSeq": 21848848
+        }
+      }
+    ],
+    "TransactionIndex": 17,
+    "TransactionResult": "tesSUCCESS"
+  },
+  "tx": {
+    "Account": "rMgkHzJ6UpnhxmemPxVMi8ob63kY57JH4h",
+    "Fee": "48",
+    "Flags": 65536,
+    "LastLedgerSequence": 21848876,
+    "RawTransactions": [
+      {
+        "RawTransaction": {
+          "Account": "rMgkHzJ6UpnhxmemPxVMi8ob63kY57JH4h",
+          "Fee": "0",
+          "Flags": 1073741824,
+          "Holder": "r1mpyFA6cdnyKQUXG7iXTvcHPKAkHQcBS",
+          "MPTokenIssuanceID": "014BAF7CE2E6E09523A4EE29CED6EBF52DF4E31BD21E562D",
+          "Sequence": 21737342,
+          "SigningPubKey": "",
+          "TransactionType": "MPTokenAuthorize"
+        }
+      },
+      {
+        "RawTransaction": {
+          "Account": "rMgkHzJ6UpnhxmemPxVMi8ob63kY57JH4h",
+          "Amount": {
+            "mpt_issuance_id": "014BAF7CE2E6E09523A4EE29CED6EBF52DF4E31BD21E562D",
+            "value": "105000000000"
+          },
+          "Destination": "r1mpyFA6cdnyKQUXG7iXTvcHPKAkHQcBS",
+          "Fee": "0",
+          "Flags": 1073741824,
+          "Sequence": 21737343,
+          "SigningPubKey": "",
+          "TransactionType": "Payment"
+        }
+      }
+    ],
+    "Sequence": 21737341,
+    "SigningPubKey": "ED77E19396FBEE000E2446195BBC21BD9A9407E2369DD01395CEEE1469C20EB346",
+    "TransactionType": "Batch",
+    "TxnSignature": "04DD6FD47303C34207F5DC1563299342B07508DC38F93D68333876A5A0D3CC5223D1D2B1D817300AFCD5B0134046246E0DED180244AA023088B139540161AF00",
+    "hash": "DAE907A4E339A5CE356493E1ABEC177AC8F66B01FAA632E349922F3AF057D316",
+    "ctid": "C14D631A00110001",
+    "date": 846367451,
+    "ledger_index": 21848858,
+    "inLedger": 21848858
+  },
+  "validated": true
+}
