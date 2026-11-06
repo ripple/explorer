@@ -516,4 +516,65 @@ describe('getAccountTransactions', () => {
 
     expect(socket.send).toHaveBeenCalledTimes(1)
   })
+
+  describe('MPT filter', () => {
+    const MPT_ID = '014BAF7CE2E6E09523A4EE29CED6EBF52DF4E31BD21E562D'
+
+    it('asks the P2P (Clio) host to filter by MPT', async () => {
+      const p2pSocket = makeSocket(response)
+      const socket = { ...makeSocket(response), p2pSocket }
+
+      const result = await getAccountTransactions(
+        socket,
+        ACCOUNT,
+        50,
+        '',
+        true,
+        MPT_ID,
+      )
+
+      expect(p2pSocket.send).toHaveBeenCalledWith(
+        expect.objectContaining({ mpt_issuance_id: MPT_ID }),
+      )
+      expect(result.filtered).toBe(true)
+    })
+
+    it('does not filter when no P2P host is configured', async () => {
+      // e.g. a custom network, whose server may be rippled
+      const socket = makeSocket(response)
+
+      const result = await getAccountTransactions(
+        socket,
+        ACCOUNT,
+        50,
+        '',
+        true,
+        MPT_ID,
+      )
+
+      expect(socket.send).toHaveBeenCalledWith(
+        expect.objectContaining({ mpt_issuance_id: undefined }),
+      )
+      expect(result.filtered).toBe(false)
+    })
+
+    it('does not filter without useP2P', async () => {
+      const p2pSocket = makeSocket(response)
+      const socket = { ...makeSocket(response), p2pSocket }
+
+      const result = await getAccountTransactions(
+        socket,
+        ACCOUNT,
+        50,
+        '',
+        false,
+        MPT_ID,
+      )
+
+      expect(socket.send).toHaveBeenCalledWith(
+        expect.objectContaining({ mpt_issuance_id: undefined }),
+      )
+      expect(result.filtered).toBe(false)
+    })
+  })
 })

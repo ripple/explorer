@@ -83,12 +83,6 @@ export const TablePicker = ({
     useAccountTransactions({
       account: accountId,
       tokenId: currency,
-      limit: 50,
-      // Skip non-matching pages until a screenful is found, so older
-      // transactions show up
-      minResults: 20,
-      useP2PSocket: true,
-      retry: 2,
     })
 
   const [tablePickerState, setTablePickerState] = useState<
@@ -134,26 +128,15 @@ export const TablePicker = ({
   }
 
   // Helper to render transaction table
-  const renderTransactionTable = () => {
-    const transactions = data?.pages
-      ?.map((page: any) => page.transactions)
-      .flat()
-    // The page budget ran out before any match: more history is left, so
-    // "No transactions found." would be wrong
-    const tryLoading = !error && hasNextPage && transactions?.length === 0
-    const emptyMessage = tryLoading
-      ? 'get_account_transactions_try'
-      : error?.message
-    return (
-      <TransactionTable
-        transactions={transactions}
-        loading={loading}
-        emptyMessage={emptyMessage ? t(emptyMessage as any) : ''}
-        onLoadMore={() => fetchNextPage()}
-        hasAdditionalResults={hasNextPage}
-      />
-    )
-  }
+  const renderTransactionTable = () => (
+    <TransactionTable
+      transactions={data?.pages?.map((page: any) => page.transactions).flat()}
+      loading={loading}
+      emptyMessage={error?.message ? t(error.message as any) : ''}
+      onLoadMore={() => fetchNextPage()}
+      hasAdditionalResults={hasNextPage}
+    />
+  )
 
   // Helper to render dex trades table
   const renderDexTradesTable = () => (

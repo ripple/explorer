@@ -506,10 +506,14 @@ const getAccountTransactions = async (
   marker: string = '',
   // The P2P (Clio) server keeps full history; the main one may not
   useP2P: boolean = false,
+  // Clio filters by MPT server-side; rippled ignores the field
+  mptIssuanceId: string | undefined = undefined,
 ): Promise<any> => {
   const markerComponents = marker.split('.')
   const ledger = parseInt(markerComponents[0], 10)
   const seq = parseInt(markerComponents[1], 10)
+  // Only the configured P2P host is known to be Clio
+  const filtered = useP2P && !!mptIssuanceId && !!rippledSocket.p2pSocket
   const resp = await (useP2P ? queryP2P : query)(rippledSocket, {
     command: 'account_tx',
     account,
@@ -522,6 +526,7 @@ const getAccountTransactions = async (
           seq,
         }
       : undefined,
+    mpt_issuance_id: filtered ? mptIssuanceId : undefined,
   })
   if (resp.error === 'actNotFound') {
     throw new Error('account not found', 404)
@@ -535,6 +540,7 @@ const getAccountTransactions = async (
     marker: resp.marker
       ? `${resp.marker.ledger}.${resp.marker.seq}`
       : undefined,
+    filtered,
   }
 }
 

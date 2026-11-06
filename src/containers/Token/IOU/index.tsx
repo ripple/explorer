@@ -181,9 +181,6 @@ export const IOU = () => {
       {accountId && tokenData && (
         <div className="section">
           <TablePicker
-            // Remount per token so a cached token is reused rather than refetched:
-            // react-query refetches every cached page at once on a key change
-            key={token}
             accountId={accountId}
             currency={currency}
             xrpUSDRate={XRPUSDPrice.toString()}
