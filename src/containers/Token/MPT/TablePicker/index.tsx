@@ -55,7 +55,7 @@ export const TablePicker = ({
       tokenId: mptIssuanceId,
       // Clio returns only matching rows; larger pages risk s2.ripple.com's
       // 1 MB per 0.5 s limit when nearly every transaction matches
-      limit: 250,
+      limit: 200,
       // Skip non-matching pages until a screenful is found or the issuance's
       // creation is reached, so older transactions show up
       minResults: 20,

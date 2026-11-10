@@ -31,15 +31,14 @@ const withParentBatches = async (
       transactions.map((tx) => tx.meta?.ParentBatchID).filter(Boolean),
     ),
   ]
-  const parents = new Map<string, any>(
-    await Promise.all(
-      parentIds.map(async (id): Promise<[string, any]> => [
-        id,
-        // Same Clio host as the inner rows: the main host may lack old history
-        await getTransaction(rippledSocket, id, true).catch(() => undefined),
-      ]),
-    ),
-  )
+  const parents = new Map<string, any>()
+  // One at a time to stay under Clio's per-IP request limit; a failure fails
+  // the page so it's retried instead of silently dropping the Batch
+  for (const id of parentIds) {
+    // Same Clio host as the inner rows: the main host may lack old history
+    // eslint-disable-next-line no-await-in-loop
+    parents.set(id, await getTransaction(rippledSocket, id, true))
+  }
   return transactions.flatMap((tx, index) => {
     const parentId = tx.meta?.ParentBatchID
     const isLastInner =

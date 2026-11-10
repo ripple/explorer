@@ -281,10 +281,26 @@ describe('accountTransactions', () => {
       ])
     })
 
-    it('keeps the inner transactions when the Batch lookup fails', async () => {
-      mockGetTransaction.mockRejectedValue(new Error('txnNotFound'))
+    it('looks up parent Batches one at a time', async () => {
+      let inFlight = 0
+      let maxInFlight = 0
+      mockGetTransaction.mockImplementation(
+        async (_socket: any, id: string) => {
+          inFlight += 1
+          maxInFlight = Math.max(maxInFlight, inFlight)
+          await new Promise((resolve) => {
+            setTimeout(resolve, 0)
+          })
+          inFlight -= 1
+          return { hash: id }
+        },
+      )
       mockGetAccountTxs.mockResolvedValue({
-        transactions: [{ hash: 'inner', meta: { ParentBatchID: 'batch' } }],
+        transactions: [
+          { hash: 'inner-a', meta: { ParentBatchID: 'batch-a' } },
+          { hash: 'inner-b', meta: { ParentBatchID: 'batch-b' } },
+          { hash: 'inner-c', meta: { ParentBatchID: 'batch-c' } },
+        ],
         filtered: true,
       })
 
@@ -297,7 +313,35 @@ describe('accountTransactions', () => {
         true,
       )
 
-      expect(result.transactions.map((tx: any) => tx.hash)).toEqual(['inner'])
+      expect(mockGetTransaction).toHaveBeenCalledTimes(3)
+      expect(maxInFlight).toBe(1)
+      expect(result.transactions.map((tx: any) => tx.hash)).toEqual([
+        'inner-a',
+        'batch-a',
+        'inner-b',
+        'batch-b',
+        'inner-c',
+        'batch-c',
+      ])
+    })
+
+    it('fails the page when a Batch lookup fails, so it is retried', async () => {
+      mockGetTransaction.mockRejectedValue(new Error('slowDown'))
+      mockGetAccountTxs.mockResolvedValue({
+        transactions: [{ hash: 'inner', meta: { ParentBatchID: 'batch' } }],
+        filtered: true,
+      })
+
+      await expect(
+        getAccountTransactions(
+          validAccount,
+          mptIssuanceId,
+          undefined,
+          20,
+          mockSocket,
+          true,
+        ),
+      ).rejects.toThrow('slowDown')
     })
   })
 
