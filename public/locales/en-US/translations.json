@@ -450,7 +450,7 @@
   "custom_networks": "Custom Networks",
   "no_network_selected": "No Custom Network Selected",
   "custom_network_unavailable_title": "Not available on custom networks",
-  "custom_network_unavailable_hint": "This page uses data that is only collected for the public networks. To see it, open the Explorer for that network.",
+  "custom_network_unavailable_hint": "The Explorer does not collect node, validator, or amendment data for custom networks.",
   "locking_chain_door": "Locking Chain Door",
   "locking_chain_issue": "Locking Chain Issue",
   "issuing_chain_door": "Issuing Chain Door",
