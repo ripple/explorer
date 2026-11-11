@@ -189,6 +189,7 @@ describe('TablePicker container', () => {
       '44922483.5',
       undefined,
       undefined,
+      false,
     )
   })
 

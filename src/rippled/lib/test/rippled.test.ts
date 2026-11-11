@@ -5,6 +5,8 @@ import {
   getNegativeUNL,
   getAccountSponsorship,
   getAccountInfo,
+  getAccountTransactions,
+  getTransaction,
 } from '../rippled'
 
 const VAULT_INDEX =
@@ -479,5 +481,114 @@ describe('getAccountInfo', () => {
     await expect(getAccountInfo(socket, AMM_ACCOUNT)).rejects.toMatchObject({
       code,
     })
+  })
+})
+
+describe('getAccountTransactions', () => {
+  const ACCOUNT = 'rMgkHzJ6UpnhxmemPxVMi8ob63kY57JH4h'
+  const response = { transactions: [] }
+
+  it('queries the P2P socket when useP2P is set', async () => {
+    const p2pSocket = makeSocket(response)
+    const socket = { ...makeSocket(response), p2pSocket }
+
+    await getAccountTransactions(socket, ACCOUNT, 50, '', true)
+
+    expect(p2pSocket.send).toHaveBeenCalledWith(
+      expect.objectContaining({ command: 'account_tx', account: ACCOUNT }),
+    )
+    expect(socket.send).not.toHaveBeenCalled()
+  })
+
+  it('falls back to the main socket when no P2P socket is configured', async () => {
+    const socket = makeSocket(response)
+
+    await getAccountTransactions(socket, ACCOUNT, 50, '', true)
+
+    expect(socket.send).toHaveBeenCalledTimes(1)
+  })
+
+  describe('MPT filter', () => {
+    const MPT_ID = '014BAF7CE2E6E09523A4EE29CED6EBF52DF4E31BD21E562D'
+
+    it('asks the P2P (Clio) host to filter by MPT', async () => {
+      const p2pSocket = makeSocket(response)
+      const socket = { ...makeSocket(response), p2pSocket }
+
+      const result = await getAccountTransactions(
+        socket,
+        ACCOUNT,
+        50,
+        '',
+        true,
+        MPT_ID,
+      )
+
+      expect(p2pSocket.send).toHaveBeenCalledWith(
+        expect.objectContaining({ mpt_issuance_id: MPT_ID }),
+      )
+      expect(result.filtered).toBe(true)
+    })
+
+    it('does not filter when no P2P host is configured', async () => {
+      // e.g. a custom network, whose server may be rippled
+      const socket = makeSocket(response)
+
+      const result = await getAccountTransactions(
+        socket,
+        ACCOUNT,
+        50,
+        '',
+        true,
+        MPT_ID,
+      )
+
+      expect(socket.send).toHaveBeenCalledWith(
+        expect.objectContaining({ mpt_issuance_id: undefined }),
+      )
+      expect(result.filtered).toBe(false)
+    })
+
+    it('does not filter without useP2P', async () => {
+      const p2pSocket = makeSocket(response)
+      const socket = { ...makeSocket(response), p2pSocket }
+
+      const result = await getAccountTransactions(
+        socket,
+        ACCOUNT,
+        50,
+        '',
+        false,
+        MPT_ID,
+      )
+
+      expect(socket.send).toHaveBeenCalledWith(
+        expect.objectContaining({ mpt_issuance_id: undefined }),
+      )
+      expect(result.filtered).toBe(false)
+    })
+  })
+})
+
+describe('getTransaction', () => {
+  const HASH =
+    'DAE907A4E339A5CE356493E1ABEC177AC8F66B01FAA632E349922F3AF057D316'
+  const response = { hash: HASH, meta: {}, validated: true }
+
+  it.each([
+    [false, 'main'],
+    [true, 'P2P'],
+  ])('with useP2P=%s queries the %s socket', async (useP2P, which) => {
+    const p2pSocket = makeSocket(response)
+    const socket = { ...makeSocket(response), p2pSocket }
+
+    await getTransaction(socket, HASH, useP2P)
+
+    const used = which === 'P2P' ? p2pSocket : socket
+    const unused = which === 'P2P' ? socket : p2pSocket
+    expect(used.send).toHaveBeenCalledWith(
+      expect.objectContaining({ command: 'tx', transaction: HASH }),
+    )
+    expect(unused.send).not.toHaveBeenCalled()
   })
 })

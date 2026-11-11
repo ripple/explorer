@@ -1,4 +1,4 @@
-import { renderHook, waitFor } from '@testing-library/react'
+import { act, renderHook, waitFor } from '@testing-library/react'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { useAccountTransactions } from '../../hooks/useAccountTransactions'
 import SocketContext from '../../../../shared/SocketContext'
@@ -12,6 +12,14 @@ jest.mock('../../../../shared/analytics', () => ({
 }))
 
 const mockedGetAccountTransactions = rippled.getAccountTransactions as jest.Mock
+
+// With fake timers, waitFor advances the clock itself and flushes pending
+// promises between steps, so each 200ms auto-fetch delay elapses in order
+const advanceThroughPages = (calls: number) =>
+  waitFor(
+    () => expect(mockedGetAccountTransactions).toHaveBeenCalledTimes(calls),
+    { timeout: calls * 1000 },
+  )
 
 const createWrapper =
   (socket: any = {}, queryClient = new QueryClient()) =>
@@ -154,4 +162,308 @@ describe('useAccountTransactions', () => {
       { hash: 'tx1' },
     ])
   })
+
+  describe('with minResults', () => {
+    // Pages with matches at the given indexes; every other page is empty
+    const mockPages = (matchPages: number[], lastPage: number) =>
+      mockedGetAccountTransactions.mockImplementation(
+        async (_account: string, _tokenId: string, marker: string) => {
+          const page = marker ? Number(marker) : 0
+          return {
+            transactions: matchPages.includes(page)
+              ? [{ hash: `tx${page}a` }, { hash: `tx${page}b` }]
+              : [],
+            marker: page < lastPage ? String(page + 1) : undefined,
+          }
+        },
+      )
+
+    const renderMPTHook = () =>
+      renderHook(
+        () =>
+          useAccountTransactions({
+            account: 'rAccount123',
+            tokenId: 'MPT',
+            minResults: 4,
+          }),
+        { wrapper: createWrapper() },
+      )
+
+    it('auto-fetches past the attempt cap until minResults matches load', async () => {
+      // 2 matches on page 0, 2 on page 12: the 4th match is past the cap of 10
+      mockPages([0, 12, 20], 30)
+      const { result } = renderMPTHook()
+
+      await advanceThroughPages(13)
+      await waitFor(() => expect(result.current.loading).toBe(false))
+      jest.advanceTimersByTime(1000)
+
+      expect(mockedGetAccountTransactions).toHaveBeenCalledTimes(13)
+      expect(result.current.hasNextPage).toBe(true)
+    })
+
+    it('loads the next minResults matches on load more', async () => {
+      mockPages([0, 1, 15, 25], 30)
+      const { result } = renderMPTHook()
+
+      await advanceThroughPages(2)
+      await waitFor(() => expect(result.current.loading).toBe(false))
+      expect(mockedGetAccountTransactions).toHaveBeenCalledTimes(2)
+
+      act(() => {
+        result.current.fetchNextPage()
+      })
+      await advanceThroughPages(26)
+      await waitFor(() => expect(result.current.loading).toBe(false))
+      jest.advanceTimersByTime(1000)
+
+      // Skips the empty pages up to page 25, where the 8th match is
+      expect(mockedGetAccountTransactions).toHaveBeenCalledTimes(26)
+      expect(
+        result.current.data?.pages.flatMap((page: any) => page.transactions),
+      ).toHaveLength(8)
+    })
+
+    it('resets the target when the token changes', async () => {
+      mockPages([0, 1, 2, 3], 30)
+      const { result, rerender } = renderHook(
+        ({ tokenId }) =>
+          useAccountTransactions({
+            account: 'rAccount123',
+            tokenId,
+            minResults: 4,
+          }),
+        { wrapper: createWrapper(), initialProps: { tokenId: 'MPT1' } },
+      )
+
+      await advanceThroughPages(2)
+      await waitFor(() => expect(result.current.loading).toBe(false))
+      act(() => {
+        result.current.fetchNextPage()
+      })
+      await advanceThroughPages(4)
+      await waitFor(() => expect(result.current.loading).toBe(false))
+      expect(mockedGetAccountTransactions).toHaveBeenCalledTimes(4)
+
+      rerender({ tokenId: 'MPT2' })
+      await advanceThroughPages(6)
+      await waitFor(() => expect(result.current.loading).toBe(false))
+      jest.advanceTimersByTime(1000)
+
+      // The new token loads 4 matches (2 pages), not the previous target of 8
+      expect(mockedGetAccountTransactions).toHaveBeenCalledTimes(6)
+    })
+
+    it('stops at the end of history with fewer than minResults matches', async () => {
+      mockPages([3], 5)
+      const { result } = renderMPTHook()
+
+      await advanceThroughPages(6)
+      await waitFor(() => expect(result.current.loading).toBe(false))
+
+      expect(mockedGetAccountTransactions).toHaveBeenCalledTimes(6)
+      expect(result.current.hasNextPage).toBe(false)
+    })
+
+    it('stops after 50 pages per round, and load more gets 50 more', async () => {
+      mockPages([], 200)
+      const { result } = renderMPTHook()
+
+      await advanceThroughPages(50)
+      await waitFor(() => expect(result.current.loading).toBe(false))
+      jest.advanceTimersByTime(1000)
+      expect(mockedGetAccountTransactions).toHaveBeenCalledTimes(50)
+      expect(result.current.hasNextPage).toBe(true)
+
+      act(() => {
+        result.current.fetchNextPage()
+      })
+      await advanceThroughPages(100)
+      await waitFor(() => expect(result.current.loading).toBe(false))
+      jest.advanceTimersByTime(1000)
+      expect(mockedGetAccountTransactions).toHaveBeenCalledTimes(100)
+    })
+
+    it('resets the page budget when the token changes', async () => {
+      mockPages([], 200)
+      const { result, rerender } = renderHook(
+        ({ tokenId }) =>
+          useAccountTransactions({
+            account: 'rAccount123',
+            tokenId,
+            minResults: 4,
+          }),
+        { wrapper: createWrapper(), initialProps: { tokenId: 'MPT1' } },
+      )
+
+      // Start a second round on MPT1, so its round starts at page 50
+      await advanceThroughPages(50)
+      await waitFor(() => expect(result.current.loading).toBe(false))
+      act(() => {
+        result.current.fetchNextPage()
+      })
+      await advanceThroughPages(60)
+      rerender({ tokenId: 'MPT2' })
+      await advanceThroughPages(110)
+
+      // MPT2 gets a full round of 50 and then settles; a stale round start
+      // would leave it reporting loading with no fetch scheduled
+      await waitFor(() => expect(result.current.loading).toBe(false))
+      jest.advanceTimersByTime(1000)
+      expect(mockedGetAccountTransactions).toHaveBeenCalledTimes(110)
+      expect(result.current.hasNextPage).toBe(true)
+    })
+
+    it('waits for load more when remounting onto a round left unfinished', async () => {
+      // Every page has 2 matches, so a round of minResults=4 is 2 pages
+      mockPages([...Array(30).keys()], 30)
+      const queryClient = new QueryClient({
+        defaultOptions: { queries: { refetchOnMount: false, retry: false } },
+      })
+      const wrapper = createWrapper({}, queryClient)
+      const renderMPT = () =>
+        renderHook(
+          () =>
+            useAccountTransactions({
+              account: 'rAccount123',
+              tokenId: 'MPT',
+              minResults: 4,
+            }),
+          { wrapper },
+        )
+
+      // Leave after the first page, with 2 of the 4 matches loaded
+      const first = renderMPT()
+      await waitFor(() =>
+        expect(first.result.current.data?.pages).toHaveLength(1),
+      )
+      first.unmount()
+
+      const { result } = renderMPT()
+      jest.advanceTimersByTime(1000)
+      await waitFor(() => expect(result.current.loading).toBe(false))
+      expect(mockedGetAccountTransactions).toHaveBeenCalledTimes(1)
+      expect(result.current.hasNextPage).toBe(true)
+
+      act(() => {
+        result.current.fetchNextPage()
+      })
+      await advanceThroughPages(3)
+      await waitFor(() => expect(result.current.loading).toBe(false))
+      // "Load more" fetches the next 4 matches: 2 more pages
+      expect(mockedGetAccountTransactions).toHaveBeenCalledTimes(3)
+    })
+
+    it('keeps auto-fetching when loading state stays set across pages', async () => {
+      // Real timers: a fetch's state and data can land in one render here,
+      // which stalled the scan before the effect re-ran per page
+      jest.useRealTimers()
+      mockPages([], 5)
+      const { result } = renderMPTHook()
+
+      await waitFor(
+        () => expect(mockedGetAccountTransactions).toHaveBeenCalledTimes(6),
+        { timeout: 4000 },
+      )
+      await waitFor(() => expect(result.current.loading).toBe(false))
+      expect(result.current.hasNextPage).toBe(false)
+    })
+  })
+
+  it('stops auto-fetching at the attempt cap by default', async () => {
+    mockedGetAccountTransactions.mockImplementation(
+      async (_account: string, _tokenId: string, marker: string) => ({
+        transactions: [],
+        marker: String((marker ? Number(marker) : 0) + 1),
+      }),
+    )
+
+    const { result } = renderHook(
+      () =>
+        useAccountTransactions({
+          account: 'rAccount123',
+          tokenId: 'USD',
+        }),
+      { wrapper: createWrapper() },
+    )
+
+    await advanceThroughPages(11)
+    await waitFor(() => expect(result.current.loading).toBe(false))
+    jest.advanceTimersByTime(1000)
+    expect(mockedGetAccountTransactions).toHaveBeenCalledTimes(11)
+    expect(result.current.hasNextPage).toBe(true)
+  })
+
+  it('stops auto-fetching after a page fails', async () => {
+    jest.useRealTimers()
+    mockedGetAccountTransactions
+      .mockResolvedValueOnce({ transactions: [], marker: 'page-2-marker' })
+      .mockRejectedValue(new Error('slowDown'))
+
+    const { result } = renderHook(
+      () =>
+        useAccountTransactions({
+          account: 'rAccount123',
+          tokenId: 'MPT',
+          minResults: 20,
+        }),
+      { wrapper: createWrapper() },
+    )
+
+    await waitFor(() => expect(result.current.error).not.toBeNull())
+    await new Promise((resolve) => {
+      setTimeout(resolve, 1000)
+    })
+    expect(mockedGetAccountTransactions).toHaveBeenCalledTimes(2)
+    expect(result.current.loading).toBe(false)
+  })
+
+  it('retries a failed page when retry is set', async () => {
+    jest.useRealTimers()
+    mockedGetAccountTransactions
+      .mockRejectedValueOnce(new Error('slowDown'))
+      .mockResolvedValueOnce({ transactions: [{ hash: 'tx1' }] })
+
+    const { result } = renderHook(
+      () =>
+        useAccountTransactions({
+          account: 'rAccount123',
+          tokenId: 'MPT',
+          retry: 1,
+        }),
+      { wrapper: createWrapper() },
+    )
+
+    await waitFor(
+      () =>
+        expect(result.current.data?.pages[0].transactions).toEqual([
+          { hash: 'tx1' },
+        ]),
+      { timeout: 3000 },
+    )
+    expect(mockedGetAccountTransactions).toHaveBeenCalledTimes(2)
+    expect(result.current.error).toBeNull()
+  })
+
+  it.each([true, false])(
+    'passes useP2PSocket=%s through to getAccountTransactions',
+    async (useP2PSocket) => {
+      mockedGetAccountTransactions.mockResolvedValue({ transactions: [] })
+
+      renderHook(
+        () =>
+          useAccountTransactions({
+            account: 'rAccount123',
+            tokenId: 'MPT',
+            useP2PSocket,
+          }),
+        { wrapper: createWrapper() },
+      )
+
+      await waitFor(() =>
+        expect(mockedGetAccountTransactions).toHaveBeenCalledTimes(1),
+      )
+      expect(mockedGetAccountTransactions.mock.calls[0][5]).toBe(useP2PSocket)
+    },
+  )
 })

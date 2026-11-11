@@ -1,7 +1,7 @@
-import { render } from '@testing-library/react'
+import { render, waitFor } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter as Router } from 'react-router'
-import { QueryClientProvider } from 'react-query'
+import { QueryClient, QueryClientProvider } from 'react-query'
 import moxios from 'moxios'
 import i18n from '../../../../../i18n/testConfig'
 import { TablePicker } from '../../TablePicker'
@@ -167,5 +167,152 @@ describe('MPT TablePicker container', () => {
     expect(
       container.querySelectorAll('.token-transaction-table-container'),
     ).toHaveLength(1)
+  })
+
+  describe('empty transactions message', () => {
+    beforeEach(() => {
+      jest.useFakeTimers()
+    })
+
+    afterEach(() => {
+      jest.useRealTimers()
+    })
+
+    it('asks to load more when the page budget runs out with history left', async () => {
+      const { container } = renderComponent(async () => ({
+        transactions: [],
+        marker: 'more',
+      }))
+
+      await waitFor(
+        () =>
+          expect(
+            container.querySelector('.empty-transactions-message'),
+          ).toHaveTextContent('get_account_transactions_try'),
+        { timeout: 20000 },
+      )
+      expect(getAccountTransactions).toHaveBeenCalledTimes(50)
+    })
+
+    it('reports no transactions at the end of history', async () => {
+      const { container } = renderComponent(async () => ({
+        transactions: [],
+        marker: undefined,
+      }))
+
+      await waitFor(() =>
+        expect(
+          container.querySelector('.empty-transactions-message'),
+        ).toHaveTextContent('no_transactions_message'),
+      )
+    })
+  })
+
+  describe('returning to an MPT already viewed', () => {
+    const MPT_A = '00000001A407AF5856CCF3C42619DAA925813FC955C72983'
+    const MPT_B = '00000002A407AF5856CCF3C42619DAA925813FC955C72983'
+
+    beforeEach(() => {
+      jest.useFakeTimers()
+      ;(getAccountTransactions as jest.Mock).mockImplementation(
+        async (_account: string, _tokenId: string, marker: string) => ({
+          transactions: [],
+          marker: String((marker ? Number(marker) : 0) + 1),
+        }),
+      )
+    })
+
+    afterEach(() => {
+      jest.useRealTimers()
+    })
+
+    // The app's query defaults, with react-query's default 5-minute cache, so
+    // MPT A's pages are still cached when the visitor comes back to it
+    const appQueryClient = () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            refetchOnWindowFocus: false,
+            refetchOnReconnect: false,
+            refetchOnMount: false,
+            retry: false,
+          },
+        },
+      })
+
+    const renderPicker = (
+      queryClient: QueryClient,
+      id: string,
+      key: string,
+    ) => (
+      <QueryClientProvider client={queryClient}>
+        <I18nextProvider i18n={i18n}>
+          <Router>
+            <TablePicker
+              key={key}
+              mptIssuanceId={id}
+              issuer={TEST_ISSUER}
+              assetScale={0}
+              holdersPagination={{
+                currentPage: 1,
+                setCurrentPage: jest.fn(),
+                pageSize: 20,
+                total: 0,
+              }}
+              holdersLoading={false}
+              transfersPagination={{
+                currentPage: 1,
+                setCurrentPage: jest.fn(),
+                pageSize: 10,
+                total: 0,
+                hasMore: false,
+                hasPrevPage: false,
+              }}
+              transfersSorting={{
+                sortField: 'timestamp',
+                setSortField: jest.fn(),
+                sortOrder: 'desc',
+                setSortOrder: jest.fn(),
+              }}
+              transfersLoading={false}
+            />
+          </Router>
+        </I18nextProvider>
+      </QueryClientProvider>
+    )
+
+    // View A for a full round, then B, then return to A, keying the table by
+    // MPT as MPT/index.tsx does. Returns the requests made after returning to A.
+    const visitAThenBThenA = async () => {
+      const queryClient = appQueryClient()
+      const ui = (id: string) => renderPicker(queryClient, id, id)
+      const { rerender } = render(ui(MPT_A))
+      await waitFor(
+        () => expect(getAccountTransactions).toHaveBeenCalledTimes(50),
+        {
+          timeout: 60000,
+        },
+      )
+      rerender(ui(MPT_B))
+      await waitFor(
+        () => expect(getAccountTransactions).toHaveBeenCalledTimes(100),
+        {
+          timeout: 60000,
+        },
+      )
+      rerender(ui(MPT_A))
+      await waitFor(
+        () =>
+          expect(
+            (getAccountTransactions as jest.Mock).mock.calls.length,
+          ).toBeGreaterThan(149),
+        { timeout: 3000 },
+      ).catch(() => {})
+      return (getAccountTransactions as jest.Mock).mock.calls.length - 100
+    }
+
+    it('reuses the cached pages instead of refetching them', async () => {
+      expect(await visitAThenBThenA()).toBe(0)
+    })
   })
 })

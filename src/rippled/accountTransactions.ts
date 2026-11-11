@@ -5,7 +5,10 @@ import {
 } from 'ripple-address-codec'
 
 import { formatTransaction } from './lib/utils'
-import { getAccountTransactions as getAccountTxs } from './lib/rippled'
+import {
+  getAccountTransactions as getAccountTxs,
+  getTransaction,
+} from './lib/rippled'
 import summarize from './lib/txSummary'
 import logger from './lib/logger'
 import type { ExplorerXrplClient } from '../containers/shared/SocketContext'
@@ -17,12 +20,41 @@ export interface AccountTransactionsResult {
   marker?: any
 }
 
+// Clio's MPT filter returns a Batch's inner transactions but not the Batch
+// itself, so add each parent Batch after its last inner transaction
+const withParentBatches = async (
+  rippledSocket: ExplorerXrplClient,
+  transactions: any[],
+): Promise<any[]> => {
+  const parentIds = [
+    ...new Set(
+      transactions.map((tx) => tx.meta?.ParentBatchID).filter(Boolean),
+    ),
+  ]
+  const parents = new Map<string, any>()
+  // One at a time to stay under Clio's per-IP request limit; a failure fails
+  // the page so it's retried instead of silently dropping the Batch
+  for (const id of parentIds) {
+    // Same Clio host as the inner rows: the main host may lack old history
+    // eslint-disable-next-line no-await-in-loop
+    parents.set(id, await getTransaction(rippledSocket, id, true))
+  }
+  return transactions.flatMap((tx, index) => {
+    const parentId = tx.meta?.ParentBatchID
+    const isLastInner =
+      parentId && transactions[index + 1]?.meta?.ParentBatchID !== parentId
+    const parent = isLastInner && parents.get(parentId)
+    return parent ? [tx, parent] : [tx]
+  })
+}
+
 const getAccountTransactions = async (
   account: string,
   currency: string | undefined,
   marker: any,
   limit: number | undefined,
   rippledSocket: ExplorerXrplClient,
+  useP2P: boolean = false,
 ): Promise<AccountTransactionsResult> => {
   // TODO: Retrieve txs for untagged X-address only?
 
@@ -68,28 +100,53 @@ const getAccountTransactions = async (
       classicAddress,
       limit,
       marker,
+      useP2P,
+      // Only the MPT page reads from the P2P host, so currency is an MPT ID
+      useP2P ? currency : undefined,
     )
-    const transactions = data.transactions
+    // Nothing older than an MPT's creation can reference it, so stop paging there
+    const reachedMPTCreation =
+      !!currency &&
+      data.transactions.some(
+        (tx: any) =>
+          tx.meta?.mpt_issuance_id?.toUpperCase() === currency.toUpperCase(),
+      )
+    // Clio also matches through metadata (e.g. Vault and LoanBroker
+    // transactions), which the summary doesn't keep, so don't filter again
+    const rows = data.filtered
+      ? await withParentBatches(rippledSocket, data.transactions)
+      : data.transactions
+    // Filter by currency (IOU) or MPT issuance ID (passed as currency)
+    const mentionsToken = (value: any) => {
+      const text = JSON.stringify(value)
+      return (
+        text.includes(`"currency":"${currency?.toUpperCase()}"`) ||
+        text.includes(`"${currency}"`)
+      )
+    }
+    const transactions = rows
       .map((tx: any) => {
         const txn = formatTransaction(tx)
-        return summarize(txn, true)
+        return { txn, summary: summarize(txn, true) }
       })
-      .filter((tx: any) => {
+      .filter(({ txn, summary }: any) => {
         // No filter - return all transactions
-        if (!currency) {
+        if (!currency || data.filtered) {
           return true
         }
 
-        // Filter by currency (IOU) or MPT issuance ID (passed as currency)
-        const txString = JSON.stringify(tx)
+        // A Batch's summary keeps only its inner hashes, so check the inner
+        // transactions themselves
         return (
-          txString.includes(`"currency":"${currency.toUpperCase()}"`) ||
-          txString.includes(`"${currency}"`)
+          mentionsToken(summary) ||
+          (txn.tx?.TransactionType === 'Batch' &&
+            mentionsToken(txn.tx.RawTransactions))
         )
       })
+      .map(({ summary }: any) => summary)
     return {
       transactions,
-      marker: data.marker,
+      marker: reachedMPTCreation ? undefined : data.marker,
     }
   } catch (error: any) {
     log.error(error.toString())
