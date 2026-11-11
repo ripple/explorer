@@ -231,22 +231,12 @@ describe('Ledgers Page container', () => {
       process.env = oldEnvs
     })
 
-    it('receives messages from streams', async () => {
+    it('receives messages from streams without VHS data', async () => {
       client.addResponses(rippledResponses)
-      const customNetwork = 'custom_network'
 
-      moxios.stubRequest(
-        `${process.env.VITE_DATA_URL}/validators/${customNetwork}`,
-        {
-          status: 200,
-          response: {
-            validators: MOCK_VALIDATORS,
-          },
-        },
-      )
-
+      // custom networks are not tracked by the VHS, so there is no network ID
       const { container, unmount } = renderLedgersPage({
-        network: customNetwork,
+        network: undefined,
         path: '/my.custom.com',
       })
 
@@ -267,68 +257,19 @@ describe('Ledgers Page container', () => {
       server.send(ledgerMessage)
       await sleep(250)
       expect(container.querySelectorAll('.ledger').length).toBe(2)
+      expect(container.querySelectorAll('a.txn').length).toBe(12)
 
-      server.send({ type: 'invalid' })
-      server.send(null)
-
-      expect(container.querySelectorAll('.ledger').length).toBe(2)
-      expect(
-        container.querySelectorAll('.selected-validator .pubkey').length,
-      ).toBe(0)
-      expect(container.querySelectorAll('.tooltip').length).toBe(0)
-
-      const unlCounter = container.querySelector('.ledger .hash .missed')
-      expect(unlCounter.textContent).toBe('unl:1/2')
-      fireEvent.mouseMove(unlCounter)
-      await waitFor(() => {
-        expect(
-          container.querySelectorAll('.tooltip').length,
-        ).toBeGreaterThanOrEqual(1)
-      })
-      expect(container.querySelector('.tooltip .pubkey').textContent).toBe(
-        'nHUfPizyJyhAJZzeq3duRVrZmsTZfcLn7yLF5s2adzHdcHMb9HmQ',
+      // the UNL comes from the VHS, so there is no trusted validator count
+      expect(container.querySelector('.ledger .hash .missed')).toBeNull()
+      const requestedUrls = Array.from(
+        { length: moxios.requests.count() },
+        (_, i) => moxios.requests.at(i).url,
       )
-      fireEvent.mouseLeave(unlCounter)
-
-      const validations = container.querySelectorAll('div.validation')
-      const txn = container.querySelectorAll('a.txn')
-
-      expect(txn.length).toBe(12)
-      fireEvent.focus(txn[0])
-      fireEvent.mouseOver(txn[0])
-
-      expect(validations.length).toBe(1)
-      fireEvent.mouseOver(validations[0])
-      await waitFor(() => {
-        expect(
-          container.querySelectorAll('.tooltip').length,
-        ).toBeGreaterThanOrEqual(1)
-      })
-      fireEvent.mouseLeave(validations[0])
-      await waitFor(() => {
-        expect(container.querySelectorAll('.tooltip').length).toBe(0)
-      })
-      fireEvent.focus(validations[0])
       expect(
-        container.querySelectorAll('.selected-validator .pubkey').length,
-      ).toBe(0)
-      fireEvent.click(validations[0])
-      await waitFor(() => {
-        expect(
-          container.querySelectorAll('.selected-validator a.pubkey').length,
-        ).toBe(1)
-      })
-      expect(
-        container
-          .querySelector('.selected-validator a.pubkey')
-          .getAttribute('href'),
-      ).toBe('/validators/n9KaxgJv69FucW5kkiaMhCqS6sAR1wUVxpZaZmLGVXxAcAse9YhR')
-      fireEvent.click(validations[0])
-      await waitFor(() => {
-        expect(
-          container.querySelectorAll('.selected-validator .pubkey').length,
-        ).toBe(0)
-      })
+        requestedUrls.filter((url) =>
+          url.startsWith(process.env.VITE_DATA_URL),
+        ),
+      ).toEqual([])
 
       unmount()
     }, 8000)

@@ -449,6 +449,8 @@
   "custom_network_input": "Type in URL of custom network",
   "custom_networks": "Custom Networks",
   "no_network_selected": "No Custom Network Selected",
+  "custom_network_unavailable_title": "Not available on custom networks",
+  "custom_network_unavailable_hint": "This page uses data that is only collected for the public networks. To see it, open the Explorer for that network.",
   "locking_chain_door": "Locking Chain Door",
   "locking_chain_issue": "Locking Chain Issue",
   "issuing_chain_door": "Issuing Chain Door",

@@ -448,6 +448,8 @@
   "custom_network_input": "Escriu l'URL de la xarxa personalitzada",
   "custom_networks": "Xarxes personalitzades",
   "no_network_selected": "No s'ha seleccionat cap xarxa personalitzada",
+  "custom_network_unavailable_title": null,
+  "custom_network_unavailable_hint": null,
   "locking_chain_door": "Locking Chain Door",
   "locking_chain_issue": "Locking Chain Issue",
   "issuing_chain_door": "Issuing Chain Door",

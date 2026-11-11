@@ -449,6 +449,8 @@
   "custom_network_input": "사용자 지정 네트워크의 URL을 입력하세요",
   "custom_networks": "사용자 지정 네트워크",
   "no_network_selected": "선택된 사용자 지정 네트워크가 없습니다",
+  "custom_network_unavailable_title": null,
+  "custom_network_unavailable_hint": null,
   "locking_chain_door": "체인 잠금 문제",
   "locking_chain_issue": "체인 잠금 이슈",
   "issuing_chain_door": "발행 체인 문제",

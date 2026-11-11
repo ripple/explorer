@@ -11,7 +11,7 @@ import { TooltipProvider } from '../shared/components/Tooltip'
 export const App: FC<{ rippledUrl: string }> = memo(
   ({ rippledUrl }: { rippledUrl: string }) => (
     <SocketProvider rippledUrl={rippledUrl}>
-      <NetworkProvider rippledUrl={rippledUrl}>
+      <NetworkProvider>
         <TooltipProvider>
           <Header inNetwork />
           <div className="content">
