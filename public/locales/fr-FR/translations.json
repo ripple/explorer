@@ -385,6 +385,8 @@
   "txn_ledger": "moy. txn/compte",
   "avg_fee": "Frais moyen",
   "txn_count": "Transactions",
+  "closed": "Fermé",
+  "validated": "Validé",
   "nUnlCol": "nUNL",
   "nUnl": "VALIDATEURS SUR nUNL",
   "fees": "frais",

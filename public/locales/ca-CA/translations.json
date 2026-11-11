@@ -384,6 +384,8 @@
   "txn_ledger": "mitjana txn/ledger",
   "avg_fee": "mitjana comissió Txn",
   "txn_count": "compte de txn",
+  "closed": "Tancat",
+  "validated": "Validat",
   "nUnlCol": "nUNL",
   "nUnl": "VALIDADORS a la nUNL",
   "fees": "comissions",

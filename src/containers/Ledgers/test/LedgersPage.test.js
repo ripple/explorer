@@ -9,7 +9,9 @@ import BaseMockWsClient from '../../test/mockWsClient'
 import prevLedgerMessage from './mock/prevLedger.json'
 import ledgerMessage from './mock/ledger.json'
 import validationMessage from './mock/validation.json'
+import validation2Message from './mock/validation2.json'
 import rippledResponses from './mock/rippled.json'
+import { convertRippleDate } from '../../../rippled/lib/convertRippleDate'
 import { QuickHarness } from '../../test/utils'
 import { SelectedValidatorProvider } from '../useSelectedValidator'
 
@@ -220,6 +222,49 @@ describe('Ledgers Page container', () => {
     await sleep(100)
     expect(client.listenerCount('ledger')).toBe(0)
     expect(client.listenerCount('validation')).toBe(0)
+  }, 8000)
+
+  it('shows a blank validated time until quorum UNL validations arrive, then the latest signing time', async () => {
+    client.addResponses(rippledResponses)
+
+    moxios.stubRequest(`${process.env.VITE_DATA_URL}/validators/main`, {
+      status: 200,
+      response: {
+        validators: MOCK_VALIDATORS,
+      },
+    })
+
+    moxios.stubRequest('/api/v1/metrics', {
+      base_fee: '0.00001',
+      txn_sec: '12.19',
+      txn_ledger: '46.94',
+      ledger_interval: '3.850',
+      avg_fee: '0.001882',
+    })
+
+    const { container } = renderLedgersPage()
+
+    server.send(prevLedgerMessage)
+    await sleep(260)
+
+    server.send(ledgerMessage)
+    await sleep(100)
+
+    server.send(validationMessage)
+    await sleep(200 * 2)
+    expect(
+      container.querySelector('.ledger .validated-time .value').textContent,
+    ).toBe('')
+
+    server.send(validation2Message)
+    await sleep(200 * 2)
+    const validatedTimeEl = container.querySelector(
+      '.ledger .validated-time .value',
+    )
+    expect(validatedTimeEl.textContent).not.toBe('')
+    expect(validatedTimeEl.textContent).toBe(
+      new Date(convertRippleDate(695420170)).toLocaleTimeString(),
+    )
   }, 8000)
 
   describe('Custom network tests', () => {

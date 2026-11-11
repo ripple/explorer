@@ -133,8 +133,9 @@ $ledger-width: 196px;
     text-transform: uppercase;
     @include bold;
 
-    .close-time {
-      padding-bottom: 24px;
+    .close-time,
+    .validated-time {
+      padding-bottom: 12px;
       color: $black-40;
       font-size: 10px;
     }

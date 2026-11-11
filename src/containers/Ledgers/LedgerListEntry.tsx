@@ -9,7 +9,12 @@ import {
   TooltipProvider,
   useTooltip,
 } from '../shared/components/Tooltip'
-import { Ledger } from '../shared/components/Streams'
+import {
+  Ledger,
+  useStreams,
+  getValidatedTime,
+} from '../shared/components/Streams'
+import { useVHSValidators } from '../shared/components/VHSValidators'
 
 const SIGMA = '\u03A3'
 
@@ -31,15 +36,39 @@ const LedgerIndex = ({ ledgerIndex }: { ledgerIndex: number }) => {
 export const LedgerListEntryInner = ({ ledger }: { ledger: Ledger }) => {
   const { tooltip } = useTooltip()
   const { t } = useTranslation()
-  const time = ledger.closeTime
+  const { metrics } = useStreams()
+  const { unl } = useVHSValidators()
+
+  const closeTime = ledger.closeTime
     ? new Date(ledger.closeTime).toLocaleTimeString()
+    : null
+
+  // Prefer the hash rippled has confirmed canonical; fall back to the first
+  // seen candidate (a second hashes[] entry only occurs on rare forks).
+  const hashes = ledger.hashes ?? []
+  const selectedHash = hashes.find((hash) => hash.validated) ?? hashes[0]
+
+  const validatedTimeMillis = getValidatedTime(
+    selectedHash?.validations ?? [],
+    unl,
+    metrics.quorum,
+  )
+  const validatedTime = validatedTimeMillis
+    ? new Date(validatedTimeMillis).toLocaleTimeString()
     : null
 
   return (
     <div className="ledger">
       <div className="ledger-head">
         <LedgerIndex ledgerIndex={ledger.index} />
-        <div className="close-time">{time}</div>
+        <div className="close-time">
+          <div className="label">{t('closed')}</div>
+          <div className="value">{closeTime}</div>
+        </div>
+        <div className="validated-time">
+          <div className="label">{t('validated')}</div>
+          <div className="value">{validatedTime}</div>
+        </div>
         {/* Render Transaction Count (can be 0) */}
         {ledger.txCount !== undefined && (
           <div className="txn-count">
