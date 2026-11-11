@@ -18,7 +18,10 @@ const isNetwork = (path) =>
   path.indexOf(buildPath(UPGRADE_STATUS_ROUTE, {})) === 0 ||
   path.indexOf(buildPath(AMENDMENTS_ROUTE, {})) === 0
 
-const isLedgers = (path: string) => path === '/'
+// In custom mode every route is prefixed with the network (`/{rippledUrl}/...`)
+// and Explorer is the only section in the menu, so it stays active on every page.
+const isLedgers = (path: string) =>
+  path === '/' || process.env.VITE_ENVIRONMENT === 'custom'
 
 const isTokens = (path) => path.indexOf(buildPath(TOKENS_ROUTE, {})) === 0
 
@@ -49,7 +52,8 @@ export const navigationConfig: NavigationMenuAnyRoute[] = [
     title: 'amms',
     current: (path: string) => isAMMs(path),
   },
-  {
+  // The Network pages rely on VHS data, which is not available for custom networks
+  process.env.VITE_ENVIRONMENT !== 'custom' && {
     title: 'network',
     current: (path: string) => isNetwork(path),
     children: [

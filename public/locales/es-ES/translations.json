@@ -449,6 +449,8 @@
   "custom_network_input": "Introduce la URL de la red personalizada",
   "custom_networks": "Redes Personalizadas",
   "no_network_selected": "Red Personalizada No Seleccionada",
+  "custom_network_unavailable_title": null,
+  "custom_network_unavailable_hint": null,
   "locking_chain_door": "Bloqueando Puerta de la Cadena",
   "locking_chain_issue": "Bloqueando Cadena Emisora",
   "issuing_chain_door": "Emitiendo Puerta de la Cadena",

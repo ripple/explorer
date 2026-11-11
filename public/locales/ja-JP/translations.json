@@ -449,6 +449,8 @@
   "custom_network_input": "カスタムネットワークのURLを入力してください",
   "custom_networks": "カスタムネットワーク",
   "no_network_selected": "カスタムネットワークが選択されていません",
+  "custom_network_unavailable_title": null,
+  "custom_network_unavailable_hint": null,
   "locking_chain_door": null,
   "locking_chain_issue": null,
   "issuing_chain_door": null,
