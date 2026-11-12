@@ -24,13 +24,6 @@ export default defineConfig({
     // empty the build directory on each build
     emptyOutDir: true,
     sourcemap: true,
-    commonjsOptions: {
-      transformMixedEsModules: true,
-    },
-    rollupOptions: {
-      // improve CPU usage
-      cache: false,
-    },
   },
   // relative to the root
   publicDir: '../public',
@@ -49,10 +42,12 @@ export default defineConfig({
     },
   },
   optimizeDeps: {
-    esbuildOptions: {
-      define: {
-        // Node.js global to browser globalThis
-        global: 'globalThis',
+    rolldownOptions: {
+      transform: {
+        define: {
+          // Node.js global to browser globalThis
+          global: 'globalThis',
+        },
       },
     },
   },
