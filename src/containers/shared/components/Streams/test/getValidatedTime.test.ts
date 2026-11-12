@@ -1,13 +1,19 @@
 import { getValidatedTime } from '../getValidatedTime'
 import { convertRippleDate } from '../../../../../rippled/lib/convertRippleDate'
 import { LedgerValidation } from '../types'
+import { ValidatorResponse } from '../../../vhsTypes'
 
-const validation = (publicKey: string, signingTime: number): LedgerValidation =>
+const validation = (
+  publicKey: string,
+  signingTime: number,
+  full = true,
+): LedgerValidation =>
   ({
     // eslint-disable-next-line camelcase -- matches the xrpl ValidationStream shape
     validation_public_key: publicKey,
     // eslint-disable-next-line camelcase -- matches the xrpl ValidationStream shape
     signing_time: signingTime,
+    full,
   }) as LedgerValidation
 
 const UNL_A = 'unl-validator-a'
@@ -70,5 +76,37 @@ describe('getValidatedTime', () => {
     expect(getValidatedTime(validations, [UNL_A, UNL_B], 2)).toBe(
       convertRippleDate(200),
     )
+  })
+
+  it('counts a repeated validation from the same key only once', () => {
+    const validations = [
+      validation(UNL_A, 100),
+      validation(UNL_A, 150),
+      validation(UNL_B, 200),
+    ]
+    expect(getValidatedTime(validations, [UNL_A, UNL_B], 2)).toBe(
+      convertRippleDate(200),
+    )
+  })
+
+  it('ignores partial validations', () => {
+    const validations = [validation(UNL_A, 100, false), validation(UNL_B, 200)]
+    expect(getValidatedTime(validations, [UNL_A, UNL_B], 2)).toBeNull()
+  })
+
+  it('ignores validations from negative-UNL validators', () => {
+    const negativeUnlKey = UNL_A
+    const masterKey = 'master-key-a'
+    const validations = [
+      validation(negativeUnlKey, 100),
+      validation(UNL_B, 200),
+    ]
+    const validators = {
+      [negativeUnlKey]: { master_key: masterKey },
+      [UNL_B]: {},
+    } as unknown as Record<string, ValidatorResponse>
+    expect(
+      getValidatedTime(validations, [UNL_A, UNL_B], 2, validators, [masterKey]),
+    ).toBeNull()
   })
 })

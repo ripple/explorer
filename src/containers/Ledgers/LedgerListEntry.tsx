@@ -15,8 +15,10 @@ import {
   getValidatedTime,
 } from '../shared/components/Streams'
 import { useVHSValidators } from '../shared/components/VHSValidators'
+import HoverIcon from '../shared/images/hover.svg'
 
 const SIGMA = '\u03A3'
+const TOOLTIP_Y_OFFSET = 70
 
 const LedgerIndex = ({ ledgerIndex }: { ledgerIndex: number }) => {
   const { t } = useTranslation()
@@ -34,10 +36,10 @@ const LedgerIndex = ({ ledgerIndex }: { ledgerIndex: number }) => {
 }
 
 export const LedgerListEntryInner = ({ ledger }: { ledger: Ledger }) => {
-  const { tooltip } = useTooltip()
+  const { tooltip, showTooltip, hideTooltip } = useTooltip()
   const { t } = useTranslation()
   const { metrics } = useStreams()
-  const { unl } = useVHSValidators()
+  const { unl, validators } = useVHSValidators()
 
   const closeTime = ledger.closeTime
     ? new Date(ledger.closeTime).toLocaleTimeString()
@@ -52,22 +54,48 @@ export const LedgerListEntryInner = ({ ledger }: { ledger: Ledger }) => {
     selectedHash?.validations ?? [],
     unl,
     metrics.quorum,
+    validators,
+    metrics.nUnl,
   )
   const validatedTime = validatedTimeMillis
     ? new Date(validatedTimeMillis).toLocaleTimeString()
     : null
+
+  const renderFieldTooltip = (descriptionKey: string) => (
+    <HoverIcon
+      className="hover"
+      onMouseOver={(e) => {
+        const rect = e.currentTarget.getBoundingClientRect()
+        showTooltip('text', e, t(descriptionKey, { defaultValue: '' }), {
+          x: rect.left + rect.width / 2,
+          y: rect.top - TOOLTIP_Y_OFFSET,
+        })
+      }}
+      onMouseLeave={() => hideTooltip()}
+    />
+  )
 
   return (
     <div className="ledger">
       <div className="ledger-head">
         <LedgerIndex ledgerIndex={ledger.index} />
         <div className="close-time">
-          <div className="label">{t('closed')}</div>
-          <div className="value">{closeTime}</div>
+          <div className="label">
+            {t('closed')}
+            {renderFieldTooltip('closed_description')}
+          </div>
+          <div className="value">{closeTime ?? '–'}</div>
         </div>
         <div className="validated-time">
-          <div className="label">{t('validated')}</div>
-          <div className="value">{validatedTime}</div>
+          <div className="label">
+            {t('validated')}
+            {renderFieldTooltip(
+              validatedTime
+                ? 'validated_description'
+                : 'validated_pending_description',
+            )}
+          </div>
+          <div className="value">{validatedTime ?? '–'}</div>
         </div>
         {/* Render Transaction Count (can be 0) */}
         {ledger.txCount !== undefined && (

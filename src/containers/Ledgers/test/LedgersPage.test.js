@@ -224,7 +224,7 @@ describe('Ledgers Page container', () => {
     expect(client.listenerCount('validation')).toBe(0)
   }, 8000)
 
-  it('shows a blank validated time until quorum UNL validations arrive, then the latest signing time', async () => {
+  it('shows a dash for validated time until quorum UNL validations arrive, then the latest signing time', async () => {
     client.addResponses(rippledResponses)
 
     moxios.stubRequest(`${process.env.VITE_DATA_URL}/validators/main`, {
@@ -254,14 +254,14 @@ describe('Ledgers Page container', () => {
     await sleep(200 * 2)
     expect(
       container.querySelector('.ledger .validated-time .value').textContent,
-    ).toBe('')
+    ).toBe('–')
 
     server.send(validation2Message)
     await sleep(200 * 2)
     const validatedTimeEl = container.querySelector(
       '.ledger .validated-time .value',
     )
-    expect(validatedTimeEl.textContent).not.toBe('')
+    expect(validatedTimeEl.textContent).not.toBe('–')
     expect(validatedTimeEl.textContent).toBe(
       new Date(convertRippleDate(695420170)).toLocaleTimeString(),
     )
