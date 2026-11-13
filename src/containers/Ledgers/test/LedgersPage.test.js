@@ -253,14 +253,12 @@ describe('Ledgers Page container', () => {
     server.send(validationMessage)
     await sleep(200 * 2)
     expect(
-      container.querySelector('.ledger .validated-time .value').textContent,
+      container.querySelector('.ledger .validated-time b').textContent,
     ).toBe('–')
 
     server.send(validation2Message)
     await sleep(200 * 2)
-    const validatedTimeEl = container.querySelector(
-      '.ledger .validated-time .value',
-    )
+    const validatedTimeEl = container.querySelector('.ledger .validated-time b')
     expect(validatedTimeEl.textContent).not.toBe('–')
     expect(validatedTimeEl.textContent).toBe(
       new Date(convertRippleDate(695420170)).toLocaleTimeString(),

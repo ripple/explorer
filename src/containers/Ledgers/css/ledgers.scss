@@ -137,27 +137,12 @@ $ledger-width: 196px;
     .validated-time {
       display: flex;
       justify-content: space-between;
-      padding-bottom: 12px;
-      color: $black-40;
-      font-size: 10px;
-      gap: 4px;
+    }
 
-      .label {
-        display: flex;
-        align-items: center;
-        gap: 2px;
-        white-space: nowrap;
-      }
-
-      .value {
-        white-space: nowrap;
-      }
-
-      .hover {
-        width: 9px;
-        height: 9px;
-        cursor: pointer;
-      }
+    .hover-label {
+      cursor: pointer;
+      text-decoration: underline dotted;
+      text-underline-offset: 2px;
     }
 
     .txn-count {
