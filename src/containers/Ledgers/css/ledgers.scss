@@ -143,6 +143,10 @@ $ledger-width: 196px;
       cursor: pointer;
       text-decoration: underline dotted;
       text-underline-offset: 2px;
+
+      &:hover {
+        color: $white;
+      }
     }
 
     .txn-count {
