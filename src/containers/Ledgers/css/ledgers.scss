@@ -133,10 +133,20 @@ $ledger-width: 196px;
     text-transform: uppercase;
     @include bold;
 
-    .close-time {
-      padding-bottom: 24px;
-      color: $black-40;
-      font-size: 10px;
+    .close-time,
+    .validated-time {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .hover-label {
+      cursor: pointer;
+      text-decoration: underline dotted;
+      text-underline-offset: 2px;
+
+      &:hover {
+        color: $white;
+      }
     }
 
     .txn-count {
