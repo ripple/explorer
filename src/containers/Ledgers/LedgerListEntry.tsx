@@ -1,3 +1,4 @@
+import { FocusEvent, MouseEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { RouteLink } from '../shared/routing'
 import { LEDGER_ROUTE } from '../App/routes'
@@ -60,25 +61,30 @@ export const LedgerListEntryInner = ({ ledger }: { ledger: Ledger }) => {
     ? new Date(validatedTimeMillis).toLocaleTimeString()
     : null
 
-  const renderHoverLabel = (label: string, descriptionKey: string) => (
-    <span
-      className="hover-label"
-      role="link"
-      onMouseOver={(e) => {
-        const rect = e.currentTarget.getBoundingClientRect()
-        showTooltip('text', e, t(descriptionKey, { defaultValue: '' }), {
-          x: rect.left + rect.width / 2,
-          y: rect.top - TOOLTIP_Y_OFFSET,
-        })
-      }}
-      onMouseLeave={() => hideTooltip()}
-      onFocus={() => {}}
-      onBlur={() => {}}
-      tabIndex={0}
-    >
-      {label}:
-    </span>
-  )
+  const renderHoverLabel = (label: string, descriptionKey: string) => {
+    const showFieldTooltip = (
+      e: MouseEvent<HTMLSpanElement> | FocusEvent<HTMLSpanElement>,
+    ) => {
+      const rect = e.currentTarget.getBoundingClientRect()
+      showTooltip('text', e, t(descriptionKey, { defaultValue: '' }), {
+        x: rect.left + rect.width / 2,
+        y: rect.top - TOOLTIP_Y_OFFSET,
+      })
+    }
+    return (
+      <span
+        className="hover-label"
+        role="link"
+        tabIndex={0}
+        onMouseOver={showFieldTooltip}
+        onFocus={showFieldTooltip}
+        onMouseLeave={() => hideTooltip()}
+        onBlur={() => hideTooltip()}
+      >
+        {label}:
+      </span>
+    )
+  }
 
   return (
     <div className="ledger">
