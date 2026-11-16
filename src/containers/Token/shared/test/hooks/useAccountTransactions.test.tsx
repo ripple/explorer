@@ -224,36 +224,6 @@ describe('useAccountTransactions', () => {
       ).toHaveLength(8)
     })
 
-    it('resets the target when the token changes', async () => {
-      mockPages([0, 1, 2, 3], 30)
-      const { result, rerender } = renderHook(
-        ({ tokenId }) =>
-          useAccountTransactions({
-            account: 'rAccount123',
-            tokenId,
-            minResults: 4,
-          }),
-        { wrapper: createWrapper(), initialProps: { tokenId: 'MPT1' } },
-      )
-
-      await advanceThroughPages(2)
-      await waitFor(() => expect(result.current.loading).toBe(false))
-      act(() => {
-        result.current.fetchNextPage()
-      })
-      await advanceThroughPages(4)
-      await waitFor(() => expect(result.current.loading).toBe(false))
-      expect(mockedGetAccountTransactions).toHaveBeenCalledTimes(4)
-
-      rerender({ tokenId: 'MPT2' })
-      await advanceThroughPages(6)
-      await waitFor(() => expect(result.current.loading).toBe(false))
-      jest.advanceTimersByTime(1000)
-
-      // The new token loads 4 matches (2 pages), not the previous target of 8
-      expect(mockedGetAccountTransactions).toHaveBeenCalledTimes(6)
-    })
-
     it('stops at the end of history with fewer than minResults matches', async () => {
       mockPages([3], 5)
       const { result } = renderMPTHook()
@@ -282,36 +252,6 @@ describe('useAccountTransactions', () => {
       await waitFor(() => expect(result.current.loading).toBe(false))
       jest.advanceTimersByTime(1000)
       expect(mockedGetAccountTransactions).toHaveBeenCalledTimes(100)
-    })
-
-    it('resets the page budget when the token changes', async () => {
-      mockPages([], 200)
-      const { result, rerender } = renderHook(
-        ({ tokenId }) =>
-          useAccountTransactions({
-            account: 'rAccount123',
-            tokenId,
-            minResults: 4,
-          }),
-        { wrapper: createWrapper(), initialProps: { tokenId: 'MPT1' } },
-      )
-
-      // Start a second round on MPT1, so its round starts at page 50
-      await advanceThroughPages(50)
-      await waitFor(() => expect(result.current.loading).toBe(false))
-      act(() => {
-        result.current.fetchNextPage()
-      })
-      await advanceThroughPages(60)
-      rerender({ tokenId: 'MPT2' })
-      await advanceThroughPages(110)
-
-      // MPT2 gets a full round of 50 and then settles; a stale round start
-      // would leave it reporting loading with no fetch scheduled
-      await waitFor(() => expect(result.current.loading).toBe(false))
-      jest.advanceTimersByTime(1000)
-      expect(mockedGetAccountTransactions).toHaveBeenCalledTimes(110)
-      expect(result.current.hasNextPage).toBe(true)
     })
 
     it('waits for load more when remounting onto a round left unfinished', async () => {

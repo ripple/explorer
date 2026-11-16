@@ -171,7 +171,7 @@ const getLedgerEntry = async (
 const getTransaction = async (
   rippledSocket: ExplorerXrplClient,
   txId: string,
-  // The P2P (Clio) server keeps full history; the main one may not
+  // The P2P (Clio) server keeps longer history than the main one
   useP2P: boolean = false,
 ): Promise<any> => {
   const params: any = {
@@ -506,7 +506,7 @@ const getAccountTransactions = async (
   account: string,
   limit: number = 20,
   marker: string = '',
-  // The P2P (Clio) server keeps full history; the main one may not
+  // The P2P (Clio) server keeps longer history than the main one
   useP2P: boolean = false,
   // Clio filters by MPT server-side; rippled ignores the field
   mptIssuanceId: string | undefined = undefined,

@@ -29,7 +29,7 @@ interface UseAccountTransactionsOptions {
   limit?: number
   /** Auto-fetch until this many matches load (or the page budget runs out); "Load more" adds as many again */
   minResults?: number
-  /** Query the P2P (Clio) server, which keeps full history, when configured */
+  /** Query the P2P (Clio) server, which keeps longer history, when configured */
   useP2PSocket?: boolean
   /** Number of times to retry a failed page fetch */
   retry?: number
@@ -108,12 +108,6 @@ export function useAccountTransactions({
   const [targetCount, setTargetCount] = useState(initialTarget)
   // Pages loaded when the current round started
   const [roundStartPage, setRoundStartPage] = useState(0)
-  // The hook stays mounted when navigating between tokens
-  useEffect(() => {
-    setTargetCount(initialTarget)
-    setRoundStartPage(0)
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- only when the token changes, not as pages load
-  }, [account, tokenId, minResults])
   const hasRoundBudget = pageCount - roundStartPage < MAX_PAGES_PER_ROUND
 
   const lastPageWasEmpty = lastPageTransactionCount === 0
