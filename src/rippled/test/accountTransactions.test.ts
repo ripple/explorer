@@ -197,17 +197,21 @@ describe('accountTransactions', () => {
     })
   })
 
+  const MPT_ID = '00000001A407AF5856CCF3C42619DAA925813FC955C72983'
+
   it.each([
-    [true, '00000001ABC123DEF456'],
-    [false, undefined],
+    [MPT_ID, true, MPT_ID],
+    [MPT_ID, false, undefined],
+    // An IOU code isn't an MPT issuance ID, and Clio would reject it
+    ['USD', true, undefined],
   ])(
-    'passes useP2P=%s and the MPT filter %s to the account_tx request',
-    async (useP2P, mptFilter) => {
+    'for %s with useP2P=%s passes the MPT filter %s to the account_tx request',
+    async (token, useP2P, mptFilter) => {
       mockGetAccountTxs.mockResolvedValue({ transactions: [] })
 
       await getAccountTransactions(
         validAccount,
-        '00000001ABC123DEF456',
+        token,
         '12345.1',
         50,
         mockSocket,

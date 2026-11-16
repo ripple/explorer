@@ -102,8 +102,8 @@ const getAccountTransactions = async (
       limit,
       marker,
       useP2P,
-      // Only the MPT page reads from the P2P host, so currency is an MPT ID
-      useP2P ? currency : undefined,
+      // Clio rejects anything but an MPT issuance ID here
+      useP2P && currency && HASH192_REGEX.test(currency) ? currency : undefined,
     )
     // Nothing older than an MPT's creation can reference it, so stop paging there
     const reachedMPTCreation =
