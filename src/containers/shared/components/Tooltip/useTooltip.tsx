@@ -2,6 +2,7 @@ import {
   createContext,
   Dispatch,
   FC,
+  FocusEvent,
   MouseEvent,
   PropsWithChildren,
   SetStateAction,
@@ -16,7 +17,10 @@ export interface TooltipContextType {
   hideTooltip: () => void
   showTooltip: (
     mode: string,
-    event: MouseEvent<HTMLElement> | MouseEvent<SVGGElement>,
+    event:
+      | MouseEvent<HTMLElement>
+      | MouseEvent<SVGGElement>
+      | FocusEvent<HTMLElement>,
     data: any,
     positionOverride?: { x: number; y: number },
   ) => void
@@ -34,10 +38,14 @@ export const TooltipProvider: FC<PropsWithChildren> = ({ children }) => {
   const hideTooltip = () => setTooltip(undefined)
   const showTooltip = (
     mode: string,
-    event: MouseEvent<HTMLElement | SVGGElement>,
+    event: MouseEvent<HTMLElement | SVGGElement> | FocusEvent<HTMLElement>,
     data: any,
     positionOverride?: { x: number; y: number },
   ) => {
+    // The SVGGElement branch is only reachable for a MouseEvent (a FocusEvent's
+    // currentTarget is always an HTMLElement), so the native event there is a
+    // DOM MouseEvent even though the union type can't express that.
+    const nativeMouseEvent = event.nativeEvent as globalThis.MouseEvent
     setTooltip({
       data,
       mode,
@@ -45,12 +53,12 @@ export const TooltipProvider: FC<PropsWithChildren> = ({ children }) => {
         positionOverride?.x ??
         (event.currentTarget instanceof HTMLElement
           ? event.currentTarget.offsetLeft
-          : event.nativeEvent.offsetX),
+          : nativeMouseEvent.offsetX),
       y:
         positionOverride?.y ??
         (event.currentTarget instanceof HTMLElement
           ? event.currentTarget.offsetTop
-          : event.nativeEvent.offsetY),
+          : nativeMouseEvent.offsetY),
     })
   }
 
