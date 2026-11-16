@@ -12,6 +12,7 @@ import {
 import summarize from './lib/txSummary'
 import logger from './lib/logger'
 import type { ExplorerXrplClient } from '../containers/shared/SocketContext'
+import { HASH192_REGEX } from '../containers/shared/utils'
 
 const log = logger({ name: 'account transactions' })
 
@@ -136,10 +137,11 @@ const getAccountTransactions = async (
         }
 
         // A Batch's summary keeps only its inner hashes, so check the inner
-        // transactions themselves
+        // transactions themselves (MPTs only, so IOU pages match main)
         return (
           mentionsToken(summary) ||
-          (txn.tx?.TransactionType === 'Batch' &&
+          (HASH192_REGEX.test(currency) &&
+            txn.tx?.TransactionType === 'Batch' &&
             mentionsToken(txn.tx.RawTransactions))
         )
       })

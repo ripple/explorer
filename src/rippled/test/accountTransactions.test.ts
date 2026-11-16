@@ -344,42 +344,4 @@ describe('accountTransactions', () => {
       ).rejects.toThrow('slowDown')
     })
   })
-
-  describe('Batch', () => {
-    // A Batch's summary keeps only its inner hashes, so its RawTransactions are
-    // the only place the token appears
-    const batchTx = (innerTxs: any[]) => ({
-      hash: 'batch',
-      summary: { batchTransactions: [{ hash: 'inner' }] },
-      tx: {
-        TransactionType: 'Batch',
-        RawTransactions: innerTxs.map((RawTransaction) => ({
-          RawTransaction,
-        })),
-      },
-    })
-
-    it('keeps a Batch whose inner transaction uses the IOU', async () => {
-      mockGetAccountTxs.mockResolvedValue({
-        transactions: [
-          batchTx([
-            {
-              TransactionType: 'Payment',
-              Amount: { currency: 'USD', issuer: 'rIssuer1', value: '1' },
-            },
-          ]),
-        ],
-      })
-
-      const result = await getAccountTransactions(
-        validAccount,
-        'usd',
-        undefined,
-        20,
-        mockSocket,
-      )
-
-      expect(result.transactions.map((tx: any) => tx.hash)).toEqual(['batch'])
-    })
-  })
 })

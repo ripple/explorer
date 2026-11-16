@@ -38,6 +38,27 @@ describe('accountTransactions with a real Batch', () => {
     expect(result.transactions[0].type).toBe('Batch')
   })
 
+  it("doesn't check an IOU's Batch inner transactions, as on main", async () => {
+    // The same Batch, with its inner Payment sending an IOU instead
+    const iouBatch = JSON.parse(JSON.stringify(BatchMPT))
+    iouBatch.tx.RawTransactions[1].RawTransaction.Amount = {
+      currency: 'USD',
+      issuer: ISSUER,
+      value: '1',
+    }
+    mockGetAccountTxs.mockResolvedValue({ transactions: [iouBatch] })
+
+    const result = await getAccountTransactions(
+      ISSUER,
+      'USD',
+      undefined,
+      20,
+      {} as any,
+    )
+
+    expect(result.transactions).toHaveLength(0)
+  })
+
   it('drops the Batch for an unrelated MPT', async () => {
     const result = await getAccountTransactions(
       ISSUER,
