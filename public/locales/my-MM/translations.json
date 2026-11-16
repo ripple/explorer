@@ -449,6 +449,8 @@
   "custom_network_input": "စိတ်ကြိုက် ကွန်ယက် URL ထည့်သွင်းပါ",
   "custom_networks": "စိတ်ကြိုက် ကွန်ယက်များ",
   "no_network_selected": "စိတ်ကြိုက် ကွန်ယက် ရွေးချယ်ထားခြင်း မရှိပါ",
+  "custom_network_unavailable_title": null,
+  "custom_network_unavailable_hint": null,
   "locking_chain_door": "သော့ခတ် ချိန်းတံခါး",
   "locking_chain_issue": "သော့ခတ် ချိန်းပြဿနာ",
   "issuing_chain_door": "ထုတ်ပေးသော ချိန်းတံခါး",

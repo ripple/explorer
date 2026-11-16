@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
-import Log from './log'
+import React from 'react'
 
 const ENV_NETWORK_MAP: Record<string, string> = {
   mainnet: 'main',
@@ -10,6 +8,10 @@ const ENV_NETWORK_MAP: Record<string, string> = {
   xahau_testnet: 'xahau-test',
 }
 
+/**
+ * The VHS network ID for the current environment.
+ * Custom networks are not tracked by the VHS, so they have no ID.
+ */
 function getNetworkName() {
   if (
     process.env.VITE_ENVIRONMENT &&
@@ -22,38 +24,11 @@ function getNetworkName() {
 
 const NetworkContext = React.createContext(getNetworkName())
 
-export type NetworkProviderProps = React.PropsWithChildren<{
-  children: any
-  rippledUrl?: string
-}>
-
-export const NetworkProvider = ({
-  children,
-  rippledUrl,
-}: NetworkProviderProps) => {
-  const initialNetworkName = getNetworkName()
-  const [networkName, setNetworkName] = useState(initialNetworkName)
-
-  useEffect(() => {
-    if (initialNetworkName == null && rippledUrl) {
-      axios
-        .get(`${process.env.VITE_DATA_URL}/get_network/${rippledUrl}`)
-        .then((resp) => resp.data)
-        .then((data) =>
-          setNetworkName(
-            data.result && data.result === 'error' ? null : data.network,
-          ),
-        )
-        .catch((e) => Log.error(e))
-    }
-  }, [initialNetworkName, rippledUrl])
-
-  return (
-    <NetworkContext.Provider value={networkName}>
-      {children}
-    </NetworkContext.Provider>
-  )
-}
+export const NetworkProvider = ({ children }: React.PropsWithChildren) => (
+  <NetworkContext.Provider value={getNetworkName()}>
+    {children}
+  </NetworkContext.Provider>
+)
 
 export { getNetworkName }
 

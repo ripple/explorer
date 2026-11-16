@@ -97,16 +97,13 @@ describe('App container', () => {
 
   beforeEach(() => {
     moxios.install()
-    moxios.stubRequest(
-      `${process.env.VITE_DATA_URL}/get_network/s2.ripple.com`,
-      { status: 200, response: { result: 'success', network: '3' } },
-    )
     mockXrplClient.mockImplementation(() => new MockWsClient())
     process.env = { ...oldEnvs, VITE_ENVIRONMENT: 'mainnet' }
   })
 
   afterEach(() => {
     cleanup()
+    moxios.uninstall()
     process.env = oldEnvs
   })
 
@@ -479,5 +476,64 @@ describe('App container', () => {
     )
     expect(XrplClient).toHaveBeenCalledTimes(1)
     expect(document.title).toEqual(`xrpl_explorer | ledgers`)
+  })
+
+  it.each([
+    '/network/nodes',
+    '/network/validators',
+    '/network/upgrade-status',
+    '/amendments',
+    '/amendment/fixAMMv1_1',
+    '/validators/nHUFE9prPXPrHcG3SkwP1UzAQbSphqyQkQK9ATXLZsfkezhhda3p',
+  ])(
+    'renders unavailable notice instead of the VHS page %s in custom mode',
+    async (path) => {
+      process.env.VITE_ENVIRONMENT = 'custom'
+      delete process.env.VITE_P2P_RIPPLED_HOST
+
+      const { container } = renderApp(`/s2.ripple.com${path}`)
+      await waitFor(() => {
+        expect(container.querySelector('.no-match .title')).toBeInTheDocument()
+      })
+      expect(container.querySelector('.no-match .title').textContent).toBe(
+        'custom_network_unavailable_title',
+      )
+      expect(container.querySelector('.no-match .hint').textContent).toBe(
+        'custom_network_unavailable_hint',
+      )
+      // custom networks are not tracked by the VHS, so nothing should be requested from it
+      expect(moxios.requests.count()).toBe(0)
+    },
+  )
+
+  it.each([
+    '',
+    '/accounts/rKV8HEL3vLc6q9waTiJcewdRdSFyx67QFb',
+    '/network/nodes',
+  ])(
+    'keeps the explorer tab selected on custom mode page "%s"',
+    async (path) => {
+      process.env.VITE_ENVIRONMENT = 'custom'
+      delete process.env.VITE_P2P_RIPPLED_HOST
+
+      const { container } = renderApp(`/s2.ripple.com${path}`)
+      await waitFor(() => {
+        expect(
+          container.querySelector('.navbar .nav-item.selected'),
+        ).toBeInTheDocument()
+      })
+      expect(
+        container.querySelector('.navbar .nav-item.selected .nav-link')
+          .textContent,
+      ).toBe('explorer')
+    },
+  )
+
+  it('renders the VHS page outside of custom mode', async () => {
+    const { container } = renderApp('/network/nodes')
+    await waitFor(() => {
+      expect(container.querySelector('.network-page')).toBeInTheDocument()
+    })
+    expect(container.querySelector('.no-match')).not.toBeInTheDocument()
   })
 })

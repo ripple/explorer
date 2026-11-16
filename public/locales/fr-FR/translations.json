@@ -449,6 +449,8 @@
   "custom_network_input": "Tapez l'URL du réseau personnalisé",
   "custom_networks": "Réseaux personnalisés",
   "no_network_selected": "Aucun réseau personnalisé sélectionné",
+  "custom_network_unavailable_title": null,
+  "custom_network_unavailable_hint": null,
   "locking_chain_door": "Point d'accès à la chaîne séquestre",
   "locking_chain_issue": "Problème sur la chaine séquestre",
   "issuing_chain_door": "Point d'accès à la chaîne d'origine",
