@@ -54,7 +54,8 @@ describe('MPT TablePicker container', () => {
   })
 
   const renderComponent = (
-    getAccountTransactionsImpl = () => new Promise(() => {}),
+    getAccountTransactionsImpl: (...args: any[]) => Promise<unknown> = () =>
+      new Promise(() => {}),
     overrides: any = {},
   ) => {
     ;(getAccountTransactions as jest.Mock).mockImplementation(
@@ -204,6 +205,42 @@ describe('MPT TablePicker container', () => {
         expect(
           container.querySelector('.empty-transactions-message'),
         ).toHaveTextContent('no_transactions_message'),
+      )
+    })
+  })
+
+  describe('a Batch split across two pages', () => {
+    beforeEach(() => {
+      jest.useFakeTimers()
+    })
+
+    afterEach(() => {
+      jest.useRealTimers()
+    })
+
+    it('is shown once, after its last inner transaction', async () => {
+      const row = (hash: string) => ({ hash, date: '2026-11-01T00:00:00Z' })
+      // Both pages add the Batch after their own inner rows
+      const { container } = renderComponent(
+        async (_account: string, _tokenId: string, marker: string) =>
+          marker
+            ? { transactions: [row('inner-2'), row('batch')] }
+            : { transactions: [row('inner-1'), row('batch')], marker: 'next' },
+      )
+
+      await waitFor(() =>
+        expect(getAccountTransactions).toHaveBeenCalledTimes(2),
+      )
+      await waitFor(() =>
+        expect(
+          [...container.querySelectorAll('.mask-overlay')].map((link) =>
+            link.getAttribute('href'),
+          ),
+        ).toEqual([
+          '/transactions/inner-1',
+          '/transactions/inner-2',
+          '/transactions/batch',
+        ]),
       )
     })
   })

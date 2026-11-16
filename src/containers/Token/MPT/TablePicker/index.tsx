@@ -79,9 +79,13 @@ export const TablePicker = ({
 
   // Helper to render transaction table
   const renderTransactionTable = () => {
-    const transactions = data?.pages
-      ?.map((page: any) => page.transactions)
-      .flat()
+    const rows = data?.pages?.map((page: any) => page.transactions).flat()
+    // A Batch split across two pages is added by both; keep the later copy,
+    // which follows its last inner transaction
+    const lastIndex = new Map(rows?.map((tx: any, i: number) => [tx.hash, i]))
+    const transactions = rows?.filter(
+      (tx: any, i: number) => lastIndex.get(tx.hash) === i,
+    )
     // The page budget ran out before any match: more history is left, so
     // "No transactions found." would be wrong
     const tryLoading = !error && hasNextPage && transactions?.length === 0
