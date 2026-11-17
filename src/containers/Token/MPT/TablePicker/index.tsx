@@ -3,7 +3,10 @@ import { useTranslation } from 'react-i18next'
 
 import { TransactionTable } from '../../../shared/components/TransactionTable/TransactionTable'
 import { Tabs } from '../../../shared/components/Tabs'
-import { useAccountTransactions } from '../../shared/hooks/useAccountTransactions'
+import {
+  MIN_TRANSACTION_RESULTS,
+  useAccountTransactions,
+} from '../../shared/hooks/useAccountTransactions'
 import {
   HoldersTable,
   XRPLHolder,
@@ -58,7 +61,7 @@ export const TablePicker = ({
       limit: 200,
       // Skip non-matching pages until a screenful is found or the issuance's
       // creation is reached, so older transactions show up
-      minResults: 20,
+      minResults: MIN_TRANSACTION_RESULTS,
       useP2PSocket: true,
       retry: 2,
     })

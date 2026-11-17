@@ -5,6 +5,7 @@ import { QueryClientProvider } from 'react-query'
 import moxios from 'moxios'
 import i18n from '../../../../../i18n/testConfig'
 import { TablePicker } from '../../TablePicker'
+import { MIN_TRANSACTION_RESULTS } from '../../../shared/hooks/useAccountTransactions'
 import TEST_TRANSACTIONS_DATA from '../../../../Accounts/AccountTransactionTable/test/mockTransactions.json'
 
 import { getAccountTransactions } from '../../../../../rippled'
@@ -191,6 +192,30 @@ describe('TablePicker container', () => {
       undefined,
       false,
     )
+  })
+
+  it('keeps fetching until minResults matches are loaded', async () => {
+    jest.useFakeTimers()
+    let page = 0
+    renderTablePicker(async () => {
+      page += 1
+      return {
+        transactions: [{ hash: `tx${page}`, date: '2026-11-01T00:00:00Z' }],
+        marker: 'more',
+      }
+    })
+
+    try {
+      await waitFor(
+        () =>
+          expect(getAccountTransactions).toHaveBeenCalledTimes(
+            MIN_TRANSACTION_RESULTS,
+          ),
+        { timeout: 20000 },
+      )
+    } finally {
+      jest.useRealTimers()
+    }
   })
 
   it('renders error message when request fails', async () => {
