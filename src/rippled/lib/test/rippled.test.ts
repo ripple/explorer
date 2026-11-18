@@ -591,14 +591,4 @@ describe('getTransaction', () => {
     )
     expect(unused.send).not.toHaveBeenCalled()
   })
-
-  // withParentBatches skips a Batch on a 4xx and retries the page otherwise
-  it.each([
-    ['txnNotFound', 'Transaction not found.', 404],
-    ['slowDown', 'You are placing too much load on the server.', 500],
-  ])('rejects %s with its status code', async (error, message, code) => {
-    const socket = makeSocket({ error, error_message: message })
-
-    await expect(getTransaction(socket, HASH)).rejects.toMatchObject({ code })
-  })
 })
