@@ -66,7 +66,7 @@ describe('Token Holders API', () => {
       await getTokenHolders('EUR', 'rEURIssuer', 20, 0)
 
       expect(mockAxios.get).toHaveBeenCalledWith(
-        expect.stringContaining('EUR:rEURIssuer'),
+        expect.stringContaining('/v2/token/EUR:rEURIssuer/holders'),
       )
     })
 
