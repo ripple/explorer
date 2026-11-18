@@ -33,12 +33,20 @@ const withParentBatches = async (
     ),
   ]
   const parents = new Map<string, any>()
-  // One at a time to stay under Clio's per-IP request limit; a failure fails
-  // the page so it's retried instead of silently dropping the Batch
+  // One at a time to stay under Clio's per-IP request limit
   for (const id of parentIds) {
-    // Same Clio host as the inner rows: the main host may lack old history
-    // eslint-disable-next-line no-await-in-loop
-    parents.set(id, await getTransaction(rippledSocket, id, true))
+    try {
+      // Same Clio host as the inner rows: the main host may lack old history
+      // eslint-disable-next-line no-await-in-loop
+      parents.set(id, await getTransaction(rippledSocket, id, true))
+    } catch (error: any) {
+      // A 4xx (e.g. not found) won't change on retry, so show the page
+      // without that Batch; anything else (e.g. rate limited) fails the page
+      // so it's retried
+      if (!(error.code >= 400 && error.code < 500)) {
+        throw error
+      }
+    }
   }
   return transactions.flatMap((tx, index) => {
     const parentId = tx.meta?.ParentBatchID
@@ -110,6 +118,7 @@ const getAccountTransactions = async (
       !!currency &&
       data.transactions.some(
         (tx: any) =>
+          (tx.tx ?? tx.tx_json)?.TransactionType === 'MPTokenIssuanceCreate' &&
           tx.meta?.mpt_issuance_id?.toUpperCase() === currency.toUpperCase(),
       )
     // Clio also matches through metadata (e.g. Vault and LoanBroker

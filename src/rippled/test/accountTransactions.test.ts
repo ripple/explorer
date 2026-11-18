@@ -120,9 +120,13 @@ describe('accountTransactions', () => {
 
   describe('MPT creation', () => {
     const mptIssuanceId = '00000001ABC123DEF456'
-    const createTx = (id: string) => ({
+    const createTx = (
+      id: string,
+      TransactionType = 'MPTokenIssuanceCreate',
+    ) => ({
       hash: 'create',
-      type: 'MPTokenIssuanceCreate',
+      type: TransactionType,
+      tx: { TransactionType },
       meta: { TransactionResult: 'tesSUCCESS', mpt_issuance_id: id },
     })
 
@@ -159,6 +163,23 @@ describe('accountTransactions', () => {
       )
 
       expect(result.marker).toBeUndefined()
+    })
+
+    it('keeps paging past a transaction that only carries the ID', async () => {
+      mockGetAccountTxs.mockResolvedValue({
+        transactions: [createTx(mptIssuanceId, 'Payment')],
+        marker: '12345.1',
+      })
+
+      const result = await getAccountTransactions(
+        validAccount,
+        mptIssuanceId,
+        undefined,
+        20,
+        mockSocket,
+      )
+
+      expect(result.marker).toBe('12345.1')
     })
 
     it("keeps paging past another MPT's creation", async () => {
@@ -329,8 +350,31 @@ describe('accountTransactions', () => {
       ])
     })
 
-    it('fails the page when a Batch lookup fails, so it is retried', async () => {
-      mockGetTransaction.mockRejectedValue(new Error('slowDown'))
+    it('skips a Batch whose lookup fails for good, keeping the page', async () => {
+      mockGetTransaction.mockRejectedValue(
+        Object.assign(new Error('transaction not found'), { code: 404 }),
+      )
+      mockGetAccountTxs.mockResolvedValue({
+        transactions: [{ hash: 'inner', meta: { ParentBatchID: 'batch' } }],
+        filtered: true,
+      })
+
+      const result = await getAccountTransactions(
+        validAccount,
+        mptIssuanceId,
+        undefined,
+        20,
+        mockSocket,
+        true,
+      )
+
+      expect(result.transactions.map((tx: any) => tx.hash)).toEqual(['inner'])
+    })
+
+    it('fails the page when a Batch lookup fails for now, so it is retried', async () => {
+      mockGetTransaction.mockRejectedValue(
+        Object.assign(new Error('slowDown'), { code: 500 }),
+      )
       mockGetAccountTxs.mockResolvedValue({
         transactions: [{ hash: 'inner', meta: { ParentBatchID: 'batch' } }],
         filtered: true,
