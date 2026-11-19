@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import logger from '../../../../rippled/lib/logger'
 import { LOSToken } from '../../../shared/losTypes'
 
@@ -16,6 +16,25 @@ export interface TokenData {
   previousTxn: string
   flags: string[]
 }
+const MAX_TOKEN_RETRIES = 3
+
+/**
+ * react-query `retry` for the token query: retries LOS throttling (429) and
+ * network errors, which is how a 429 shows up when the browser hides it. A
+ * 404 or 400 is a real answer, so it isn't retried. Backoff is react-query's
+ * default (1s, 2s, 4s).
+ */
+export const shouldRetryTokenFetch = (
+  failureCount: number,
+  error: unknown,
+): boolean => {
+  const axiosError = error as AxiosError | undefined
+  if (failureCount >= MAX_TOKEN_RETRIES || !axiosError?.isAxiosError) {
+    return false
+  }
+  return !axiosError.response || axiosError.response.status === 429
+}
+
 const fetchTokenInfo = (currency: string, issuer: string): Promise<any> =>
   axios.get(`${process.env.VITE_LOS_URL}/tokens/${currency}.${issuer}`)
 

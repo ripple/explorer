@@ -27,6 +27,7 @@ import { calculateIouCirculatingSupply } from '../../shared/utils/circulatingSup
 interface HeaderProps {
   currency: string
   tokenData: LOSToken
+  isTokenDataUnavailable?: boolean
   xrpUSDRate: string
   holdersData?: TokenHoldersData
   isHoldersDataLoading: boolean
@@ -37,6 +38,7 @@ interface HeaderProps {
 export const Header = ({
   currency,
   tokenData,
+  isTokenDataUnavailable = false,
   xrpUSDRate,
   holdersData,
   isHoldersDataLoading,
@@ -175,12 +177,18 @@ export const Header = ({
         )}
       </div>
       <div className="section box-content">
-        <HeaderBoxes
-          overviewData={overviewData}
-          marketData={marketData}
-          isHoldersDataLoading={isHoldersDataLoading}
-          isAmmTvlLoading={isAmmTvlLoading}
-        />
+        {isTokenDataUnavailable ? (
+          <div className="token-data-unavailable">
+            {t('token_page.token_data_unavailable')}
+          </div>
+        ) : (
+          <HeaderBoxes
+            overviewData={overviewData}
+            marketData={marketData}
+            isHoldersDataLoading={isHoldersDataLoading}
+            isAmmTvlLoading={isAmmTvlLoading}
+          />
+        )}
       </div>
     </div>
   )

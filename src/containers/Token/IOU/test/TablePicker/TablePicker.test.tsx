@@ -1,4 +1,4 @@
-import { render, fireEvent, waitFor } from '@testing-library/react'
+import { render, fireEvent, screen, waitFor } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter as Router } from 'react-router'
 import { QueryClientProvider } from 'react-query'
@@ -100,7 +100,7 @@ describe('TablePicker container', () => {
               accountId={TEST_ACCOUNT_ID}
               currency={TEST_CURRENCY}
               xrpUSDRate="1.0"
-              tokenData={TEST_TOKEN_DATA}
+              tokenData={overrides.tokenData || TEST_TOKEN_DATA}
               holdersData={overrides.holdersData}
               holdersPagination={
                 overrides.holdersPagination || {
@@ -222,6 +222,16 @@ describe('TablePicker container', () => {
       },
     })
     expect(container.querySelectorAll('.transaction-table').length).toBe(1)
+  })
+
+  it('shows -- for holder value when the token has no price', () => {
+    const { container } = renderTablePicker(() => new Promise(() => {}), {
+      tokenData: { ...TEST_TOKEN_DATA, price: undefined },
+      holdersData: mockHoldersData,
+    })
+    fireEvent.click(screen.getByText('token_page.holders_table'))
+
+    expect(container.querySelector('tbody .tx-value')).toHaveTextContent('--')
   })
 
   it('renders with dex trades data', () => {
