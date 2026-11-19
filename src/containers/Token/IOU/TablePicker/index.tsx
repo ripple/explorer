@@ -3,7 +3,10 @@ import { useTranslation } from 'react-i18next'
 
 import { TransactionTable } from '../../../shared/components/TransactionTable/TransactionTable'
 import { Tabs } from '../../../shared/components/Tabs'
-import { useAccountTransactions } from '../../shared/hooks/useAccountTransactions'
+import {
+  MIN_TRANSACTION_RESULTS,
+  useAccountTransactions,
+} from '../../shared/hooks/useAccountTransactions'
 import {
   DexTradeTable,
   DexTradeFormatted,
@@ -83,6 +86,9 @@ export const TablePicker = ({
     useAccountTransactions({
       account: accountId,
       tokenId: currency,
+      // Skip non-matching pages until a screenful is found, so older
+      // transactions show up for busy issuers
+      minResults: MIN_TRANSACTION_RESULTS,
     })
 
   const [tablePickerState, setTablePickerState] = useState<

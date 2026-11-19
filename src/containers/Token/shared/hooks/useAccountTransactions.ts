@@ -22,6 +22,12 @@ const AUTO_FETCH_DELAY_MS = 200
  */
 const MAX_PAGES_PER_ROUND = 50
 
+/**
+ * Matching transactions to load before stopping auto-fetch ("a screenful").
+ * Used by the MPT and IOU token All tabs.
+ */
+export const MIN_TRANSACTION_RESULTS = 20
+
 interface UseAccountTransactionsOptions {
   account: string
   /** Token identifier: currency code for IOU, MPT issuance ID for MPT */
