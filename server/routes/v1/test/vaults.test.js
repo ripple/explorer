@@ -53,13 +53,23 @@ describe('getVaultAssetPrices', () => {
     jest.useRealTimers()
   })
 
-  it('prices RWA tokens from /trusted-tokens without a per-token request', async () => {
-    // let the startup fetch settle
-    await Promise.resolve()
-    await Promise.resolve()
+  // Polls until the startup fetch has filled the cache, however many awaits it takes.
+  const getPricesOnceCached = async () => {
+    for (let tick = 0; tick < 100; tick += 1) {
+      const res = mockResponse()
+      // eslint-disable-next-line no-await-in-loop -- each poll waits for the previous one
+      await getVaultAssetPrices({}, res)
+      if (res.json.mock.calls[0][0].lastUpdated !== null) {
+        return res
+      }
+      // eslint-disable-next-line no-await-in-loop -- yields so the fetch can progress
+      await Promise.resolve()
+    }
+    throw new Error('vault prices were never cached')
+  }
 
-    const res = mockResponse()
-    await getVaultAssetPrices({}, res)
+  it('prices RWA tokens from /trusted-tokens without a per-token request', async () => {
+    const res = await getPricesOnceCached()
 
     expect(res.json).toHaveBeenCalledWith({
       prices: { 'USD.rIssuerOne': 0.5 },

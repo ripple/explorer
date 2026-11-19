@@ -10,6 +10,8 @@ import {
 import { LOSToken } from '../../../shared/losTypes'
 import { TokenHoldersData } from '../api/holders'
 import DomainLink from '../../../shared/components/DomainLink'
+import { Account } from '../../../shared/components/Account'
+import { shortenAccount } from '../../../shared/utils'
 import GlobeSvg from '../../../shared/images/globe.svg'
 import {
   parseAmount,
@@ -179,6 +181,16 @@ export const Header = ({
       <div className="section box-content">
         {isTokenDataUnavailable ? (
           <div className="token-data-unavailable">
+            {/* the issuer tells same-code tokens apart, so keep it visible */}
+            <div className="header-box-item">
+              <div className="item-name">{t('token_page.issuer')}</div>
+              <div className="item-value account-link">
+                <Account
+                  account={tokenData.issuer_account}
+                  displayText={shortenAccount(tokenData.issuer_account)}
+                />
+              </div>
+            </div>
             {t('token_page.token_data_unavailable')}
           </div>
         ) : (

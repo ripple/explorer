@@ -28,6 +28,7 @@ export const shouldRetryTokenFetch = (
   failureCount: number,
   error: unknown,
 ): boolean => {
+  // not axios.isAxiosError: it checks this same flag, but is undefined under jest.mock('axios')
   const axiosError = error as AxiosError | undefined
   if (failureCount >= MAX_TOKEN_RETRIES || !axiosError?.isAxiosError) {
     return false
