@@ -10,7 +10,7 @@ import InfoIcon from '../shared/images/info.svg'
 import { Loader } from '../shared/components/Loader'
 import './css/validatorsTable.scss'
 import { useLanguage } from '../shared/hooks'
-import { DROPS_TO_XRP_FACTOR, renderXRP } from '../shared/utils'
+import { DROPS_TO_XRP_FACTOR, localizeNumber, renderXRP } from '../shared/utils'
 
 interface ValidatorsTableProps {
   validators?: StreamValidator[]
@@ -74,7 +74,20 @@ export const ValidatorsTable = (props: ValidatorsTableProps) => {
       <td className={`${className} score`} />
     )
 
-  const renderFeeVoting = (className, data, currentFee, pubkey) =>
+  const renderXRPFee = (drops) =>
+    renderXRP(drops / DROPS_TO_XRP_FACTOR, language)
+
+  // The base fee is small enough to be hard to read in XRP, so show it in drops
+  const renderDropsFee = (drops) =>
+    t('drops_amount', { amount: localizeNumber(drops, language) })
+
+  const renderFeeVoting = (
+    className,
+    data,
+    currentFee,
+    pubkey,
+    renderFee = renderXRPFee,
+  ) =>
     data ? (
       <td className={`${className} vote`}>
         {currentFee &&
@@ -88,7 +101,7 @@ export const ValidatorsTable = (props: ValidatorsTableProps) => {
               <DownIcon className="fee-icon" title={pubkey} alt={pubkey} />
             </span>
           ))}
-        <span>{renderXRP(data / DROPS_TO_XRP_FACTOR, language)}</span>
+        <span>{renderFee(data)}</span>
       </td>
     ) : (
       <td className={`${className} vote`} />
@@ -143,6 +156,7 @@ export const ValidatorsTable = (props: ValidatorsTableProps) => {
               d.base_fee,
               feeSettings?.base_fee,
               pubkey,
+              renderDropsFee,
             )}
           </>
         )}

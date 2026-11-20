@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react'
 import { BrowserRouter as Router } from 'react-router'
 import { I18nextProvider } from 'react-i18next'
-import i18n from '../../../i18n/testConfig'
+import i18n from '../../../i18n/testConfigEnglish'
 import { ValidatorsTable } from '../ValidatorsTable'
 import validators from './mockValidators.json'
 import metrics from './metrics.json'
@@ -50,8 +50,8 @@ describe('Validators table', () => {
     expect(container.querySelector('td.owner').textContent.trim()).toContain(
       '0.20',
     )
-    expect(container.querySelector('td.base_fee').textContent.trim()).toContain(
-      '0.00001',
+    expect(container.querySelector('td.base_fee').textContent.trim()).toBe(
+      '10 drops',
     )
   })
 })

@@ -400,6 +400,7 @@
   "missed_validations": "{{count}} validaciones perdidas",
   "incomplete": "incompleto",
   "base_fee": null,
+  "drops_amount": null,
   "account_reserve": null,
   "object_reserve": null,
   "vote": null,
