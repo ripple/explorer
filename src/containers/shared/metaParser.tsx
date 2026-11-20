@@ -1,5 +1,5 @@
 import type { BaseTransaction } from 'xrpl'
-import { XRP_BASE } from './transactionUtils'
+import { XRP_BASE, getSponsorScopes } from './transactionUtils'
 import { ExplorerAmount } from './types'
 
 export const LedgerEntryTypes = {
@@ -104,7 +104,10 @@ function findXRPAmount(
       ? Number(xrp.FinalFields.Balance) - Number(xrp.PreviousFields.Balance)
       : Number(xrp?.NewFields?.Balance),
   )
-  balance = Math.abs(balance - Number(tx.Fee))
+  const feeSponsored = getSponsorScopes(tx.SponsorFlags).includes('fee')
+  if (!feeSponsored) {
+    balance = Math.abs(balance - Number(tx.Fee))
+  }
 
   return balance && balance !== 0
     ? {
