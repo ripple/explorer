@@ -101,7 +101,7 @@ async function getAccountState(
         signerList: info.signer_lists?.[0]
           ? formatSignerList(info.signer_lists[0])
           : undefined,
-        paychannels: data[1],
+        paychannels: data[0],
         xAddress: decomposedAddress || undefined,
         deleted: false,
       })),
