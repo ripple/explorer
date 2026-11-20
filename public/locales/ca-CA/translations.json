@@ -793,6 +793,7 @@
   "refresh_data": null,
   "token_page.general_overview": null,
   "token_page.market_data": null,
+  "token_page.token_data_unavailable": null,
   "token_page.all_tx": null,
   "token_page.dex_tx": null,
   "token_page.transfers_tx": null,

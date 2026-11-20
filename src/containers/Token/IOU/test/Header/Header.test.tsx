@@ -396,4 +396,32 @@ describe('Header Component', () => {
     expect(marketData.supply).toBe('--')
     expect(marketData.circ_supply).toBe('--')
   })
+
+  it('shows the issuer and a notice instead of the stats when token details are unavailable', () => {
+    render(
+      <TestWrapper>
+        <Header
+          currency="USD"
+          tokenData={{
+            currency: 'USD',
+            issuer_account: 'rN7n7otQDd6FczFgLdSqtcsAUxDkw6fzRH',
+            index: -1,
+          }}
+          isTokenDataUnavailable
+          xrpUSDRate="2.50"
+          isHoldersDataLoading={false}
+          isAmmTvlLoading={false}
+        />
+      </TestWrapper>,
+    )
+    expect(screen.getByText('USD')).toBeInTheDocument()
+    expect(screen.getByText('Issuer')).toBeInTheDocument()
+    expect(screen.getByText('rN7n7otQDd')).toBeInTheDocument()
+    expect(
+      screen.getByText(
+        'Token details are unavailable right now. Please try again later.',
+      ),
+    ).toBeInTheDocument()
+    expect(screen.queryByText('HeaderBoxes')).not.toBeInTheDocument()
+  })
 })

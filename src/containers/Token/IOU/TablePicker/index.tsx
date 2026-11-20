@@ -105,7 +105,9 @@ export const TablePicker = ({
           (holdersPagination.currentPage - 1) * holdersPagination.pageSize +
           index +
           1,
-        value_usd: holder.balance * Number(tokenData?.price) * XRPUSDPrice,
+        value_usd: tokenData?.price
+          ? holder.balance * Number(tokenData.price) * XRPUSDPrice
+          : null,
       })) || [],
     [
       holdersData,

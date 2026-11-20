@@ -10,6 +10,8 @@ import {
 import { LOSToken } from '../../../shared/losTypes'
 import { TokenHoldersData } from '../api/holders'
 import DomainLink from '../../../shared/components/DomainLink'
+import { Account } from '../../../shared/components/Account'
+import { shortenAccount } from '../../../shared/utils'
 import GlobeSvg from '../../../shared/images/globe.svg'
 import {
   parseAmount,
@@ -27,6 +29,7 @@ import { calculateIouCirculatingSupply } from '../../shared/utils/circulatingSup
 interface HeaderProps {
   currency: string
   tokenData: LOSToken
+  isTokenDataUnavailable?: boolean
   xrpUSDRate: string
   holdersData?: TokenHoldersData
   isHoldersDataLoading: boolean
@@ -37,6 +40,7 @@ interface HeaderProps {
 export const Header = ({
   currency,
   tokenData,
+  isTokenDataUnavailable = false,
   xrpUSDRate,
   holdersData,
   isHoldersDataLoading,
@@ -175,12 +179,28 @@ export const Header = ({
         )}
       </div>
       <div className="section box-content">
-        <HeaderBoxes
-          overviewData={overviewData}
-          marketData={marketData}
-          isHoldersDataLoading={isHoldersDataLoading}
-          isAmmTvlLoading={isAmmTvlLoading}
-        />
+        {isTokenDataUnavailable ? (
+          <div className="token-data-unavailable">
+            {/* the issuer tells same-code tokens apart, so keep it visible */}
+            <div className="header-box-item">
+              <div className="item-name">{t('token_page.issuer')}</div>
+              <div className="item-value account-link">
+                <Account
+                  account={tokenData.issuer_account}
+                  displayText={shortenAccount(tokenData.issuer_account)}
+                />
+              </div>
+            </div>
+            {t('token_page.token_data_unavailable')}
+          </div>
+        ) : (
+          <HeaderBoxes
+            overviewData={overviewData}
+            marketData={marketData}
+            isHoldersDataLoading={isHoldersDataLoading}
+            isAmmTvlLoading={isAmmTvlLoading}
+          />
+        )}
       </div>
     </div>
   )
