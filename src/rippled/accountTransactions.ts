@@ -5,10 +5,14 @@ import {
 } from 'ripple-address-codec'
 
 import { formatTransaction } from './lib/utils'
-import { getAccountTransactions as getAccountTxs } from './lib/rippled'
+import {
+  getAccountTransactions as getAccountTxs,
+  getTransaction,
+} from './lib/rippled'
 import summarize from './lib/txSummary'
 import logger from './lib/logger'
 import type { ExplorerXrplClient } from '../containers/shared/SocketContext'
+import { HASH192_REGEX } from '../containers/shared/utils'
 
 const log = logger({ name: 'account transactions' })
 
@@ -17,12 +21,49 @@ export interface AccountTransactionsResult {
   marker?: any
 }
 
+// Clio's MPT filter returns a Batch's inner transactions but not the Batch
+// itself, so add each parent Batch after its last inner transaction
+const withParentBatches = async (
+  rippledSocket: ExplorerXrplClient,
+  transactions: any[],
+): Promise<any[]> => {
+  const parentIds = [
+    ...new Set(
+      transactions.map((tx) => tx.meta?.ParentBatchID).filter(Boolean),
+    ),
+  ]
+  const parents = new Map<string, any>()
+  // One at a time to stay under Clio's per-IP request limit
+  for (const id of parentIds) {
+    try {
+      // Same Clio host as the inner rows: the main host may lack old history
+      // eslint-disable-next-line no-await-in-loop
+      parents.set(id, await getTransaction(rippledSocket, id, true))
+    } catch (error: any) {
+      // A 4xx (e.g. not found) won't change on retry, so show the page
+      // without that Batch; anything else (e.g. rate limited) fails the page
+      // so it's retried
+      if (!(error.code >= 400 && error.code < 500)) {
+        throw error
+      }
+    }
+  }
+  return transactions.flatMap((tx, index) => {
+    const parentId = tx.meta?.ParentBatchID
+    const isLastInner =
+      parentId && transactions[index + 1]?.meta?.ParentBatchID !== parentId
+    const parent = isLastInner && parents.get(parentId)
+    return parent ? [tx, parent] : [tx]
+  })
+}
+
 const getAccountTransactions = async (
   account: string,
   currency: string | undefined,
   marker: any,
   limit: number | undefined,
   rippledSocket: ExplorerXrplClient,
+  useP2P: boolean = false,
 ): Promise<AccountTransactionsResult> => {
   // TODO: Retrieve txs for untagged X-address only?
 
@@ -68,28 +109,55 @@ const getAccountTransactions = async (
       classicAddress,
       limit,
       marker,
+      useP2P,
+      // Clio rejects anything but an MPT issuance ID here
+      useP2P && currency && HASH192_REGEX.test(currency) ? currency : undefined,
     )
-    const transactions = data.transactions
+    // Nothing older than an MPT's creation can reference it, so stop paging there
+    const reachedMPTCreation =
+      !!currency &&
+      data.transactions.some(
+        (tx: any) =>
+          (tx.tx ?? tx.tx_json)?.TransactionType === 'MPTokenIssuanceCreate' &&
+          tx.meta?.mpt_issuance_id?.toUpperCase() === currency.toUpperCase(),
+      )
+    // Clio also matches through metadata (e.g. Vault and LoanBroker
+    // transactions), which the summary doesn't keep, so don't filter again
+    const rows = data.filtered
+      ? await withParentBatches(rippledSocket, data.transactions)
+      : data.transactions
+    // Filter by currency (IOU) or MPT issuance ID (passed as currency)
+    const mentionsToken = (value: any) => {
+      const text = JSON.stringify(value)
+      return (
+        text.includes(`"currency":"${currency?.toUpperCase()}"`) ||
+        text.includes(`"${currency}"`)
+      )
+    }
+    const transactions = rows
       .map((tx: any) => {
         const txn = formatTransaction(tx)
-        return summarize(txn, true)
+        return { txn, summary: summarize(txn, true) }
       })
-      .filter((tx: any) => {
+      .filter(({ txn, summary }: any) => {
         // No filter - return all transactions
-        if (!currency) {
+        if (!currency || data.filtered) {
           return true
         }
 
-        // Filter by currency (IOU) or MPT issuance ID (passed as currency)
-        const txString = JSON.stringify(tx)
+        // A Batch's summary keeps only its inner hashes, so check the inner
+        // transactions themselves (MPTs only, so IOU pages match main)
         return (
-          txString.includes(`"currency":"${currency.toUpperCase()}"`) ||
-          txString.includes(`"${currency}"`)
+          mentionsToken(summary) ||
+          (HASH192_REGEX.test(currency) &&
+            txn.tx?.TransactionType === 'Batch' &&
+            mentionsToken(txn.tx.RawTransactions))
         )
       })
+      .map(({ summary }: any) => summary)
     return {
       transactions,
-      marker: data.marker,
+      marker: reachedMPTCreation ? undefined : data.marker,
     }
   } catch (error: any) {
     log.error(error.toString())

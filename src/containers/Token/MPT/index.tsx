@@ -224,6 +224,9 @@ export const MPT = () => {
       {mptIssuanceId && mptokenIssuance && (
         <div className="section">
           <TablePicker
+            // Remount per MPT so a cached MPT is reused rather than refetched:
+            // react-query refetches every cached page at once on a key change
+            key={mptIssuanceId}
             mptIssuanceId={mptIssuanceId}
             issuer={mptokenIssuance.issuer}
             assetScale={mptokenIssuance.assetScale}
