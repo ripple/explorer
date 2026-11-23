@@ -198,15 +198,31 @@ export const StreamsProvider: FC<PropsWithChildren> = ({ children }) => {
       `Processing ledger data: ${JSON.stringify(data)}`,
       'StreamsProvider.onLedger',
     )
+    const isNewAnchor = Number(data.ledger_index) > currentLedgerRef.current
     currentLedgerRef.current = Math.max(
       currentLedgerRef.current,
       Number(data.ledger_index),
     )
-    if (!ledgersRef.current[data.ledger_index]) {
-      // The ledger closed, but we did not have an existing entry likely because the page just loaded and its
-      // validations came in before we connected to the websocket.
-      addLedger(data.ledger_index)
-    }
+    setLedgers((previousLedgers) => {
+      const retained = isNewAnchor
+        ? pruneOutOfWindowLedgers(previousLedgers, currentLedgerRef.current)
+        : previousLedgers
+      if (!retained[data.ledger_index]) {
+        // The ledger closed, but we did not have an existing entry likely because the page just loaded and its
+        // validations came in before we connected to the websocket.
+        return {
+          [data.ledger_index]: {
+            index: Number(data.ledger_index),
+            seen: Date.now(),
+            hashes: [],
+            transactions: undefined,
+            txCount: undefined,
+          },
+          ...truncateLedgers(retained, MAX_LEDGERS_SHOWN - 1),
+        }
+      }
+      return retained
+    })
 
     useServerMetrics ? refetchServerRunningMetrics() : updateMetrics()
 
