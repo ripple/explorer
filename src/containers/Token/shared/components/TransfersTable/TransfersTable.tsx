@@ -20,12 +20,15 @@ export interface LOSTransfer {
   timestamp: number
   from: string
   to: string
-  amount: {
+  // Absent for ConfidentialMPTSend: the amount is encrypted on-ledger (XLS-96).
+  amount?: {
     currency: string
     issuer: string
     value: string
   }
 }
+
+const CONFIDENTIAL_MPT_SEND = 'ConfidentialMPTSend'
 
 interface TransfersTableProps {
   transactions: LOSTransfer[]
@@ -92,11 +95,20 @@ export const TransfersTable = ({
     }
   }
 
+  const renderAmount = (tx: LOSTransfer) => {
+    if (tx.action === CONFIDENTIAL_MPT_SEND) {
+      return <span style={{ opacity: 0.5 }}>&#x1F512; {t('confidential')}</span>
+    }
+    if (tx.amount?.currency && tx.amount.issuer) {
+      return parseAmount(tx.amount.value)
+    }
+    return '--'
+  }
+
   const renderTransaction = (tx: LOSTransfer) => {
     // Safely handle missing fields
     const fromAddress = tx.from || '--'
     const toAddress = tx.to || '--'
-    const hasValidAmount = tx.amount && tx.amount.currency && tx.amount.issuer
 
     return (
       <tr key={`${tx.hash}-${tx.ledger}`}>
@@ -108,7 +120,12 @@ export const TransfersTable = ({
           <Link to={`/ledgers/${tx.ledger}`}>{tx.ledger}</Link>
         </td>
         <td className="tx-action">
-          <div className="action-pill">{tx.action}</div>
+          <div className="action-pill">
+            {t('transaction_type_name', {
+              context: tx.action,
+              defaultValue: tx.action,
+            })}
+          </div>
         </td>
         <td className="tx-timestamp">
           <ResponsiveTimestamp timestamp={tx.timestamp} lang={language} />
@@ -137,9 +154,7 @@ export const TransfersTable = ({
             )}
           </span>
         </td>
-        <td className="tx-amount">
-          {hasValidAmount ? parseAmount(tx.amount.value) : '--'}
-        </td>
+        <td className="tx-amount">{renderAmount(tx)}</td>
       </tr>
     )
   }
