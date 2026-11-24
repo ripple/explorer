@@ -26,7 +26,7 @@ const THROTTLE = 200
 const MAX_LEDGERS_SHOWN = 50
 // Validations are signed as a ledger closes, so a few can legitimately arrive
 // before the connected node reports that ledger as closed.
-const MAX_LEDGER_LOOKAHEAD = 10
+const MAX_LEDGER_LOOKAHEAD = 50
 
 /**
  * Whether a ledger index is plausible for the network we are connected to.
@@ -198,6 +198,13 @@ export const StreamsProvider: FC<PropsWithChildren> = ({ children }) => {
       `Processing ledger data: ${JSON.stringify(data)}`,
       'StreamsProvider.onLedger',
     )
+    if (!Number.isFinite(Number(data.ledger_index))) {
+      Log.error(
+        `Unable to typecast ledger-index to number type: ${data.ledger_index}`,
+        'StreamsProvider.onLedger',
+      )
+      return
+    }
     const isNewAnchor = Number(data.ledger_index) > currentLedgerRef.current
     currentLedgerRef.current = Math.max(
       currentLedgerRef.current,
@@ -313,7 +320,10 @@ export const StreamsProvider: FC<PropsWithChildren> = ({ children }) => {
       return
     }
 
-    if (!ledgersRef.current[index]) {
+    if (
+      !ledgersRef.current[index] &&
+      (!currentLedgerRef.current || index > currentLedgerRef.current)
+    ) {
       addLedger(index)
     }
     validationQueue.current.push(data)
@@ -331,7 +341,12 @@ export const StreamsProvider: FC<PropsWithChildren> = ({ children }) => {
       return
     }
     // copy the queue and clear it, so we aren't adding more while processing
-    const queue = [...validationQueue.current]
+    const queue = [...validationQueue.current].filter((validation) =>
+      isLedgerIndexInWindow(
+        Number(validation.ledger_index),
+        currentLedgerRef.current,
+      ),
+    )
     validationQueue.current = []
     setLedgers((previousLedgers) => {
       queue.forEach((validation) => {
@@ -358,7 +373,11 @@ export const StreamsProvider: FC<PropsWithChildren> = ({ children }) => {
         }
         matchingHash.validations = [...matchingHash.validations, validation]
         ledger.hashes = [...ledger.hashes]
-        ledger.hashes[matchingHashIndex] = {
+        const hashIndex =
+          matchingHashIndex === -1
+            ? ledger.hashes.length - 1
+            : matchingHashIndex
+        ledger.hashes[hashIndex] = {
           ...matchingHash,
         }
       })

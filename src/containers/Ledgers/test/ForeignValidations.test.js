@@ -1,6 +1,7 @@
 import { render, cleanup } from '@testing-library/react'
 import moxios from 'moxios'
 import WS from 'jest-websocket-mock'
+import { QueryClientProvider } from 'react-query'
 import i18n from '../../../i18n/testConfig'
 import { LedgersPage } from '../index'
 import SocketContext from '../../shared/SocketContext'
@@ -11,7 +12,9 @@ import ledgerMessage from './mock/ledger.json'
 import validationMessage from './mock/validation.json'
 import rippledResponses from './mock/rippled.json'
 import { QuickHarness } from '../../test/utils'
+import { testQueryClient } from '../../test/QueryClient'
 import { SelectedValidatorProvider } from '../useSelectedValidator'
+import { StreamsProvider, useStreams } from '../../shared/components/Streams'
 
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms))
@@ -66,6 +69,18 @@ const renderedIndexes = (container) =>
   Array.from(container.querySelectorAll('.ledger .ledger-index')).map(
     (element) => element.textContent,
   )
+
+// Renders the `validators` map from StreamsContext directly, since
+// LedgersPage itself never consumes it (only the Validators page does, in
+// its own StreamsProvider instance).
+function ValidatorsProbe() {
+  const { validators } = useStreams()
+  return (
+    <div data-testid="validators-probe">
+      {Object.keys(validators).join(',')}
+    </div>
+  )
+}
 
 describe('Ledgers page: validations from outside this network', () => {
   let server
@@ -196,5 +211,55 @@ describe('Ledgers page: validations from outside this network', () => {
     await sleep(600)
 
     expect(renderedIndexes(container)).toEqual(before)
+  })
+
+  it('prunes an out-of-range ledger when the ledger stream sets the anchor first', async () => {
+    // Make the initial `getLedger({ ledger_index: 'validated' })` request
+    // (fired on mount) reject, so the only way the anchor gets set is via the
+    // `ledger` stream handler itself, not `populateFromLedgerResponse`.
+    const originalSend = client.send.bind(client)
+    client.send = (message) =>
+      message.command === 'ledger' && message.ledger_index === 'validated'
+        ? Promise.reject(new Error('validated ledger request delayed'))
+        : originalSend(message)
+
+    const { container } = renderLedgersPage()
+
+    // Before any `ledger` stream message, so it cannot set the anchor.
+    server.send(foreignValidation)
+    await sleep(200)
+    expect(renderedIndexes(container)).toContain('999999999')
+
+    // The `ledger` stream is now the first thing to establish the anchor.
+    server.send(prevLedgerMessage)
+    await sleep(400)
+
+    expect(renderedIndexes(container)).not.toContain('999999999')
+    expect(renderedIndexes(container)).toContain('68992560')
+  })
+
+  it('does not leak an out-of-range validation into validators once the anchor is known', async () => {
+    const { getByTestId } = render(
+      <QueryClientProvider client={testQueryClient}>
+        <SocketContext.Provider value={client}>
+          <StreamsProvider>
+            <ValidatorsProbe />
+          </StreamsProvider>
+        </SocketContext.Provider>
+      </QueryClientProvider>,
+    )
+
+    // Accepted into the queue while the anchor is still unknown.
+    server.send(foreignValidation)
+    await sleep(50)
+
+    // The anchor becomes known before the queue is next drained (drains
+    // happen every THROTTLE=200ms).
+    server.send(prevLedgerMessage)
+    await sleep(300)
+
+    expect(getByTestId('validators-probe').textContent).not.toContain(
+      foreignValidation.validation_public_key,
+    )
   })
 })
