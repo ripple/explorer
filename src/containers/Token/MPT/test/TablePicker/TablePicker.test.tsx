@@ -160,6 +160,23 @@ describe('MPT TablePicker container', () => {
     ).toHaveLength(1)
   })
 
+  it('renders transfers that include a ConfidentialMPTSend without an amount', () => {
+    const { amount, ...withoutAmount } = mockTransfers[0]
+    const { container } = renderComponent(() => new Promise(() => {}), {
+      transfersData: [
+        ...mockTransfers,
+        {
+          ...withoutAmount,
+          hash: 'C'.repeat(64),
+          action: 'ConfidentialMPTSend',
+        },
+      ],
+    })
+    expect(
+      container.querySelectorAll('.token-transaction-table-container'),
+    ).toHaveLength(1)
+  })
+
   it('renders with loading states', () => {
     const { container } = renderComponent(() => new Promise(() => {}), {
       holdersLoading: true,

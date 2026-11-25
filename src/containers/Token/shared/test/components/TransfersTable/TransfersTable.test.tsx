@@ -325,6 +325,27 @@ describe('TransfersTable Component', () => {
     expect(screen.getByText('--')).toBeInTheDocument()
   })
 
+  it('shows Confidential instead of an amount for ConfidentialMPTSend', () => {
+    const { amount, ...withoutAmount } = mockTransfers[0]
+    const confidentialTransfer: LOSTransfer[] = [
+      { ...withoutAmount, action: 'ConfidentialMPTSend' },
+    ]
+    render(
+      <TestWrapper>
+        <TransfersTable
+          transactions={confidentialTransfer}
+          totalTransfers={1}
+          currentPage={1}
+          onPageChange={mockOnPageChange}
+          pageSize={10}
+        />
+      </TestWrapper>,
+    )
+    expect(screen.getByText('Confidential MPT Send')).toBeInTheDocument()
+    expect(screen.getByText(/Confidential$/)).toBeInTheDocument()
+    expect(screen.queryByText('--')).not.toBeInTheDocument()
+  })
+
   it('displays pagination when hasMore is true', () => {
     render(
       <TestWrapper>
