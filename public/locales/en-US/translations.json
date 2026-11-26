@@ -795,7 +795,6 @@
   "refresh_data": "Refresh data",
   "token_page.general_overview": "General Overview",
   "token_page.market_data": "Market Data",
-  "token_page.token_data_unavailable": "Token details are unavailable right now. Please try again later.",
   "token_page.all_tx": "All Token Transactions",
   "token_page.dex_tx": "DEX Trades",
   "token_page.transfers_tx": "Transfers",

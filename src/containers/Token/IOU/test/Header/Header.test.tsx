@@ -397,7 +397,8 @@ describe('Header Component', () => {
     expect(marketData.circ_supply).toBe('--')
   })
 
-  it('shows the issuer and a notice instead of the stats when token details are unavailable', () => {
+  it('shows "--" for LOS fields when token details are unavailable', () => {
+    mockHeaderBoxesSpy.mockClear()
     render(
       <TestWrapper>
         <Header
@@ -409,19 +410,33 @@ describe('Header Component', () => {
           }}
           isTokenDataUnavailable
           xrpUSDRate="2.50"
+          holdersData={mockHoldersData}
           isHoldersDataLoading={false}
+          ammTvlData={{ tvl: 5000, account: 'rAMMAccount' }}
           isAmmTvlLoading={false}
         />
       </TestWrapper>,
     )
-    expect(screen.getByText('USD')).toBeInTheDocument()
-    expect(screen.getByText('Issuer')).toBeInTheDocument()
-    expect(screen.getByText('rN7n7otQDd')).toBeInTheDocument()
-    expect(
-      screen.getByText(
-        'Token details are unavailable right now. Please try again later.',
-      ),
-    ).toBeInTheDocument()
-    expect(screen.queryByText('HeaderBoxes')).not.toBeInTheDocument()
+
+    const { overviewData, marketData } =
+      mockHeaderBoxesSpy.mock.calls.slice(-1)[0][0]
+    expect(overviewData).toEqual({
+      issuer: 'rN7n7otQDd6FczFgLdSqtcsAUxDkw6fzRH',
+      issuer_account: 'rN7n7otQDd6FczFgLdSqtcsAUxDkw6fzRH',
+      price: '--',
+      holders: '--',
+      trustlines: '--',
+      transfer_fee: '--',
+    })
+    // supply comes from XRPL Meta and AMM TVL from rippled, so they keep real values
+    expect(marketData).toMatchObject({
+      supply: '1.0M',
+      circ_supply: '--',
+      market_cap: '--',
+      volume_24h: '--',
+      trades_24h: '--',
+      amm_tvl: '$5.0K',
+      amm_account: 'rAMMAccount',
+    })
   })
 })

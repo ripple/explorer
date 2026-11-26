@@ -10,8 +10,6 @@ import {
 import { LOSToken } from '../../../shared/losTypes'
 import { TokenHoldersData } from '../api/holders'
 import DomainLink from '../../../shared/components/DomainLink'
-import { Account } from '../../../shared/components/Account'
-import { shortenAccount } from '../../../shared/utils'
 import GlobeSvg from '../../../shared/images/globe.svg'
 import {
   parseAmount,
@@ -127,6 +125,26 @@ export const Header = ({
     }
   }, [circSupply, tokenData, xrpRate, ammTvlData, holdersData])
 
+  // Without LOS, show "--" for what LOS provides; issuer, supply and AMM TVL come from elsewhere
+  const shownOverviewData: OverviewData = isTokenDataUnavailable
+    ? {
+        ...overviewData,
+        price: '--',
+        holders: '--',
+        trustlines: '--',
+        transfer_fee: '--',
+      }
+    : overviewData
+  const shownMarketData: MarketData = isTokenDataUnavailable
+    ? {
+        ...marketData,
+        circ_supply: '--',
+        market_cap: '--',
+        volume_24h: '--',
+        trades_24h: '--',
+      }
+    : marketData
+
   return (
     <div className="box token-header iou">
       <div className="section token-indicator">
@@ -179,28 +197,12 @@ export const Header = ({
         )}
       </div>
       <div className="section box-content">
-        {isTokenDataUnavailable ? (
-          <div className="token-data-unavailable">
-            {/* the issuer tells same-code tokens apart, so keep it visible */}
-            <div className="header-box-item">
-              <div className="item-name">{t('token_page.issuer')}</div>
-              <div className="item-value account-link">
-                <Account
-                  account={tokenData.issuer_account}
-                  displayText={shortenAccount(tokenData.issuer_account)}
-                />
-              </div>
-            </div>
-            {t('token_page.token_data_unavailable')}
-          </div>
-        ) : (
-          <HeaderBoxes
-            overviewData={overviewData}
-            marketData={marketData}
-            isHoldersDataLoading={isHoldersDataLoading}
-            isAmmTvlLoading={isAmmTvlLoading}
-          />
-        )}
+        <HeaderBoxes
+          overviewData={shownOverviewData}
+          marketData={shownMarketData}
+          isHoldersDataLoading={isHoldersDataLoading}
+          isAmmTvlLoading={isAmmTvlLoading}
+        />
       </div>
     </div>
   )
