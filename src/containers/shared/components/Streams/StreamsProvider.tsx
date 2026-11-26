@@ -24,6 +24,38 @@ import { StreamValidator } from '../../vhsTypes'
 
 const THROTTLE = 200
 const MAX_LEDGERS_SHOWN = 50
+// Validations are signed as a ledger closes, so a few can legitimately arrive
+// before the connected node reports that ledger as closed.
+const MAX_LEDGER_LOOKAHEAD = 50
+
+/**
+ * Whether a ledger index is plausible for the network we are connected to.
+ *
+ * The `validations` stream carries untrusted validations, which are not
+ * necessarily for ledgers of this network: a node cannot tell a validation
+ * relayed from another network apart from one signed by a validator it simply
+ * does not know, because validations carry no network identifier. (The
+ * `network_id` on a stream message is the serving node's own id, so it is the
+ * same for every message on a connection and cannot be used to tell them
+ * apart.) Anchoring on the index the connected node itself reports keeps the
+ * feed to ledgers this network has actually produced.
+ *
+ * @param index The ledger index a stream message refers to.
+ * @param current The latest ledger index reported by the connected node, or 0
+ * when we have not heard from it yet.
+ */
+const isLedgerIndexInWindow = (index: number, current: number) => {
+  if (!Number.isFinite(index)) {
+    return false
+  }
+  if (!current) {
+    return true
+  }
+  return (
+    index >= current - MAX_LEDGERS_SHOWN &&
+    index <= current + MAX_LEDGER_LOOKAHEAD
+  )
+}
 
 const fetchMetrics = () =>
   axios
@@ -51,6 +83,17 @@ const fetchQuorum = async (rippledSocket): Promise<string> =>
     })
     .catch((e) => Log.error(e))
 
+const pruneOutOfWindowLedgers = (
+  ledgers: Record<string, Ledger>,
+  current: number,
+) =>
+  Object.entries(ledgers).reduce((accumulator, [index, ledger]) => {
+    if (isLedgerIndexInWindow(Number(index), current)) {
+      accumulator[index] = ledger
+    }
+    return accumulator
+  }, {})
+
 const truncateLedgers = (ledgers: Record<string, Ledger>, count) =>
   Object.entries(ledgers)
     .sort((a, b) => parseInt(b[0], 10) - parseInt(a[0], 10))
@@ -65,7 +108,11 @@ export const StreamsProvider: FC<PropsWithChildren> = ({ children }) => {
   const useServerMetrics = process.env.VITE_ENVIRONMENT !== 'custom'
   const [ledgers, setLedgers] = useState<Record<number, Ledger>>({})
   const ledgersRef = useRef<Record<number, Ledger>>(ledgers)
-  const firstLedgerRef = useRef<number>(0)
+  // The latest ledger index the connected node has reported, from the `ledger`
+  // stream and from our own `ledger` requests. Only those node-authoritative
+  // sources move it: a validation must never be able to establish the anchor
+  // it is checked against.
+  const currentLedgerRef = useRef<number>(0)
   const [validators, setValidators] = useState<Record<number, StreamValidator>>(
     {},
   )
@@ -89,14 +136,7 @@ export const StreamsProvider: FC<PropsWithChildren> = ({ children }) => {
     useQuery<string[]>('runningMetrics', () => fetchMetrics())
 
   function addLedger(index: number | string) {
-    // Only add new ledgers that are newer than the last one added.
     Log.trace(`Processing ledger index: ${index}`, 'StreamsProvider.addLedger')
-    if (!firstLedgerRef.current) {
-      firstLedgerRef.current = Number(index)
-    }
-    if (firstLedgerRef.current > Number(index)) {
-      return
-    }
 
     if (!(index in ledgers)) {
       setLedgers((previousLedgers) => ({
@@ -158,11 +198,38 @@ export const StreamsProvider: FC<PropsWithChildren> = ({ children }) => {
       `Processing ledger data: ${JSON.stringify(data)}`,
       'StreamsProvider.onLedger',
     )
-    if (!ledgersRef.current[data.ledger_index]) {
-      // The ledger closed, but we did not have an existing entry likely because the page just loaded and its
-      // validations came in before we connected to the websocket.
-      addLedger(data.ledger_index)
+    if (!Number.isFinite(Number(data.ledger_index))) {
+      Log.error(
+        `Unable to typecast ledger-index to number type: ${data.ledger_index}`,
+        'StreamsProvider.onLedger',
+      )
+      return
     }
+    const isNewAnchor = Number(data.ledger_index) > currentLedgerRef.current
+    currentLedgerRef.current = Math.max(
+      currentLedgerRef.current,
+      Number(data.ledger_index),
+    )
+    setLedgers((previousLedgers) => {
+      const retained = isNewAnchor
+        ? pruneOutOfWindowLedgers(previousLedgers, currentLedgerRef.current)
+        : previousLedgers
+      if (!retained[data.ledger_index]) {
+        // The ledger closed, but we did not have an existing entry likely because the page just loaded and its
+        // validations came in before we connected to the websocket.
+        return {
+          [data.ledger_index]: {
+            index: Number(data.ledger_index),
+            seen: Date.now(),
+            hashes: [],
+            transactions: undefined,
+            txCount: undefined,
+          },
+          ...truncateLedgers(retained, MAX_LEDGERS_SHOWN - 1),
+        }
+      }
+      return retained
+    })
 
     useServerMetrics ? refetchServerRunningMetrics() : updateMetrics()
 
@@ -203,8 +270,17 @@ export const StreamsProvider: FC<PropsWithChildren> = ({ children }) => {
       )
       return
     }
+    // This is the node answering about its own ledger, so it is authoritative
+    // for the window that validations are checked against.
+    const isNewAnchor = idx > currentLedgerRef.current
+    currentLedgerRef.current = Math.max(currentLedgerRef.current, idx)
     setLedgers((previousLedgers) => {
-      const newLedger = Object.assign(previousLedgers[idx] ?? { hashes: [] }, {
+      // Learning (or advancing) the anchor can reveal entries that were added
+      // before we knew what this network's indexes look like.
+      const retained = isNewAnchor
+        ? pruneOutOfWindowLedgers(previousLedgers, currentLedgerRef.current)
+        : previousLedgers
+      const newLedger = Object.assign(retained[idx] ?? { hashes: [] }, {
         index: idx,
         txCount: ledgerSummary.transactions.length,
         closeTime: convertRippleDate(ledgerSummary.ledger_time),
@@ -226,7 +302,7 @@ export const StreamsProvider: FC<PropsWithChildren> = ({ children }) => {
         }
       }
 
-      return { ...previousLedgers, [idx]: newLedger }
+      return { ...retained, [idx]: newLedger }
     })
   }
 
@@ -235,12 +311,22 @@ export const StreamsProvider: FC<PropsWithChildren> = ({ children }) => {
       `Processing validation data: ${JSON.stringify(data)}`,
       'StreamsProvider.onValidation',
     )
-    if (!ledgersRef.current[Number(data.ledger_index)]) {
-      addLedger(data.ledger_index)
+    const index = Number(data.ledger_index)
+    if (!isLedgerIndexInWindow(index, currentLedgerRef.current)) {
+      Log.trace(
+        `Ignoring validation for out-of-range ledger index: ${data.ledger_index}`,
+        'StreamsProvider.onValidation',
+      )
+      return
     }
-    if (firstLedgerRef.current <= Number(data.ledger_index)) {
-      validationQueue.current.push(data)
+
+    if (
+      !ledgersRef.current[index] &&
+      (!currentLedgerRef.current || index > currentLedgerRef.current)
+    ) {
+      addLedger(index)
     }
+    validationQueue.current.push(data)
   }
 
   // Process validations in chunks to make re-renders more manageable.
@@ -255,15 +341,25 @@ export const StreamsProvider: FC<PropsWithChildren> = ({ children }) => {
       return
     }
     // copy the queue and clear it, so we aren't adding more while processing
-    const queue = [...validationQueue.current]
+    const queue = [...validationQueue.current].filter((validation) =>
+      isLedgerIndexInWindow(
+        Number(validation.ledger_index),
+        currentLedgerRef.current,
+      ),
+    )
     validationQueue.current = []
     setLedgers((previousLedgers) => {
       queue.forEach((validation) => {
         const ledger = previousLedgers[Number(validation.ledger_index)]
-        const matchingHashIndex = ledger?.hashes.findIndex(
+        if (!ledger) {
+          // The ledger was truncated out of state, or pruned as out of range,
+          // between this validation being queued and the queue being processed.
+          return
+        }
+        const matchingHashIndex = ledger.hashes.findIndex(
           (hash) => hash.hash === validation.ledger_hash,
         )
-        let matchingHash = ledger?.hashes[matchingHashIndex] as LedgerHash
+        let matchingHash = ledger.hashes[matchingHashIndex] as LedgerHash
         if (!matchingHash) {
           matchingHash = {
             hash: validation.ledger_hash,
@@ -276,11 +372,13 @@ export const StreamsProvider: FC<PropsWithChildren> = ({ children }) => {
           ledger.hashes.push(matchingHash)
         }
         matchingHash.validations = [...matchingHash.validations, validation]
-        if (ledger) {
-          ledger.hashes = [...(ledger?.hashes || [])]
-          ledger.hashes[matchingHashIndex] = {
-            ...matchingHash,
-          }
+        ledger.hashes = [...ledger.hashes]
+        const hashIndex =
+          matchingHashIndex === -1
+            ? ledger.hashes.length - 1
+            : matchingHashIndex
+        ledger.hashes[hashIndex] = {
+          ...matchingHash,
         }
       })
       return { ...previousLedgers }

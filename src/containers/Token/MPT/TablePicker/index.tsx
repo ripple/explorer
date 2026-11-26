@@ -108,16 +108,21 @@ export const TablePicker = ({
     if (!transfersData) {
       return []
     }
-    return transfersData.map((transfer) => ({
-      ...transfer,
-      amount: {
-        ...transfer.amount,
-        value: convertScaledPrice(
-          BigInt(transfer.amount.value),
-          assetScale ?? 0,
-        ),
-      },
-    }))
+    return transfersData.map((transfer) =>
+      // ConfidentialMPTSend has no amount (encrypted on-ledger), so there is nothing to scale.
+      transfer.amount?.value == null
+        ? transfer
+        : {
+            ...transfer,
+            amount: {
+              ...transfer.amount,
+              value: convertScaledPrice(
+                BigInt(transfer.amount.value),
+                assetScale ?? 0,
+              ),
+            },
+          },
+    )
   }, [transfersData, assetScale])
 
   // Helper to render transfers table
