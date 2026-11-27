@@ -14,6 +14,7 @@ import {
   getCurrencySymbol,
   isCurrencyExoticSymbol,
   localizeDate,
+  convertScaledPrice,
 } from '../../shared/utils'
 import './styles.scss'
 import { useAnalytics } from '../../shared/analytics'
@@ -53,7 +54,10 @@ interface Props {
   data: VaultData
   vaultId: string
   displayCurrency: string
+  assetScale?: number
 }
+
+const DEFAULT_EMPTY_VALUE = '--'
 
 // Vault flags from XLS-65d spec
 const VAULT_FLAGS = {
@@ -65,7 +69,12 @@ const WITHDRAWAL_POLICIES: { [key: number]: string } = {
   1: 'first_come_first_served',
 }
 
-export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
+export const VaultHeader = ({
+  data,
+  vaultId,
+  displayCurrency,
+  assetScale,
+}: Props) => {
   const { t } = useTranslation()
   const language = useLanguage()
   const { trackException } = useAnalytics()
@@ -96,10 +105,19 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
   const convertToDisplayCurrency = (
     amount: string | undefined,
   ): string | undefined => {
-    if (!amount || displayCurrency !== 'USD') return amount
+    if (!amount) return amount
 
-    const numAmount = Number(amount)
-    if (Number.isNaN(numAmount)) return amount
+    let normalized = amount
+    if (asset?.currency === 'XRP') {
+      normalized = convertScaledPrice(BigInt(amount), 6)
+    } else if (asset?.mpt_issuance_id) {
+      normalized = convertScaledPrice(BigInt(amount), assetScale ?? 0)
+    }
+
+    if (displayCurrency !== 'USD') return normalized
+
+    const numAmount = Number(normalized)
+    if (Number.isNaN(numAmount)) return normalized
 
     return tokenToUsdRate > 0 ? String(numAmount * tokenToUsdRate) : undefined
   }
@@ -334,16 +352,16 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
                     convertedAmount === undefined &&
                     displayCurrency === 'USD'
                   ) {
-                    return '--'
+                    return DEFAULT_EMPTY_VALUE
                   }
-                  const amount = convertedAmount ?? assetsTotal
-                  if (amount === undefined) return '--'
+                  const amount = convertedAmount ?? '0'
+                  if (amount === undefined) return DEFAULT_EMPTY_VALUE
                   if (
                     ['0', '0.00', '0.0000'].includes(
                       parseAmount(amount ?? '0', 2),
                     )
                   )
-                    return '--'
+                    return DEFAULT_EMPTY_VALUE
                   // Note: As per the NumberFormat policy, prices in the range of [10_000, 1M] do not display decimal values
                   // Very large prices (greater than 1M must have two decimal places)
                   const displayedCurrency: string = getDisplayCurrencyLabel()
@@ -370,8 +388,17 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
                 value={(() => {
                   if (assetsMaximum === undefined) return t('no_limit')
 
-                  const parsedAmt = parseAmount(assetsMaximum, 2)
-                  if (['0', '0.00', '0.0000'].includes(parsedAmt)) return '--'
+                  const convertedAmount =
+                    convertToDisplayCurrency(assetsMaximum)
+                  if (
+                    convertedAmount === undefined &&
+                    displayCurrency === 'USD'
+                  ) {
+                    return DEFAULT_EMPTY_VALUE
+                  }
+                  const parsedAmt = parseAmount(convertedAmount ?? '0', 2)
+                  if (['0', '0.00', '0.0000'].includes(parsedAmt))
+                    return DEFAULT_EMPTY_VALUE
 
                   const displayedCurrency: string = getDisplayCurrencyLabel()
                   if (
@@ -389,8 +416,17 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
               <TokenTableRow
                 label={t('available_to_borrow')}
                 value={(() => {
-                  const parsedAmt = parseAmount(assetsAvailable ?? '0', 2)
-                  if (['0', '0.00', '0.0000'].includes(parsedAmt)) return '--'
+                  const convertedAmount =
+                    convertToDisplayCurrency(assetsAvailable)
+                  if (
+                    convertedAmount === undefined &&
+                    displayCurrency === 'USD'
+                  ) {
+                    return DEFAULT_EMPTY_VALUE
+                  }
+                  const parsedAmt = parseAmount(convertedAmount ?? '0', 2)
+                  if (['0', '0.00', '0.0000'].includes(parsedAmt))
+                    return DEFAULT_EMPTY_VALUE
 
                   const displayedCurrency: string = getDisplayCurrencyLabel()
                   if (
@@ -404,8 +440,17 @@ export const VaultHeader = ({ data, vaultId, displayCurrency }: Props) => {
               <TokenTableRow
                 label={t('unrealized_loss')}
                 value={(() => {
-                  const parsedAmt = parseAmount(lossUnrealized ?? '0', 2)
-                  if (['0', '0.00', '0.0000'].includes(parsedAmt)) return '--'
+                  const convertedAmount =
+                    convertToDisplayCurrency(lossUnrealized)
+                  if (
+                    convertedAmount === undefined &&
+                    displayCurrency === 'USD'
+                  ) {
+                    return DEFAULT_EMPTY_VALUE
+                  }
+                  const parsedAmt = parseAmount(convertedAmount ?? '0', 2)
+                  if (['0', '0.00', '0.0000'].includes(parsedAmt))
+                    return DEFAULT_EMPTY_VALUE
 
                   const displayedCurrency: string = getDisplayCurrencyLabel()
                   if (

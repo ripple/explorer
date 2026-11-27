@@ -9,6 +9,7 @@ import {
   shortenMPTID,
   getCurrencySymbol,
   isCurrencyExoticSymbol,
+  convertScaledPrice,
 } from '../../shared/utils'
 
 // TODO: Use types from xrpl.js instead of hand-writing it.
@@ -36,6 +37,7 @@ interface Props {
   asset?: AssetInfo
   loans?: any[]
   mptTicker?: string
+  assetScale?: number
 }
 
 export const BrokerDetails = ({
@@ -44,6 +46,7 @@ export const BrokerDetails = ({
   asset,
   loans,
   mptTicker,
+  assetScale,
 }: Props) => {
   const { t } = useTranslation()
   const { rate: tokenToUsdRate } = useTokenToUSDRate(asset)
@@ -52,9 +55,18 @@ export const BrokerDetails = ({
   const convertToDisplayCurrency = (
     amount: string | undefined,
   ): string | undefined => {
-    if (!amount || displayCurrency !== 'USD') return amount
-    const numAmount = Number(amount)
-    if (Number.isNaN(numAmount)) return amount
+    if (!amount) return amount
+
+    let normalized = amount
+    if (asset?.currency === 'XRP') {
+      normalized = convertScaledPrice(BigInt(amount), 6)
+    } else if (asset?.mpt_issuance_id) {
+      normalized = convertScaledPrice(BigInt(amount), assetScale ?? 0)
+    }
+    if (displayCurrency !== 'USD') return normalized
+
+    const numAmount = Number(normalized)
+    if (Number.isNaN(numAmount)) return normalized
     return tokenToUsdRate > 0 ? String(numAmount * tokenToUsdRate) : undefined
   }
 
@@ -162,6 +174,7 @@ export const BrokerDetails = ({
         }
         displayCurrency={displayCurrency}
         asset={asset}
+        assetScale={assetScale}
         isCurrencySpecialSymbol={
           asset?.currency !== undefined &&
           isCurrencyExoticSymbol(asset?.currency)
