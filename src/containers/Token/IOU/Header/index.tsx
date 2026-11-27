@@ -27,6 +27,7 @@ import { calculateIouCirculatingSupply } from '../../shared/utils/circulatingSup
 interface HeaderProps {
   currency: string
   tokenData: LOSToken
+  isTokenDataUnavailable?: boolean
   xrpUSDRate: string
   holdersData?: TokenHoldersData
   isHoldersDataLoading: boolean
@@ -37,6 +38,7 @@ interface HeaderProps {
 export const Header = ({
   currency,
   tokenData,
+  isTokenDataUnavailable = false,
   xrpUSDRate,
   holdersData,
   isHoldersDataLoading,
@@ -123,6 +125,26 @@ export const Header = ({
     }
   }, [circSupply, tokenData, xrpRate, ammTvlData, holdersData])
 
+  // Without LOS, show "--" for what LOS provides; issuer, supply and AMM TVL come from elsewhere
+  const shownOverviewData: OverviewData = isTokenDataUnavailable
+    ? {
+        ...overviewData,
+        price: '--',
+        holders: '--',
+        trustlines: '--',
+        transfer_fee: '--',
+      }
+    : overviewData
+  const shownMarketData: MarketData = isTokenDataUnavailable
+    ? {
+        ...marketData,
+        circ_supply: '--',
+        market_cap: '--',
+        volume_24h: '--',
+        trades_24h: '--',
+      }
+    : marketData
+
   return (
     <div className="box token-header iou">
       <div className="section token-indicator">
@@ -176,8 +198,8 @@ export const Header = ({
       </div>
       <div className="section box-content">
         <HeaderBoxes
-          overviewData={overviewData}
-          marketData={marketData}
+          overviewData={shownOverviewData}
+          marketData={shownMarketData}
           isHoldersDataLoading={isHoldersDataLoading}
           isAmmTvlLoading={isAmmTvlLoading}
         />

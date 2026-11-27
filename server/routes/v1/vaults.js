@@ -36,23 +36,15 @@ async function fetchAssetPrices() {
     const rwaTokens = tokens.filter((t) => t.asset_class === 'rwa')
     log.info(`Found ${rwaTokens.length} RWA tokens for vault price lookup`)
 
+    // /trusted-tokens already carries each token's XRP price, so there's no
+    // per-token /tokens/{id} call (one per RWA token would trip LOS's rate limit).
     const prices = {}
-
-    await Promise.all(
-      rwaTokens.map(async (token) => {
-        try {
-          const losTokenUrl = `${process.env.VITE_LOS_URL}/tokens/${token.currency}.${token.issuer_account}`
-          const tokenResp = await axios.get(losTokenUrl, { timeout: 10000 })
-          const xrpPrice = Number(tokenResp.data?.price) || 0
-          if (xrpPrice > 0) {
-            const key = `${token.currency}.${token.issuer_account}`
-            prices[key] = xrpPrice
-          }
-        } catch (e) {
-          log.error(`Failed to fetch price for ${token.currency}: ${e.message}`)
-        }
-      }),
-    )
+    rwaTokens.forEach((token) => {
+      const xrpPrice = Number(token.price) || 0
+      if (xrpPrice > 0) {
+        prices[`${token.currency}.${token.issuer_account}`] = xrpPrice
+      }
+    })
 
     cachedPrices.prices = prices
     cachedPrices.lastUpdated = Date.now()

@@ -15,6 +15,73 @@ jest.mock('../../../lib/logger', () => () => ({
 const LOS_URL = 'https://los.test'
 const MAX_CACHED_VAULT_QUERIES = 200
 
+describe('getVaultAssetPrices', () => {
+  let axios
+  let getVaultAssetPrices
+
+  const USD = { currency: 'USD', issuer_account: 'rIssuerOne' }
+  const EUR = { currency: 'EUR', issuer_account: 'rIssuerTwo' }
+
+  beforeEach(() => {
+    jest.useFakeTimers()
+    jest.resetModules()
+    process.env.VITE_ENVIRONMENT = 'mainnet'
+    process.env.VITE_LOS_URL = LOS_URL
+    axios = require('axios')
+    axios.get.mockImplementation(async (url) =>
+      url === `${LOS_URL}/trusted-tokens`
+        ? {
+            data: {
+              tokens: [
+                { ...USD, asset_class: 'rwa', price: '0.5' },
+                { ...EUR, asset_class: 'rwa', price: '0' },
+                {
+                  currency: 'MEM',
+                  issuer_account: 'rIssuerThree',
+                  asset_class: 'memes',
+                  price: '2',
+                },
+              ],
+            },
+          }
+        : { data: {} },
+    )
+    ;({ getVaultAssetPrices } = require('../vaults'))
+  })
+
+  afterEach(() => {
+    jest.useRealTimers()
+  })
+
+  // Polls until the startup fetch has filled the cache, however many awaits it takes.
+  const getPricesOnceCached = async () => {
+    for (let tick = 0; tick < 100; tick += 1) {
+      const res = mockResponse()
+      // eslint-disable-next-line no-await-in-loop -- each poll waits for the previous one
+      await getVaultAssetPrices({}, res)
+      if (res.json.mock.calls[0][0].lastUpdated !== null) {
+        return res
+      }
+      // eslint-disable-next-line no-await-in-loop -- yields so the fetch can progress
+      await Promise.resolve()
+    }
+    throw new Error('vault prices were never cached')
+  }
+
+  it('prices RWA tokens from /trusted-tokens without a per-token request', async () => {
+    const res = await getPricesOnceCached()
+
+    expect(res.json).toHaveBeenCalledWith({
+      prices: { 'USD.rIssuerOne': 0.5 },
+      lastUpdated: expect.any(Number),
+    })
+    const tokenRequests = axios.get.mock.calls.filter(([url]) =>
+      url.startsWith(`${LOS_URL}/tokens/`),
+    )
+    expect(tokenRequests).toEqual([])
+  })
+})
+
 describe('getVaults', () => {
   let axios
   let getVaults
