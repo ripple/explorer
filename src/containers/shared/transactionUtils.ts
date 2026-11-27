@@ -13,9 +13,34 @@ export const XRP_BASE = 1000000
 export const hexMatch = /^(0x)?[0-9A-Fa-f]+$/
 export const ACCOUNT_ZERO = 'rrrrrrrrrrrrrrrrrrrrrhoLvTp'
 
+// Common `SponsorFlags` values (also reused by SponsorshipTransfer.SponsorFlags)
+const SPF_SPONSOR_FEE = 0x00000001
+const SPF_SPONSOR_RESERVE = 0x00000002
+
+export type SponsorScope = 'fee' | 'reserve'
+
+export const getSponsorScopes = (
+  sponsorFlags: number | undefined,
+): SponsorScope[] => {
+  const flags = sponsorFlags || 0
+  const scopes: SponsorScope[] = []
+  if (flags & SPF_SPONSOR_FEE) scopes.push('fee')
+  if (flags & SPF_SPONSOR_RESERVE) scopes.push('reserve')
+  return scopes
+}
+
+export const SPONSOR_SCOPE_LABEL_KEYS = {
+  fee: 'account_page_sponsored_scope_transaction_fees',
+  // `spfSponsorReserve` covers the reserve for any object or account the
+  // transaction creates (XLS-68 §8.1.1), not just the account's own base
+  // reserve, so this can't reuse the base-reserve label.
+  reserve: 'account_page_sponsored_scope_reserve',
+} as const
+
 export const TX_FLAGS: Record<string, Record<number, string>> = {
   all: {
     0x80000000: 'tfFullyCanonicalSig',
+    0x40000000: 'tfInnerBatchTxn',
   },
   AccountSet: {
     0x00010000: 'tfRequireDestTag',
@@ -50,6 +75,18 @@ export const TX_FLAGS: Record<string, Record<number, string>> = {
   LoanSet: {
     0x00010000: 'tfLoanOverpayment',
   },
+  SponsorshipSet: {
+    0x00010000: 'tfSponsorshipSetRequireSignForFee',
+    0x00020000: 'tfSponsorshipClearRequireSignForFee',
+    0x00040000: 'tfSponsorshipSetRequireSignForReserve',
+    0x00080000: 'tfSponsorshipClearRequireSignForReserve',
+    0x00100000: 'tfDeleteObject',
+  },
+  SponsorshipTransfer: {
+    0x00010000: 'tfSponsorshipEnd',
+    0x00020000: 'tfSponsorshipCreate',
+    0x00040000: 'tfSponsorshipReassign',
+  },
   LoanManage: {
     0x00010000: 'tfLoanDefault',
     0x00020000: 'tfLoanImpair',
@@ -74,8 +111,14 @@ export const TX_FLAGS: Record<string, Record<number, string>> = {
   MPTokenIssuanceSet: {
     0x00000001: 'tfMPTLock',
     0x00000002: 'tfMPTUnlock',
-    0x00001000: 'tfMPTSetCanConfidentialAmount',
-    0x00002000: 'tfMPTClearCanConfidentialAmount',
+    // Capability-setting flags (XLS-94 DynamicMPT): one-way, moved into Flags
+    0x00000004: 'tfMPTSetCanLock',
+    0x00000008: 'tfMPTSetRequireAuth',
+    0x00000010: 'tfMPTSetCanEscrow',
+    0x00000020: 'tfMPTSetCanTrade',
+    0x00000040: 'tfMPTSetCanTransfer',
+    0x00000080: 'tfMPTSetCanClawback',
+    0x00000100: 'tfMPTSetCanHoldConfidentialBalance',
   },
   NFTokenMint: {
     0x00000001: 'tfBurnable',
@@ -97,6 +140,7 @@ export const TX_FLAGS: Record<string, Record<number, string>> = {
     0x00010000: 'tfNoDirectRipple',
     0x00020000: 'tfPartialPayment',
     0x00040000: 'tfLimitQuality',
+    0x00080000: 'tfSponsorCreatedAccount',
   },
   PaymentChannelClaim: {
     0x00010000: 'tfRenew',
@@ -117,6 +161,27 @@ export const TX_FLAGS: Record<string, Record<number, string>> = {
   XChainModifyBridge: {
     0x00010000: 'tfClearAccountCreateAmount',
   },
+}
+
+// Dynamic MPT (XLS-94) ImmutableFlags fields. These are separate UInt32 fields
+// from the standard `Flags` field, so they are decoded with their own maps.
+// Semantics: by default all fields/capabilities are mutable; setting a bit in
+// ImmutableFlags permanently locks that field/capability so it can never be
+// changed again via MPTokenIssuanceSet.
+
+// MPTokenIssuanceCreate.ImmutableFlags / MPTokenIssuanceSet.ImmutableFlags:
+// `tif` prefix (Transaction ImmutableFlag). Setting a bit permanently locks
+// the corresponding capability/field. Same bit values as the ledger `lsif*` map.
+export const MPT_IMMUTABLE_FLAGS: Record<number, string> = {
+  0x00000002: 'tifMPTCanLock',
+  0x00000004: 'tifMPTRequireAuth',
+  0x00000008: 'tifMPTCanEscrow',
+  0x00000010: 'tifMPTCanTrade',
+  0x00000020: 'tifMPTCanTransfer',
+  0x00000040: 'tifMPTCanClawback',
+  0x00000080: 'tifMPTCanHoldConfidentialBalance',
+  0x00010000: 'tifMPTMetadata',
+  0x00020000: 'tifMPTTransferFee',
 }
 
 export const ACCOUNT_FLAGS: Record<number, string> = {

@@ -28,7 +28,7 @@ describe(`Legend`, () => {
     expect(container.querySelectorAll('.legend-section')).toHaveLength(2)
     // TransactionActionIcon renders SVGs directly without a wrapper class
     expect(container.querySelectorAll('.legend-item svg')).toHaveLength(5)
-    expect(container.querySelectorAll('.legend-category')).toHaveLength(6)
+    expect(container.querySelectorAll('.legend-category')).toHaveLength(7)
   })
 
   it(`renders open when localStorage entry 'explorer-legend-previous-interaction' is set to false`, () => {

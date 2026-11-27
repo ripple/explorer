@@ -7,7 +7,12 @@ import { Simple } from './Simple'
 
 import { useLanguage } from '../shared/hooks'
 import { RouteLink } from '../shared/routing'
-import { CURRENCY_OPTIONS, XRP_BASE } from '../shared/transactionUtils'
+import {
+  CURRENCY_OPTIONS,
+  XRP_BASE,
+  getSponsorScopes,
+} from '../shared/transactionUtils'
+import { getOperation } from '../shared/components/Transaction/SponsorshipTransfer/parser'
 import { SimpleRow } from '../shared/components/Transaction/SimpleRow'
 import '../shared/css/simpleTab.scss'
 import './simpleTab.scss'
@@ -41,6 +46,7 @@ export const SimpleTab: FC<{ data: any; width: number }> = ({
     sequence,
     ticketSequence,
     isHook,
+    sponsor,
   ) => (
     <>
       <SimpleRow
@@ -62,6 +68,11 @@ export const SimpleTab: FC<{ data: any; width: number }> = ({
       {delegate && (
         <SimpleRow label={t('delegate')} data-testid="delegate">
           <Account account={delegate} />
+        </SimpleRow>
+      )}
+      {sponsor && (
+        <SimpleRow label={t('sponsor')} data-testid="sponsor">
+          <Account account={sponsor} />
         </SimpleRow>
       )}
       <SimpleRow label={t('sequence_number')} data-testid="sequence">
@@ -90,6 +101,20 @@ export const SimpleTab: FC<{ data: any; width: number }> = ({
       )
     : 0
 
+  // On create/reassign, SponsorshipTransfer reuses the common Sponsor field
+  // for its own "new sponsor of the target object" meaning, not for
+  // co-sponsoring this outer transaction, so it's excluded from the generic
+  // Sponsor row there. On tfSponsorshipEnd the spec requires Sponsor to be
+  // omitted for that purpose, so if it's present it can only be genuine
+  // outer co-sponsorship. SponsorFlags may still include spfSponsorFee on
+  // create/reassign though, meaning the new sponsor also pays this
+  // transaction's fee, so that case is kept visible.
+  const isNewSponsorField =
+    processed.tx.TransactionType === 'SponsorshipTransfer' &&
+    getOperation(processed.tx.Flags || 0) !== 'end' &&
+    !getSponsorScopes(processed.tx.SponsorFlags).includes('fee')
+  const sponsor = isNewSponsorField ? undefined : processed.tx.Sponsor
+
   const rowIndex = renderRowIndex(
     time,
     ledgerIndex,
@@ -99,6 +124,7 @@ export const SimpleTab: FC<{ data: any; width: number }> = ({
     processed.tx.Sequence,
     processed.tx.TicketSequence,
     !!processed.tx.EmitDetails,
+    sponsor,
   )
 
   return (

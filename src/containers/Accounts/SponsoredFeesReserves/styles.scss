@@ -1,0 +1,43 @@
+@use '../../shared/css/variables' as *;
+
+.sponsored-fees-reserves-section {
+  padding: 24px 0;
+}
+
+.sponsored-fees-reserves-table-wrapper {
+  -webkit-overflow-scrolling: touch;
+  overflow-x: auto;
+}
+
+.sponsored-fees-reserves-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  thead th {
+    @include semibold;
+
+    padding: 10px 12px;
+    color: $black-50;
+    font-size: 12px;
+    text-align: left;
+    text-transform: uppercase;
+  }
+
+  tbody td {
+    padding: 10px 12px;
+    border-bottom: 1px solid $black-80;
+    color: $white;
+    font-size: 14px;
+
+    &.empty-message {
+      padding: 16px;
+      color: $black-40;
+      font-size: 16px;
+      text-align: center;
+    }
+  }
+
+  tbody tr:first-child td {
+    border-top: 1px solid $black-80;
+  }
+}

@@ -9,6 +9,7 @@ import { App } from './App'
 import CustomNetworkHome from '../CustomNetworkHome'
 import AppErrorBoundary from './AppErrorBoundary'
 import NoMatch from '../NoMatch'
+import { CustomNetworkUnavailable } from './CustomNetworkUnavailable'
 import { queryClient } from '../shared/QueryClient'
 import { AnalyticsSetPath, useAnalytics } from '../shared/analytics'
 import { RouteDefinition } from '../shared/routing'
@@ -76,6 +77,10 @@ export const AppWrapper = () => {
     setCustomNetworks(customNetworks.concat([rippledUrl]).sort())
   }
 
+  // Pages backed by the VHS, which does not track custom networks.
+  const vhsPage = (Component) =>
+    mode === 'custom' ? CustomNetworkUnavailable : Component
+
   // Defined here rather than ./routes to avoid circular dependencies when using RouteDefinitions with <RouteLink>.
   const routes = (
     [
@@ -83,15 +88,15 @@ export const AppWrapper = () => {
       [LEDGER_ROUTE, Ledger],
       [ACCOUNT_ROUTE, AccountsRouter],
       [TRANSACTION_ROUTE, Transaction],
-      [NODES_ROUTE, Nodes],
-      [VALIDATORS_ROUTE, Validators],
-      [UPGRADE_STATUS_ROUTE, UpgradeStatus],
-      [AMENDMENTS_ROUTE, Amendments],
-      [VALIDATOR_ROUTE, Validator],
+      [NODES_ROUTE, vhsPage(Nodes)],
+      [VALIDATORS_ROUTE, vhsPage(Validators)],
+      [UPGRADE_STATUS_ROUTE, vhsPage(UpgradeStatus)],
+      [AMENDMENTS_ROUTE, vhsPage(Amendments)],
+      [VALIDATOR_ROUTE, vhsPage(Validator)],
       [TOKEN_ROUTE, mode === 'mainnet' ? IOU : TokenNonMain],
       [TOKENS_ROUTE, Tokens],
       [NFT_ROUTE, NFT],
-      [AMENDMENT_ROUTE, Amendment],
+      [AMENDMENT_ROUTE, vhsPage(Amendment)],
       [MPT_ROUTE, MPT],
       [VAULT_ROUTE, Vault],
       [AMM_POOL_ROUTE, AMMPool],

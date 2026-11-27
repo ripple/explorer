@@ -4,6 +4,9 @@ import type { ExplorerXrplClient } from '../../containers/shared/SocketContext'
 import { CTID_REGEX, HASH256_REGEX } from '../../containers/shared/utils'
 import { formatAmount } from './txSummary/formatAmount'
 import { Error, XRP_BASE, convertRippleDate } from './utils'
+import logger from './logger'
+
+const log = logger({ name: 'rippled' })
 
 const N_UNL_INDEX =
   '2E8A59AA9D3B5B186B0B9E0F62E6C02587CA74A4D778938E957B6357D364B244'
@@ -25,6 +28,14 @@ const formatPaychannel = (d: any) => ({
   amount: d.Amount / XRP_BASE,
   balance: d.Balance / XRP_BASE,
   settleDelay: d.SettleDelay,
+})
+
+const formatSponsorship = (d: any) => ({
+  owner: d.Owner,
+  sponsee: d.Sponsee,
+  feeAmount: d.FeeAmount,
+  maxFee: d.MaxFee,
+  remainingOwnerCount: d.RemainingOwnerCount,
 })
 
 const executeQuery = async (
@@ -160,6 +171,8 @@ const getLedgerEntry = async (
 const getTransaction = async (
   rippledSocket: ExplorerXrplClient,
   txId: string,
+  // The P2P (Clio) server keeps longer history than the main one
+  useP2P: boolean = false,
 ): Promise<any> => {
   const params: any = {
     command: 'tx',
@@ -172,7 +185,7 @@ const getTransaction = async (
     throw new Error(`${txId} not a ctid or hash`, 404)
   }
 
-  const resp = await query(rippledSocket, params)
+  const resp = await (useP2P ? queryP2P : query)(rippledSocket, params)
   if (resp.error === 'txnNotFound') {
     throw new Error('transaction not found', 404)
   }
@@ -197,6 +210,32 @@ const getTransaction = async (
   return resp
 }
 
+/**
+ * Read an AccountRoot via ledger_entry, for nodes whose account_info fails on AMM accounts.
+ * Returns the same fields, AMMID included; signer lists are unavailable here.
+ */
+const getAccountRoot = async (
+  rippledSocket: ExplorerXrplClient,
+  account: string | unknown,
+): Promise<any> => {
+  const resp = await query(rippledSocket, {
+    command: 'ledger_entry',
+    account_root: account,
+    ledger_index: 'validated',
+  })
+  if (resp.error === 'entryNotFound') {
+    throw new Error('account not found', 404)
+  }
+
+  if (resp.error_message) {
+    throw new Error(resp.error_message, 500)
+  }
+
+  return Object.assign(resp.node, {
+    ledger_index: resp.ledger_index,
+  })
+}
+
 const getAccountInfo = async (
   rippledSocket: ExplorerXrplClient,
   account: string | unknown,
@@ -209,8 +248,20 @@ const getAccountInfo = async (
     ledger_index: 'validated',
     signer_lists: includeSignerLists,
   })
+
   if (resp.error === 'actNotFound') {
     throw new Error('account not found', 404)
+  }
+
+  if (resp.error === 'internal') {
+    log.warn(
+      `account_info failed for ${account} (${resp.error_message}); retrying via ledger_entry`,
+    )
+    const accountRoot = await getAccountRoot(rippledSocket, account)
+    // AMM accounts have no signer lists, so nothing is lost by returning this.
+    if (accountRoot.AMMID) {
+      return accountRoot
+    }
   }
 
   if (resp.error_message) {
@@ -366,6 +417,69 @@ const getAccountBridges = async (
   return undefined
 }
 
+// `limit` on account_objects bounds how many objects rippled examines per
+// page, not how many `type`-filtered objects are returned, so a sponsee's
+// Sponsorship objects could be missed entirely if only the first page were
+// read. Page through via `marker` until either everything has been examined
+// or a safety cap is hit.
+const SPONSORSHIP_PAGE_SIZE = 400
+const SPONSORSHIP_MAX_EXAMINED = 4000
+
+// get the sponsorship covering this account's fees/reserves, if any
+const getAccountSponsorship = async (
+  rippledSocket: ExplorerXrplClient,
+  account: string,
+  ledgerIndex: string | number = 'validated',
+): Promise<any> => {
+  const found: any[] = []
+
+  const fetchPage = async (
+    marker: any,
+    examined: number,
+  ): Promise<any[] | undefined> => {
+    const resp = await query(rippledSocket, {
+      command: 'account_objects',
+      account,
+      ledger_index: ledgerIndex,
+      type: 'sponsorship',
+      limit: SPONSORSHIP_PAGE_SIZE,
+      marker,
+    })
+    if (resp.error === 'actNotFound') {
+      throw new Error('account not found', 404)
+    }
+    if (resp.error === 'invalidParams') {
+      // thrown when the Sponsorship amendment is not activated
+      // TODO: remove this when XLS-68 is live in mainnet
+      return undefined
+    }
+    if (resp.error_message) {
+      throw new Error(resp.error_message, 500)
+    }
+
+    // A Sponsorship object is linked into both the sponsor's and sponsee's
+    // owner directories, so only keep the ones where this account is sponsored.
+    found.push(
+      ...resp.account_objects.filter((d: any) => d.Sponsee === account),
+    )
+
+    // `limit` bounds objects examined, not returned, so the filtered page
+    // length would undercount (often to zero) and defeat the cap.
+    const totalExamined = examined + SPONSORSHIP_PAGE_SIZE
+    if (resp.marker && totalExamined < SPONSORSHIP_MAX_EXAMINED) {
+      return fetchPage(resp.marker, totalExamined)
+    }
+    return found
+  }
+
+  const result = await fetchPage(undefined, 0)
+  if (result === undefined) {
+    return undefined
+  }
+
+  return found.length ? found.map(formatSponsorship) : undefined
+}
+
 // get Token balance summary
 const getBalances = async (
   rippledSocket: ExplorerXrplClient,
@@ -392,11 +506,17 @@ const getAccountTransactions = async (
   account: string,
   limit: number = 20,
   marker: string = '',
+  // The P2P (Clio) server keeps longer history than the main one
+  useP2P: boolean = false,
+  // Clio filters by MPT server-side; rippled ignores the field
+  mptIssuanceId: string | undefined = undefined,
 ): Promise<any> => {
   const markerComponents = marker.split('.')
   const ledger = parseInt(markerComponents[0], 10)
   const seq = parseInt(markerComponents[1], 10)
-  const resp = await query(rippledSocket, {
+  // Only the configured P2P host is known to be Clio
+  const filtered = useP2P && !!mptIssuanceId && !!rippledSocket.p2pSocket
+  const resp = await (useP2P ? queryP2P : query)(rippledSocket, {
     command: 'account_tx',
     account,
     limit,
@@ -408,6 +528,7 @@ const getAccountTransactions = async (
           seq,
         }
       : undefined,
+    mpt_issuance_id: filtered ? mptIssuanceId : undefined,
   })
   if (resp.error === 'actNotFound') {
     throw new Error('account not found', 404)
@@ -421,6 +542,7 @@ const getAccountTransactions = async (
     marker: resp.marker
       ? `${resp.marker.ledger}.${resp.marker.seq}`
       : undefined,
+    filtered,
   }
 }
 
@@ -929,6 +1051,7 @@ export {
   getAccountEscrows,
   getAccountPaychannels,
   getAccountBridges,
+  getAccountSponsorship,
   getAccountNFTs,
   getAccountObjects,
   getNFTsIssuedByAccount,

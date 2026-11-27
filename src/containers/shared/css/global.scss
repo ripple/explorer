@@ -120,6 +120,7 @@ div.react-stockchart div {
   $blue-purple-90
 );
 @include transaction-category(XCHAIN, $yellow, $yellow-30, $yellow-90);
+@include transaction-category(BATCH, $yellow, $yellow-30, $yellow-90);
 @include transaction-category(PSEUDO, $white, $white, $black-80);
 @include transaction-category(OTHER, $black-50, $black-30, $black-90);
 @include transaction-category(MPT, $blue, $blue-30, $blue-90);

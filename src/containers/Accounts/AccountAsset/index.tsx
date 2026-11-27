@@ -3,7 +3,7 @@ import './styles.scss'
 import { useTranslation } from 'react-i18next'
 import { localizeNumber } from '../../shared/utils'
 import { useLanguage } from '../../shared/hooks'
-import ArrowIcon from '../../shared/images/down_arrow.svg'
+import { CollapsibleSection } from '../../shared/components/CollapsibleSection'
 import { HeldIOUs } from './assetTables/HeldIOUs'
 import { HeldMPTs } from './assetTables/HeldMPTs'
 import { HeldLPTokens } from './assetTables/HeldLPTokens'
@@ -143,32 +143,14 @@ export default function AccountAsset({
   const [heldTab, setHeldTab] = useState<HeldAssetTabKey>('iou')
   const [issuedTab, setIssuedTab] = useState<IssuedAssetTabKey>('iou')
 
-  // Collapse state - default to expanded (true means open)
-  const [heldSectionOpen, setHeldSectionOpen] = useState(true)
-  const [issuedSectionOpen, setIssuedSectionOpen] = useState(true)
-
   return (
     <section className="account-asset">
       {/* Assets Held */}
-      <div className="asset-section-header">
-        <h3 className="account-asset-title">
-          {t('account_page_asset_held_title')}
-        </h3>
-        <button
-          type="button"
-          className="asset-section-toggle"
-          onClick={() => setHeldSectionOpen((s) => !s)}
-          aria-expanded={heldSectionOpen}
-          aria-label="Toggle assets held section"
-        >
-          <ArrowIcon
-            className={`asset-section-arrow ${heldSectionOpen ? 'open' : ''}`}
-          />
-        </button>
-      </div>
-      <div
-        className="account-asset-content"
-        style={{ display: heldSectionOpen ? 'block' : 'none' }}
+      <CollapsibleSection
+        title={t('account_page_asset_held_title')}
+        ariaLabel="Toggle assets held section"
+        defaultOpen
+        keepMounted
       >
         <div
           className="account-asset-tabs"
@@ -250,28 +232,14 @@ export default function AccountAsset({
         >
           <HeldNFTs accountId={accountId} onChange={updateHeldNFTs} />
         </div>
-      </div>
+      </CollapsibleSection>
 
       {/* Assets Issued */}
-      <div className="asset-section-header">
-        <h3 className="account-asset-title">
-          {t('account_page_asset_issued_title')}
-        </h3>
-        <button
-          type="button"
-          className="asset-section-toggle"
-          onClick={() => setIssuedSectionOpen((s) => !s)}
-          aria-expanded={issuedSectionOpen}
-          aria-label="Toggle assets issued section"
-        >
-          <ArrowIcon
-            className={`asset-section-arrow ${issuedSectionOpen ? 'open' : ''}`}
-          />
-        </button>
-      </div>
-      <div
-        className="account-asset-content"
-        style={{ display: issuedSectionOpen ? 'block' : 'none' }}
+      <CollapsibleSection
+        title={t('account_page_asset_issued_title')}
+        ariaLabel="Toggle assets issued section"
+        defaultOpen
+        keepMounted
       >
         <div
           className="account-asset-tabs"
@@ -336,7 +304,7 @@ export default function AccountAsset({
         >
           <IssuedNFTs accountId={accountId} onChange={updateIssuedNFTs} />
         </div>
-      </div>
+      </CollapsibleSection>
     </section>
   )
 }

@@ -8,8 +8,7 @@ const defaults = {
   tradingFee: 864,
   createdTimestamp: 827617760 as number | null | undefined,
   lpTokenCurrency: '03CE60C3DB22CF7F7157810936F27A5B485C8DB9' as
-    | string
-    | undefined,
+    string | undefined,
 }
 
 const renderComponent = (overrides: Partial<typeof defaults> = {}) => {

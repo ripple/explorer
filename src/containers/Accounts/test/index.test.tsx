@@ -31,6 +31,13 @@ jest.mock('../AccountAsset', () => ({
   default: () => <div data-testid="account-asset">Account Asset</div>,
 }))
 
+jest.mock('../PermissionDelegation', () => ({
+  __esModule: true,
+  PermissionDelegation: () => (
+    <div data-testid="permission-delegation">Permission Delegation</div>
+  ),
+}))
+
 jest.mock('../AccountTransactionTable', () => ({
   __esModule: true,
   AccountTransactionTable: () => (
@@ -72,6 +79,7 @@ describe('Account container', () => {
     await waitFor(() => {
       expect(screen.getByTestId('account-header')).toBeInTheDocument()
       expect(screen.getByTestId('account-summary')).toBeInTheDocument()
+      expect(screen.getByTestId('permission-delegation')).toBeInTheDocument()
       expect(screen.getByTestId('account-asset')).toBeInTheDocument()
       expect(
         screen.getByTestId('account-transaction-table'),

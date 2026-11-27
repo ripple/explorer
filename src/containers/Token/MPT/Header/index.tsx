@@ -5,12 +5,13 @@ import './styles.scss'
 import {
   BAD_REQUEST,
   HASH192_REGEX,
-  shortenDomain,
   shortenMPTID,
-  stripHttpProtocol,
   convertToHttpURL,
-  shortenAccount,
 } from '../../../shared/utils'
+import {
+  getRegistrableDomain,
+  shortenDomainFromLeft,
+} from '../../../shared/domainUtils'
 import { CopyableText } from '../../../shared/components/CopyableText'
 import DomainLink from '../../../shared/components/DomainLink'
 import { FormattedMPTIssuance } from '../../../shared/Interfaces'
@@ -37,6 +38,9 @@ interface Props {
   setError: (error: number | null) => void
   holdersCount?: number
   holdersLoading?: boolean
+  isDynamicMPTEnabled?: boolean
+  circulatingSupply?: string
+  circulatingSupplyLoading?: boolean
 }
 
 export const Header = (props: Props) => {
@@ -48,6 +52,9 @@ export const Header = (props: Props) => {
     setError,
     holdersCount,
     holdersLoading,
+    isDynamicMPTEnabled,
+    circulatingSupply,
+    circulatingSupplyLoading,
   } = props
   const [showURLDropdown, setShowURLDropdown] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
@@ -87,11 +94,11 @@ export const Header = (props: Props) => {
   const {
     issuer,
     assetScale,
-    maxAmt,
     outstandingAmt,
     confidentialOutstandingAmt,
     transferFee,
     flags,
+    immutableFlags,
     rawMPTMetadata,
     parsedMPTMetadata,
     isMPTMetadataCompliant,
@@ -162,13 +169,6 @@ export const Header = (props: Props) => {
               />
             </span>
           )}
-          {/* Show issuer name if available */}
-          {issuerName && (
-            <div className="token-issuer-wrap">
-              (<span className="issuer-name">{shortenAccount(issuerName)}</span>
-              )
-            </div>
-          )}
         </div>
 
         {allUris.length > 0 && (
@@ -181,11 +181,10 @@ export const Header = (props: Props) => {
               <DomainLink
                 className="domain-link"
                 domain={allUris[0].uri}
-                displayDomain={shortenDomain(
-                  stripHttpProtocol(allUris[0].uri),
-                  12,
-                  7,
+                displayDomain={shortenDomainFromLeft(
+                  getRegistrableDomain(allUris[0].uri),
                 )}
+                title={allUris[0].uri}
               />
               {allUris.length > 1 && (
                 <button
@@ -203,11 +202,10 @@ export const Header = (props: Props) => {
                       key={`${uriItem.uri}-${uriItem.category}-${uriItem.title}`}
                       className="links-dropdown-item"
                       domain={uriItem.uri}
-                      displayDomain={shortenDomain(
-                        stripHttpProtocol(uriItem.uri),
-                        12,
-                        7,
+                      displayDomain={shortenDomainFromLeft(
+                        getRegistrableDomain(uriItem.uri),
                       )}
+                      title={uriItem.uri}
                       keepProtocol={false}
                     />
                   ))}
@@ -228,14 +226,20 @@ export const Header = (props: Props) => {
             showMptId={showMPTIssuanceId}
             holdersCount={holdersCount}
             holdersLoading={holdersLoading}
+            flags={flags}
           />
           <MarketData
-            maxAmt={maxAmt}
             outstandingAmt={outstandingAmt}
             confidentialOutstandingAmt={confidentialOutstandingAmt}
             assetScale={assetScale}
+            circulatingSupply={circulatingSupply}
+            circulatingSupplyLoading={circulatingSupplyLoading}
           />
-          <Settings flags={flags} />
+          <Settings
+            flags={flags}
+            immutableFlags={immutableFlags}
+            isDynamicMPTEnabled={isDynamicMPTEnabled}
+          />
           {(parsedMPTMetadata || rawMPTMetadata) && (
             <Metadata
               decodedMPTMetadata={(parsedMPTMetadata || rawMPTMetadata)!}

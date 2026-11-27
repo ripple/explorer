@@ -3,6 +3,10 @@ import {
   getLoanBroker,
   getMPTIssuance,
   getNegativeUNL,
+  getAccountSponsorship,
+  getAccountInfo,
+  getAccountTransactions,
+  getTransaction,
 } from '../rippled'
 
 const VAULT_INDEX =
@@ -224,5 +228,367 @@ describe('getNegativeUNL', () => {
     const socket = makeSocket({ error: 'entryNotFound' })
 
     await expect(getNegativeUNL(socket)).resolves.toEqual([])
+  })
+})
+
+describe('getAccountSponsorship', () => {
+  const ACCOUNT = 'rSponsee11111111111111111111111111'
+  const SPONSOR = 'rSponsor2222222222222222222222222'
+
+  it('returns the formatted sponsorship when this account is the sponsee', async () => {
+    const socket = makeSocket({
+      account_objects: [
+        {
+          LedgerEntryType: 'Sponsorship',
+          Owner: SPONSOR,
+          Sponsee: ACCOUNT,
+          FeeAmount: '1000',
+          MaxFee: '5000',
+          RemainingOwnerCount: 2,
+        },
+      ],
+    })
+
+    await expect(getAccountSponsorship(socket, ACCOUNT)).resolves.toEqual([
+      {
+        owner: SPONSOR,
+        sponsee: ACCOUNT,
+        feeAmount: '1000',
+        maxFee: '5000',
+        remainingOwnerCount: 2,
+      },
+    ])
+    expect(socket.send).toHaveBeenCalledWith({
+      command: 'account_objects',
+      account: ACCOUNT,
+      ledger_index: 'validated',
+      type: 'sponsorship',
+      limit: 400,
+    })
+  })
+
+  it('returns all sponsorships when this account has multiple sponsors', async () => {
+    const SPONSOR_2 = 'rSponsor3333333333333333333333333'
+    const socket = makeSocket({
+      account_objects: [
+        {
+          LedgerEntryType: 'Sponsorship',
+          Owner: SPONSOR,
+          Sponsee: ACCOUNT,
+          FeeAmount: '1000',
+        },
+        {
+          LedgerEntryType: 'Sponsorship',
+          Owner: SPONSOR_2,
+          Sponsee: ACCOUNT,
+          FeeAmount: '2000',
+        },
+      ],
+    })
+
+    await expect(getAccountSponsorship(socket, ACCOUNT)).resolves.toEqual([
+      { owner: SPONSOR, sponsee: ACCOUNT, feeAmount: '1000' },
+      { owner: SPONSOR_2, sponsee: ACCOUNT, feeAmount: '2000' },
+    ])
+  })
+
+  it('pages through account_objects via marker to find sponsorships past the first page', async () => {
+    const socket = {
+      send: jest
+        .fn()
+        .mockResolvedValueOnce({
+          account_objects: [],
+          marker: 'page-2',
+        })
+        .mockResolvedValueOnce({
+          account_objects: [
+            {
+              LedgerEntryType: 'Sponsorship',
+              Owner: SPONSOR,
+              Sponsee: ACCOUNT,
+              FeeAmount: '1000',
+            },
+          ],
+        }),
+    } as any
+
+    await expect(getAccountSponsorship(socket, ACCOUNT)).resolves.toEqual([
+      { owner: SPONSOR, sponsee: ACCOUNT, feeAmount: '1000' },
+    ])
+    expect(socket.send).toHaveBeenCalledTimes(2)
+    expect(socket.send).toHaveBeenNthCalledWith(2, {
+      command: 'account_objects',
+      account: ACCOUNT,
+      ledger_index: 'validated',
+      type: 'sponsorship',
+      limit: 400,
+      marker: 'page-2',
+    })
+  })
+
+  it('stops paging once the examined-object cap is reached', async () => {
+    // Pages of filtered results can be empty while rippled still examines a
+    // full page of objects, so the cap must count the page size, not the
+    // number of Sponsorship objects returned.
+    const socket = {
+      send: jest
+        .fn()
+        .mockResolvedValue({ account_objects: [], marker: 'next' }),
+    } as any
+
+    await expect(
+      getAccountSponsorship(socket, ACCOUNT),
+    ).resolves.toBeUndefined()
+    expect(socket.send).toHaveBeenCalledTimes(10) // 4000 / 400
+  })
+
+  it('ignores Sponsorship objects where this account is the sponsor, not the sponsee', async () => {
+    const socket = makeSocket({
+      account_objects: [
+        {
+          LedgerEntryType: 'Sponsorship',
+          Owner: ACCOUNT,
+          Sponsee: 'rSomeoneElse33333333333333333333',
+          FeeAmount: '1000',
+        },
+      ],
+    })
+
+    await expect(
+      getAccountSponsorship(socket, ACCOUNT),
+    ).resolves.toBeUndefined()
+  })
+
+  it('returns undefined when the account has no sponsorship objects', async () => {
+    const socket = makeSocket({ account_objects: [] })
+
+    await expect(
+      getAccountSponsorship(socket, ACCOUNT),
+    ).resolves.toBeUndefined()
+  })
+
+  it('returns undefined when the Sponsorship amendment is not enabled', async () => {
+    const socket = makeSocket({ error: 'invalidParams' })
+
+    await expect(
+      getAccountSponsorship(socket, ACCOUNT),
+    ).resolves.toBeUndefined()
+  })
+
+  it('throws when the account is not found', async () => {
+    const socket = makeSocket({ error: 'actNotFound' })
+
+    await expect(getAccountSponsorship(socket, ACCOUNT)).rejects.toMatchObject({
+      message: 'account not found',
+      code: 404,
+    })
+  })
+})
+
+describe('getAccountInfo', () => {
+  const AMM_ACCOUNT = 'rLjUKpwUVmz3vCTmFkXungxwzdoyrWRsFG'
+
+  const ACCOUNT_ROOT = {
+    AMMID: '2858D58ECD99108CEB105A3D9F84D293E507701878EE25612F5BF6D4A93F3B69',
+    Account: AMM_ACCOUNT,
+    Balance: '2716797990409',
+    LedgerEntryType: 'AccountRoot',
+  }
+
+  const INTERNAL_ERROR = { error: 'internal', error_message: 'Internal error.' }
+
+  const makeSocketSequence = (...responses: any[]) => {
+    const send = jest.fn()
+    responses.forEach((r) => send.mockResolvedValueOnce(r))
+    return { send } as any
+  }
+
+  let warn: jest.SpyInstance
+
+  beforeEach(() => {
+    warn = jest.spyOn(console, 'warn').mockImplementation(() => {})
+  })
+
+  afterEach(() => {
+    warn.mockRestore()
+  })
+
+  it('returns account_data when account_info succeeds', async () => {
+    const socket = makeSocket({ account_data: ACCOUNT_ROOT, ledger_index: 1 })
+
+    await expect(getAccountInfo(socket, AMM_ACCOUNT)).resolves.toEqual({
+      ...ACCOUNT_ROOT,
+      ledger_index: 1,
+    })
+    expect(socket.send).toHaveBeenCalledTimes(1)
+  })
+
+  it('falls back to ledger_entry for an AMM account on an internal error', async () => {
+    const socket = makeSocketSequence(INTERNAL_ERROR, {
+      node: ACCOUNT_ROOT,
+      ledger_index: 1,
+    })
+
+    // AMMID must survive: AccountsRouter uses it to route AMM accounts to the pool page.
+    await expect(getAccountInfo(socket, AMM_ACCOUNT)).resolves.toEqual({
+      ...ACCOUNT_ROOT,
+      ledger_index: 1,
+    })
+    expect(socket.send).toHaveBeenNthCalledWith(2, {
+      command: 'ledger_entry',
+      account_root: AMM_ACCOUNT,
+      ledger_index: 'validated',
+    })
+    expect(warn).toHaveBeenCalled()
+  })
+
+  it('keeps the original error when the fallback finds a non-AMM account', async () => {
+    // A regular account would lose its signer lists.
+    const { AMMID, ...regularAccount } = ACCOUNT_ROOT
+    const socket = makeSocketSequence(INTERNAL_ERROR, {
+      node: regularAccount,
+      ledger_index: 1,
+    })
+
+    await expect(getAccountInfo(socket, AMM_ACCOUNT)).rejects.toMatchObject({
+      message: 'Internal error.',
+      code: 500,
+    })
+  })
+
+  // actNotFound must stay a 404: AccountsRouter uses it to detect deleted accounts.
+  it.each([
+    ['actNotFound', 404],
+    ['tooBusy', 500],
+  ])('does not fall back on %s', async (error, code) => {
+    const socket = makeSocket({ error, error_message: error })
+
+    await expect(getAccountInfo(socket, AMM_ACCOUNT)).rejects.toMatchObject({
+      code,
+    })
+    expect(socket.send).toHaveBeenCalledTimes(1)
+  })
+
+  it.each([
+    ['entryNotFound', 404],
+    ['internal', 500],
+  ])('maps a ledger_entry %s to %i', async (error, code) => {
+    const socket = makeSocketSequence(INTERNAL_ERROR, {
+      error,
+      error_message: error,
+    })
+
+    await expect(getAccountInfo(socket, AMM_ACCOUNT)).rejects.toMatchObject({
+      code,
+    })
+  })
+})
+
+describe('getAccountTransactions', () => {
+  const ACCOUNT = 'rMgkHzJ6UpnhxmemPxVMi8ob63kY57JH4h'
+  const response = { transactions: [] }
+
+  it('queries the P2P socket when useP2P is set', async () => {
+    const p2pSocket = makeSocket(response)
+    const socket = { ...makeSocket(response), p2pSocket }
+
+    await getAccountTransactions(socket, ACCOUNT, 50, '', true)
+
+    expect(p2pSocket.send).toHaveBeenCalledWith(
+      expect.objectContaining({ command: 'account_tx', account: ACCOUNT }),
+    )
+    expect(socket.send).not.toHaveBeenCalled()
+  })
+
+  it('falls back to the main socket when no P2P socket is configured', async () => {
+    const socket = makeSocket(response)
+
+    await getAccountTransactions(socket, ACCOUNT, 50, '', true)
+
+    expect(socket.send).toHaveBeenCalledTimes(1)
+  })
+
+  describe('MPT filter', () => {
+    const MPT_ID = '014BAF7CE2E6E09523A4EE29CED6EBF52DF4E31BD21E562D'
+
+    it('asks the P2P (Clio) host to filter by MPT', async () => {
+      const p2pSocket = makeSocket(response)
+      const socket = { ...makeSocket(response), p2pSocket }
+
+      const result = await getAccountTransactions(
+        socket,
+        ACCOUNT,
+        50,
+        '',
+        true,
+        MPT_ID,
+      )
+
+      expect(p2pSocket.send).toHaveBeenCalledWith(
+        expect.objectContaining({ mpt_issuance_id: MPT_ID }),
+      )
+      expect(result.filtered).toBe(true)
+    })
+
+    it('does not filter when no P2P host is configured', async () => {
+      // e.g. a custom network, whose server may be rippled
+      const socket = makeSocket(response)
+
+      const result = await getAccountTransactions(
+        socket,
+        ACCOUNT,
+        50,
+        '',
+        true,
+        MPT_ID,
+      )
+
+      expect(socket.send).toHaveBeenCalledWith(
+        expect.objectContaining({ mpt_issuance_id: undefined }),
+      )
+      expect(result.filtered).toBe(false)
+    })
+
+    it('does not filter without useP2P', async () => {
+      const p2pSocket = makeSocket(response)
+      const socket = { ...makeSocket(response), p2pSocket }
+
+      const result = await getAccountTransactions(
+        socket,
+        ACCOUNT,
+        50,
+        '',
+        false,
+        MPT_ID,
+      )
+
+      expect(socket.send).toHaveBeenCalledWith(
+        expect.objectContaining({ mpt_issuance_id: undefined }),
+      )
+      expect(result.filtered).toBe(false)
+    })
+  })
+})
+
+describe('getTransaction', () => {
+  const HASH =
+    'DAE907A4E339A5CE356493E1ABEC177AC8F66B01FAA632E349922F3AF057D316'
+  const response = { hash: HASH, meta: {}, validated: true }
+
+  it.each([
+    [false, 'main'],
+    [true, 'P2P'],
+  ])('with useP2P=%s queries the %s socket', async (useP2P, which) => {
+    const p2pSocket = makeSocket(response)
+    const socket = { ...makeSocket(response), p2pSocket }
+
+    await getTransaction(socket, HASH, useP2P)
+
+    const used = which === 'P2P' ? p2pSocket : socket
+    const unused = which === 'P2P' ? socket : p2pSocket
+    expect(used.send).toHaveBeenCalledWith(
+      expect.objectContaining({ command: 'tx', transaction: HASH }),
+    )
+    expect(unused.send).not.toHaveBeenCalled()
   })
 })

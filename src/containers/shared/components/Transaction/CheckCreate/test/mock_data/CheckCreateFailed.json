@@ -1,0 +1,44 @@
+{
+  "ctid": "C66D0A3B003E0000",
+  "date": 845916761,
+  "hash": "1097449D88275EA10DEEDC3D1E29C2EF711A5277ABE45DC3ACB03D458FDDC98E",
+  "inLedger": 107809339,
+  "ledger_index": 107809339,
+  "tx": {
+    "Account": "r4PboXNDNese3YLhc8tgzzKNhjGeEaxqfc",
+    "Destination": "rDkirQ9393dw6om8J999UWpxxg2yhSQeRF",
+    "Fee": "10",
+    "LastLedgerSequence": 107809340,
+    "SendMax": "1844800818",
+    "Sequence": 104752773,
+    "SigningPubKey": "ED9F76048C00E74677FE18A2820C1F080589FCF3B51AF99C409242E08C512795F0",
+    "TransactionType": "CheckCreate",
+    "DestinationTag": 0
+  },
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "r4PboXNDNese3YLhc8tgzzKNhjGeEaxqfc",
+            "Balance": "957000439",
+            "Flags": 0,
+            "OwnerCount": 168,
+            "Sequence": 104752774,
+            "TicketCount": 15
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "E88097467AF36044C2A6D920286D8484FDC455BCCE05971DC94AFA81ED6BCFEB",
+          "PreviousFields": {
+            "Balance": "957000449",
+            "Sequence": 104752773
+          },
+          "PreviousTxnID": "6EC258C34C09935E194C6B212B5AB9E8563782B27626A6F03182799AE65ECCC7",
+          "PreviousTxnLgrSeq": 107809338
+        }
+      }
+    ],
+    "TransactionIndex": 62,
+    "TransactionResult": "tecNO_DST"
+  }
+}

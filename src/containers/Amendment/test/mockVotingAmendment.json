@@ -3,7 +3,8 @@
     "id": "mock-amendment-id",
     "name": "mock-name",
     "rippled_version": "1.12.0",
-    "deprecated": false,
+    "retired": false,
+    "obsolete": false,
     "threshold": "3/4",
     "consensus": "25%",
     "voted": {

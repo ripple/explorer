@@ -4,7 +4,11 @@ const log = require('./logger')({ name: 'streams' })
 
 const PURGE_INTERVAL = 10 * 1000
 const MAX_AGE = 5 * 60 * 1000
+// metrics older than this are not served, so a pod that stops receiving
+// ledgers returns no data instead of stale data
+const METRICS_MAX_AGE = 60 * 1000
 const ledgers = {}
+let metricsUpdatedAt = 0
 
 const currentMetric = {
   base_fee: undefined,
@@ -14,7 +18,8 @@ const currentMetric = {
   avg_fee: undefined,
 }
 
-module.exports.getCurrentMetrics = () => currentMetric
+module.exports.getCurrentMetrics = () =>
+  Date.now() - metricsUpdatedAt > METRICS_MAX_AGE ? {} : currentMetric
 
 // add the ledger to the cache
 const addLedger = (data) => {
@@ -110,10 +115,17 @@ const updateMetrics = (baseFee) => {
     ? (time / timeCount / 1000).toFixed(3)
     : undefined
   currentMetric.avg_fee = txCount ? (fees / txCount).toPrecision(4) : undefined
+  metricsUpdatedAt = Date.now()
 }
 
 // handle ledger messages
 module.exports.handleLedger = (data) => {
+  // after a gap in the stream, start the rolling window over so the gap
+  // doesn't skew the metrics
+  if (Date.now() - metricsUpdatedAt > METRICS_MAX_AGE) {
+    Object.keys(ledgers).forEach((key) => delete ledgers[key])
+  }
+
   const ledger = addLedger(data)
 
   log.info('new ledger', data.ledger_index)

@@ -15,6 +15,8 @@ export interface LOSAMMPoolData {
   issuer_2: string | null
   currency_2: string
   last_updated_timestamp: string
+  // True when one side of the pair is XRP, which is what makes the pool's TVL priceable
+  is_xrp_based?: boolean
 }
 
 /** Single data point from LOS /amms/historical-trends response */

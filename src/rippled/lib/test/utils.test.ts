@@ -93,6 +93,72 @@ describe('rippled utils:', () => {
         ['lsfDefaultRipple', 'lsfAllowTrustLineLocking'].sort(),
       )
     })
+
+    it('computes the plain reserve when there is no sponsorship', () => {
+      const result = formatAccountInfo(
+        { ...accountInfoData, OwnerCount: 3 },
+        serverInfoValidatedLedger,
+      )
+
+      // base(1) + inc(0.2) * ownerCount(3)
+      expect(result.reserve).toBeCloseTo(1.6)
+    })
+
+    it('excludes the base reserve for a sponsored account', () => {
+      const result = formatAccountInfo(
+        {
+          ...accountInfoData,
+          OwnerCount: 3,
+          Sponsor: 'rBaseReserveSponsor11111111111111',
+        },
+        serverInfoValidatedLedger,
+      )
+
+      // no base + inc(0.2) * ownerCount(3)
+      expect(result.reserve).toBeCloseTo(0.6)
+    })
+
+    it('excludes sponsored objects from the owner-count reserve', () => {
+      const result = formatAccountInfo(
+        {
+          ...accountInfoData,
+          OwnerCount: 5,
+          SponsoredOwnerCount: 2,
+        },
+        serverInfoValidatedLedger,
+      )
+
+      // base(1) + inc(0.2) * (ownerCount(5) - sponsoredOwnerCount(2))
+      expect(result.reserve).toBeCloseTo(1.6)
+    })
+
+    it('includes objects this account sponsors for others', () => {
+      const result = formatAccountInfo(
+        {
+          ...accountInfoData,
+          OwnerCount: 1,
+          SponsoringOwnerCount: 4,
+        },
+        serverInfoValidatedLedger,
+      )
+
+      // base(1) + inc(0.2) * (ownerCount(1) + sponsoringOwnerCount(4))
+      expect(result.reserve).toBeCloseTo(2)
+    })
+
+    it('adds one base reserve per account this account sponsors', () => {
+      const result = formatAccountInfo(
+        {
+          ...accountInfoData,
+          OwnerCount: 0,
+          SponsoringAccountCount: 2,
+        },
+        serverInfoValidatedLedger,
+      )
+
+      // base(1) + inc(0.2) * ownerCount(0) + base(1) * sponsoringAccountCount(2)
+      expect(result.reserve).toBeCloseTo(3)
+    })
   })
 
   describe('formatTransferFee', () => {
@@ -188,7 +254,7 @@ describe('rippled utils:', () => {
         OutstandingAmount: '500000000000',
         TransferFee: 500,
         Sequence: 1,
-        Flags: 0x7f, // All flags
+        Flags: 0xff, // All lsf flags incl. lsfMPTCanHoldConfidentialBalance (0x80)
         MPTokenMetadata: metadataHex,
       }
 
@@ -207,6 +273,8 @@ describe('rippled utils:', () => {
       expect(result.flags).toContain('lsfMPTCanTrade')
       expect(result.flags).toContain('lsfMPTCanTransfer')
       expect(result.flags).toContain('lsfMPTCanClawback')
+      expect(result.flags).toContain('lsfMPTCanHoldConfidentialBalance')
+      expect(result.immutableFlags).toHaveLength(0)
       expect(result.rawMPTMetadata).toBe('{"t":"USD","in":"Test Issuer"}')
       expect(result.parsedMPTMetadata).toEqual({
         ticker: 'USD',
@@ -214,6 +282,54 @@ describe('rippled utils:', () => {
       })
       // isMPTMetadataCompliant is false because the test metadata doesn't meet full XLS-89 requirements
       expect(result.isMPTMetadataCompliant).toBe(false)
+    })
+
+    it('should decode ImmutableFlags into lsif* flag names', () => {
+      // 0x10006 = lsifMPTCanLock(0x2) + lsifMPTRequireAuth(0x4) + lsifMPTMetadata(0x10000)
+      const result = formatMPTIssuance({
+        Issuer: 'rMPTTestAccount123456789',
+        AssetScale: 6,
+        TransferFee: 0,
+        Sequence: 1,
+        Flags: 0,
+        ImmutableFlags: 0x00010006,
+      } as any)
+
+      expect(result.immutableFlags).toContain('lsifMPTCanLock')
+      expect(result.immutableFlags).toContain('lsifMPTRequireAuth')
+      expect(result.immutableFlags).toContain('lsifMPTMetadata')
+      expect(result.immutableFlags).not.toContain('lsifMPTCanEscrow')
+      expect(result.immutableFlags).not.toContain('lsifMPTCanTrade')
+      expect(result.immutableFlags).not.toContain('lsifMPTCanTransfer')
+      expect(result.immutableFlags).not.toContain('lsifMPTCanClawback')
+      expect(result.immutableFlags).not.toContain(
+        'lsifMPTCanHoldConfidentialBalance',
+      )
+      expect(result.immutableFlags).not.toContain('lsifMPTTransferFee')
+    })
+
+    it('should decode all ImmutableFlags when fully set', () => {
+      // 0x300fe = all 7 capability bits (0xfe) + both field bits (0x10000 | 0x20000)
+      const result = formatMPTIssuance({
+        Issuer: 'rMPTTestAccount123456789',
+        AssetScale: 6,
+        TransferFee: 0,
+        Sequence: 1,
+        Flags: 0,
+        ImmutableFlags: 0x000300fe,
+      } as any)
+
+      expect(result.immutableFlags).toContain('lsifMPTCanLock')
+      expect(result.immutableFlags).toContain('lsifMPTRequireAuth')
+      expect(result.immutableFlags).toContain('lsifMPTCanEscrow')
+      expect(result.immutableFlags).toContain('lsifMPTCanTrade')
+      expect(result.immutableFlags).toContain('lsifMPTCanTransfer')
+      expect(result.immutableFlags).toContain('lsifMPTCanClawback')
+      expect(result.immutableFlags).toContain(
+        'lsifMPTCanHoldConfidentialBalance',
+      )
+      expect(result.immutableFlags).toContain('lsifMPTMetadata')
+      expect(result.immutableFlags).toContain('lsifMPTTransferFee')
     })
   })
 })

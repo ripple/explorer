@@ -8,6 +8,9 @@ import { AMMVote } from './AMMVote'
 import { AccountDeleteTransaction as AccountDelete } from './AccountDelete'
 import { AccountSetTransaction as AccountSet } from './AccountSet'
 import { BatchTransaction as Batch } from './Batch'
+import { CheckCancelTransaction as CheckCancel } from './CheckCancel'
+import { CheckCashTransaction as CheckCash } from './CheckCash'
+import { CheckCreateTransaction as CheckCreate } from './CheckCreate'
 import { CredentialAcceptTransaction as CredentialAccept } from './CredentialAccept'
 import { CredentialCreateTransaction as CredentialCreate } from './CredentialCreate'
 import { CredentialDeleteTransaction as CredentialDelete } from './CredentialDelete'
@@ -38,6 +41,8 @@ import { SetFeeTransaction as SetFee } from './SetFee'
 import { SetHookTransaction as SetHook } from './SetHook'
 import { SetRegularKeyTransaction as SetRegularKey } from './SetRegularKey'
 import { SignerListSetTransaction as SignerListSet } from './SignerListSet'
+import { SponsorshipSetTransaction as SponsorshipSet } from './SponsorshipSet'
+import { SponsorshipTransferTransaction as SponsorshipTransfer } from './SponsorshipTransfer'
 import { XChainAccountCreateCommitTransaction as XChainAccountCreateCommit } from './XChainAccountCreateCommit'
 import { XChainAddAccountCreateAttestationTransaction as XChainAddAccountCreateAttestation } from './XChainAddAccountCreateAttestation'
 import { XChainAddClaimAttestationTransaction as XChainAddClaimAttestation } from './XChainAddClaimAttestation'
@@ -84,6 +89,9 @@ export const transactionTypes: { [key: string]: TransactionMapping } = {
   AccountDelete,
   AccountSet,
   Batch,
+  CheckCancel,
+  CheckCash,
+  CheckCreate,
   Clawback,
   ConfidentialMPTConvert,
   ConfidentialMPTMergeInbox,
@@ -120,6 +128,8 @@ export const transactionTypes: { [key: string]: TransactionMapping } = {
   SetHook,
   SetRegularKey,
   SignerListSet,
+  SponsorshipSet,
+  SponsorshipTransfer,
   XChainAccountCreateCommit,
   XChainAddAccountCreateAttestation,
   XChainAddClaimAttestation,

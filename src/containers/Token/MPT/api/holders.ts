@@ -12,6 +12,8 @@ interface MPTHolder {
   rank: number
   account: string
   balance: string
+  // Unscaled on-chain amount, kept so supply math can stay exact (BigInt).
+  rawBalance: string
   percent: number
   value_usd: number | null
 }
@@ -76,6 +78,7 @@ export async function fetchAllMPTHolders(
         rank: index + 1,
         account: token.account,
         balance: convertScaledPrice(BigInt(token.mpt_amount || 0), assetScale),
+        rawBalance: balance.toString(10),
         percent,
         value_usd: null, // MPT doesn't have USD value yet
       }

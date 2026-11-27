@@ -69,15 +69,21 @@ export const AmendmentsTable: FC<{
     return DEFAULT_EMPTY_VALUE
   }
 
-  const renderName = (name: string, id: string, deprecated: boolean) =>
-    deprecated ? (
-      <div className="name-deprecated">
+  const renderName = (
+    name: string,
+    id: string,
+    retired: boolean,
+    obsolete: boolean,
+  ) =>
+    retired || obsolete ? (
+      <div className="name-with-badge">
         <span className="name-text text-truncate">
           <RouteLink to={AMENDMENT_ROUTE} params={{ identifier: id }}>
             {name}
           </RouteLink>
         </span>
-        <span className="deprecated badge">{t('deprecated')}</span>
+        {retired && <span className="retired badge">{t('retired')}</span>}
+        {obsolete && <span className="obsolete badge">{t('obsolete')}</span>}
       </div>
     ) : (
       <span className="name-text">
@@ -112,7 +118,12 @@ export const AmendmentsTable: FC<{
       </td>
       <td className="amendment-id text-truncate">{amendment.id}</td>
       <td className="name text-truncate">
-        {renderName(amendment.name, amendment.id, amendment.deprecated)}
+        {renderName(
+          amendment.name,
+          amendment.id,
+          amendment.retired,
+          amendment.obsolete,
+        )}
       </td>
       <td className="voters">{getVoter(amendment.voted)}</td>
       <td className="threshold">
@@ -122,7 +133,10 @@ export const AmendmentsTable: FC<{
         {amendment.consensus ?? DEFAULT_EMPTY_VALUE}
       </td>
       <td className="enabled">
-        {renderEnabled(!amendment.deprecated && amendment.voted === undefined)}
+        {/* Retired amendments have been enabled for 2+ years and are baked into
+            the protocol, so they are enabled. Obsolete amendments were never
+            passed, so they are not. */}
+        {renderEnabled(!amendment.obsolete && amendment.voted === undefined)}
       </td>
       <td className="on_tx">{renderOnTx(amendment)}</td>
     </tr>

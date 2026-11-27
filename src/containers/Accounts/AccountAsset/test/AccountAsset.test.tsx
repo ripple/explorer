@@ -362,7 +362,9 @@ describe('AccountAsset Component', () => {
       })
 
       // Verify all 4 held asset table wrappers and asset tables are rendered
-      const allSections = container.querySelectorAll('.account-asset-content')
+      const allSections = container.querySelectorAll(
+        '.collapsible-section-body',
+      )
       const heldSection = allSections[0] // First section (Held)
 
       await waitFor(() => {
@@ -394,7 +396,9 @@ describe('AccountAsset Component', () => {
       })
 
       // Verify all 3 issued asset table wrappers and asset tables are rendered
-      const allSections = container.querySelectorAll('.account-asset-content')
+      const allSections = container.querySelectorAll(
+        '.collapsible-section-body',
+      )
       const issuedSection = allSections[1] // Second section (Issued)
 
       await waitFor(() => {

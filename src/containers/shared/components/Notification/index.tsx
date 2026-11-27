@@ -3,13 +3,7 @@ import './styles.scss'
 
 type NotificationLevel = 'primary'
 type NotificationUsage =
-  | 'default'
-  | 'success'
-  | 'warning'
-  | 'danger'
-  | 'dark'
-  | 'light'
-  | 'dark50'
+  'default' | 'success' | 'warning' | 'danger' | 'dark' | 'light' | 'dark50'
 
 export interface NotificationProps {
   autoDismiss?: boolean

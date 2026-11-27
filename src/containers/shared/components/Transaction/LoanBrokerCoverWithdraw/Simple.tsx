@@ -5,13 +5,19 @@ import { Amount } from '../../Amount'
 import { Account } from '../../Account'
 import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'
 import { LoanBrokerCoverWithdraw } from './types'
+import { CredentialIDs } from '../CredentialIDs'
 
 export const Simple: TransactionSimpleComponent = (
   props: TransactionSimpleProps<LoanBrokerCoverWithdraw>,
 ) => {
   const { t } = useTranslation()
   const { data } = props
-  const { LoanBrokerID, Amount: amount, Destination } = data.instructions
+  const {
+    LoanBrokerID,
+    Amount: amount,
+    Destination,
+    CredentialIDs: credentialIds,
+  } = data.instructions
 
   return (
     <>
@@ -25,6 +31,9 @@ export const Simple: TransactionSimpleComponent = (
         <SimpleRow label={t('destination')} data-testid="destination">
           <Account account={Destination} />
         </SimpleRow>
+      )}
+      {credentialIds && credentialIds.length > 0 && (
+        <CredentialIDs credentialIDs={credentialIds} />
       )}
     </>
   )

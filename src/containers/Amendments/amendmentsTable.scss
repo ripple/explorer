@@ -68,7 +68,7 @@
       }
     }
 
-    .name-deprecated {
+    .name-with-badge {
       display: flex;
       overflow: hidden;
       align-items: center;
@@ -85,7 +85,8 @@
         text-overflow: ellipsis;
       }
 
-      .deprecated {
+      .retired,
+      .obsolete {
         overflow: hidden;
         max-width: 60%;
         font-size: 12px;

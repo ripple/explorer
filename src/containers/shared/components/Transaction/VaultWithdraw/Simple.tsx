@@ -5,6 +5,7 @@ import { SimpleRow } from '../SimpleRow'
 import { Amount } from '../../Amount'
 import { formatAmount } from '../../../../../rippled/lib/txSummary/formatAmount'
 import { Account } from '../../Account'
+import { CredentialIDs } from '../CredentialIDs'
 
 export const Simple: TransactionSimpleComponent = (
   props: TransactionSimpleProps<VaultWithdraw>,
@@ -15,10 +16,15 @@ export const Simple: TransactionSimpleComponent = (
     VaultID: vaultId,
     Amount: amount,
     Destination: destination,
+    CredentialIDs: credentialIds,
   } = data.instructions
   return (
     <>
-      <SimpleRow label={t('vault_id')} data-testid="vault_id">
+      <SimpleRow
+        label={t('vault_id')}
+        className="vault-id"
+        data-testid="vault_id"
+      >
         {vaultId}
       </SimpleRow>
       <SimpleRow label={t('amount')} data-testid="amount">
@@ -28,6 +34,9 @@ export const Simple: TransactionSimpleComponent = (
         <SimpleRow label={t('destination')} data-testid="destination">
           <Account account={destination} />
         </SimpleRow>
+      )}
+      {credentialIds && credentialIds.length > 0 && (
+        <CredentialIDs credentialIDs={credentialIds} />
       )}
     </>
   )

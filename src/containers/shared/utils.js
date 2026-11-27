@@ -558,17 +558,6 @@ export const shortenAccount = (addr = '') =>
 export const shortenEncryptionKey = (key = '') =>
   key ? `${key.slice(0, 6)}...${key.slice(-4)}` : key
 
-export const stripHttpProtocol = (url = '') => url.replace(/^https?:\/\//, '')
-
-export const shortenDomain = (
-  domain = '',
-  prefixLength = 15,
-  suffixLength = 11,
-) =>
-  domain.length > prefixLength + suffixLength
-    ? `${domain.slice(0, prefixLength)}...${domain.slice(-suffixLength)}`
-    : domain
-
 export const shortenNFTTokenID = (nftTokenID = '') =>
   nftTokenID.length > 20
     ? `${nftTokenID.slice(0, 10)}...${nftTokenID.slice(-10)}`
@@ -593,6 +582,11 @@ export const shortenLoanBrokerID = (loanBrokerID = '') =>
 
 export const shortenLoanID = (loanID = '') =>
   loanID.length > 12 ? `${loanID.slice(0, 6)}...${loanID.slice(-6)}` : loanID
+
+export const shortenCheckID = (checkID = '') =>
+  checkID.length > 12
+    ? `${checkID.slice(0, 6)}...${checkID.slice(-6)}`
+    : checkID
 
 /**
  * Converts URLs to HTTP/HTTPS format, handling IPFS URLs and plain domains

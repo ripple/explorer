@@ -14,7 +14,11 @@ export const Simple: TransactionSimpleComponent = (
   const { VaultID: vaultId, Holder: holder, Amount: amount } = data.instructions
   return (
     <>
-      <SimpleRow label={t('vault_id')} data-testid="vault_id">
+      <SimpleRow
+        label={t('vault_id')}
+        className="vault-id"
+        data-testid="vault_id"
+      >
         {vaultId}
       </SimpleRow>
       <SimpleRow label={t('holder')} data-testid="holder">
