@@ -22,7 +22,8 @@ import { paginationService as transfersPaginationService } from '../shared/servi
 import { useCursorPaginatedQuery } from '../../shared/hooks/useCursorPaginatedQuery'
 import { PAGINATION_CONFIG, INITIAL_PAGE } from '../shared/constants'
 import { useXRPToUSDRate } from '../../shared/hooks/useXRPToUSDRate'
-import getToken from './api/token'
+import { LOSToken } from '../../shared/losTypes'
+import getToken, { shouldRetryTokenFetch } from './api/token'
 
 const ERROR_MESSAGES: ErrorMessages = {
   default: {
@@ -41,6 +42,10 @@ const ERROR_MESSAGES: ErrorMessages = {
 
 const getErrorMessage = (error: unknown) =>
   ERROR_MESSAGES[error as string | number] || ERROR_MESSAGES.default
+
+// LOS's answer for a token it doesn't know (404) or a malformed ID (400)
+const isTokenLookupRejected = (error: any) =>
+  [NOT_FOUND, BAD_REQUEST].includes(error?.response?.status)
 
 const Page: FC<PropsWithChildren<{ accountId: string }>> = ({
   accountId,
@@ -69,7 +74,17 @@ export const IOU = () => {
   } = useQuery({
     queryKey: ['token', currency, accountId],
     queryFn: () => getToken(currency, accountId),
+    retry: shouldRetryTokenFetch,
   })
+
+  // If LOS still fails after retries, render the rest of the page around a
+  // bare token instead of the error page; the sections fetch on their own.
+  const isTokenDataUnavailable = !!tokenDataError
+  const displayTokenData: LOSToken | undefined =
+    tokenData ??
+    (isTokenDataUnavailable
+      ? { currency, issuer_account: accountId, index: -1 }
+      : undefined)
 
   // Track token data API errors
   useEffect(() => {
@@ -156,7 +171,7 @@ export const IOU = () => {
     return <NoMatch title={message.title} hints={message.hints} />
   }
 
-  if (tokenDataError) {
+  if (isTokenLookupRejected(tokenDataError)) {
     return <Page accountId={accountId}>{renderError()}</Page>
   }
 
@@ -165,10 +180,11 @@ export const IOU = () => {
       {isTokenDataLoading ? (
         <Loader />
       ) : (
-        tokenData && (
+        displayTokenData && (
           <Header
             currency={currency}
-            tokenData={tokenData}
+            tokenData={displayTokenData}
+            isTokenDataUnavailable={isTokenDataUnavailable}
             xrpUSDRate={XRPUSDPrice.toString()}
             holdersData={holdersData}
             isHoldersDataLoading={isHoldersDataLoading}
@@ -178,13 +194,13 @@ export const IOU = () => {
         )
       )}
 
-      {accountId && tokenData && (
+      {accountId && displayTokenData && (
         <div className="section">
           <TablePicker
             accountId={accountId}
             currency={currency}
             xrpUSDRate={XRPUSDPrice.toString()}
-            tokenData={tokenData}
+            tokenData={displayTokenData}
             holdersData={holdersData}
             holdersPagination={{
               currentPage: holdersPage,

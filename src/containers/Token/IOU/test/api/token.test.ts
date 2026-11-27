@@ -1,5 +1,5 @@
 import axios from 'axios'
-import getToken from '../../api/token'
+import getToken, { shouldRetryTokenFetch } from '../../api/token'
 import { LOSToken } from '../../../../shared/losTypes'
 
 jest.mock('axios')
@@ -213,6 +213,35 @@ describe('Token API', () => {
       mockAxios.get.mockRejectedValueOnce(serverError)
 
       await expect(getToken('USD', 'rIssuer123')).rejects.toThrow()
+    })
+  })
+
+  describe('shouldRetryTokenFetch', () => {
+    const httpError = (status: number) => ({
+      isAxiosError: true,
+      response: { status },
+    })
+    const networkError = { isAxiosError: true, response: undefined }
+
+    it('retries a 429', () => {
+      expect(shouldRetryTokenFetch(0, httpError(429))).toBe(true)
+    })
+
+    it('retries a network error, which a CORS-blocked 429 looks like', () => {
+      expect(shouldRetryTokenFetch(0, networkError)).toBe(true)
+    })
+
+    it.each([400, 404, 500])('does not retry a %i', (status) => {
+      expect(shouldRetryTokenFetch(0, httpError(status))).toBe(false)
+    })
+
+    it('does not retry a non-axios error', () => {
+      expect(shouldRetryTokenFetch(0, new Error('boom'))).toBe(false)
+    })
+
+    it('stops after 3 retries', () => {
+      expect(shouldRetryTokenFetch(2, httpError(429))).toBe(true)
+      expect(shouldRetryTokenFetch(3, httpError(429))).toBe(false)
     })
   })
 })
