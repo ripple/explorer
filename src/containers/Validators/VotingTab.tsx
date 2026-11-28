@@ -9,6 +9,7 @@ import {
   FETCH_INTERVAL_ERROR_MILLIS,
   FETCH_INTERVAL_VHS_MILLIS,
   SERVER_ERROR,
+  localizeNumber,
   renderXRP,
 } from '../shared/utils'
 import { useAnalytics } from '../shared/analytics'
@@ -18,12 +19,14 @@ import './votingTab.scss'
 import { RouteLink } from '../shared/routing'
 import { AMENDMENT_ROUTE } from '../App/routes'
 import { Loader } from '../shared/components/Loader'
+import { useLanguage } from '../shared/hooks'
 
 export const VotingTab: FC<{
   validatorData: ValidatorSupplemented
   network: string | undefined
 }> = ({ validatorData, network }) => {
   const { t } = useTranslation()
+  const language = useLanguage()
   const { trackException } = useAnalytics()
 
   const votedAmendments = new Set(
@@ -89,7 +92,11 @@ export const VotingTab: FC<{
       <div className="metrics metrics-voting">
         <div className="cell">
           <div className="label">{t('base_fee')}</div>
-          <div>{renderXRP(validatorData.base_fee / XRP_BASE)}</div>
+          <div>
+            {t('drops_amount', {
+              amount: localizeNumber(validatorData.base_fee, language),
+            })}
+          </div>
         </div>
         <div className="cell">
           <div className="label">{t('account_reserve')}</div>
